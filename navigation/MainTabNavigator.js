@@ -12,6 +12,7 @@ import LandingScreen from '../screens/LandingScreen';
 import EventConfirmationScreen from '../screens/EventConfirmationScreen';
 import UserCalendarScreen from '../screens/UserCalendarScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
+// import EventCreationScreen from '../screens/EventCreationScreen';
 
 
 
@@ -154,6 +155,23 @@ UserSettingStack.navigationOptions = {
   ),
 };
 
+// const EventCreationStack = createStackNavigator({
+//   Home: EventCreationScreen,
+// });
+
+// EventCreationStack.navigationOptions = {
+//   tabBarLabel: 'User Setting',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={
+//         Platform.OS === 'ios'
+//           ? `ios-information-circle${focused ? '' : '-outline'}`
+//           : 'md-information-circle'
+//       }
+//     />
+//   ),
+// };
 
 export default createBottomTabNavigator({
   // HomeStack,
@@ -163,5 +181,6 @@ export default createBottomTabNavigator({
   LandingStack,
   EventConfirmationStack,
   UserCalendarStack,
-  UserSettingStack
+  UserSettingStack,
+  // EventCreationStack
 });
