@@ -3,16 +3,73 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+// import HomeScreen from '../screens/HomeScreen';
+// import LinksScreen from '../screens/LinksScreen';
+// import SettingsScreen from '../screens/SettingsScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+import LoginScreen from '../screens/LoginScreen';
+import LandingScreen from '../screens/LandingScreen';
+import EventConfirmationScreen from '../screens/EventConfirmationScreen';
+import UserCalendarScreen from '../screens/UserCalendarScreen';
+import UserSettingScreen from '../screens/UserSettingScreen';
+
+
+
+// const HomeStack = createStackNavigator({
+//   Home: HomeScreen,
+// });
+
+// HomeStack.navigationOptions = {
+//   tabBarLabel: 'Home',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={
+//         Platform.OS === 'ios'
+//           ? `ios-information-circle${focused ? '' : '-outline'}`
+//           : 'md-information-circle'
+//       }
+//     />
+//   ),
+// };
+
+// const LinksStack = createStackNavigator({
+//   Links: LinksScreen,
+// });
+
+// LinksStack.navigationOptions = {
+//   tabBarLabel: 'Links',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+//     />
+//   ),
+// };
+
+// const SettingsStack = createStackNavigator({
+//   Settings: SettingsScreen,
+// });
+
+// SettingsStack.navigationOptions = {
+//   tabBarLabel: 'Settings',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+//     />
+//   ),
+// };
+
+
+
+
+const LoginStack = createStackNavigator({
+  Home: LoginScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+LoginStack.navigationOptions = {
+  tabBarLabel: 'Login',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -25,36 +82,86 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const LandingStack = createStackNavigator({
+  Home: LandingScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+LandingStack.navigationOptions = {
+  tabBarLabel: 'Landing',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
     />
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const EventConfirmationStack = createStackNavigator({
+  Home: EventConfirmationScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+EventConfirmationStack.navigationOptions = {
+  tabBarLabel: 'Event Confrimation',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
     />
   ),
 };
+
+const UserCalendarStack = createStackNavigator({
+  Home: UserCalendarScreen,
+});
+
+UserCalendarStack.navigationOptions = {
+  tabBarLabel: 'User Calendar',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const UserSettingStack = createStackNavigator({
+  Home: UserSettingScreen,
+});
+
+UserSettingStack.navigationOptions = {
+  tabBarLabel: 'User Setting',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  // HomeStack,
+  // LinksStack,
+  // SettingsStack,
+  LoginStack,
+  LandingStack,
+  EventConfirmationStack,
+  UserCalendarStack,
+  UserSettingStack
 });
