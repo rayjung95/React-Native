@@ -9,7 +9,7 @@ import TabBarIcon from '../components/TabBarIcon';
 
 import LoginScreen from '../screens/LoginScreen';
 import LandingScreen from '../screens/LandingScreen';
-import EventConfirmationScreen from '../screens/EventConfirmationScreen';
+import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 import UserCalendarScreen from '../screens/UserCalendarScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
 // import EventCreationScreen from '../screens/EventCreationScreen';
@@ -101,12 +101,12 @@ LandingStack.navigationOptions = {
   ),
 };
 
-const EventConfirmationStack = createStackNavigator({
-  Home: EventConfirmationScreen,
+const GuestConfirmationStack = createStackNavigator({
+  Home: GuestConfirmationScreen,
 });
 
-EventConfirmationStack.navigationOptions = {
-  tabBarLabel: 'Event Confrimation',
+GuestConfirmationStack.navigationOptions = {
+  tabBarLabel: 'Guest Confirmation',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -179,7 +179,7 @@ export default createBottomTabNavigator({
   // SettingsStack,
   LoginStack,
   LandingStack,
-  EventConfirmationStack,
+  GuestConfirmationStack,
   UserCalendarStack,
   UserSettingStack,
   // EventCreationStack
