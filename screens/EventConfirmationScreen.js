@@ -27,25 +27,25 @@ export default class EventConfirmationScreen extends Component {
     ]}
     this.unlockOpacity = this.position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-      outputRange: [0, 0, 1],
+      outputRange: [0, 0.1, 1],
       // extrapolate: 'clamp'
     })
 
     this.lockOpacity = this.position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-      outputRange: [1, 0, 0],
+      outputRange: [1, 0.1, 0],
       // extrapolate: 'clamp'
     })
 
     this.state={
       imageIndex: 0,
       array : [
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-        {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
+        {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
       ]
     }
 
@@ -104,33 +104,40 @@ export default class EventConfirmationScreen extends Component {
               key={i}
               style={[this.rotateAndTranslate, styles.card]}
             >
-              <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} />
+              <Image source={item.img} />
               <Text style={{ fontFamily: 'Roboto', fontSize: 25, color:'#505050'}}>Scarlett, 31</Text>
             </Animated.View>
           )
         } 
         else {
           return (
+            // <Animated.View
+            //   key={i}
+            //   style={styles.card}>
+            //   <View style={styles.cardContent}>
+            //     <View style={styles.cardContentChild}>
+            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
+            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
+            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
+            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
+            //       <Text>
+            //         <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>WED, 7:00{' '}</Text>
+            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>pm</Text>
+            //       </Text>
+            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 12,}}>SEPTEMBER 23</Text>
+            //       <View style={{flex:1 ,flexDirection: 'row', width:'100%' , justifyContent: 'space-between', marginTop: 20, padding: 5}}>
+            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
+            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/away.imageset/away.png')} />2.5 Miles away</Text>
+            //       </View>
+            //     </View>
+            //   </View>
+            // </Animated.View>
             <Animated.View
               key={i}
-              style={styles.card}>
-              <View style={styles.cardContent}>
-                <View style={styles.cardContentChild}>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
-                  <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
-                  <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
-                  <Text>
-                    <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>WED, 7:00{' '}</Text>
-                    <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>pm</Text>
-                  </Text>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 12,}}>SEPTEMBER 23</Text>
-                  <View style={{flex:1 ,flexDirection: 'row', width:'100%' , justifyContent: 'space-between', marginTop: 20, padding: 5}}>
-                    <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
-                    <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/away.imageset/away.png')} />2.5 Miles away</Text>
-                  </View>
-                </View>
-              </View>
+              style={styles.card}
+            >
+              <Image source={item.img} />
+              <Text style={{ fontFamily: 'Roboto', fontSize: 25, color:'#505050'}}>Scarlett, 31</Text>
             </Animated.View>
           )
         }
@@ -156,15 +163,15 @@ export default class EventConfirmationScreen extends Component {
 
         {this.renderImage()}
         <View style={styles.chooseButton}>
-          <Animated.View style={{opacity: this.lockOpacity, width: 70, height: 70 }}>
+          <Animated.View style={{opacity: this.lockOpacity, width: 80, height: 80 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
           </Animated.View>
-          <Animated.View style={{opacity: this.unlockOpacity, width: 70, height: 70 }}>
+          <Animated.View style={{opacity: this.unlockOpacity, width: 80, height: 80 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
           </Animated.View>
         </View>
         <View>
-          <Image style={styles.footerImage}  source={require('../assets/Icons/footer.imageset/footer.png')} />
+          <Image style={styles.footerImage}  source={require('../assets/Icons/note-filled-square-with-a-pencil/note-filled-square-with-a-pencil.png')} />
         </View>
 
       </ImageBackground>
@@ -195,7 +202,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'space-around',
     paddingLeft:20,
-
   },
   menu2: {
     flexDirection: 'row',
@@ -235,20 +241,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    height: 30,
-    marginTop:430
+    height: 90,
+    marginTop:470
   },
   lockImage: {
-    width: 70,
-    height: 70,
-    marginBottom:30
+    width: 80,
+    height: 80,
   },
   footer: {
     alignItems: 'center',
     marginTop:6
   },
   footerImage: {
-    width: 45,
-    height: 45
+    width: 32,
+    height: 32,
+    marginBottom:30
   },
 });

@@ -173,19 +173,22 @@ export default class LandingScreen extends Component {
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
           <View style={styles.menu1}>
-              <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
+            <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
           </View>
           <View style={styles.menu2}>
-              <Image  source={require('../assets/Icons/event_yellow/calendar.png')} />
+            <Image style={{width:'100%',height:'100%', resizeMode:'contain'}}  source={require('../assets/images/logo.png')} />
+          </View>
+          <View style={styles.menu3}>
+            <Image  source={require('../assets/Icons/event_yellow/calendar.png')} />
           </View>
         </View>
 
         {this.renderImage()}
         <View style={styles.chooseButton}>
-          <Animated.View style={{opacity: this.lockOpacity, width: 55, height: 55 }}>
+          <Animated.View style={{opacity: this.lockOpacity, width: 80, height: 80 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
           </Animated.View>
-          <Animated.View style={{opacity: this.unlockOpacity, width: 55, height: 55 }}>
+          <Animated.View style={{opacity: this.unlockOpacity, width: 80, height: 80 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
           </Animated.View>
         </View>
@@ -211,18 +214,34 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 10,
-    padding: 20,
+    height:SCREEN_HEIGHT*0.09,
+    marginTop:20,
+    // backgroundColor:'red'
   },
   menu1: {
     flexDirection: 'row',
-    width:15,
-    height:15
+    height:'100%',
+    alignItems: 'center',
+    width:24,
+    // backgroundColor:'green',
+    marginLeft: 15
   },
   menu2: {
     flexDirection: 'row',
-    width:20,
-    height:15
+    alignItems: 'center',
+    // width:20,
+    // height:15,
+    width:SCREEN_WIDTH*0.4,
+    height:'100%',
+    // backgroundColor:'yellow'
+  },
+  menu3: {
+    flexDirection: 'row',
+    height:'100%',
+    alignItems: 'center',
+    width:24,
+    // backgroundColor:'aqua',
+    marginRight: 15
   },
   card: {
     width:300, 
@@ -260,13 +279,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    height: 30,
-    marginTop:430
+    height: 80,
+    marginTop:470
   },
   lockImage: {
-    width: 55,
-    height: 55,
-    marginBottom:30
+    width: '100%',
+    height: '100%',
+    // marginBottom:30
   },
   footer: {
     alignItems: 'center',
