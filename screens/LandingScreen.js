@@ -172,9 +172,11 @@ export default class LandingScreen extends Component {
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
-          <View style={styles.menu1}>
-            <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
-          </View>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+            <View style={styles.menu1}>
+              <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
+            </View>
+          </TouchableOpacity>
           <View style={styles.menu2}>
             <Image style={{width:'100%',height:'100%', resizeMode:'contain'}}  source={require('../assets/images/logo.png')} />
           </View>
