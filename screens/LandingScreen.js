@@ -173,10 +173,10 @@ export default class LandingScreen extends Component {
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
           <View style={styles.menu1}>
-              <Image  source={require('../assets/Icons/menu.imageset/menu.png')} />
+              <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
           </View>
           <View style={styles.menu2}>
-              <Image  source={require('../assets/Icons/calendar_icon.imageset/calendar_icon.png')} />
+              <Image  source={require('../assets/Icons/event_yellow/calendar.png')} />
           </View>
         </View>
 
@@ -189,7 +189,6 @@ export default class LandingScreen extends Component {
             <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
           </Animated.View>
         </View>
-
         <View>
           <Image style={styles.footerImage}  source={require('../assets/Icons/footer.imageset/footer.png')} />
         </View>
@@ -217,13 +216,13 @@ const styles = StyleSheet.create({
   },
   menu1: {
     flexDirection: 'row',
-    width:20,
-    height:20
+    width:15,
+    height:15
   },
   menu2: {
     flexDirection: 'row',
     width:20,
-    height:25
+    height:15
   },
   card: {
     width:300, 
