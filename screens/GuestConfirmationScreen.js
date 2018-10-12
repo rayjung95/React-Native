@@ -5,7 +5,7 @@ import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, Imag
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-export default class EventConfirmationScreen extends Component {
+export default class GuestConfirmationScreen extends Component {
   static navigationOptions = {
     header: null,
   };
