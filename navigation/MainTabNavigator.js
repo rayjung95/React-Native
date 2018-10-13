@@ -9,8 +9,7 @@ import LandingScreen from '../screens/LandingScreen';
 import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 import UserCalendarScreen from '../screens/UserCalendarScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
-
-
+import EventCreationScreen from '../screens/EventCreationScreen';
 
 
 const LoginStack = createStackNavigator({
@@ -103,6 +102,23 @@ UserSettingStack.navigationOptions = {
   ),
 };
 
+const EventCreationStack = createStackNavigator({
+  Home: EventCreationScreen,
+});
+
+EventCreationStack.navigationOptions = {
+  tabBarLabel: 'Event Creation',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
 
 export default createBottomTabNavigator({
   LoginStack,
@@ -110,4 +126,5 @@ export default createBottomTabNavigator({
   GuestConfirmationStack,
   UserCalendarStack,
   UserSettingStack,
+  EventCreationStack
 });

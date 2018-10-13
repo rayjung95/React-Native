@@ -10,5 +10,4 @@ export default createStackNavigator({
     Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     ProfileSetting: UserSettingScreen
-
 })
