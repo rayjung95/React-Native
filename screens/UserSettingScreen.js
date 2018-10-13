@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, Slider	 } from 'react-native';
 
 export default class UserSettingScreen extends Component {
+	static navigationOptions = {
+		header: null,
+	  };
 	constructor(props) {
 		super(props);
 		this.state = {

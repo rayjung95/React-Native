@@ -7,6 +7,9 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const PICTURES_PATH = "../assets/Pngs/";
 
 export default class UserCalendarScreen extends Component {
+    static navigationOptions = {
+        header: null,
+      };
     render() {
         return (
             <ImageBackground style={styles.background} source={require(PICTURES_PATH + 'bg.imageset/bg.png')}>
