@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -10,6 +10,7 @@ export default class UserCalendarScreen extends Component {
     static navigationOptions = {
         header: null,
     };
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -52,46 +53,48 @@ export default class UserCalendarScreen extends Component {
                     </View>
 
                     <View style={{marginTop: -60}}>
-                        <View style={styles.CalendarCardContainer}>
-                            <View style={styles.CalendarCardHeader}>
-                                <View style={styles.hostPicContainer}>
-                                    <View style={styles.notifStatus1}>
-                                        <Text style={{color: 'white'}}>Updated</Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
+                            <View style={styles.CalendarCardContainer}>
+                                <View style={styles.CalendarCardHeader}>
+                                    <View style={styles.hostPicContainer}>
+                                        <View style={styles.notifStatus1}>
+                                            <Text style={{color: 'white'}}>Updated</Text>
+                                        </View>
+                                        <Image
+                                            source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                            style={styles.hostPic}
+                                            resizeMode="cover"
+                                        />
+                                        <View style={styles.notifStatus2}>
+                                            <Text style={{color: 'white'}}>Confirm</Text>
+                                        </View>
                                     </View>
-                                    <Image
-                                        source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
-                                        style={styles.hostPic}
-                                        resizeMode="cover"
-                                    />
-                                    <View style={styles.notifStatus2}>
-                                        <Text style={{color: 'white'}}>Confirm</Text>
+                                </View>
+                                <View style={styles.calendarCard}>
+                                    <View style={styles.calendarDetails}>
+                                        <Text style={styles.hostName}>Johnny</Text>
+                                        <Text style={styles.subheading}>Host</Text>
+                                        <View style={styles.divider}/>
+                                        <Text style={styles.eventTitle}>POKER & SALSA</Text>
+                                        <Text style={styles.heading1}>PARTY</Text>
+                                        <Text style={styles.heading1}> WED, 7:00</Text>
+                                        <Text style={styles.eventDate}> September 23 </Text>
+                                        <View style={styles.calendarCardFooter}>
+                                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                                <Image style={{width: 30, height: 30}}
+                                                       source={require('../assets/Icons/guest.imageset/guest.png')}/>
+                                                12 Guests
+                                            </Text>
+                                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                                <Image style={{width: 30, height: 30}}
+                                                       source={require('../assets/Icons/away.imageset/away.png')}/>
+                                                2.5 Miles away
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
-                            <View style={styles.calendarCard}>
-                                <View style={styles.calendarDetails}>
-                                    <Text style={styles.hostName}>Johnny</Text>
-                                    <Text style={styles.subheading}>Host</Text>
-                                    <View style={styles.divider}/>
-                                    <Text style={styles.eventTitle}>POKER & SALSA</Text>
-                                    <Text style={styles.heading1}>PARTY</Text>
-                                    <Text style={styles.heading1}> WED, 7:00</Text>
-                                    <Text style={styles.eventDate}> September 23 </Text>
-                                    <View style={styles.calendarCardFooter}>
-                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                            <Image style={{width: 30, height: 30}}
-                                                   source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                            12 Guests
-                                        </Text>
-                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                            <Image style={{width: 30, height: 30}}
-                                                   source={require('../assets/Icons/away.imageset/away.png')}/>
-                                            2.5 Miles away
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.CalendarCardContainer}>
@@ -174,7 +177,7 @@ export default class UserCalendarScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    background:{
+    background: {
         flex: 1,
         alignItems: 'center',
         flexDirection: 'column',

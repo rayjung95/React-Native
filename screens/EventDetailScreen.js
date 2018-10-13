@@ -10,15 +10,17 @@ export default class EventDetailsScreen extends Component {
 
     render() {
         return (
-            <View>
-                <ScrollView>
-                    <View style={styles.headerContainer}>
+            <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                         <Image
                             source={require('../assets/Icons/minimize.imageset/minimize.png')}
                             style={styles.icon}
                         />
-                        <Text style={styles.headerText}> Ketchup & Zombie </Text>
-                    </View>
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}> Ketchup & Zombie </Text>
+                </View>
+                <ScrollView>
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profilePicContentContainer}>
                             <View style={styles.profileContainer}>
@@ -45,7 +47,7 @@ export default class EventDetailsScreen extends Component {
                         <View style={styles.eventDetailsItemContainer}>
                             <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
                                 <Image
-                                    source={require('../../assets/Icons/event_detail.imageset/event_detail.png')}
+                                    source={require('../assets/Icons/event_detail.imageset/event_detail.png')}
                                 />
                             </View>
 
@@ -200,13 +202,19 @@ export default class EventDetailsScreen extends Component {
                         </View>
                     </View>
                 </ScrollView>
-            </View>
+            </ImageBackground>
         );
 
     }
 }
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
     whiteContainer: {
         width: 375,
         height: 440,
