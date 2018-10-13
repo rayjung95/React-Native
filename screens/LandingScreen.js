@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, ImageBackground, TouchableOpacity} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -172,15 +172,19 @@ export default class LandingScreen extends Component {
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
-          <View style={styles.menu1}>
-            <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
-          </View>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+            <View style={styles.menu1}>
+              <Image  source={require('../assets/Icons/setting_yellow/settings.png')} />
+            </View>
+          </TouchableOpacity>
           <View style={styles.menu2}>
             <Image style={{width:'100%',height:'100%', resizeMode:'contain'}}  source={require('../assets/images/logo.png')} />
           </View>
-          <View style={styles.menu3}>
-            <Image  source={require('../assets/Icons/event_yellow/calendar.png')} />
-          </View>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('UserCalender')}>
+            <View style={styles.menu3}>
+              <Image  source={require('../assets/Icons/event_yellow/calendar.png')} />
+            </View>
+          </TouchableOpacity>
         </View>
 
         {this.renderImage()}
