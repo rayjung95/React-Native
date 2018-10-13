@@ -1,6 +1,6 @@
 
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
