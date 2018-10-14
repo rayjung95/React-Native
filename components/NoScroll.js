@@ -13,9 +13,9 @@ export default class NoScroll extends Component {
             <View>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
-                        <Image style={styles.images} source={require('../assets/girlphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/profilePhoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}/>
                     </Swiper>
 
                 </View>
@@ -28,7 +28,7 @@ export default class NoScroll extends Component {
                         <View style={{alignItems:'flex-end', justifyContent:'center', flex:1}}>
                             <View style={{flex:1, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
                                 <Text style={{fontSize:window.height/50}}>Instagram</Text>
-                                <Image source={require('../assets/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
+                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
                             </View>
                         </View>
                     </View>
@@ -45,45 +45,45 @@ export default class NoScroll extends Component {
                         <View style={{flex:4}} >
                             <ScrollView style={{flex:1, marginLeft:10, marginRight:10}} horizontal={true} >
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Eric</Text>
                                 </View>
 
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/profilePhoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Zack</Text>
                                 </View>
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Eric</Text>
                                 </View>
 
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/profilePhoto.png')} style={styles.friendsImages}/>
-                                    <Text style={{fontSize:window.height/50}}>Zack</Text>
-                                </View><View style={styles.friends}>
-                                    <Image source={require('../assets/girlphoto.png')} style={styles.friendsImages}/>
-                                    <Text style={{fontSize:window.height/50}}>Eric</Text>
-                                </View>
-
-                                <View style={styles.friends}>
-                                    <Image source={require('../assets/profilePhoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Zack</Text>
                                 </View><View style={styles.friends}>
-                                    <Image source={require('../assets/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Eric</Text>
                                 </View>
 
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/profilePhoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Zack</Text>
                                 </View><View style={styles.friends}>
-                                    <Image source={require('../assets/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Eric</Text>
                                 </View>
 
                                 <View style={styles.friends}>
-                                    <Image source={require('../assets/profilePhoto.png')} style={styles.friendsImages}/>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Text style={{fontSize:window.height/50}}>Zack</Text>
+                                </View><View style={styles.friends}>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
+                                    <Text style={{fontSize:window.height/50}}>Eric</Text>
+                                </View>
+
+                                <View style={styles.friends}>
+                                    <Image source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} style={styles.friendsImages}/>
                                     <Text style={{fontSize:window.height/50}}>Zack</Text>
                                 </View>
                             </ScrollView>
