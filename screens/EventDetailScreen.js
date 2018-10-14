@@ -8,9 +8,15 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default class EventDetailsScreen extends Component {
 
+    static navigationOptions = {
+        header: null,
+    };
+
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <ScrollView>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                         <Image
@@ -20,7 +26,6 @@ export default class EventDetailsScreen extends Component {
                     </TouchableOpacity>
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
-                <ScrollView>
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profilePicContentContainer}>
                             <View style={styles.profileContainer}>
@@ -45,7 +50,7 @@ export default class EventDetailsScreen extends Component {
                     </View>
                     <View style={styles.eventDetailsContainer}>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: 10}}>
                                 <Image
                                     source={require('../assets/Icons/event_detail.imageset/event_detail.png')}
                                 />
@@ -215,11 +220,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-    whiteContainer: {
-        width: 375,
-        height: 440,
-        backgroundColor: 'white'
-    },
     headerContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 20,
         width: '100%',
-        height: 72
+        height: SCREEN_HEIGHT * 0.08
     },
     icon: {
         width: 20,
@@ -240,8 +240,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto'
     },
     profilePicContainer: {
-        width: 360,
-        height: 276,
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT * 0.3,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -276,11 +276,12 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     eventDetailsItemContainer: {
-        width: 360,
+        width: SCREEN_WIDTH * 0.86,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: 20
+        padding: 20,
+        marginLeft: 15
     },
     divider: {
         borderBottomColor: '#cacbcc',
@@ -291,7 +292,8 @@ const styles = StyleSheet.create({
     eventDetailsText: {
         color: '#8F8E94',
         fontSize: 14,
-        fontFamily: 'Roboto'
+        fontFamily: 'Roboto',
+        marginLeft: 20
     },
     eventDetailsClickableItem: {
         flex: 1,
