@@ -20,7 +20,7 @@ export default class EventDetailsScreen extends Component {
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                         <Image
-                            source={require('../assets/Icons/minimize.imageset/minimize.png')}
+                            source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
                             style={styles.icon}
                         />
                     </TouchableOpacity>
