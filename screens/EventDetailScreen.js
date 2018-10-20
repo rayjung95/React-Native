@@ -7,7 +7,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default class EventDetailsScreen extends Component {
-
+    static navigationOptions = {
+        header: null,
+    };
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -215,19 +217,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-    whiteContainer: {
-        width: 375,
-        height: 440,
-        backgroundColor: 'white'
-    },
     headerContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: 20,
-        width: '100%',
-        height: 72
+        width: '100%'
     },
     icon: {
         width: 20,
