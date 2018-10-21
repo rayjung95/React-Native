@@ -15,9 +15,9 @@ export default class UserCalendarScreen extends Component {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.header}>
-                    <View style={styles.menu1}>
-                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}/>
-                    </View>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')} style={{width: 20, height: 20}}/>
+                    </TouchableOpacity>
                     <Text style={styles.yourCalendar}> Your Calendar </Text>
                     <View style={styles.menu1}/>
                 </View>
@@ -188,16 +188,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingTop: 30,
-        paddingBottom: 15
+        paddingBottom: 15,
+        paddingLeft: 20,
+        width: '100%'
     },
     menu1: {
         width: 20,
-        height: 20
+        height: 20,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     yourCalendar: {
         color: '#fff',
         fontSize: 18,
-        fontFamily: 'sans-serif'
+        fontFamily: 'sans-serif',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     CalendarCardContainer: {
         width: SCREEN_WIDTH * 0.9,
