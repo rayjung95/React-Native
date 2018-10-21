@@ -16,7 +16,8 @@ export default class UserCalendarScreen extends Component {
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
-                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')} style={{width: 20, height: 20}}/>
+                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}
+                               style={{width: 20, height: 20}}/>
                     </TouchableOpacity>
                     <Text style={styles.yourCalendar}> Your Calendar </Text>
                     <View style={styles.menu1}/>

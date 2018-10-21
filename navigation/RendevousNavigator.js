@@ -7,9 +7,9 @@ import UserSettingScreen from '../screens/UserSettingScreen';
 
 
 export default createStackNavigator({
-    Login: LoginScreen,
-    Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,
+    Login: LoginScreen,
+    Landing: LandingScreen,
     ProfileSetting: UserSettingScreen
 })
