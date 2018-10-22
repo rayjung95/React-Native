@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, Slider	 } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView } from 'react-native';
 
-export default class UserSettingScreen extends Component {
-	static navigationOptions = {
-		header: null,
-	  };
+import Slider from 'react-native-slider';
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+
+
+export default class SettingsComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			distance: this.props.distance,
 			min: this.props.min,
 			max: this.props.max,
-			step: this.props.step
+			step: this.props.step,
+			name: this.props.name,
 		}
 	}
+
+	static navigationOptions = {
+		title: 'app.json',
+	};
 
 	static defaultProps = {
 		distance: 1,
 		min: 1,
 		max: 100,
-		step: 1
+		step: 1,
+		name: 'Zac',
 	}
 
 	render() {
@@ -30,193 +39,187 @@ export default class UserSettingScreen extends Component {
 			} style={
 				styles.backgroundImage
 			}>
-				<View style={
-					styles.topSettings
-				}>
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={{
-						flex: 1
+						height: StatusBar.currentHeight,
+						backgroundColor: 'black',
 					}}/>
+
 					<View style={
-						styles.titleContainer
-					}>
-						<Text style={
-							styles.titleText
-						}>
-							{'Settings'}
-						</Text>
-						<Image source={
-							require('../assets/Icons/main_feed.imageset/main_feed.png')
-						} style={{
-							position: 'absolute',
-							right: '5%',
-						}}/>
-					</View>
-					<View style={{
-						flex: 1
-					}}/>
-					<Image source={
-							require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
-					} style={
-						styles.profileImage
-					}/>
-					<Text style={
-						styles.profileNameText
-					}>
-						{'Zac'}
-					</Text>
-					<Text style={
-						styles.editProfileText
-					}>
-						{'Edit Profile'}
-					</Text>
-					<View style={{
-						flex: 1
-					}}/>
-				</View>
-				<View style={
-					styles.bottomSettings
-				}>
-					<View style={{
-						flex: 1
-					}}/>
-					<View style={
-						styles.searchDistanceContainer
+						styles.topSettings
 					}>
 						<View style={
-							styles.searchDistanceTextContainer
+							styles.titleContainer
+						}>
+							<Text style={
+								styles.titleText
+							}>
+								{'Settings'}
+							</Text>
+							<Image source={
+								require('../assets/Icons/main_feed.imageset/main_feed.png')
+							} style={{
+								position: 'absolute',
+								right: SCREEN_WIDTH * -0.35,
+							}}/>
+						</View>
+						<Image source={
+								require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
+						} style={
+							styles.profileImage
+						}/>
+						<Text style={
+							styles.profileNameText
+						}>
+							{this.state.name}
+						</Text>
+						<Text style={
+							styles.editProfileText
+						}>
+							{'Edit Profile'}
+						</Text>
+					</View>
+					<View style={
+						styles.bottomSettings
+					}>
+						<View style={
+							styles.searchDistanceContainer
+						}>
+							<View style={
+								styles.searchDistanceTextContainer
+							}>
+								<Text style={{
+									textAlign: 'left',
+									margin: 8,
+									flex: 1,
+									fontSize: 16,
+								}}>
+									{'Search distance'}
+								</Text>
+								<Text style={{
+									textAlign: 'right',
+									margin: 8,
+									flex: 1,
+									fontSize: 16,
+								}}>
+									{this.state.distance} km
+								</Text>
+							</View>
+							<Slider
+								style={{
+									width: SCREEN_WIDTH * 0.9,
+									justifyContent: 'center',
+								}}
+								thumbTintColor= {'#FFFFFF'}
+								thumbStyle= {{ elevation: 4, }}
+								trackStyle= {{transform: [{ scaleY: 0.6 }]}}
+								minimumTrackTintColor= {'#FDDA29'}
+								value= {this.state.distance}
+								minimumValue={this.state.min}
+								maximumValue={this.state.max}
+								step={this.state.step}
+								onValueChange={(value) => this.setState({
+									distance: value
+								})}
+							/>
+						</View>
+						<View style={
+							styles.textButtonWithArrowContainer
 						}>
 							<Text style={{
 								textAlign: 'left',
 								margin: 8,
-								flex: 1
+								fontSize: 16,
 							}}>
-								{'Search distance'}
+								{'Invite Friends'}
 							</Text>
+							<Image source={
+								require('../assets/Icons/rightArrow.imageset/rightArrow.png')
+							} style={{
+								position: 'absolute',
+								right: SCREEN_WIDTH * 0.05,
+
+							}}/>
+						</View>
+						<View style={
+							styles.textButtonWithArrowContainer
+						}>
 							<Text style={{
-								textAlign: 'right',
+								textAlign: 'left',
 								margin: 8,
-								flex: 1,
+								fontSize: 16,
 							}}>
-								{this.state.distance} km
+								{'Terms of Service'}
+							</Text>
+							<Image source={
+								require('../assets/Icons/rightArrow.imageset/rightArrow.png')
+							} style={{
+								position: 'absolute',
+								right: SCREEN_WIDTH * 0.05,
+							}}/>
+						</View>
+						<View style={
+							styles.privacyContainer
+						}>
+							<Text style={{
+								textAlign: 'left',
+								margin: 8,
+								fontSize: 16,
+							}}>
+								{'Privacy Policy'}
+							</Text>
+							<Image source={
+								require('../assets/Icons/rightArrow.imageset/rightArrow.png')
+							} style={{
+								position: 'absolute',
+								right: SCREEN_WIDTH * 0.05,
+							}}/>
+						</View>
+						<View style={
+							styles.textButtonContainer
+						}>
+							<Text style={{
+								textAlign: 'center',
+								margin: 8,
+								fontSize: 16,
+							}}>
+								{'Log Out'}
 							</Text>
 						</View>
-						<Slider
-							style={{
+						<View style={
+							styles.textButtonContainer
+						}>
+							<Text style={{
+								textAlign: 'center',
 								margin: 8,
-							}}
-							value= {this.state.distance}
-							minimumValue={this.state.min}
-							maximumValue={this.state.max}
-							step={this.state.step}
-							onValueChange={(value) => this.setState({
-								distance: value
-							})}
-						/>
+								fontSize: 16,
+							}}>
+								{'Delete Account'}
+							</Text>
+						</View>
 					</View>
-					<View style={{
-						flex: 1
-					}}/>
-					<View style={
-						styles.textButtonWithArrowContainer
-					}>
-						<Text style={{
-							textAlign: 'left',
-							margin: 8,
-						}}>
-							{'Invite Friends'}
-						</Text>
-						<Image source={
-							require('../assets/Icons/rightArrow.imageset/rightArrow.png')
-						} style={{
-							position: 'absolute',
-							right: '3%',
-
-						}}/>
-					</View>
-					<View style={{
-						flex: 1
-					}}/>
-					<View style={
-						styles.textButtonWithArrowContainer
-					}>
-						<Text style={{
-							textAlign: 'left',
-							margin: 8,
-						}}>
-							{'Terms of Service'}
-						</Text>
-						<Image source={
-							require('../assets/Icons/rightArrow.imageset/rightArrow.png')
-						} style={{
-							position: 'absolute',
-							right: '3%',
-						}}/>
-					</View>
-					<View style={
-						styles.privacyContainer
-					}>
-						<Text style={{
-							textAlign: 'left',
-							margin: 8,
-						}}>
-							{'Privacy Policy'}
-						</Text>
-						<Image source={
-							require('../assets/Icons/rightArrow.imageset/rightArrow.png')
-						} style={{
-							position: 'absolute',
-							right: '3%',
-						}}/>
-					</View>
-					<View style={{
-						flex: 1
-					}}/>
-					<View style={
-						styles.textButtonContainer
-					}>
-						<Text style={{
-							textAlign: 'center',
-							margin: 8,
-						}}>
-							{'Log Out'}
-						</Text>
-					</View>
-					<View style={{
-						flex: 1
-					}}/>
-					<View style={
-						styles.textButtonContainer
-					}>
-						<Text style={{
-							textAlign: 'center',
-							margin: 8,
-						}}>
-							{'Delete Account'}
-						</Text>
-					</View>
-					<View style={{
-						flex: 1
-					}}/>
-				</View>
+				</ScrollView>
 			</ImageBackground>
 		)
 	}
 }
 
-let {height, width} = Dimensions.get("window");
 const styles = StyleSheet.create({
+	emptySpace: {
+		flex: 1,
+	},
 	topSettings: {
-		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems: 'stretch',
-		flex: 2,
+		alignItems: 'center',
+		height: SCREEN_HEIGHT * 0.5,
+		padding: SCREEN_HEIGHT * 0.034,
 	},
 	bottomSettings: {
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'stretch',
-		flex: 3,
 		backgroundColor: '#F2F3F4',
+		height: SCREEN_HEIGHT * 0.75,
 	},
 	titleContainer: {
 		flex: 1,
@@ -225,7 +228,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'stretch',
 		zIndex: 1,
-		fontWeight: 'bold',
 		color: 'white',
 		textAlign: 'center',
 		textAlignVertical: 'center',
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
 	},
 	profileNameText: {
 		justifyContent: 'center',
-		flex: 1,
+		
 		alignItems: 'stretch',
 		zIndex: 1,
 		fontFamily: 'sans-serif-thin',
@@ -244,7 +246,6 @@ const styles = StyleSheet.create({
 	},
 	editProfileText: {
 		justifyContent: 'center',
-		flex: 1,
 		alignItems: 'stretch',
 		zIndex: 1,
 		color: 'white',
@@ -254,52 +255,65 @@ const styles = StyleSheet.create({
 	},
 	profileImage: {
 		justifyContent: 'center',
-		alignItems: 'stretch',
-		flex: 4,
+		alignItems: 'center',
 		resizeMode: 'contain',
 		borderTopRightRadius: 100,
 		borderTopLeftRadius: 100,
 		borderBottomLeftRadius: 70,
 		borderBottomRightRadius: 70,
+		marginTop: SCREEN_HEIGHT * 0.063,
+		marginBottom: SCREEN_HEIGHT * 0.037,
+		width: SCREEN_WIDTH * 0.4,
+		height: SCREEN_HEIGHT * 0.23,
 	},
 	searchDistanceContainer: {
-		flex: 3,
 		flexDirection: 'column',
 		backgroundColor: '#FFFFFF',
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		borderColor: '#DEDFDF',
+		elevation: 1,
+		padding: SCREEN_WIDTH * 0.026,
+		marginTop: SCREEN_HEIGHT * 0.04,
+		width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT * 0.14,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	searchDistanceTextContainer: {
-		flex: 1,
+		
 		flexDirection: 'row'
 	},
 	textButtonWithArrowContainer: {
-		flex: 1.5,
 		backgroundColor: '#FFFFFF',
 		flexDirection: 'row',
     	alignItems: 'center',
-    	borderTopWidth: 1,
-		borderBottomWidth: 1,
-		borderColor: '#DEDFDF',
+    	elevation: 1,
+    	paddingLeft: SCREEN_WIDTH * 0.026,
+    	paddingRight: SCREEN_WIDTH * 0.026,
+    	marginTop: SCREEN_HEIGHT * 0.04,
+    	width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT * 0.07,
 	},
 	privacyContainer: {
 		flex: 1.5,
 		backgroundColor: '#FFFFFF',
 		flexDirection: 'row',
     	alignItems: 'center',
-    	borderTopWidth: 0,
-		borderBottomWidth: 1,
-		borderColor: '#DEDFDF',
+    	elevation: 1,
+    	paddingLeft: SCREEN_WIDTH * 0.026,
+    	paddingRight: SCREEN_WIDTH * 0.026,
+    	marginBottom: SCREEN_HEIGHT * 0.04,
+    	width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT * 0.07,
 	},
 	textButtonContainer: {
 		flex: 1.5,
 		backgroundColor: '#FFFFFF',
 		flexDirection: 'row',
     	justifyContent: 'center',
-    	borderTopWidth: 1,
-		borderBottomWidth: 1,
-		borderColor: '#DEDFDF',
+    	alignItems: 'center',
+    	elevation: 1,
+    	marginBottom: SCREEN_HEIGHT * 0.04,
+    	width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT * 0.07,
 	},
 	backgroundImage: {
 		height: '100%',

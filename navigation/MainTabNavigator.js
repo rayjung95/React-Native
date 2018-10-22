@@ -11,6 +11,8 @@ import UserCalendarScreen from '../screens/UserCalendarScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
 import EventCreationScreen from '../screens/EventCreationScreen';
 
+import GoogleMapsScreen from '../screens/GoogleMapsScreen';
+
 
 const LoginStack = createStackNavigator({
   Home: LoginScreen,
@@ -120,11 +122,32 @@ EventCreationStack.navigationOptions = {
   ),
 };
 
+const GoogleMapsStack = createStackNavigator({
+  Home: GoogleMapsScreen,
+});
+
+GoogleMapsScreen.navigationOptions = {
+  tabBarLabel: 'Maps',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+
 export default createBottomTabNavigator({
   LoginStack,
   LandingStack,
   GuestConfirmationStack,
   UserCalendarStack,
   UserSettingStack,
-  EventCreationStack
+  EventCreationStack,
+  GoogleMapsStack,
+
 });
