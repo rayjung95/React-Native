@@ -16,16 +16,16 @@ export default class EventDetailsScreen extends Component {
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
+                        <Image
+                            source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}> Ketchup & Zombie </Text>
+                </View>
                 <ScrollView>
-                    <View style={styles.headerContainer}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
-                            <Image
-                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
-                                style={styles.icon}
-                            />
-                        </TouchableOpacity>
-                        <Text style={styles.headerText}> Ketchup & Zombie </Text>
-                    </View>
                     <View style={styles.profilePicContainer}>
                         {/*<View style={styles.profilePicContentContainer}>*/}
                             <View style={styles.profileContainer}>
@@ -221,13 +221,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headerContainer: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingTop: 20,
-        width: '100%',
-        height: SCREEN_HEIGHT * 0.125
+        justifyContent: 'flex-start',
+        width: '100%'
     },
     icon: {
         width: 20,
@@ -241,15 +238,15 @@ const styles = StyleSheet.create({
     },
     profilePicContainer: {
         width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT * 0.436,
+        height: SCREEN_HEIGHT * 0.4203125,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white'
     },
     eventDetailsHostPic: {
-        width: SCREEN_WIDTH * 0.384,
-        height: SCREEN_WIDTH * 0.384,
+        width: SCREEN_WIDTH * 0.4,
+        height: SCREEN_WIDTH * 0.4,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         borderBottomRightRadius: 100,
