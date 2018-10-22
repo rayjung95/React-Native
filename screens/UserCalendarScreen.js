@@ -20,7 +20,7 @@ export default class UserCalendarScreen extends Component {
                                style={{width: 20, height: 20}}/>
                     </TouchableOpacity>
                     <Text style={styles.yourCalendar}> Your Calendar </Text>
-                    <View style={styles.menu1}/>
+                    <View style={{width: 20, height: 20}}/>
                 </View>
 
                 <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
@@ -207,8 +207,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     CalendarCardContainer: {
-        width: SCREEN_WIDTH * 0.9,
-        height: SCREEN_HEIGHT * 0.55,
+        width: SCREEN_WIDTH * 0.9055,
+        height: SCREEN_HEIGHT * 0.546875,
         marginTop: SCREEN_HEIGHT * 0.2,
         flexDirection: 'column',
         alignItems: 'center',
@@ -251,8 +251,8 @@ const styles = StyleSheet.create({
     },
     notifBox: {
         backgroundColor: '#fff',
-        width: SCREEN_WIDTH * 0.9,
-        height: SCREEN_HEIGHT * 0.1,
+        width: SCREEN_WIDTH * 0.9139,
+        height: SCREEN_HEIGHT * 0.09375,
         marginTop: 10,
         padding: 10,
         borderRadius: 5,
@@ -330,8 +330,8 @@ const styles = StyleSheet.create({
         top: 0
     },
     hostPic: {
-        width: SCREEN_WIDTH * 0.4,
-        height: SCREEN_WIDTH * 0.4,
+        width: SCREEN_WIDTH * 0.35678,
+        height: SCREEN_WIDTH * 0.38567,
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
         borderTopLeftRadius: 80,
