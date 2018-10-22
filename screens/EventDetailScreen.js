@@ -1,6 +1,5 @@
-
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -28,29 +27,29 @@ export default class EventDetailsScreen extends Component {
                 <ScrollView>
                     <View style={styles.profilePicContainer}>
                         {/*<View style={styles.profilePicContentContainer}>*/}
-                            <View style={styles.profileContainer}>
-                                <Image
-                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                    style={{marginRight: -40, zIndex: 1}}
-                                />
-                                <Image
-                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                    style={styles.eventDetailsHostPic}
-                                />
-                                <Image
-                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                    style={{marginLeft: -40, zIndex: 1}}
-                                />
-                            </View>
-                            <View style={styles.hostDetailsContainer}>
-                                <Text style={styles.eventDetailsHostName}> Quentin </Text>
-                                <Text style={styles.eventDetailsHostName2}> Host </Text>
-                            </View>
+                        <View style={styles.profileContainer}>
+                            <Image
+                                source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                style={{marginRight: -40, zIndex: 1}}
+                            />
+                            <Image
+                                source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                style={styles.eventDetailsHostPic}
+                            />
+                            <Image
+                                source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                style={{marginLeft: -40, zIndex: 1}}
+                            />
+                        </View>
+                        <View style={styles.hostDetailsContainer}>
+                            <Text style={styles.eventDetailsHostName}> Quentin </Text>
+                            <Text style={styles.eventDetailsHostName2}> Host </Text>
+                        </View>
                         {/*</View>*/}
                     </View>
                     <View style={styles.eventDetailsContainer}>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_detail.imageset/event_detail.png')}
                                 />
@@ -65,7 +64,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_date.imageset/event_date.png')}
                                 />
@@ -79,7 +78,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_away.imageset/event_away.png')}
                                 />
@@ -98,7 +97,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/group_chat.imageset/gc2.png')}
                                     style={{width: 20, height: 20}}
@@ -127,7 +126,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_website.imageset/safari40.png')}
                                     style={{width: 20, height: 20}}
@@ -144,7 +143,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_host.imageset/event_host.png')}
                                 />
@@ -190,7 +189,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: SCREEN_WIDTH * 0.053}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_report.imageset/event_report.png')}
                                 />
@@ -360,6 +359,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    eventDetailIcons: {
+        width: SCREEN_WIDTH * 0.14,
+        marginTop: 5,
+        marginRight: SCREEN_WIDTH * 0.1,
+        paddingLeft: SCREEN_WIDTH * 0.021666667
     }
 });
 

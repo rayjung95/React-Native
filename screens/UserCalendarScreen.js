@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -260,7 +260,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%',
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        marginTop: SCREEN_HEIGHT * 0.03
     },
     notifBox: {
         backgroundColor: '#fff',
