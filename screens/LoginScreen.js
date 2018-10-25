@@ -1,125 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Switch, Slider, Picker, Text, View, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Switch, swiper, Picker, Text, View, Image, ImageBackground, Dimensions, StatusBar } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
-const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default class LoginScreen extends Component {
+
     static navigationOptions = {
         header: null,
-      };
-    constructor(props) {
-        super(props);
-        this.state = {
-            introNum: 1,
-            currentIntroImage: require('../assets/Pngs/intro1.imageset/cards.png'),
-            currentIntroBullet1: 'yellow',
-            currentIntroBullet2: 'white',
-            currentIntroBullet3: 'white',
-            currentIntroText: 'Post your event to start creating a guest list with people near you'
-        }
-    }
-
-    // TODO: remove or keep timed interval for intro which includes states, and changeIntro()
-    //time interval for running changeIntro()
-    // componentDidMount() {
-    //     setInterval(this.changeIntro.bind(this), 5000);
-    // }
-
-    //method for changing the image, caption, and bullet
-    changeIntro() {
-
-        if (this.state.introNum == 1) {
-            this.setState({
-                currentIntroImage: require('../assets/Pngs/intro1.imageset/cards.png'),
-                currentIntroBullet1: 'yellow',
-                currentIntroBullet2: 'white',
-                currentIntroBullet3: 'white',
-                currentIntroText: 'Post your event to start creating a guest list with people near you',
-                introNum: 2
-            })
-        } else if (this.state.introNum ==2) {
-            this.setState({
-                currentIntroImage: require('../assets/Pngs/intro2.imageset/intro2.png'),
-                currentIntroBullet1: 'white',
-                currentIntroBullet2: 'yellow',
-                currentIntroBullet3: 'white',
-                currentIntroText: '"Lockin" or "Lockout" people wanting to attend your event',
-                introNum: 3
-            })
-        } else if (this.state.introNum ==3) {
-            this.setState({
-                currentIntroImage: require('../assets/Pngs/intro3.imageset/Group.png'),
-                currentIntroBullet1: 'white',
-                currentIntroBullet2: 'white',
-                currentIntroBullet3: 'yellow',
-                currentIntroText: 'Get invited to local events near you',
-                introNum: 1
-            })
-        }
-    }
-
+    };
 
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <View style={styles.logoContainer}>
+                <StatusBar hidden />
+                <View style={styles.loginScreenContainer}>
                     <Text style={styles.welcome}>Welcome to</Text>
-                    <Image style={styles.wordLogo} source={require('../assets/images/logo.png')}/>
-                    {/* NOTE: this is the new implementation of intro slideshow using react-native-swiper */}
-                    {/* TODO: clean-up styles and migrate to stylesheet when done testing */}
-                    <View style={{height:390, width:450, marginTop:50}}>
-                        <Swiper dotStyle={{width: 10, height: 10, borderRadius: 5}} activeDotStyle={{width: 10, height:10, borderRadius:5, backgroundColor: 'yellow'}}>
-                            <View style={{height: 300, justifyContent:'center',alignItems:'center'}}>
+                    <Image style={styles.appLogo} source={require('../assets/images/logo.png')} />
+                    <View style={styles.swiper}>
+                        <Swiper dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+                            {/*uses Swiper addon to swipe between the 3 views*/}
+                            {/*NOTE: the bullets/dots shown on the screen is part of the addon and can be modified with the styles under Swiper*/}
+                            <View style={styles.introContainer}>
                                 <Image style={styles.introImage} source={require('../assets/Pngs/intro1.imageset/cards.png')} />
-                                <Text style={styles.currentIntroText}>Post your event to start creating a guest list with people near you</Text>
+                                <Text style={styles.introText}>Post your event to start creating a guest list with people near you</Text>
                             </View>
-                            <View style={{height:300, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.introContainer}>
                                 <Image style={styles.introImage} source={require('../assets/Pngs/intro2.imageset/intro2.png')} />
-                                <Text style={styles.currentIntroText}>"Lockin" or "Lockout" people wanting to attend your event</Text>
+                                <Text style={styles.introText}>"Lockin" or "Lockout" people wanting to attend your event</Text>
                             </View>
-                            <View style={{height:300, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.introContainer}>
                                 <Image style={styles.introImage} source={require('../assets/Pngs/intro3.imageset/Group.png')} />
-                                <Text style={styles.currentIntroText}>Get invited to local events near you</Text>
+                                <Text style={styles.introText}>Get invited to local events near you</Text>
                             </View>
                         </Swiper>
                     </View>
-                    {/* NOTE: this is an implementation of the old slideshow for intro */}
-                    {/* TODO: currently commented this part. decide in future whether to keep or remove. Note: dont forget to clean stylesheet */}
-                    {/* <Image style={styles.introImage} source={this.state.currentIntroImage}/>
-                    <Text style={styles.currentIntroText}>{this.state.currentIntroText}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{
-                            backgroundColor: this.state.currentIntroBullet1,
-                            width: 10,
-                            height: 10,
-                            borderRadius: 10,
-                            }}/>
-                        <View style={{
-                            backgroundColor: this.state.currentIntroBullet2,
-                            width: 10,
-                            height: 10,
-                            borderRadius: 10,
-                            marginLeft: 10,
-                            marginRight: 10
-                        }} />
-                        <View style={{
-                            backgroundColor: this.state.currentIntroBullet3,
-                            width: 10,
-                            height: 10,
-                            borderRadius: 10
-                        }} />
-                    </View> */}
                     <Text style={styles.policy}>{`By continuing you agree to our\nTerms of Service and Privacy Policy`}</Text>
-                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
-                        <View style={styles.loginButton}>
-                            <Image style={{width: 28, height: 28}} source={require('../assets/images/fb-logo.png')}/>
-                            <Text style={styles.loginWFb}>Log in with Facebook</Text>
-                        </View>
-                    </TouchableOpacity>
-
+                    <View style={styles.loginButton}>
+                        <Image style={styles.fbLogo} source={require('../assets/images/fb-logo.png')} />
+                        <Text style={styles.loginWFb}>Log in with Facebook</Text>
+                    </View>
                     <Text style={styles.policy}>Enterprise Signup and Login</Text>
                 </View>
             </ImageBackground>
@@ -127,63 +47,88 @@ export default class LoginScreen extends Component {
     }
 }
 
+const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     background: {
         flex: 1,
         alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      },
-    logoContainer: {
+        justifyContent: 'center',
+    },
+    loginScreenContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop:30
     },
     welcome: {
         fontFamily: 'Roboto',
-        fontSize: 30,
+        fontSize: height / 25,
         color: 'white'
     },
-    wordLogo: {
+    appLogo: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 80,
+        height: height * 0.13,
         resizeMode: 'contain',
+    },
+    swiper: {
+        height: height * .5,
+        width: width,
+    },
+    dot: {
+        width: width / 45,
+        height: width / 45,
+        borderRadius: 5,
+    },
+    activeDot: {
+        width: width / 45,
+        height: width / 45,
+        borderRadius: 5,
+        backgroundColor: 'yellow'
+    },
+    introContainer: {
+        height: '80%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     introImage: {
         resizeMode: 'contain',
-        width: 250,
-        height: 250,
+        // width: 250,
+        height: '85%',
         marginTop: 50,
     },
-    currentIntroText: {
+    introText: {
         fontFamily: 'Roboto',
-        fontSize: 20,
+        fontSize: height / 42,
         color: 'white',
         textAlign: 'center',
-        width: 350,
-        height: 50,
-        flexWrap: 'wrap'
+        width: '80%',
+        height: '25%',
+        flexWrap: 'wrap',
     },
     policy: {
         color: 'grey',
         textAlign: 'center',
-        padding: 10
+        padding: 10,
+        fontSize: height / 70
     },
     loginButton: {
         flexDirection: 'row',
-        width: 335,
-        height: 57,
+        width: width * 0.8,
+        height: height * 0.08,
         backgroundColor: '#3B5999',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    loginWFb: {
-        fontFamily: 'Roboto',
-        fontSize: 28,
-        color: 'white',
-        marginLeft: 10
+    fbLogo: {
+        width: 28,
+        height: 28,
     },
-
+    loginWFb: {
+        width: '67%',
+        fontFamily: 'Roboto',
+        fontSize: height / 30,
+        color: 'white',
+        marginLeft: 10,
+    },
 });
