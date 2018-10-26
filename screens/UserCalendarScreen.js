@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -9,34 +9,38 @@ const PICTURES_PATH = "../assets/Pngs/";
 export default class UserCalendarScreen extends Component {
     static navigationOptions = {
         header: null,
-      };
+    };
+
     render() {
         return (
-            <ImageBackground style={styles.background} source={require(PICTURES_PATH + 'bg.imageset/bg.png')}>
+            <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.header}>
-                    <View style={styles.menu1}>
-                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}/>
-                    </View>
-                    <Text style={styles.title}> Your Calendar </Text>
-                    <View style={{height: 20, width: 20}}/>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                        <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}
+                               style={{width: 20, height: 20}}/>
+                    </TouchableOpacity>
+                    <Text style={styles.yourCalendar}> Your Calendar </Text>
+                    <View style={{width: 20, height: 20}}/>
                 </View>
 
-                <ScrollView>
-                    <View style={styles.notifBox}>
-                        <Text style={styles.notifText}>
-                            <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>
-                            <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
-                        </Text>
-                        <View style={styles.notifIcons}>
-                            <View style={styles.notifNum}>
-                                <Text style={{color: 'white'}}> 2 </Text>
+                <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')}>
+                        <View style={styles.notifBox}>
+                            <Text style={styles.notifText}>
+                                <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>
+                                <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
+                            </Text>
+                            <View style={styles.notifIcons}>
+                                <View style={styles.notifNum}>
+                                    <Text style={{color: 'white'}}> 2 </Text>
+                                </View>
+                                <Image
+                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
+                                    style={{zIndex: 10, height: 15, width: 15}}
+                                />
                             </View>
-                            <Image
-                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
-                                style={{zIndex: 10, height: 15, width: 15}}
-                            />
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={styles.notifBox}>
                         <Text style={styles.notifText}>
@@ -51,7 +55,51 @@ export default class UserCalendarScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{marginTop: -60}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
+                                      style={{borderRadius: 8}}>
+                        <View style={styles.CalendarCardContainer}>
+                            <View style={styles.CalendarCardHeader}>
+                                <View style={styles.hostPicContainer}>
+                                    <View style={styles.notifStatus1}>
+                                        <Text style={{color: 'white', fontSize: 14}}>Updated</Text>
+                                    </View>
+                                    <Image
+                                        source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                        style={styles.hostPic}
+                                        resizeMode="cover"
+                                    />
+                                    <View style={styles.notifStatus2}>
+                                        <Text style={{color: 'white', fontSize: 14}}>Confirm</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.calendarCard}>
+                                <View style={styles.calendarDetails}>
+                                    <Text style={styles.hostName}>Johnny</Text>
+                                    <Text style={styles.subheading}>Host</Text>
+                                    <View style={styles.divider}/>
+                                    <Text style={styles.eventTitle}>POKER & SALSA</Text>
+                                    <Text style={styles.heading1}>PARTY</Text>
+                                    <Text style={styles.heading1}> WED, 7:00</Text>
+                                    <Text style={styles.eventDate}> September 23 </Text>
+                                    <View style={styles.calendarCardFooter}>
+                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                            <Image style={{width: 30, height: 30}}
+                                                   source={require('../assets/Icons/guest.imageset/guest.png')}/>
+                                            12 Guests
+                                        </Text>
+                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                            <Image style={{width: 30, height: 30}}
+                                                   source={require('../assets/Icons/away.imageset/away.png')}/>
+                                            2.5 Miles away
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
                         <View style={styles.CalendarCardContainer}>
                             <View style={styles.CalendarCardHeader}>
                                 <View style={styles.hostPicContainer}>
@@ -72,6 +120,7 @@ export default class UserCalendarScreen extends Component {
                                 <View style={styles.calendarDetails}>
                                     <Text style={styles.hostName}>Johnny</Text>
                                     <Text style={styles.subheading}>Host</Text>
+                                    <View style={styles.divider}/>
                                     <Text style={styles.eventTitle}>POKER & SALSA</Text>
                                     <Text style={styles.heading1}>PARTY</Text>
                                     <Text style={styles.heading1}> WED, 7:00</Text>
@@ -91,79 +140,52 @@ export default class UserCalendarScreen extends Component {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.CalendarCardContainer}>
-                        <View style={styles.CalendarCardHeader}>
-                            <View style={styles.hostPicContainer}>
-                                <View style={styles.dummyStatus}>
-                                    <Text style={{color: 'white'}}> abcdefg </Text>
-                                </View>
-                                <Image
-                                    source={require(PICTURES_PATH + 'userbigphoto.imageset/userbigphoto.png')}
-                                    style={styles.hostPic}
-                                    resizeMode="cover"
-                                />
-                                <View style={styles.notifStatus2}>
-                                    <Text style={{color: 'white'}}>Confirm</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.calendarCard}>
-                            <View style={styles.calendarDetails}>
-                                <Text style={styles.hostName}>Quentin</Text>
-                                <Text style={styles.subheading}>Host</Text>
-                                <Text style={styles.eventTitle}> KETCHUP & ZOMBIE</Text>
-                                <Text style={styles.heading1}> SAT, 9:00</Text>
-                                <Text style={styles.eventDate}> September 26 </Text>
-                                <View style={styles.calendarCardFooter}>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                        <Image style={{width: 30, height: 30}}
-                                               source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                        12 Guests
-                                    </Text>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                        <Image style={{width: 30, height: 30}}
-                                               source={require('../assets/Icons/away.imageset/away.png')}/>
-                                        2.5 Miles away
-                                    </Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
 
-                    <View style={styles.CalendarCardContainer}>
-                        <View style={styles.hostPicContainer}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
+                        <View style={styles.CalendarCardContainer}>
                             <View style={styles.CalendarCardHeader}>
-                                <Image
-                                    source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
-                                    style={styles.hostPic}
-                                    resizeMode="cover"
-                                />
+                                <View style={styles.hostPicContainer}>
+                                    <View style={styles.notifStatus1}>
+                                        <Text style={{color: 'white'}}>Updated</Text>
+                                    </View>
+                                    <Image
+                                        source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                        style={styles.hostPic}
+                                        resizeMode="cover"
+                                    />
+                                    <View style={styles.notifStatus2}>
+                                        <Text style={{color: 'white'}}>Confirm</Text>
+                                    </View>
+                                </View>
                             </View>
-                        </View>
-                        <View style={styles.calendarCard}>
-                            <View style={styles.calendarDetails}>
-                                <Text style={styles.hostName}>Zac</Text>
-                                <Text style={styles.subheading}>Host</Text>
-                                <Text style={styles.eventTitle}> MY OWN HOLIDAY </Text>
-                                <Text style={styles.heading1}> FRI, 8:00</Text>
-                                <Text style={styles.eventDate}> September 26 </Text>
-                                <View style={styles.calendarCardFooter}>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                        <Image style={{width: 30, height: 30}}
-                                               source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                        24 Guests
-                                    </Text>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                        <Image style={{width: 30, height: 30}}
-                                               source={require('../assets/Icons/away.imageset/away.png')}/>
-                                        1.7 Miles away
-                                    </Text>
+                            <View style={styles.calendarCard}>
+                                <View style={styles.calendarDetails}>
+                                    <Text style={styles.hostName}>Johnny</Text>
+                                    <Text style={styles.subheading}>Host</Text>
+                                    <View style={styles.divider}/>
+                                    <Text style={styles.eventTitle}>POKER & SALSA</Text>
+                                    <Text style={styles.heading1}>PARTY</Text>
+                                    <Text style={styles.heading1}> WED, 7:00</Text>
+                                    <Text style={styles.eventDate}> September 23 </Text>
+                                    <View style={styles.calendarCardFooter}>
+                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                            <Image style={{width: 30, height: 30}}
+                                                   source={require('../assets/Icons/guest.imageset/guest.png')}/>
+                                            12 Guests
+                                        </Text>
+                                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
+                                            <Image style={{width: 30, height: 30}}
+                                                   source={require('../assets/Icons/away.imageset/away.png')}/>
+                                            2.5 Miles away
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
+
                 </ScrollView>
             </ImageBackground>
         );
@@ -174,35 +196,38 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        zIndex: -1
+        flexDirection: 'column'
     },
     header: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        width: '100%',
-        padding: 20,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        paddingTop: 30,
+        paddingBottom: 15,
+        paddingLeft: 20,
+        width: '100%'
     },
     menu1: {
-        flexDirection: 'row',
         width: 20,
-        height: 20
+        height: 20,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    title: {
+    yourCalendar: {
         color: '#fff',
         fontSize: 18,
-        fontFamily: 'sans-serif'
+        fontFamily: 'sans-serif',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     CalendarCardContainer: {
-        width: SCREEN_WIDTH * 0.9,
-        height: SCREEN_HEIGHT * 0.55,
-        marginTop: SCREEN_HEIGHT * 0.25,
+        flex: 1,
+        width: SCREEN_WIDTH * 0.9055,
+        height: SCREEN_HEIGHT * 0.5984375,
+        marginTop: SCREEN_HEIGHT * 0.05,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
     CalendarCardHeader: {
         width: '100%',
@@ -210,41 +235,43 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     calendarCard: {
+        flex: 1,
         marginTop: -SCREEN_WIDTH * 0.2,
-        backgroundColor: '#ffff',
+        backgroundColor: 'white',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         width: SCREEN_WIDTH * 0.9,
         height: SCREEN_HEIGHT * 0.55,
         zIndex: 0,
-        borderRadius: 10
+        borderRadius: 8
     },
     calendarDetails: {
         zIndex: 2,
         alignItems: 'center',
-        justifyContent: 'center',
-        height: SCREEN_HEIGHT * 0.55,
         width: '100%',
         flexDirection: 'column',
-        padding: 20
+        paddingTop: 80,
+        paddingBottom: 0,
+        justifyContent: 'flex-end',
+        flex: 1
     },
     calendarCardFooter: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        bottom: 20,
-        position: 'absolute'
-
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: SCREEN_HEIGHT * 0.03
     },
     notifBox: {
         backgroundColor: '#fff',
-        width: SCREEN_WIDTH * 0.9,
-        height: SCREEN_HEIGHT * 0.14,
-        marginTop: 20,
+        width: SCREEN_WIDTH * 0.9139,
+        height: SCREEN_HEIGHT * 0.09375,
+        marginTop: SCREEN_HEIGHT * 0.025,
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
@@ -269,25 +296,27 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     notifNum: {
-        backgroundColor: 'red',
+        backgroundColor: '#E3422A',
         borderRadius: 50,
         margin: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8
+        width: 25,
+        height: 25
     },
     notifStatus1: {
-        backgroundColor: 'red',
+        backgroundColor: '#E3422A',
         borderRadius: 50,
         margin: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8,
-        top: 30
+        paddingRight: 15,
+        paddingLeft: 15,
+        marginTop: 40
     },
     notifStatus2: {
         backgroundColor: 'green',
@@ -297,8 +326,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8,
-        top: 30
+        paddingRight: 15,
+        paddingLeft: 15,
+        marginTop: 40
     },
     dummyStatus: {
         backgroundColor: 'white',
@@ -318,8 +348,8 @@ const styles = StyleSheet.create({
         top: 0
     },
     hostPic: {
-        width: SCREEN_WIDTH * 0.4,
-        height: SCREEN_WIDTH * 0.4,
+        width: SCREEN_WIDTH * 0.35678,
+        height: SCREEN_WIDTH * 0.38567,
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
         borderTopLeftRadius: 80,
@@ -352,5 +382,16 @@ const styles = StyleSheet.create({
     eventDate: {
         fontFamily: 'sans-serif-thin',
         fontSize: 12
+    },
+    divider: {
+        borderBottomColor: '#f1f1f1',
+        borderBottomWidth: 1,
+        width: '30%',
+        marginTop: 15,
+        marginBottom: 15
     }
 });
+
+
+
+

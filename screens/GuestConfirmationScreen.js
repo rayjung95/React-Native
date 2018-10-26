@@ -1,6 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, ImageBackground } from 'react-native';
+import React, {Component} from 'react'
+import {
+    Animated,
+    Dimensions,
+    Image,
+    ImageBackground,
+    PanResponder,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -46,7 +55,8 @@ export default class GuestConfirmationScreen extends Component {
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
-      ]
+      ],
+        isMoving: false
     }
 
   }
@@ -55,12 +65,14 @@ export default class GuestConfirmationScreen extends Component {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (evt, gs) => {
+          this.setState({isMoving: true})
         // console.log('MOVING', gs.dx, gs.dy)
         // this.imageXPos.setValue(gs.dx)
         this.position.setValue({x: gs.dx, y: gs.dy})
       },
       onPanResponderRelease: (evt, gs) => {
         console.log('RELEASED');
+          this.setState({isMoving: false})
         if (gs.dx>120) {
           Animated.spring(this.position, {
             toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
@@ -111,27 +123,6 @@ export default class GuestConfirmationScreen extends Component {
         } 
         else {
           return (
-            // <Animated.View
-            //   key={i}
-            //   style={styles.card}>
-            //   <View style={styles.cardContent}>
-            //     <View style={styles.cardContentChild}>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
-            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
-            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
-            //       <Text>
-            //         <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>WED, 7:00{' '}</Text>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>pm</Text>
-            //       </Text>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 12,}}>SEPTEMBER 23</Text>
-            //       <View style={{flex:1 ,flexDirection: 'row', width:'100%' , justifyContent: 'space-between', marginTop: 20, padding: 5}}>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/away.imageset/away.png')} />2.5 Miles away</Text>
-            //       </View>
-            //     </View>
-            //   </View>
-            // </Animated.View>
             <Animated.View
               key={i}
               style={styles.card}
@@ -149,29 +140,55 @@ export default class GuestConfirmationScreen extends Component {
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
           <View style={styles.menu1}>
-              <Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
-			  <View style={{ width: SCREEN_WIDTH*0.6, height:'100%', alignItems:'flex-start', justifyContent:'center', marginLeft:30}}>
-			  	<Text style={{color:'white', fontFamily: 'Roboto', fontSize: 20,}}>Amazing friday night</Text>
-				<Text style={{color:'white', fontFamily: 'Roboto', fontSize: 13,}}>sat, 10:00pm, Sep 26</Text>
-			  </View>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
+                  <Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+              </TouchableOpacity>
+              <View style={{
+                  width: SCREEN_WIDTH * 0.6,
+                  height: '100%',
+                  alignItems: 'flex-start',
+                  justifyContent: 'center',
+                  marginLeft: 30
+              }}>
+                  <Text style={{color: 'white', fontFamily: 'Roboto', fontSize: 20,}}>Amazing friday night</Text>
+                  <Text style={{color: 'white', fontFamily: 'Roboto', fontSize: 13,}}>sat, 10:00pm, Sep 26</Text>
+              </View>
           </View>
           <View style={styles.menu2}>
-		  	<Image style={{width:26,height:24}} source={require('../assets/Icons/not_message.imageset/not_message.png')} />
-            <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} />
+              <Image style={{width: 26, height: 24}}
+                     source={require('../assets/Icons/not_message.imageset/not_message.png')}/>
+              {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
           </View>
         </View>
 
         {this.renderImage()}
-        <View style={styles.chooseButton}>
-          <Animated.View style={{opacity: this.lockOpacity, width: 80, height: 80 }}>
-            <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
-          </Animated.View>
-          <Animated.View style={{opacity: this.unlockOpacity, width: 80, height: 80 }}>
-            <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
-          </Animated.View>
-        </View>
-        <View>
-          <Image style={styles.footerImage}  source={require('../assets/Icons/note-filled-square-with-a-pencil/note-filled-square-with-a-pencil.png')} />
+          {this.state.isMoving ?
+              <View style={styles.chooseButton}>
+                  <Animated.View
+                      style={{opacity: this.lockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
+                      <Image style={styles.lockImage}
+                             source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')}/>
+                  </Animated.View>
+                  <Animated.View
+                      style={{opacity: this.unlockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
+                      <Image style={styles.lockImage}
+                             source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')}/>
+                  </Animated.View>
+              </View>
+              :
+              <View style={styles.chooseButton}>
+                  <Animated.View style={{width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
+                      <Image style={styles.lockImage} source={require('../assets/Icons/lock.imageset/lock.png')}/>
+                  </Animated.View>
+                  <Animated.View style={{width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
+                      <Image style={styles.lockImage} source={require('../assets/Icons/unlock.imageset/unlock.png')}/>
+                  </Animated.View>
+              </View>
+          }
+          <View style={styles.footer}>
+              <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')}/>
+              <Image style={styles.footerImage}
+                     source={require('../assets/Icons/create_event_icon/create_event_icon.png')}/>
         </View>
 
       </ImageBackground>
@@ -209,19 +226,19 @@ const styles = StyleSheet.create({
     height:'100%',
     alignItems: 'center',
     justifyContent:'center',
-    marginLeft:15
+      marginLeft: 30
 
   },
   card: {
-    width:SCREEN_WIDTH*0.85, 
-    height:SCREEN_HEIGHT*0.5, 
+      width: SCREEN_WIDTH * 0.8618,
+      height: SCREEN_HEIGHT * 0.5217,
     borderRadius: 5, 
     flexDirection: 'column',
     justifyContent: 'space-around', 
     alignItems: 'center',
-    position:'absolute', 
-    bottom: SCREEN_HEIGHT/2 - 400/2,
-    backgroundColor:'#ffff', 
+      position: 'absolute',
+      bottom: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT * 0.5217 / 2,
+      backgroundColor: '#ffff',
   },
   cardContentChild: {
     width:300, 
@@ -241,20 +258,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    height: 90,
-    marginTop:470
+      marginBottom: SCREEN_HEIGHT * 0.0621118
   },
   lockImage: {
-    width: 80,
-    height: 80,
+      width: '100%',
+      height: '100%',
   },
   footer: {
+      width: SCREEN_WIDTH * 0.0761326,
+      height: SCREEN_WIDTH * 0.116,
+      flexDirection: 'column',
     alignItems: 'center',
-    marginTop:6
+      justifyContent: 'space-between',
+      position: 'absolute',
+      // backgroundColor: 'aqua',
+      marginTop: SCREEN_HEIGHT * 0.89914286
+  },
+    footerUpArrowImage: {
+        width: SCREEN_WIDTH * 0.0761326
   },
   footerImage: {
-    width: 32,
-    height: 32,
-    marginBottom:30
-  },
+      width: SCREEN_WIDTH * 0.058,
+      height: SCREEN_WIDTH * 0.058
+  }
 });
