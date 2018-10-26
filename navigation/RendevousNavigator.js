@@ -5,13 +5,15 @@ import UserCalendarScreen from '../screens/UserCalendarScreen';
 import EventDetailsScreen from '../screens/EventDetailScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
 import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
+import EventCreationScreen from '../screens/EventCreationScreen';
 
 
 export default createStackNavigator({
     Login: LoginScreen,
+    Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,
     ProfileSetting: UserSettingScreen,
-    Landing: LandingScreen,
-    Guest: GuestConfirmationScreen
+    Guest: GuestConfirmationScreen,
+    EventCreation: EventCreationScreen
 })
