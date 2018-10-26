@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, ImageBackground } from 'react-native';
+import { View, StyleSheet, Image, Text, PanResponder, Animated, Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -131,15 +131,17 @@ export default class GuestConfirmationScreen extends Component {
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <View style={styles.header}>
           <View style={styles.menu1}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
               <Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
-			  <View style={{ width: SCREEN_WIDTH*0.6, height:'100%', alignItems:'flex-start', justifyContent:'center', marginLeft:30}}>
-			  	<Text style={{color:'white', fontFamily: 'Roboto', fontSize: 20,}}>Amazing friday night</Text>
-				<Text style={{color:'white', fontFamily: 'Roboto', fontSize: 13,}}>sat, 10:00pm, Sep 26</Text>
-			  </View>
+            </TouchableOpacity>
+			      <View style={{ width: SCREEN_WIDTH*0.6, height:'100%', alignItems:'flex-start', justifyContent:'center', marginLeft:30}}>
+			  	    <Text style={{color:'white', fontFamily: 'Roboto', fontSize: 20,}}>Amazing friday night</Text>
+				      <Text style={{color:'white', fontFamily: 'Roboto', fontSize: 13,}}>sat, 10:00pm, Sep 26</Text>
+			      </View>
           </View>
           <View style={styles.menu2}>
-		  	<Image style={{width:26,height:24}} source={require('../assets/Icons/not_message.imageset/not_message.png')} />
-            <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} />
+            <Image style={{width:26,height:24}} source={require('../assets/Icons/not_message.imageset/not_message.png')} />
+            {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
           </View>
         </View>
 
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
     height:'100%',
     alignItems: 'center',
     justifyContent:'center',
-    marginLeft:15
+    marginLeft:30
 
   },
   card: {

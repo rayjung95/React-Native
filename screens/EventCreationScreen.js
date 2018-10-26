@@ -39,7 +39,9 @@ export default class EventCreationScreen extends React.Component {
           </View>
           <View style={{ flex: 13 }}>
             <View style={{ flex: 1, alignItems: 'center', marginBottom: 15 }}>
-              <Image source={require('../assets/Icons/footer_selected.imageset/footer_selected.png')}></Image>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                <Image source={require('../assets/Icons/footer_selected.imageset/footer_selected.png')}></Image>
+              </TouchableOpacity>
             </View>
             <View style={{ flex: 15, flexDirection: 'column', backgroundColor: '#f2f3f4', borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
               <View style={{ flex: 1 }}>
