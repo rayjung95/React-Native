@@ -4,6 +4,12 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import RendevousNavigator from './navigation/RendevousNavigator'
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { reducer } from './reducers';
+import thunk from 'redux-thunk';
+
+const store = createStore(reducer, applyMiddleware(thunk));
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
@@ -20,10 +26,13 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
-          <RendevousNavigator />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
+            <RendevousNavigator />
+          </View>
+        </Provider>
+
       );
     }
   }
