@@ -6,11 +6,11 @@ import {
     ImageBackground,
     PanResponder,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
+import LocksComponent from "../components/LocksComponent";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -19,149 +19,32 @@ export default class LandingScreen extends Component {
     static navigationOptions = {
         header: null,
     };
+
     renderImage = () => {
-        // console.log(this.state.array)
         return this.state.array.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
-            }
-            else if (i === this.state.imageIndex) {
+            } else if (i === this.state.imageIndex) {
                 return (
                     <Animated.View
                         {...this.imagePanResponder.panHandlers}
                         key={i}
                         style={[this.rotateAndTranslate, styles.card]}
                     >
-                        <EventComponent/>
-
-                        <View style={styles.profile}>
-                            <Image
-                                style={{
-                                    width: 150,
-                                    height: 150,
-                                    borderWidth: 5,
-                                    borderColor: '#ffff',
-                                    borderTopLeftRadius: 100,
-                                    borderTopRightRadius: 100,
-                                    borderBottomRightRadius: 70,
-                                    borderBottomLeftRadius: 70
-                                }}
-                                resizeMode="cover"
-                                source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}
-                            />
-                        </View>
+                        <EventComponent eventHostName='Johnny'/>
                     </Animated.View>
                 )
-            }
-            else {
+            } else {
                 return (
                     <Animated.View
                         key={i}
                         style={styles.card}>
-                        <View style={styles.cardContent}>
-                            <View style={styles.cardContentChild}>
-                                <Text style={{fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
-                                <Text style={{fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
-                                <View
-                                    style={{
-                                        borderBottomColor: '#EEEEEE',
-                                        borderBottomWidth: 1,
-                                        width: '25%',
-                                        height: '5%'
-                                    }}
-                                />
-                                <Text style={{fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER
-                                    & SALSA</Text>
-                                <Text style={{fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
-                                <Text>
-                                    <Text style={{fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>WED,
-                                        7:00{' '}</Text>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 15,}}>pm</Text>
-                                </Text>
-                                <Text style={{fontFamily: 'sans-serif-thin', fontSize: 12,}}>SEPTEMBER 23</Text>
-                                <View style={{
-                                    flex: 1,
-                                    flexDirection: 'row',
-                                    width: '100%',
-                                    justifyContent: 'space-between',
-                                    marginTop: 20,
-                                    padding: 5
-                                }}>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image
-                                        style={{width: 30, height: 30}}
-                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>12 Guests</Text>
-                                    <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image
-                                        style={{width: 30, height: 30}}
-                                        source={require('../assets/Icons/away.imageset/away.png')}/>2.5 Miles
-                                        away</Text>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View style={styles.profile}>
-                            <Image
-                                style={{
-                                    width: 150,
-                                    height: 150,
-                                    borderWidth: 5,
-                                    borderColor: '#ffff',
-                                    borderTopLeftRadius: 100,
-                                    borderTopRightRadius: 100,
-                                    borderBottomRightRadius: 70,
-                                    borderBottomLeftRadius: 70
-                                }}
-                                resizeMode="cover"
-                                source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}
-                            />
-                        </View>
+                        <EventComponent eventHostName='Johnny'/>
                     </Animated.View>
                 )
             }
         }).reverse();
-    }
-
-    constructor(props) {
-        super(props);
-        this.imageXPos = new Animated.Value(0);
-        this.position = new Animated.ValueXY();
-        this.rotate = this.position.x.interpolate({
-            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-            outputRange: ['-25deg', '0deg', '25deg'],
-            extrapolate: 'clamp'
-        });
-        this.rotateAndTranslate = {
-            transform: [{
-                rotate: this.rotate
-            },
-                ...this.position.getTranslateTransform()
-            ]
-        }
-        this.unlockOpacity = this.position.x.interpolate({
-            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-            outputRange: [0, 0, 1],
-            // extrapolate: 'clamp'
-        })
-
-        this.lockOpacity = this.position.x.interpolate({
-            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-            outputRange: [1, 0, 0],
-            // extrapolate: 'clamp'
-        })
-
-        this.state = {
-            imageIndex: 0,
-            array: [
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-            ],
-            isMoving: false
-        }
-
-    }
+    };
 
     componentWillMount() {
         this.imagePanResponder = PanResponder.create({
@@ -205,6 +88,38 @@ export default class LandingScreen extends Component {
         });
     }
 
+    constructor(props) {
+        super(props);
+        this.imageXPos = new Animated.Value(0);
+        this.position = new Animated.ValueXY();
+        this.rotate = this.position.x.interpolate({
+            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+            outputRange: ['-25deg', '0deg', '25deg'],
+            extrapolate: 'clamp'
+        });
+        this.rotateAndTranslate = {
+            transform: [{
+                rotate: this.rotate
+            },
+                ...this.position.getTranslateTransform()
+            ]
+        };
+
+        this.state = {
+            imageIndex: 0,
+            array: [
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+            ],
+            isMoving: false
+        }
+
+    }
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -226,36 +141,8 @@ export default class LandingScreen extends Component {
                 </View>
 
                 {this.renderImage()}
-                {this.state.isMoving ?
-                    <View style={styles.chooseButton}>
-                        <Animated.View style={{
-                            opacity: this.lockOpacity,
-                            width: SCREEN_HEIGHT * 0.1,
-                            height: SCREEN_HEIGHT * 0.1
-                        }}>
-                            <Image style={styles.lockImage}
-                                   source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')}/>
-                        </Animated.View>
-                        <Animated.View style={{
-                            opacity: this.unlockOpacity,
-                            width: SCREEN_HEIGHT * 0.1,
-                            height: SCREEN_HEIGHT * 0.1
-                        }}>
-                            <Image style={styles.lockImage}
-                                   source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')}/>
-                        </Animated.View>
-                    </View>
-                    :
-                    <View style={styles.chooseButton}>
-                        <Animated.View style={{width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
-                            <Image style={styles.lockImage} source={require('../assets/Icons/lock.imageset/lock.png')}/>
-                        </Animated.View>
-                        <Animated.View style={{width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1}}>
-                            <Image style={styles.lockImage}
-                                   source={require('../assets/Icons/unlock.imageset/unlock.png')}/>
-                        </Animated.View>
-                    </View>
-                }
+                <LocksComponent isMoving={this.state.isMoving} position={this.position}/>
+
                 <View style={styles.footer}>
                     <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')}/>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventCreation')}>
@@ -320,44 +207,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: SCREEN_HEIGHT / 2 - 400 / 2,
         // backgroundColor:'green'
-    },
-    cardContent: {
-        backgroundColor: '#ffff',
-        width: '100%',
-        height: '87%',
-        marginTop: "15%",
-        borderRadius: 10,
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    cardContentChild: {
-        width: '93%',
-        height: '70%',
-        marginTop: '30%',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        // backgroundColor:'pink'
-    },
-    profile: {
-        width: SCREEN_WIDTH * 0.397,
-        height: SCREEN_HEIGHT * 0.223,
-        position: 'absolute',
-        left: SCREEN_WIDTH * 0.884 / 2 - (SCREEN_WIDTH * 0.397 / 2),
-        top: 0
-    },
-    chooseButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginBottom: SCREEN_HEIGHT * 0.0621118
-        // height: 80,
-        // marginTop:470
-    },
-    lockImage: {
-        width: '100%',
-        height: '100%',
-        // marginBottom:30
     },
     footer: {
         width: SCREEN_WIDTH * 0.0761326,
