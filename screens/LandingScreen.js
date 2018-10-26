@@ -11,11 +11,13 @@ import {
     View
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
+import { connect } from 'react-redux'
+
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-export default class LandingScreen extends Component {
+class LandingScreen extends Component {
     static navigationOptions = {
         header: null,
     };
@@ -377,3 +379,11 @@ const styles = StyleSheet.create({
         height: SCREEN_WIDTH * 0.058
     }
 });
+
+export const mapFromStoreToProps = (store) => {
+    return {
+        loading: store.loading
+    }
+  }
+  
+export default connect(mapFromStoreToProps, null)(LandingScreen)
