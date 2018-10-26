@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Switch, Slider, Picker, Text, View, Image, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, Switch, Slider, Picker, Text, View, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
@@ -113,10 +113,13 @@ export default class LoginScreen extends Component {
                         }} />
                     </View> */}
                     <Text style={styles.policy}>{`By continuing you agree to our\nTerms of Service and Privacy Policy`}</Text>
-                    <View style={styles.loginButton}>
-                        <Image style={{width: 28, height: 28}} source={require('../assets/images/fb-logo.png')}/>
-                        <Text style={styles.loginWFb}>Log in with Facebook</Text>
-                    </View>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
+                        <View style={styles.loginButton}>
+                            <Image style={{width: 28, height: 28}} source={require('../assets/images/fb-logo.png')}/>
+                            <Text style={styles.loginWFb}>Log in with Facebook</Text>
+                        </View>
+                    </TouchableOpacity>
+
                     <Text style={styles.policy}>Enterprise Signup and Login</Text>
                 </View>
             </ImageBackground>
