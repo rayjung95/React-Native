@@ -12,5 +12,6 @@ export default createStackNavigator({
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,
     ProfileSetting: UserSettingScreen,
+    Landing: LandingScreen,
     Guest: GuestConfirmationScreen
 })
