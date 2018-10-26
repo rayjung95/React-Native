@@ -1,7 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, ImageBackground, Button, Alert, TouchableOpacity, TextInput } from 'react-native';
+import {
+    Alert,
+    Image,
+    ImageBackground,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import DateTimeComponent from '../components/DateTimeComponent';
-import { Icon } from 'react-native-elements'
+import {Icon} from 'react-native-elements'
 
 
 export default class EventCreationScreen extends React.Component {
@@ -39,9 +49,9 @@ export default class EventCreationScreen extends React.Component {
           </View>
           <View style={{ flex: 13 }}>
             <View style={{ flex: 1, alignItems: 'center', marginBottom: 15 }}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
-                <Image source={require('../assets/Icons/footer_selected.imageset/footer_selected.png')}></Image>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                    <Image source={require('../assets/Icons/footer_selected.imageset/footer_selected.png')}></Image>
+                </TouchableOpacity>
             </View>
             <View style={{ flex: 15, flexDirection: 'column', backgroundColor: '#f2f3f4', borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
               <View style={{ flex: 1 }}>
