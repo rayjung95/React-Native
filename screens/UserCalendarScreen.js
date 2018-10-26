@@ -24,21 +24,23 @@ export default class UserCalendarScreen extends Component {
                 </View>
 
                 <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
-                    <View style={styles.notifBox}>
-                        <Text style={styles.notifText}>
-                            <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>
-                            <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
-                        </Text>
-                        <View style={styles.notifIcons}>
-                            <View style={styles.notifNum}>
-                                <Text style={{color: 'white'}}> 2 </Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')}>
+                        <View style={styles.notifBox}>
+                            <Text style={styles.notifText}>
+                                <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>
+                                <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
+                            </Text>
+                            <View style={styles.notifIcons}>
+                                <View style={styles.notifNum}>
+                                    <Text style={{color: 'white'}}> 2 </Text>
+                                </View>
+                                <Image
+                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
+                                    style={{zIndex: 10, height: 15, width: 15}}
+                                />
                             </View>
-                            <Image
-                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
-                                style={{zIndex: 10, height: 15, width: 15}}
-                            />
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={styles.notifBox}>
                         <Text style={styles.notifText}>

@@ -228,7 +228,9 @@ export default class LandingScreen extends Component {
         }
         <View style={styles.footer}>
           <Image style={styles.footerUpArrowImage}  source={require('../assets/Icons/up_arrow/up_arrow.png')} />
-          <Image style={styles.footerImage}  source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('EventCreation')}>
+            <Image style={styles.footerImage}  source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
+          </TouchableOpacity>
         </View>
 
       </ImageBackground>
