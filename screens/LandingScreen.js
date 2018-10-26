@@ -52,12 +52,6 @@ export default class LandingScreen extends Component {
 
   }
 
-  toggleLock = () => {
-    this.setState({
-      isMoving: !this.state.isMoving
-    })
-  }
-
   componentWillMount() {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -213,7 +207,7 @@ export default class LandingScreen extends Component {
         </View>
 
         {this.renderImage()}
-        {this.state.isMoving ? 
+        {this.state.isMoving ?
         <View style={styles.chooseButton}>
           <Animated.View style={{opacity: this.lockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />

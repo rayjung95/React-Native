@@ -8,10 +8,11 @@ import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 
 
 export default createStackNavigator({
+    Guest: GuestConfirmationScreen,
     Login: LoginScreen,
     Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,
     ProfileSetting: UserSettingScreen,
-    Guest: GuestConfirmationScreen
+    
 })
