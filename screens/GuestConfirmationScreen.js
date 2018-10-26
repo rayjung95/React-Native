@@ -46,7 +46,8 @@ export default class GuestConfirmationScreen extends Component {
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
         {'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png')},
-      ]
+      ],
+      isMoving: false
     }
 
   }
@@ -55,12 +56,14 @@ export default class GuestConfirmationScreen extends Component {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (evt, gs) => {
+        this.setState({isMoving:true})
         // console.log('MOVING', gs.dx, gs.dy)
         // this.imageXPos.setValue(gs.dx)
         this.position.setValue({x: gs.dx, y: gs.dy})
       },
       onPanResponderRelease: (evt, gs) => {
         console.log('RELEASED');
+        this.setState({isMoving:false})
         if (gs.dx>120) {
           Animated.spring(this.position, {
             toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
@@ -111,27 +114,6 @@ export default class GuestConfirmationScreen extends Component {
         } 
         else {
           return (
-            // <Animated.View
-            //   key={i}
-            //   style={styles.card}>
-            //   <View style={styles.cardContent}>
-            //     <View style={styles.cardContentChild}>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
-            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
-            //       <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
-            //       <Text>
-            //         <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>WED, 7:00{' '}</Text>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>pm</Text>
-            //       </Text>
-            //       <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 12,}}>SEPTEMBER 23</Text>
-            //       <View style={{flex:1 ,flexDirection: 'row', width:'100%' , justifyContent: 'space-between', marginTop: 20, padding: 5}}>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
-            //         <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13,}}><Image style={{width:30, height:30}} source={require('../assets/Icons/away.imageset/away.png')} />2.5 Miles away</Text>
-            //       </View>
-            //     </View>
-            //   </View>
-            // </Animated.View>
             <Animated.View
               key={i}
               style={styles.card}
@@ -162,16 +144,28 @@ export default class GuestConfirmationScreen extends Component {
         </View>
 
         {this.renderImage()}
+        {this.state.isMoving ?
         <View style={styles.chooseButton}>
-          <Animated.View style={{opacity: this.lockOpacity, width: 80, height: 80 }}>
+          <Animated.View style={{opacity: this.lockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
           </Animated.View>
-          <Animated.View style={{opacity: this.unlockOpacity, width: 80, height: 80 }}>
+          <Animated.View style={{opacity: this.unlockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
           </Animated.View>
         </View>
-        <View>
-          <Image style={styles.footerImage}  source={require('../assets/Icons/note-filled-square-with-a-pencil/note-filled-square-with-a-pencil.png')} />
+        :
+        <View style={styles.chooseButton}>
+          <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
+            <Image style={styles.lockImage} source={require('../assets/Icons/lock.imageset/lock.png')} />
+          </Animated.View>
+          <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
+            <Image style={styles.lockImage} source={require('../assets/Icons/unlock.imageset/unlock.png')} /> 
+          </Animated.View>
+        </View>
+        }
+        <View style={styles.footer}>
+          <Image style={styles.footerUpArrowImage}  source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+          <Image style={styles.footerImage}  source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
         </View>
 
       </ImageBackground>
@@ -213,15 +207,15 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    width:SCREEN_WIDTH*0.85, 
-    height:SCREEN_HEIGHT*0.5, 
+    width:SCREEN_WIDTH * 0.8618, 
+    height:SCREEN_HEIGHT*0.5217, 
     borderRadius: 5, 
     flexDirection: 'column',
     justifyContent: 'space-around', 
     alignItems: 'center',
     position:'absolute', 
-    bottom: SCREEN_HEIGHT/2 - 400/2,
-    backgroundColor:'#ffff', 
+    bottom: SCREEN_HEIGHT/2 - SCREEN_HEIGHT*0.5217/2,
+    backgroundColor:'#ffff',
   },
   cardContentChild: {
     width:300, 
@@ -241,20 +235,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    height: 90,
-    marginTop:470
+    marginBottom: SCREEN_HEIGHT * 0.0621118
   },
   lockImage: {
-    width: 80,
-    height: 80,
+    width: '100%',
+    height: '100%',
   },
   footer: {
+    width: SCREEN_WIDTH * 0.0761326,
+    height: SCREEN_WIDTH * 0.116,
+    flexDirection: 'column', 
     alignItems: 'center',
-    marginTop:6
+    justifyContent: 'space-between',
+    position: 'absolute',
+    // backgroundColor: 'aqua',
+    marginTop: SCREEN_HEIGHT * 0.89914286
+  },
+  footerUpArrowImage: {
+    width: SCREEN_WIDTH * 0.0761326
   },
   footerImage: {
-    width: 32,
-    height: 32,
-    marginBottom:30
-  },
+    width: SCREEN_WIDTH * 0.058,
+    height: SCREEN_WIDTH * 0.058
+  }
 });
