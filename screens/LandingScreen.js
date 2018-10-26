@@ -46,21 +46,30 @@ export default class LandingScreen extends Component {
         {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
         {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
         {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-      ]
+      ],
+      isMoving: false
     }
 
+  }
+
+  toggleLock = () => {
+    this.setState({
+      isMoving: !this.state.isMoving
+    })
   }
 
   componentWillMount() {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (evt, gs) => {
+        this.setState({isMoving:true})
         // console.log('MOVING', gs.dx, gs.dy)
         // this.imageXPos.setValue(gs.dx)
         this.position.setValue({x: gs.dx, y: gs.dy})
       },
       onPanResponderRelease: (evt, gs) => {
         console.log('RELEASED');
+        this.setState({isMoving:false})
         if (gs.dx>120) {
           Animated.spring(this.position, {
             toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
@@ -108,6 +117,14 @@ export default class LandingScreen extends Component {
                 <View style={styles.cardContentChild}>
                   <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
                   <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
+                  <View
+                    style={{
+                      borderBottomColor: '#EEEEEE',
+                      borderBottomWidth: 1,
+                      width: '25%',
+                      height:'5%'
+                    }}
+                  />
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
                   <Text>
@@ -141,6 +158,14 @@ export default class LandingScreen extends Component {
                 <View style={styles.cardContentChild}>
                   <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20,}}>Johony</Text>
                   <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15,}}>Host</Text>
+                  <View
+                    style={{
+                      borderBottomColor: '#EEEEEE',
+                      borderBottomWidth: 1,
+                      width: '25%',
+                      height:'5%'
+                    }}
+                  />
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30}}>POCKER & SALSA</Text>
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold'}}>PARTY</Text>
                   <Text>
@@ -155,7 +180,7 @@ export default class LandingScreen extends Component {
                 </View>
               </View>
 
-              <View style={{width:150, height:150, position:'absolute', left: 150-(150/2), top:0}}>
+              <View style={styles.profile}>
                 <Image
                   style={{width:150, height:150, borderWidth: 5, borderColor: '#ffff' , borderTopLeftRadius: 100, borderTopRightRadius: 100, borderBottomRightRadius: 70, borderBottomLeftRadius: 70}}
                   resizeMode="cover"
@@ -188,16 +213,28 @@ export default class LandingScreen extends Component {
         </View>
 
         {this.renderImage()}
+        {this.state.isMoving ? 
         <View style={styles.chooseButton}>
-          <Animated.View style={{opacity: this.lockOpacity, width: 80, height: 80 }}>
+          <Animated.View style={{opacity: this.lockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
           </Animated.View>
-          <Animated.View style={{opacity: this.unlockOpacity, width: 80, height: 80 }}>
+          <Animated.View style={{opacity: this.unlockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
             <Image style={styles.lockImage} source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} /> 
           </Animated.View>
         </View>
-        <View>
-          <Image style={styles.footerImage}  source={require('../assets/Icons/footer.imageset/footer.png')} />
+        :
+        <View style={styles.chooseButton}>
+          <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
+            <Image style={styles.lockImage} source={require('../assets/Icons/lock.imageset/lock.png')} />
+          </Animated.View>
+          <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
+            <Image style={styles.lockImage} source={require('../assets/Icons/unlock.imageset/unlock.png')} /> 
+          </Animated.View>
+        </View>
+        }
+        <View style={styles.footer}>
+          <Image style={styles.footerUpArrowImage}  source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+          <Image style={styles.footerImage}  source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
         </View>
 
       </ImageBackground>
@@ -248,43 +285,47 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   card: {
-    width:300, 
-    height:400, 
+    width:SCREEN_WIDTH * 0.884, 
+    height:SCREEN_HEIGHT * 0.619, 
     borderRadius: 10, 
     flexDirection: 'column', 
     justifyContent: 'space-between', 
     position:'absolute', 
-    bottom: SCREEN_HEIGHT/2 - 400/2
+    bottom: SCREEN_HEIGHT/2 - 400/2,
+    // backgroundColor:'green'
   },
   cardContent: {
     backgroundColor:'#ffff', 
-    width:300, 
-    height:350, 
-    marginTop:50, 
+    width:'100%', 
+    height:'87%', 
+    marginTop:"15%", 
     borderRadius: 10, 
     flexDirection: 'column', 
     alignItems: 'center'
   },
   cardContentChild: {
-    width:300, 
-    height:250, 
-    marginTop: 100,
+    width:'93%', 
+    height:'70%',
+    marginTop: '30%',
     flexDirection: 'column', 
-    alignItems: 'center'
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    // backgroundColor:'pink'
   },
   profile:{
-    width:150, 
-    height:150, 
+    width:SCREEN_WIDTH * 0.397, 
+    height: SCREEN_HEIGHT * 0.223, 
     position:'absolute', 
-    left: 150-(150/2), 
+    left: SCREEN_WIDTH * 0.884 / 2 - (SCREEN_WIDTH * 0.397 / 2 ),
     top:0
   },
   chooseButton: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    height: 80,
-    marginTop:470
+    marginBottom: SCREEN_HEIGHT * 0.0621118
+    // height: 80,
+    // marginTop:470
   },
   lockImage: {
     width: '100%',
@@ -292,11 +333,20 @@ const styles = StyleSheet.create({
     // marginBottom:30
   },
   footer: {
+    width: SCREEN_WIDTH * 0.0761326,
+    height: SCREEN_WIDTH * 0.116,
+    flexDirection: 'column', 
     alignItems: 'center',
-    marginTop:6
+    justifyContent: 'space-between',
+    position: 'absolute',
+    // backgroundColor: 'aqua',
+    marginTop: SCREEN_HEIGHT * 0.89914286
+  },
+  footerUpArrowImage: {
+    width: SCREEN_WIDTH * 0.0761326
   },
   footerImage: {
-    width: 45,
-    height: 45
-  },
+    width: SCREEN_WIDTH * 0.058,
+    height: SCREEN_WIDTH * 0.058
+  }
 });
