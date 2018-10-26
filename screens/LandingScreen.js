@@ -12,8 +12,8 @@ import {
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
-const SCREEN_WIDTH = Dimensions.get('window').width
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default class LandingScreen extends Component {
     static navigationOptions = {
@@ -31,7 +31,7 @@ export default class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.card]}
                     >
-                        <EventComponent eventHostName='Johnny'/>
+                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
                     </Animated.View>
                 )
             } else {
@@ -39,7 +39,7 @@ export default class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.card}>
-                        <EventComponent eventHostName='Johnny'/>
+                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
                     </Animated.View>
                 )
             }

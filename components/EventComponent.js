@@ -16,7 +16,8 @@ export default class EventComponent extends Component {
             eventDate: 'SEPTEMBER 23',
             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
             guestNums: 12,
-            eventAway: 2.5
+            eventAway: 2.5,
+            eventConfirmed: props.eventConfirmed
         };
 
     }
@@ -24,6 +25,7 @@ export default class EventComponent extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             eventHostName: nextProps.eventHostName,
+            eventConfirmed: nextProps.eventConfirmed
         });
     }
 
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
         marginTop: "15%",
         borderRadius: 10,
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'space-between'
     },
     cardContentChild: {
         width: '93%',
