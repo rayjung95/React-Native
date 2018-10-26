@@ -68,11 +68,11 @@ export default class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
           }).start(()=>{
+            this.position.setValue({x: 0, y: 0})
             this.setState({
               imageIndex: this.state.imageIndex + 1
-            }, () => {
-              this.position.setValue({x: 0, y: 0})
             })
+            
           })
         } else if (gs.dx < -120) {
           Animated.spring(this.position, {
