@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView} from 'react-native';
+import React, {Component} from 'react';
+import {Dimensions, Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 
 import Slider from 'react-native-slider';
 
@@ -10,7 +9,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default class SettingsComponent extends Component {
 	static navigationOptions = {
-        title: 'app.json',
+        header: null,
     };
     static defaultProps = {
         distance: 1,
@@ -18,7 +17,7 @@ export default class SettingsComponent extends Component {
         max: 100,
         step: 1,
         name: 'Zac',
-    }
+    };
 
     constructor(props) {
         super(props);
