@@ -110,15 +110,17 @@ const styles = StyleSheet.create({
         marginTop: "15%",
         borderRadius: 10,
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor:'pink'
     },
     cardContentChild: {
         width: '93%',
-        height: '70%',
-        marginTop: '30%',
+        height: '80%',
+        marginTop: '20%',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor:'aqua'
     },
     profile: {
         width: SCREEN_WIDTH * 0.397,

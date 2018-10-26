@@ -91,8 +91,7 @@ class LandingScreen extends Component {
                     source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
                   <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13, }}><Image
                     style={{ width: 30, height: 30 }}
-                    source={require('../assets/Icons/away.imageset/away.png')} />2.5 Miles
-                                        away</Text>
+                    source={require('../assets/Icons/away.imageset/away.png')} />2.5 Milesaway</Text>
                 </View>
               </View>
             </View>
@@ -327,16 +326,17 @@ const styles = StyleSheet.create({
     marginTop: "15%",
     borderRadius: 10,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    // backgroundColor:'pink'
   },
   cardContentChild: {
     width: '93%',
-    height: '70%',
-    marginTop: '30%',
+    height: '80%',
+    marginTop: '28%',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor:'pink'
+    // backgroundColor:'aqua'
   },
   profile: {
     width: Layout.window.width * 0.397,
