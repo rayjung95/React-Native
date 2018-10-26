@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'absolute',
-        bottom: SCREEN_HEIGHT / 2 - 400 / 2,
+        top: SCREEN_HEIGHT / 2 - 400 / 2,
         // backgroundColor:'green'
     },
     footer: {

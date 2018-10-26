@@ -223,7 +223,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%'
+        width: '100%',
+        marginTop: SCREEN_HEIGHT * 0.0375
     },
     icon: {
         width: 20,
