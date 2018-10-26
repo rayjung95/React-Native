@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import LocksComponent from "../components/LocksComponent";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -19,10 +20,39 @@ export default class GuestConfirmationScreen extends Component {
   static navigationOptions = {
     header: null,
   };
+  renderImage = () => {
+    return this.state.array.map((item, i) => {
+      if (i < this.state.imageIndex) {
+        return null
+      }
+      else if (i === this.state.imageIndex) {
+        return (
+          <Animated.View
+            {...this.imagePanResponder.panHandlers}
+            key={i}
+            style={[this.rotateAndTranslate, styles.card]}
+          >
+            <Image source={item.img} />
+            <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
+          </Animated.View>
+        )
+      }
+      else {
+        return (
+          <Animated.View
+            key={i}
+            style={styles.card}
+          >
+            <Image source={item.img} />
+            <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
+          </Animated.View>
+        )
+      }
+    }).reverse();
+  }
 
   constructor(props) {
     super(props);
-    this.imageXPos = new Animated.Value(0);
     this.position = new Animated.ValueXY();
     this.rotate = this.position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
@@ -35,18 +65,7 @@ export default class GuestConfirmationScreen extends Component {
       },
       ...this.position.getTranslateTransform()
       ]
-    }
-    this.unlockOpacity = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-      outputRange: [0, 0.1, 1],
-      // extrapolate: 'clamp'
-    })
-
-    this.lockOpacity = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-      outputRange: [1, 0.1, 0],
-      // extrapolate: 'clamp'
-    })
+    };
 
     this.state = {
       imageIndex: 0,
@@ -105,38 +124,6 @@ export default class GuestConfirmationScreen extends Component {
     });
   }
 
-  renderImage = () => {
-    // console.log(this.state.array)
-    return this.state.array.map((item, i) => {
-      if (i < this.state.imageIndex) {
-        return null
-      }
-      else if (i === this.state.imageIndex) {
-        return (
-          <Animated.View
-            {...this.imagePanResponder.panHandlers}
-            key={i}
-            style={[this.rotateAndTranslate, styles.card]}
-          >
-            <Image source={item.img} />
-            <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
-          </Animated.View>
-        )
-      }
-      else {
-        return (
-          <Animated.View
-            key={i}
-            style={styles.card}
-          >
-            <Image source={item.img} />
-            <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
-          </Animated.View>
-        )
-      }
-    }).reverse();
-  }
-
   render() {
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -164,29 +151,8 @@ export default class GuestConfirmationScreen extends Component {
         </View>
 
         {this.renderImage()}
-        {this.state.isMoving ?
-          <View style={styles.chooseButton}>
-            <Animated.View
-              style={{ opacity: this.lockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
-              <Image style={styles.lockImage}
-                source={require('../assets/Icons/lock_highlight.imageset/lock_highlight.png')} />
-            </Animated.View>
-            <Animated.View
-              style={{ opacity: this.unlockOpacity, width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
-              <Image style={styles.lockImage}
-                source={require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png')} />
-            </Animated.View>
-          </View>
-          :
-          <View style={styles.chooseButton}>
-            <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
-              <Image style={styles.lockImage} source={require('../assets/Icons/lock.imageset/lock.png')} />
-            </Animated.View>
-            <Animated.View style={{ width: SCREEN_HEIGHT * 0.1, height: SCREEN_HEIGHT * 0.1 }}>
-              <Image style={styles.lockImage} source={require('../assets/Icons/unlock.imageset/unlock.png')} />
-            </Animated.View>
-          </View>
-        }
+        <LocksComponent isMoving={this.state.isMoving} position={this.position} />
+
         <View style={styles.footer}>
           <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
           <Image style={styles.footerImage}

@@ -1,17 +1,13 @@
 import React, {Component} from 'react'
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import Layout from '../constants/Layout'
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
-const guestIcon = '../assets/Icons/guest.imageset/guest.png';
-const awayIcon = '../assets/Icons/away.imageset/away.png';
 
 export default class EventComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventHostName: 'Johny',
+            eventHostName: props.eventHostName,
             eventTitle: 'POCKER & SALSA',
             eventType: 'Party',
             eventDay: 'WED',
@@ -20,7 +16,14 @@ export default class EventComponent extends Component {
             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
             guestNums: 12,
             eventAway: 2.5
-        }
+        };
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            eventHostName: nextProps.eventHostName,
+        });
     }
 
     render() {
@@ -123,10 +126,10 @@ const styles = StyleSheet.create({
         // backgroundColor:'aqua'
     },
     profile: {
-        width: SCREEN_WIDTH * 0.397,
-        height: SCREEN_HEIGHT * 0.223,
+        width: Layout.window.width * 0.397,
+        height: Layout.window.height * 0.223,
         position: 'absolute',
-        left: SCREEN_WIDTH * 0.884 / 2 - (SCREEN_WIDTH * 0.397 / 2),
+        left: Layout.window.width * 0.884 / 2 - (Layout.window.width * 0.397 / 2),
         top: 0
     }
 });

@@ -18,105 +18,32 @@ class LandingScreen extends Component {
   static navigationOptions = {
     header: null,
   };
+  
   renderImage = () => {
-    // console.log(this.state.array)
     return this.state.array.map((item, i) => {
-      if (i < this.state.imageIndex) {
-        return null
-      }
-      else if (i === this.state.imageIndex) {
-        return (
-          <Animated.View
-            {...this.imagePanResponder.panHandlers}
-            key={i}
-            style={[this.rotateAndTranslate, styles.card]}
-          >
-            <EventComponent />
-
-            <View style={styles.profile}>
-              <Image
-                style={{
-                  width: 150,
-                  height: 150,
-                  borderWidth: 5,
-                  borderColor: '#ffff',
-                  borderTopLeftRadius: 100,
-                  borderTopRightRadius: 100,
-                  borderBottomRightRadius: 70,
-                  borderBottomLeftRadius: 70
-                }}
-                resizeMode="cover"
-                source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}
-              />
-            </View>
-          </Animated.View>
-        )
-      }
-      else {
-        return (
-          <Animated.View
-            key={i}
-            style={styles.card}>
-            <View style={styles.cardContent}>
-              <View style={styles.cardContentChild}>
-                <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 20, }}>Johony</Text>
-                <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15, }}>Host</Text>
-                <View
-                  style={{
-                    borderBottomColor: '#EEEEEE',
-                    borderBottomWidth: 1,
-                    width: '25%',
-                    height: '5%'
-                  }}
-                />
-                <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold', marginTop: 30 }}>POCKER
-                                    & SALSA</Text>
-                <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold' }}>PARTY</Text>
-                <Text>
-                  <Text style={{ fontFamily: 'Roboto', fontSize: 25, fontWeight: 'bold' }}>WED,
-                                        7:00{' '}</Text>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 15, }}>pm</Text>
-                </Text>
-                <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 12, }}>SEPTEMBER 23</Text>
-                <View style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  marginTop: 20,
-                  padding: 5
-                }}>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13, }}><Image
-                    style={{ width: 30, height: 30 }}
-                    source={require('../assets/Icons/guest.imageset/guest.png')} />12 Guests</Text>
-                  <Text style={{ fontFamily: 'sans-serif-thin', fontSize: 13, }}><Image
-                    style={{ width: 30, height: 30 }}
-                    source={require('../assets/Icons/away.imageset/away.png')} />2.5 Milesaway</Text>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.profile}>
-              <Image
-                style={{
-                  width: 150,
-                  height: 150,
-                  borderWidth: 5,
-                  borderColor: '#ffff',
-                  borderTopLeftRadius: 100,
-                  borderTopRightRadius: 100,
-                  borderBottomRightRadius: 70,
-                  borderBottomLeftRadius: 70
-                }}
-                resizeMode="cover"
-                source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}
-              />
-            </View>
-          </Animated.View>
-        )
-      }
+        if (i < this.state.imageIndex) {
+            return null
+        } else if (i === this.state.imageIndex) {
+            return (
+                <Animated.View
+                    {...this.imagePanResponder.panHandlers}
+                    key={i}
+                    style={[this.rotateAndTranslate, styles.card]}
+                >
+                    <EventComponent eventHostName='Johnny'/>
+                </Animated.View>
+            )
+        } else {
+            return (
+                <Animated.View
+                    key={i}
+                    style={styles.card}>
+                    <EventComponent eventHostName='Johnny'/>
+                </Animated.View>
+            )
+        }
     }).reverse();
-  }
+};
 
   constructor(props) {
     super(props);
@@ -261,7 +188,6 @@ class LandingScreen extends Component {
               source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
           </TouchableOpacity>
         </View>
-
       </ImageBackground>
 
     )
