@@ -4,14 +4,11 @@ import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const guestIcon = '../assets/Icons/guest.imageset/guest.png';
-const awayIcon = '../assets/Icons/away.imageset/away.png';
-
 export default class EventComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventHostName: 'Johny',
+            eventHostName: props.eventHostName,
             eventTitle: 'POCKER & SALSA',
             eventType: 'Party',
             eventDay: 'WED',
@@ -20,7 +17,14 @@ export default class EventComponent extends Component {
             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
             guestNums: 12,
             eventAway: 2.5
-        }
+        };
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            eventHostName: nextProps.eventHostName,
+        });
     }
 
     render() {
