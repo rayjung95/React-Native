@@ -60,7 +60,7 @@ export default class UserCalendarScreen extends Component {
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
@@ -68,21 +68,21 @@ export default class UserCalendarScreen extends Component {
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
                 </ScrollView>
