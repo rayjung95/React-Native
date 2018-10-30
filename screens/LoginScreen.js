@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Switch, swiper, Picker, Text, View, Image, ImageBackground, Dimensions, StatusBar } from 'react-native';
+import { StyleSheet, Switch, swiper, Picker, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 
@@ -36,10 +36,12 @@ export default class LoginScreen extends Component {
                         </Swiper>
                     </View>
                     <Text style={styles.policy}>{`By continuing you agree to our\nTerms of Service and Privacy Policy`}</Text>
-                    <View style={styles.loginButton}>
-                        <Image style={styles.fbLogo} source={require('../assets/images/fb-logo.png')} />
-                        <Text style={styles.loginWFb}>Log in with Facebook</Text>
-                    </View>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
+                        <View style={styles.loginButton}>
+                            <Image style={styles.fbLogo} source={require('../assets/images/fb-logo.png')} />
+                            <Text style={styles.loginWFb}>Log in with Facebook</Text>
+                        </View>
+                    </TouchableOpacity>
                     <Text style={styles.policy}>Enterprise Signup and Login</Text>
                 </View>
             </ImageBackground>
@@ -125,7 +127,6 @@ const styles = StyleSheet.create({
         height: 28,
     },
     loginWFb: {
-        width: '67%',
         fontFamily: 'Roboto',
         fontSize: height / 30,
         color: 'white',

@@ -21,7 +21,7 @@ export default class SettingsComponent extends Component {
 	}
 
 	static navigationOptions = {
-		title: 'app.json',
+		title: 'Profile Settings',
 	};
 
 	static defaultProps = {
