@@ -29,7 +29,7 @@ export default class GuestConfirmationScreen extends Component {
                     <Animated.View
                         {...this.imagePanResponder.panHandlers}
                         key={i}
-                        style={[this.rotateAndTranslate, styles.card]}
+                        style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <Image source={item.img}/>
                         <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
@@ -40,7 +40,7 @@ export default class GuestConfirmationScreen extends Component {
                 return (
                     <Animated.View
                         key={i}
-                        style={styles.card}
+                        style={styles.cardContainer}
                     >
                         <Image source={item.img}/>
                         <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         marginLeft: 30
 
     },
-    card: {
+    cardContainer: {
         width: SCREEN_WIDTH * 0.8618,
         height: SCREEN_HEIGHT * 0.5217,
         borderRadius: 5,
@@ -208,30 +208,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT * 0.5217 / 2,
         backgroundColor: '#ffff',
-    },
-    cardContentChild: {
-        width: 300,
-        height: 250,
-        marginTop: 100,
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    profile: {
-        width: 150,
-        height: 150,
-        position: 'absolute',
-        left: 150 - (150 / 2),
-        top: 0
-    },
-    chooseButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginBottom: SCREEN_HEIGHT * 0.0621118
-    },
-    lockImage: {
-        width: '100%',
-        height: '100%',
     },
     footer: {
         width: SCREEN_WIDTH * 0.0761326,

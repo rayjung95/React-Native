@@ -29,7 +29,7 @@ export default class LandingScreen extends Component {
                     <Animated.View
                         {...this.imagePanResponder.panHandlers}
                         key={i}
-                        style={[this.rotateAndTranslate, styles.card]}
+                        style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
                     </Animated.View>
@@ -38,7 +38,7 @@ export default class LandingScreen extends Component {
                 return (
                     <Animated.View
                         key={i}
-                        style={styles.card}>
+                        style={styles.cardContainer}>
                         <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
                     </Animated.View>
                 )
@@ -198,15 +198,15 @@ const styles = StyleSheet.create({
         // backgroundColor:'aqua',
         marginRight: 15
     },
-    card: {
-        width: SCREEN_WIDTH * 0.884,
-        height: SCREEN_HEIGHT * 0.619,
-        borderRadius: 10,
+    cardContainer: {
+        width: SCREEN_WIDTH * 0.8722,
+        height: SCREEN_HEIGHT * 0.6234375,
+        borderRadius: 50,
         flexDirection: 'column',
         justifyContent: 'space-between',
+        alignItems: 'center',
         position: 'absolute',
-        top: SCREEN_HEIGHT / 2 - 400 / 2,
-        // backgroundColor:'green'
+        bottom: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT * 0.5217 / 2,
     },
     footer: {
         width: SCREEN_WIDTH * 0.0761326,
@@ -215,7 +215,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'absolute',
-        // backgroundColor: 'aqua',
         marginTop: SCREEN_HEIGHT * 0.89914286
     },
     footerUpArrowImage: {
