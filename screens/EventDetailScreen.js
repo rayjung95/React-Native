@@ -29,7 +29,7 @@ export default class EventDetailsScreen extends Component {
                         {/*<View style={styles.profilePicContentContainer}>*/}
                         <View style={styles.profileContainer}>
                             <Image
-                                source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                source={require('../assets/Icons/account.imageset/account.png')}
                                 style={{marginRight: -40, zIndex: 1}}
                             />
                             <Image
