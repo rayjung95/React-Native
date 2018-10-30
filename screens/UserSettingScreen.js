@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 
 import Slider from 'react-native-slider';
+import Layout from "../constants/Layout";
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 
 export default class SettingsComponent extends Component {

@@ -1,19 +1,11 @@
 import React, {Component} from 'react'
-import {
-    Animated,
-    Dimensions,
-    Image,
-    ImageBackground,
-    PanResponder,
-    StyleSheet,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import {Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View} from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
+import Layout from "../constants/Layout";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class LandingScreen extends Component {
     static navigationOptions = {

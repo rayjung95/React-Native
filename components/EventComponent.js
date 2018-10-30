@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import Layout from "../constants/Layout";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 const PICTURES_PATH = "../assets/Pngs/";
 
 export default class EventComponent extends Component {

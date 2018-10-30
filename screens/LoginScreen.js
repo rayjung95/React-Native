@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Switch, Slider, Picker, Text, View, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native';
+import React, {Component} from 'react';
+import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swiper from 'react-native-swiper';
+import Layout from "../constants/Layout";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
-const SCREEN_WIDTH = Dimensions.get('window').width
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class LoginScreen extends Component {
     static navigationOptions = {
