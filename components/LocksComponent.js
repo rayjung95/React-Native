@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Animated, Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Animated, Image, StyleSheet, View} from 'react-native';
+import Layout from "../constants/Layout";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class LocksComponent extends Component {
 

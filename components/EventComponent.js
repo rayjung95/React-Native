@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import Layout from "../constants/Layout";
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 const PICTURES_PATH = "../assets/Pngs/";
 
 export default class EventComponent extends Component {
@@ -34,19 +35,30 @@ export default class EventComponent extends Component {
         return (
             <View>
                 <View style={styles.cardHeader}>
-                    <View style={styles.hostPicContainer}>
-                        {/*<View style={styles.notifStatus1}>*/}
-                        {/*<Text style={{color: 'white'}}>Updated</Text>*/}
-                        {/*</View>*/}
-                        <Image
-                            source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
-                            style={styles.hostPic}
-                            resizeMode="cover"
-                        />
-                        {/*<View style={styles.notifStatus2}>*/}
-                        {/*<Text style={{color: 'white'}}>Confirm</Text>*/}
-                        {/*</View>*/}
-                    </View>
+                    {this.state.eventConfirmed ?
+                        <View style={styles.hostPicContainer}>
+                            <View style={styles.notifStatus1}>
+                                <Text style={{color: 'white'}}>Updated</Text>
+                            </View>
+                            <Image
+                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                style={styles.hostPic}
+                                resizeMode="cover"
+                            />
+                            <View style={styles.notifStatus2}>
+                                <Text style={{color: 'white'}}>Confirm</Text>
+                            </View>
+                        </View>
+                        :
+                        <View style={styles.hostPicContainer}>
+                            <Image
+                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                style={styles.hostPic}
+                                resizeMode="cover"
+                            />
+                        </View>
+                    }
+
                 </View>
                 <View style={styles.card}>
                     <View style={styles.details}>

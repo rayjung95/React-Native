@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import EventComponent from "../components/EventComponent";
+import Layout from "../constants/Layout";
 
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 const PICTURES_PATH = "../assets/Pngs/";
 
 export default class UserCalendarScreen extends Component {
@@ -59,7 +60,7 @@ export default class UserCalendarScreen extends Component {
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
@@ -67,21 +68,21 @@ export default class UserCalendarScreen extends Component {
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
                                       style={{borderRadius: 8}}>
                         <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow'/>
+                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
                         </View>
                     </TouchableOpacity>
                 </ScrollView>
