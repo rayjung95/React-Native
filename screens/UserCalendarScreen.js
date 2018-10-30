@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     CalendarCardContainer: {
         flex: 1,
         width: SCREEN_WIDTH * 0.8722,
-        height: SCREEN_HEIGHT * 0.5984375,
+        height: SCREEN_HEIGHT * 0.6231375,
         marginTop: SCREEN_HEIGHT * 0.05,
         flexDirection: 'column',
         alignItems: 'center',

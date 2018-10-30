@@ -55,7 +55,7 @@ export default class EventDetailsScreen extends Component {
                                 />
                             </View>
 
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <Text style={styles.eventDetailsText}>
                                     Paul and I can't believe how quickly the week went by. It was so great to see you.
                                     Come visit us again soon and let us know how it goes.
@@ -69,7 +69,7 @@ export default class EventDetailsScreen extends Component {
                                     source={require('../assets/Icons/event_date.imageset/event_date.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <Text style={styles.eventDetailsText}>
                                     Saturday, September 26 {"\n"}
                                     at 9:00pm to 5:00am
@@ -83,7 +83,7 @@ export default class EventDetailsScreen extends Component {
                                     source={require('../assets/Icons/event_away.imageset/event_away.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         1.7 Miles away. {"\n"}
@@ -103,7 +103,7 @@ export default class EventDetailsScreen extends Component {
                                     style={{width: 20, height: 20}}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Group Chat
@@ -132,7 +132,7 @@ export default class EventDetailsScreen extends Component {
                                     style={{width: 20, height: 20}}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         http://www.songkick.com/concerts/Ben…
@@ -148,7 +148,7 @@ export default class EventDetailsScreen extends Component {
                                     source={require('../assets/Icons/event_host.imageset/event_host.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.875}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Confirmed Guests
@@ -194,7 +194,7 @@ export default class EventDetailsScreen extends Component {
                                     source={require('../assets/Icons/event_report.imageset/event_report.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.875}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Report Event
@@ -280,6 +280,10 @@ const styles = StyleSheet.create({
         padding: 20,
         marginLeft: 15
     },
+    textDetailsContainer: {
+        width: SCREEN_WIDTH * 0.86,
+        paddingLeft: SCREEN_WIDTH * 0.053
+    },
     divider: {
         borderBottomColor: '#cacbcc',
         borderBottomWidth: 1,
@@ -292,7 +296,8 @@ const styles = StyleSheet.create({
         color: '#8F8E94',
         fontSize: 14,
         fontFamily: 'Roboto',
-        marginLeft: SCREEN_WIDTH * 0.053
+        marginLeft: SCREEN_WIDTH * 0.053,
+
     },
     eventDetailsClickableItem: {
         flex: 1,
@@ -306,7 +311,8 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         backgroundColor: '#E3422A',
         marginRight: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     alertNum: {
         color: 'white',
@@ -317,7 +323,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: SCREEN_WIDTH * 0.053
     },
     guestPicThumbnail: {
         width: 63.5,
@@ -364,8 +371,7 @@ const styles = StyleSheet.create({
     eventDetailIcons: {
         width: SCREEN_WIDTH * 0.14,
         marginTop: 5,
-        marginRight: SCREEN_WIDTH * 0.1,
-        paddingLeft: SCREEN_WIDTH * 0.021666667
+        paddingHorizontal: SCREEN_WIDTH * 0.021666667
     }
 });
 

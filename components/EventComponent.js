@@ -86,24 +86,26 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         marginTop: -SCREEN_WIDTH * 0.2,
-        backgroundColor: 'white',
+        backgroundColor: 'blue',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: SCREEN_WIDTH * 0.8722,
-        height: SCREEN_HEIGHT * 0.55,
+        height: SCREEN_HEIGHT * 0.6234375,
         zIndex: 0,
-        borderRadius: 5
+        borderRadius: 5,
     },
     details: {
         zIndex: 2,
         alignItems: 'center',
         width: '100%',
+        height: '100%',
         flexDirection: 'column',
         paddingTop: 80,
         paddingBottom: 0,
         justifyContent: 'space-between',
         flex: 1,
+        backgroundColor: 'white',
         borderRadius: 5
     },
     cardFooter: {
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
-        marginTop: SCREEN_HEIGHT * 0.03
+        marginTop: SCREEN_HEIGHT * 0.05
     },
     hostPicContainer: {
         alignItems: 'center',
