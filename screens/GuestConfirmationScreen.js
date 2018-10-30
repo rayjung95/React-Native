@@ -19,36 +19,6 @@ export default class GuestConfirmationScreen extends Component {
     static navigationOptions = {
         header: null,
     };
-    renderImage = () => {
-        return this.state.array.map((item, i) => {
-            if (i < this.state.imageIndex) {
-                return null
-            }
-            else if (i === this.state.imageIndex) {
-                return (
-                    <Animated.View
-                        {...this.imagePanResponder.panHandlers}
-                        key={i}
-                        style={[this.rotateAndTranslate, styles.cardContainer]}
-                    >
-                        <Image source={item.img}/>
-                        <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
-                    </Animated.View>
-                )
-            }
-            else {
-                return (
-                    <Animated.View
-                        key={i}
-                        style={styles.cardContainer}
-                    >
-                        <Image source={item.img}/>
-                        <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
-                    </Animated.View>
-                )
-            }
-        }).reverse();
-    }
 
     constructor(props) {
         super(props);
@@ -121,6 +91,37 @@ export default class GuestConfirmationScreen extends Component {
                 }
             }
         });
+    }
+
+    renderImage = () => {
+        return this.state.array.map((item, i) => {
+            if (i < this.state.imageIndex) {
+                return null
+            }
+            else if (i === this.state.imageIndex) {
+                return (
+                    <Animated.View
+                        {...this.imagePanResponder.panHandlers}
+                        key={i}
+                        style={[this.rotateAndTranslate, styles.cardContainer]}
+                    >
+                        <Image source={item.img}/>
+                        <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
+                    </Animated.View>
+                )
+            }
+            else {
+                return (
+                    <Animated.View
+                        key={i}
+                        style={styles.cardContainer}
+                    >
+                        <Image source={item.img}/>
+                        <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
+                    </Animated.View>
+                )
+            }
+        }).reverse();
     }
 
     render() {

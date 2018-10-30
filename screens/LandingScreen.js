@@ -20,31 +20,37 @@ export default class LandingScreen extends Component {
         header: null,
     };
 
-    renderImage = () => {
-        return this.state.array.map((item, i) => {
-            if (i < this.state.imageIndex) {
-                return null
-            } else if (i === this.state.imageIndex) {
-                return (
-                    <Animated.View
-                        {...this.imagePanResponder.panHandlers}
-                        key={i}
-                        style={[this.rotateAndTranslate, styles.cardContainer]}
-                    >
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
-                    </Animated.View>
-                )
-            } else {
-                return (
-                    <Animated.View
-                        key={i}
-                        style={styles.cardContainer}>
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
-                    </Animated.View>
-                )
-            }
-        }).reverse();
-    };
+    constructor(props) {
+        super(props);
+        this.imageXPos = new Animated.Value(0);
+        this.position = new Animated.ValueXY();
+        this.rotate = this.position.x.interpolate({
+            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+            outputRange: ['-25deg', '0deg', '25deg'],
+            extrapolate: 'clamp'
+        });
+        this.rotateAndTranslate = {
+            transform: [{
+                rotate: this.rotate
+            },
+                ...this.position.getTranslateTransform()
+            ]
+        };
+
+        this.state = {
+            imageIndex: 0,
+            array: [
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+            ],
+            isMoving: false
+        }
+
+    }
 
     componentWillMount() {
         this.imagePanResponder = PanResponder.create({
@@ -88,37 +94,32 @@ export default class LandingScreen extends Component {
         });
     }
 
-    constructor(props) {
-        super(props);
-        this.imageXPos = new Animated.Value(0);
-        this.position = new Animated.ValueXY();
-        this.rotate = this.position.x.interpolate({
-            inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-            outputRange: ['-25deg', '0deg', '25deg'],
-            extrapolate: 'clamp'
-        });
-        this.rotateAndTranslate = {
-            transform: [{
-                rotate: this.rotate
-            },
-                ...this.position.getTranslateTransform()
-            ]
-        };
 
-        this.state = {
-            imageIndex: 0,
-            array: [
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-            ],
-            isMoving: false
-        }
-
-    }
+    renderImage = () => {
+        return this.state.array.map((item, i) => {
+            if (i < this.state.imageIndex) {
+                return null
+            } else if (i === this.state.imageIndex) {
+                return (
+                    <Animated.View
+                        {...this.imagePanResponder.panHandlers}
+                        key={i}
+                        style={[this.rotateAndTranslate, styles.cardContainer]}
+                    >
+                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                    </Animated.View>
+                )
+            } else {
+                return (
+                    <Animated.View
+                        key={i}
+                        style={styles.cardContainer}>
+                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                    </Animated.View>
+                )
+            }
+        }).reverse();
+    };
 
     render() {
         return (
