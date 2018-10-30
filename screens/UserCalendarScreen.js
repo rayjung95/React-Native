@@ -13,6 +13,63 @@ export default class UserCalendarScreen extends Component {
         header: null,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            calendar: [
+                {
+                    eventHostName: 'Quentin',
+                    eventTitle: 'POCKER & SALSA',
+                    eventType: 'Party',
+                    eventDay: 'WED',
+                    eventTime: '7:00',
+                    eventDate: 'SEPTEMBER 23',
+                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+                    guestNums: 12,
+                    eventAway: 2.5,
+                    eventConfirmed: true
+                }, {
+                    eventHostName: 'Zac',
+                    eventTitle: 'POCKER & SALSA',
+                    eventType: 'Party',
+                    eventDay: 'WED',
+                    eventTime: '7:00',
+                    eventDate: 'SEPTEMBER 23',
+                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+                    guestNums: 12,
+                    eventAway: 2.5,
+                    eventConfirmed: true
+                }, {
+                    eventHostName: 'Jack',
+                    eventTitle: 'POCKER & SALSA',
+                    eventType: 'Party',
+                    eventDay: 'WED',
+                    eventTime: '7:00',
+                    eventDate: 'SEPTEMBER 23',
+                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+                    guestNums: 12,
+                    eventAway: 2.5,
+                    eventConfirmed: true
+                }
+            ]
+
+
+        }
+    }
+
+    renderEvents = () => {
+        return this.state.calendar.map((item, i) => {
+            return (
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
+                                  style={{borderRadius: 8}}>
+                    <View style={styles.CalendarCardContainer}>
+                        <EventComponent eventHostName={item.eventHostName} eventConfirmed={item.eventConfirmed}/>
+                    </View>
+                </TouchableOpacity>
+            )
+        })
+    };
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -57,34 +114,8 @@ export default class UserCalendarScreen extends Component {
                         </View>
                     </View>
 
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
-                                      style={{borderRadius: 8}}>
-                        <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
-                        </View>
-                    </TouchableOpacity>
+                    {this.renderEvents()}
 
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
-                                      style={{borderRadius: 8}}>
-                        <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
-                                      style={{borderRadius: 8}}>
-                        <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
-                                      style={{borderRadius: 8}}>
-                        <View style={styles.CalendarCardContainer}>
-                            <EventComponent eventHostName='Jon Snow' eventConfirmed={true}/>
-                        </View>
-                    </TouchableOpacity>
                 </ScrollView>
             </ImageBackground>
         );
