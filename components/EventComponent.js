@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH * 0.8722,
         height: SCREEN_HEIGHT * 0.6234375,
         zIndex: 0,
-        borderRadius: 5,
+        borderRadius: 5
     },
     details: {
         zIndex: 2,
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'column',
         paddingTop: 80,
-        paddingBottom: 0,
         justifyContent: 'space-between',
         flex: 1,
         backgroundColor: 'white',

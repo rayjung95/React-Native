@@ -324,13 +324,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginLeft: SCREEN_WIDTH * 0.053
+        marginLeft: SCREEN_WIDTH * 0.053,
+        width: '100%'
     },
     guestPicThumbnail: {
-        width: 63.5,
-        height: 63.5,
+        width: '100%',
+        height: SCREEN_HEIGHT * 0.099375,
         borderRadius: 4,
-        marginRight: 10,
         marginTop: 24,
         borderWidth: 1,
         borderColor: 'rgba(250, 250, 250, 0.5)'
@@ -339,7 +339,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingRight: 10,
+
     },
     guestName: {
         color: '#8C8C8C',
