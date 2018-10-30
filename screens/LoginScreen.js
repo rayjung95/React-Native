@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Switch, swiper, Picker, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
+import Layout from "../constants/Layout";
+
+
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 
 export default class LoginScreen extends Component {

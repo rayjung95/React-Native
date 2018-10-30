@@ -123,21 +123,21 @@ EventCreationStack.navigationOptions = {
 };
 
 const GoogleMapsStack = createStackNavigator({
-  Home: GoogleMapsScreen,
+    Home: GoogleMapsScreen,
 });
 
 GoogleMapsScreen.navigationOptions = {
-  tabBarLabel: 'Maps',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
+    tabBarLabel: 'Maps',
+    tabBarIcon: ({focused}) => (
+        <TabBarIcon
+            focused={focused}
+            name={
+                Platform.OS === 'ios'
+                    ? `ios-information-circle${focused ? '' : '-outline'}`
+                    : 'md-information-circle'
+            }
+        />
+    ),
 };
 
 
@@ -147,7 +147,7 @@ export default createBottomTabNavigator({
   GuestConfirmationStack,
   UserCalendarStack,
   UserSettingStack,
-  EventCreationStack,
-  GoogleMapsStack,
+    EventCreationStack,
+    GoogleMapsStack,
 
 });

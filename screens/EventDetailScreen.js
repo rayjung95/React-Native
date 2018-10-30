@@ -1,10 +1,9 @@
-
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
+import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import Layout from "../constants/Layout";
 
-
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class EventDetailsScreen extends Component {
 
@@ -16,7 +15,6 @@ export default class EventDetailsScreen extends Component {
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <ScrollView>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                         <Image
@@ -26,37 +24,38 @@ export default class EventDetailsScreen extends Component {
                     </TouchableOpacity>
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
+                <ScrollView>
                     <View style={styles.profilePicContainer}>
-                        <View style={styles.profilePicContentContainer}>
-                            <View style={styles.profileContainer}>
-                                <Image
-                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                    style={{marginRight: -40, zIndex: 1}}
-                                />
-                                <Image
-                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                    style={styles.eventDetailsHostPic}
-                                />
-                                <Image
-                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                    style={{marginLeft: -40, zIndex: 1}}
-                                />
-                            </View>
-                            <View style={styles.hostDetailsContainer}>
-                                <Text style={styles.eventDetailsHostName}> Quentin </Text>
-                                <Text style={styles.eventDetailsHostName2}> Host </Text>
-                            </View>
+                        {/*<View style={styles.profilePicContentContainer}>*/}
+                        <View style={styles.profileContainer}>
+                            <Image
+                                source={require('../assets/Icons/account.imageset/account.png')}
+                                style={{marginRight: -40, zIndex: 1}}
+                            />
+                            <Image
+                                source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                style={styles.eventDetailsHostPic}
+                            />
+                            <Image
+                                source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                style={{marginLeft: -40, zIndex: 1}}
+                            />
                         </View>
+                        <View style={styles.hostDetailsContainer}>
+                            <Text style={styles.eventDetailsHostName}> Quentin </Text>
+                            <Text style={styles.eventDetailsHostName2}> Host </Text>
+                        </View>
+                        {/*</View>*/}
                     </View>
                     <View style={styles.eventDetailsContainer}>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5, marginRight: 10}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_detail.imageset/event_detail.png')}
                                 />
                             </View>
 
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <Text style={styles.eventDetailsText}>
                                     Paul and I can't believe how quickly the week went by. It was so great to see you.
                                     Come visit us again soon and let us know how it goes.
@@ -65,12 +64,12 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_date.imageset/event_date.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <Text style={styles.eventDetailsText}>
                                     Saturday, September 26 {"\n"}
                                     at 9:00pm to 5:00am
@@ -79,12 +78,12 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_away.imageset/event_away.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         1.7 Miles away. {"\n"}
@@ -98,13 +97,13 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/group_chat.imageset/gc2.png')}
                                     style={{width: 20, height: 20}}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Group Chat
@@ -127,13 +126,13 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_website.imageset/safari40.png')}
                                     style={{width: 20, height: 20}}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.86}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         http://www.songkick.com/concerts/Ben…
@@ -144,12 +143,12 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_host.imageset/event_host.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.875}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Confirmed Guests
@@ -190,12 +189,12 @@ export default class EventDetailsScreen extends Component {
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
-                            <View style={{width: SCREEN_WIDTH * 0.14, marginTop: 5}}>
+                            <View style={styles.eventDetailIcons}>
                                 <Image
                                     source={require('../assets/Icons/event_report.imageset/event_report.png')}
                                 />
                             </View>
-                            <View style={{width: SCREEN_WIDTH * 0.875}}>
+                            <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
                                     <Text style={styles.eventDetailsText}>
                                         Report Event
@@ -221,18 +220,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headerContainer: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingTop: 20,
+        justifyContent: 'flex-start',
         width: '100%',
-        height: SCREEN_HEIGHT * 0.08
+        marginTop: SCREEN_HEIGHT * 0.0375
     },
     icon: {
         width: 20,
         height: 20,
-        margin: 20
+        margin: SCREEN_WIDTH * 0.053
     },
     headerText: {
         fontSize: 20,
@@ -241,15 +238,15 @@ const styles = StyleSheet.create({
     },
     profilePicContainer: {
         width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT * 0.3,
+        height: SCREEN_HEIGHT * 0.4203125,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white'
     },
     eventDetailsHostPic: {
-        width: 144,
-        height: 144,
+        width: SCREEN_WIDTH * 0.4,
+        height: SCREEN_WIDTH * 0.4,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         borderBottomRightRadius: 100,
@@ -283,17 +280,24 @@ const styles = StyleSheet.create({
         padding: 20,
         marginLeft: 15
     },
+    textDetailsContainer: {
+        width: SCREEN_WIDTH * 0.86,
+        paddingLeft: SCREEN_WIDTH * 0.053
+    },
     divider: {
         borderBottomColor: '#cacbcc',
         borderBottomWidth: 1,
         marginTop: 20,
-        marginBottom: -20
+        marginBottom: -20,
+        marginLeft: SCREEN_WIDTH * 0.053,
+        width: '100%'
     },
     eventDetailsText: {
         color: '#8F8E94',
         fontSize: 14,
         fontFamily: 'Roboto',
-        marginLeft: 20
+        marginLeft: SCREEN_WIDTH * 0.053,
+
     },
     eventDetailsClickableItem: {
         flex: 1,
@@ -307,7 +311,8 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         backgroundColor: '#E3422A',
         marginRight: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     alertNum: {
         color: 'white',
@@ -318,13 +323,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: SCREEN_WIDTH * 0.053,
+        width: '100%'
     },
     guestPicThumbnail: {
-        width: 63.5,
-        height: 63.5,
+        width: '100%',
+        height: SCREEN_HEIGHT * 0.099375,
         borderRadius: 4,
-        marginRight: 10,
         marginTop: 24,
         borderWidth: 1,
         borderColor: 'rgba(250, 250, 250, 0.5)'
@@ -333,7 +339,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingRight: 10,
+
     },
     guestName: {
         color: '#8C8C8C',
@@ -361,6 +369,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    eventDetailIcons: {
+        width: SCREEN_WIDTH * 0.14,
+        marginTop: 5,
+        paddingHorizontal: SCREEN_WIDTH * 0.021666667
     }
 });
 
