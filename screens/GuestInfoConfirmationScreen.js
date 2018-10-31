@@ -89,10 +89,10 @@ export default class GuestInfoConfirmation extends Component {
             <ScrollView style={{marginBottom: -window.height/6}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
-                        <Image style={styles.images} source={require('../assets/girlphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/profilePhoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/girlphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.png')}/>
                     </Swiper>
                     <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>

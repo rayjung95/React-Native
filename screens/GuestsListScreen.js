@@ -106,7 +106,7 @@ export default class GuestsList extends Component {
                 </View>
                 <View style={{flex:1}}>
                     <ImageBackground
-                        source={require('../assets/background.png')}
+                        source={require('../assets/Pngs/bg.imageset/bg.png')}
                         style={{ width: "100%", height: "100%" }}
                     >
                         <View style={styles.container}>
