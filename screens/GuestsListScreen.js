@@ -76,7 +76,9 @@ export default class GuestsList extends Component {
     displayGuestsList = ({item}) => {
         return(
                 <View style={{height:window.height/8, flexDirection:'column'}}>
-                    <TouchableOpacity style={styles.guest}>
+                    <TouchableOpacity style={styles.guest}
+                        onPress={()=>this.props.navigation.navigate('GuestProfile')}
+                    >
                         <View style={{flex:2, alignItems:'center'}}>
                             <View style={{width:window.width/7, height:window.width/7}}>
                                 <Image style={{width:'100%', height:'100%', borderRadius:window.width, resizeMode:'cover'}} source={{uri: item.imageURL}}/>
@@ -116,7 +118,9 @@ export default class GuestsList extends Component {
                                     <Text style={{color:'white'}}>Confirmed Guests</Text>
                                 </View>
                                 <View style={{flex:1, alignItems:'center'}}>
-                                    <Text style={{color:'yellow'}}>Edit</Text>
+                                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('GuestsListEdit')}>
+                                        <Text style={{color:'yellow'}}>Edit</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                             <View style={styles.guestsList}>

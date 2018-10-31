@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, Text, View, FlatList, Dimensions, Image, StatusBar, ImageBackground, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
-import { CheckBox } from 'react-native-elements';
 
 const window = Dimensions.get('window')
 
@@ -182,7 +180,7 @@ export default class GuestsListEdit extends Component {
                                             })
 
                                         }: () => {
-
+                                            this.props.navigation.navigate('GuestsList')
                                         }}
                                     >
                                         <Text style={{color:'yellow'}}>{(this.state.checkBox.length > 0) ? 'Delete':'Done'}</Text>
