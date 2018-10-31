@@ -6,6 +6,7 @@ import EventDetailsScreen from '../screens/EventDetailScreen';
 import UserSettingScreen from '../screens/UserSettingScreen';
 import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 import EventCreationScreen from '../screens/EventCreationScreen';
+import MapScreen from '../screens/MapScreen';
 
 
 export default createStackNavigator({
@@ -15,5 +16,6 @@ export default createStackNavigator({
     EventDetails: EventDetailsScreen,
     ProfileSetting: UserSettingScreen,
     Guest: GuestConfirmationScreen,
-    EventCreation: EventCreationScreen
+    EventCreation: EventCreationScreen,
+    Map: MapScreen,
 })
