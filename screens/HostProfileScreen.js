@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableHighlight, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -94,7 +94,9 @@ export default class HostProfile extends Component {
                         <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
                     </Swiper>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
+                        <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
+                    </TouchableOpacity>
                     <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
                 </View>
 

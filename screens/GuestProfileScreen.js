@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableHighlight, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableHighlight, TouchableOpacity, FlatList } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -19,52 +19,52 @@ export default class GuestProfile extends Component {
             mutualFriendsData:[
                 {   
                     'id':'001',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
                     'id':'002',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
                     'id':'003',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
                     'id':'004',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
                     'id':'005',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
                     'id':'006',
-                    'mutualFriendName':'Annie Hall',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
-                    'id':'006',
-                    'mutualFriendName':'Annie Hall',
+                    'id':'007',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
-                    'id':'006',
-                    'mutualFriendName':'Annie Hall',
+                    'id':'008',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
-                    'id':'006',
-                    'mutualFriendName':'Annie Hall',
+                    'id':'009',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
                 {   
-                    'id':'006',
-                    'mutualFriendName':'Annie Hall',
+                    'id':'010',
+                    'mutualFriendName':'Annie',
                     'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
                 },
             ]
@@ -94,7 +94,9 @@ export default class GuestProfile extends Component {
                         <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
                     </Swiper>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestsList')}>
+                        <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.profInfoContainer}>

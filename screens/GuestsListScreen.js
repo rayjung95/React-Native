@@ -112,7 +112,9 @@ export default class GuestsList extends Component {
                         <View style={styles.container}>
                             <View style={styles.headerContainer}>
                                 <View style={{flex:1, alignItems:'center'}}>
-                                    <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/go-back-left-arrow.png')}/>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
+                                        <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/go-back-left-arrow.png')}/>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={{flex:5, alignItems:'flex-start',}}>
                                     <Text style={{color:'white'}}>Confirmed Guests</Text>
