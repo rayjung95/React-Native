@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, Text, View, FlatList, Dimensions, Image, StatusBar, ImageBackground, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 
 const window = Dimensions.get('window')
