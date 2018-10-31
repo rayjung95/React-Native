@@ -7,7 +7,11 @@ import UserSettingScreen from '../screens/UserSettingScreen';
 import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 import EventCreationScreen from '../screens/EventCreationScreen';
 import MapScreen from '../screens/MapScreen';
-
+import GuestsListScreen from '../screens/GuestsListScreen';
+import GuestsListEditScreen from '../screens/GuestsListEditScreen';
+import GuestProfileScreen from '../screens/GuestProfileScreen';
+import HostProfileScreen from '../screens/HostProfileScreen';
+import GuestInfoConfirmationScreen from '../screens/GuestInfoConfirmationScreen';
 
 export default createStackNavigator({
     Login: LoginScreen,
@@ -18,4 +22,9 @@ export default createStackNavigator({
     Guest: GuestConfirmationScreen,
     EventCreation: EventCreationScreen,
     Map: MapScreen,
+    GuestsList: GuestsListScreen,
+    GuestsListEdit: GuestsListEditScreen,
+    GuestProfile: GuestProfileScreen,
+    HostProfile: HostProfileScreen,
+    GuestInfoConfirmation: GuestInfoConfirmationScreen
 })
