@@ -39,10 +39,10 @@ export default class SettingsComponent extends Component {
 				styles.backgroundImage
 			}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-					<View style={{
+					{/* <View style={{
                         height: StatusBar.currentHeight,
                         backgroundColor: 'black',
-					}}/>
+					}}/> */}
 
                     <View style={
                         styles.topSettings
