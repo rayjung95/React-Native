@@ -28,10 +28,13 @@ export default class EventDetailsScreen extends Component {
                     <View style={styles.profilePicContainer}>
                         {/*<View style={styles.profilePicContentContainer}>*/}
                         <View style={styles.profileContainer}>
-                            <Image
-                                source={require('../assets/Icons/account.imageset/account.png')}
-                                style={{marginRight: -40, zIndex: 1}}
-                            />
+                            <TouchableOpacity style={{marginRight: -45, width:39, zIndex: 1}} onPress={() => this.props.navigation.navigate('HostProfile')}>
+                                <Image
+                                    source={require('../assets/Icons/account.imageset/account.png')}
+                                    style={{ zIndex: 1}}
+                                />
+                            </TouchableOpacity>
+
                             <Image
                                 source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
                                 style={styles.eventDetailsHostPic}
@@ -150,9 +153,11 @@ export default class EventDetailsScreen extends Component {
                             </View>
                             <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
-                                    <Text style={styles.eventDetailsText}>
-                                        Confirmed Guests
-                                    </Text>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                        <Text style={styles.eventDetailsText}>
+                                            Confirmed Guests
+                                        </Text>
+                                    </TouchableOpacity>
                                     <Image source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                 </View>
                                 <View style={styles.guestPicsContainer}>
@@ -224,7 +229,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
-        marginTop: SCREEN_HEIGHT * 0.0375
+        marginTop: SCREEN_HEIGHT * 0.0275
     },
     icon: {
         width: 20,

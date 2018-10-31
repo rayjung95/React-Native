@@ -91,14 +91,18 @@ export default class GuestConfirmationScreen extends Component {
             }
             else if (i === this.state.imageIndex) {
                 return (
-                    <Animated.View
-                        {...this.imagePanResponder.panHandlers}
-                        key={i}
-                        style={[this.rotateAndTranslate, styles.cardContainer]}
-                    >
-                        <Image source={item.img}/>
-                        <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
-                    </Animated.View>
+                    
+                        <Animated.View
+                            {...this.imagePanResponder.panHandlers}
+                            key={i}
+                            style={[this.rotateAndTranslate, styles.cardContainer]}
+                        >
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
+                            <Image source={item.img}/>
+                            <Text style={{fontFamily: 'Roboto', fontSize: 25, color: '#505050'}}>Scarlett, 31</Text>
+                        </TouchableOpacity>
+                        </Animated.View>
+                    
                 )
             }
             else {

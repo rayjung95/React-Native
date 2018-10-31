@@ -5,8 +5,11 @@ import Swiper from 'react-native-swiper';
 const window = Dimensions.get('window')
 
 
-export default class GuestInfoConfirmation extends Component {
+export default class GuestInfoConfirmationScreen extends Component {
 
+    static navigationOptions = {
+        header: null,
+    };
     constructor() {
         super();
         this.state = {
@@ -20,52 +23,52 @@ export default class GuestInfoConfirmation extends Component {
                 {   
                     'id':'001',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
                     'id':'002',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
                     'id':'003',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
                     'id':'004',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
                     'id':'005',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
                     'id':'006',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
-                    'id':'006',
+                    'id':'007',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
-                    'id':'006',
+                    'id':'008',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
-                    'id':'006',
+                    'id':'009',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
                 {   
-                    'id':'006',
+                    'id':'010',
                     'mutualFriendName':'Annie Hall',
-                    'imageURL': 'https://pixabay.com/get/ea32b50b2ef0083ed1584d05fb1d4796e77ee4d719b90c4090f4c17fafe4b2b8dc_640.jpg'
+                    'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
                 },
             ]
         })
@@ -89,13 +92,17 @@ export default class GuestInfoConfirmation extends Component {
             <ScrollView style={{marginBottom: -window.height/6}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
-                        <Image style={styles.images} source={require('../assets/Pngs/girlphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/girlphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/profilePhoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
                     </Swiper>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('Guest')}>
+                        <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity> */}
+                        <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                    {/* </TouchableOpacity> */}
                 </View>
 
                 <View style={styles.profInfoContainer}>

@@ -60,7 +60,7 @@ export default class UserCalendarScreen extends Component {
     renderEvents = () => {
         return this.state.calendar.map((item, i) => {
             return (
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}
+                <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('EventDetails')}
                                   style={{borderRadius: 8}}>
                     <View style={styles.CalendarCardContainer}>
                         <EventComponent eventHostName={item.eventHostName} eventConfirmed={item.eventConfirmed}/>
