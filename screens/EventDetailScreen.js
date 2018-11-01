@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Layout from "../constants/Layout";
+import Hyperlink from 'react-native-hyperlink'
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -26,12 +27,12 @@ export default class EventDetailsScreen extends Component {
                 </View>
                 <ScrollView>
                     <View style={styles.profilePicContainer}>
-                        {/*<View style={styles.profilePicContentContainer}>*/}
                         <View style={styles.profileContainer}>
-                            <TouchableOpacity style={{marginRight: -45, width:39, zIndex: 1}} onPress={() => this.props.navigation.navigate('HostProfile')}>
+                            <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
+                                              onPress={() => this.props.navigation.navigate('HostProfile')}>
                                 <Image
                                     source={require('../assets/Icons/account.imageset/account.png')}
-                                    style={{ zIndex: 1}}
+                                    style={{zIndex: 1}}
                                 />
                             </TouchableOpacity>
 
@@ -48,7 +49,6 @@ export default class EventDetailsScreen extends Component {
                             <Text style={styles.eventDetailsHostName}> Quentin </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
-                        {/*</View>*/}
                     </View>
                     <View style={styles.eventDetailsContainer}>
                         <View style={styles.eventDetailsItemContainer}>
@@ -137,9 +137,11 @@ export default class EventDetailsScreen extends Component {
                             </View>
                             <View style={styles.textDetailsContainer}>
                                 <View style={styles.eventDetailsClickableItem}>
-                                    <Text style={styles.eventDetailsText}>
-                                        http://www.songkick.com/concerts/Ben…
-                                    </Text>
+                                    <Hyperlink linkDefault={true}>
+                                        <Text style={styles.eventDetailsText}>
+                                            https://www.google.ca
+                                        </Text>
+                                    </Hyperlink>
                                     <Image source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                 </View>
                                 <View style={styles.divider}/>
