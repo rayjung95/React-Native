@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     },
     eventDate: {
         fontFamily: 'sans-serif-thin',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.4
+        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.55
     },
     divider: {
         borderBottomColor: '#f1f1f1',

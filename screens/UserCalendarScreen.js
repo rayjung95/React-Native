@@ -60,8 +60,13 @@ export default class UserCalendarScreen extends Component {
     renderEvents = () => {
         return this.state.calendar.map((item, i) => {
             return (
-                <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('EventDetails')}
-                                  style={{borderRadius: 8}}>
+                <TouchableOpacity
+                    key={i}
+                    onPress={() => this.props.navigation.navigate('EventDetails', {
+                        eventConfirmed: item.eventConfirmed
+                    })}
+                    style={{borderRadius: 8}} activeOpacity={0.9}
+                >
                     <View style={styles.CalendarCardContainer}>
                         <EventComponent eventHostName={item.eventHostName} eventConfirmed={item.eventConfirmed}/>
                     </View>
@@ -74,7 +79,7 @@ export default class UserCalendarScreen extends Component {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')} activeOpacity={0.9}>
                         <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}
                                style={styles.menu1}/>
                     </TouchableOpacity>
@@ -83,7 +88,7 @@ export default class UserCalendarScreen extends Component {
                 </View>
 
                 <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')} activeOpacity={0.9}>
                         <View style={styles.notifBox}>
                             <Text style={styles.notifText}>
                                 <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>

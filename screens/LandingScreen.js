@@ -106,7 +106,11 @@ export default class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.cardContainer}>
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
+                            eventConfirmed: false
+                        })}>
+                            <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                        </TouchableOpacity>
                     </Animated.View>
                 )
             }
