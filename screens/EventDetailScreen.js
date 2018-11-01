@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Layout from "../constants/Layout";
-import Hyperlink from 'react-native-hyperlink'
+import {WebBrowser} from 'expo';
 import EventDetailsClickableItemsComponent from "../components/EventDetailsClickableItemsComponent";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -27,7 +27,9 @@ export default class EventDetailsScreen extends Component {
             eventAway: props.eventAway,
             eventAddress: props.eventAddress,
             eventWebsite: props.eventWebsite
-        }
+        };
+
+        // this._handlePressSlack = this._handlePressSlack.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,6 +47,10 @@ export default class EventDetailsScreen extends Component {
             eventWebsite: nextProps.eventWebsite
         }
     }
+
+    _handlePressSlack = () => {
+        WebBrowser.openBrowserAsync('https://www.google.ca');
+    };
 
     render() {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
@@ -174,15 +180,15 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
-                                            <Hyperlink linkDefault={true}>
+                                        <TouchableOpacity onPress={this._handlePressSlack}>
+                                            <View style={styles.eventDetailsClickableItem}>
                                                 <Text style={styles.eventDetailsText}>
                                                     https://www.google.ca
                                                 </Text>
-                                            </Hyperlink>
-                                            <Image
-                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                        </View>
+                                                <Image
+                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                            </View>
+                                        </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>
@@ -194,14 +200,16 @@ export default class EventDetailsScreen extends Component {
                                     </View>
                                     <View style={styles.textDetailsContainer}>
                                         <View style={styles.eventDetailsClickableItem}>
+
+                                            <Text style={styles.eventDetailsText}>
+                                                Confirmed Guests
+                                            </Text>
                                             <TouchableOpacity
                                                 onPress={() => this.props.navigation.navigate('GuestsList')}>
-                                                <Text style={styles.eventDetailsText}>
-                                                    Confirmed Guests
-                                                </Text>
+                                                <Image
+                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                             </TouchableOpacity>
-                                            <Image
-                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+
                                         </View>
                                         <View style={styles.guestPicsContainer}>
                                             <View style={styles.guestPicThumbnailContainer}>
