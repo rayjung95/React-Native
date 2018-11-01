@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Layout from "../constants/Layout";
 import Hyperlink from 'react-native-hyperlink'
+import EventDetailsClickableItemsComponent from "../components/EventDetailsClickableItemsComponent";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -12,17 +13,60 @@ export default class EventDetailsScreen extends Component {
         header: null,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            eventHostName: props.eventHostName,
+            eventTitle: props.eventTitle,
+            eventType: props.eventType,
+            eventDay: props.eventDay,
+            eventTime: props.eventTime,
+            eventDate: props.eventDate,
+            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+            guestNums: props.guestNums,
+            eventAway: props.eventAway,
+            eventAddress: props.eventAddress,
+            eventWebsite: props.eventWebsite
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState = {
+            eventHostName: nextProps.eventHostName,
+            eventTitle: nextProps.eventTitle,
+            eventType: nextProps.eventType,
+            eventDay: nextProps.eventDay,
+            eventTime: nextProps.eventTime,
+            eventDate: nextProps.eventDate,
+            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+            guestNums: nextProps.guestNums,
+            eventAddress: nextProps.eventAddress,
+            eventAway: nextProps.eventAway,
+            eventWebsite: nextProps.eventWebsite
+        }
+    }
 
     render() {
+        const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.headerContainer}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
-                        <Image
-                            source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
-                            style={styles.icon}
-                        />
-                    </TouchableOpacity>
+                    {eventConfirmed ?
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
+                            <Image
+                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
+                                style={styles.icon}
+                            />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
+                            <Image
+                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
+                                style={styles.icon}
+                            />
+                        </TouchableOpacity>
+                    }
+
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
                 <ScrollView>
@@ -80,137 +124,150 @@ export default class EventDetailsScreen extends Component {
                                 <View style={styles.divider}/>
                             </View>
                         </View>
-                        <View style={styles.eventDetailsItemContainer}>
-                            <View style={styles.eventDetailIcons}>
-                                <Image
-                                    source={require('../assets/Icons/event_away.imageset/event_away.png')}
-                                />
-                            </View>
-                            <View style={styles.textDetailsContainer}>
-                                <View style={styles.eventDetailsClickableItem}>
-                                    <Text style={styles.eventDetailsText}>
-                                        1.7 Miles away. {"\n"}
-                                        2167 Daryl Mountains, Redwood
-                                    </Text>
-                                    <Image
-                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
-                                    />
-                                </View>
-                                <View style={styles.divider}/>
-                            </View>
-                        </View>
-                        <View style={styles.eventDetailsItemContainer}>
-                            <View style={styles.eventDetailIcons}>
-                                <Image
-                                    source={require('../assets/Icons/group_chat.imageset/gc2.png')}
-                                    style={{width: 20, height: 20}}
-                                />
-                            </View>
-                            <View style={styles.textDetailsContainer}>
-                                <View style={styles.eventDetailsClickableItem}>
-                                    <Text style={styles.eventDetailsText}>
-                                        Group Chat
-                                    </Text>
 
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        flex: 1,
-                                        justifyContent: 'flex-end',
-                                        alignItems: 'center'
-                                    }}>
-                                        <View style={styles.msgAlert}>
-                                            <Text style={styles.alertNum}> 2 </Text>
+                        {eventConfirmed ?
+                            <View>
+                                <View style={styles.eventDetailsItemContainer}>
+                                    <View style={styles.eventDetailIcons}>
+                                        <Image
+                                            source={require('../assets/Icons/event_away.imageset/event_away.png')}
+                                        />
+                                    </View>
+                                    <View style={styles.textDetailsContainer}>
+                                        <View style={styles.eventDetailsClickableItem}>
+                                            <Text style={styles.eventDetailsText}>
+                                                1.7 Miles away. {"\n"}
+                                                2167 Daryl Mountains, Redwood
+                                            </Text>
+                                            <Image
+                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
+                                            />
                                         </View>
-                                        <Image
-                                            source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                        <View style={styles.divider}/>
                                     </View>
                                 </View>
-                                <View style={styles.divider}/>
-                            </View>
-                        </View>
-                        <View style={styles.eventDetailsItemContainer}>
-                            <View style={styles.eventDetailIcons}>
-                                <Image
-                                    source={require('../assets/Icons/event_website.imageset/safari40.png')}
-                                    style={{width: 20, height: 20}}
-                                />
-                            </View>
-                            <View style={styles.textDetailsContainer}>
-                                <View style={styles.eventDetailsClickableItem}>
-                                    <Hyperlink linkDefault={true}>
-                                        <Text style={styles.eventDetailsText}>
-                                            https://www.google.ca
-                                        </Text>
-                                    </Hyperlink>
-                                    <Image source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                </View>
-                                <View style={styles.divider}/>
-                            </View>
-                        </View>
-                        <View style={styles.eventDetailsItemContainer}>
-                            <View style={styles.eventDetailIcons}>
-                                <Image
-                                    source={require('../assets/Icons/event_host.imageset/event_host.png')}
-                                />
-                            </View>
-                            <View style={styles.textDetailsContainer}>
-                                <View style={styles.eventDetailsClickableItem}>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestsList')}>
-                                        <Text style={styles.eventDetailsText}>
-                                            Confirmed Guests
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <Image source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                </View>
-                                <View style={styles.guestPicsContainer}>
-                                    <View style={styles.guestPicThumbnailContainer}>
+                                <View style={styles.eventDetailsItemContainer}>
+                                    <View style={styles.eventDetailIcons}>
                                         <Image
-                                            source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                            style={styles.guestPicThumbnail}
+                                            source={require('../assets/Icons/group_chat.imageset/gc2.png')}
+                                            style={{width: 20, height: 20}}
                                         />
-                                        <Text style={styles.guestName}> Eric </Text>
                                     </View>
-                                    <View style={styles.guestPicThumbnailContainer}>
-                                        <Image
-                                            source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                            style={styles.guestPicThumbnail}
-                                        />
-                                        <Text style={styles.guestName}> Flora </Text>
-                                    </View>
-                                    <View style={styles.guestPicThumbnailContainer}>
-                                        <Image
-                                            source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                            style={styles.guestPicThumbnail}
-                                        />
-                                        <Text style={styles.guestName}> Keith </Text>
-                                    </View>
-                                    <View style={styles.guestPicThumbnailContainer}>
-                                        <Image
-                                            source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                            style={styles.guestPicThumbnail}
-                                        />
-                                        <Text style={styles.guestName}> Ryan </Text>
+                                    <View style={styles.textDetailsContainer}>
+                                        <View style={styles.eventDetailsClickableItem}>
+                                            <Text style={styles.eventDetailsText}>
+                                                Group Chat
+                                            </Text>
+
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                flex: 1,
+                                                justifyContent: 'flex-end',
+                                                alignItems: 'center'
+                                            }}>
+                                                <View style={styles.msgAlert}>
+                                                    <Text style={styles.alertNum}> 2 </Text>
+                                                </View>
+                                                <Image
+                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                            </View>
+                                        </View>
+                                        <View style={styles.divider}/>
                                     </View>
                                 </View>
-                                <View style={styles.divider}/>
-                            </View>
-                        </View>
-                        <View style={styles.eventDetailsItemContainer}>
-                            <View style={styles.eventDetailIcons}>
-                                <Image
-                                    source={require('../assets/Icons/event_report.imageset/event_report.png')}
-                                />
-                            </View>
-                            <View style={styles.textDetailsContainer}>
-                                <View style={styles.eventDetailsClickableItem}>
-                                    <Text style={styles.eventDetailsText}>
-                                        Report Event
-                                    </Text>
-                                    <Image source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                <View style={styles.eventDetailsItemContainer}>
+                                    <View style={styles.eventDetailIcons}>
+                                        <Image
+                                            source={require('../assets/Icons/event_website.imageset/safari40.png')}
+                                            style={{width: 20, height: 20}}
+                                        />
+                                    </View>
+                                    <View style={styles.textDetailsContainer}>
+                                        <View style={styles.eventDetailsClickableItem}>
+                                            <Hyperlink linkDefault={true}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    https://www.google.ca
+                                                </Text>
+                                            </Hyperlink>
+                                            <Image
+                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                        </View>
+                                        <View style={styles.divider}/>
+                                    </View>
                                 </View>
-                                <View style={styles.divider}/>
+                                <View style={styles.eventDetailsItemContainer}>
+                                    <View style={styles.eventDetailIcons}>
+                                        <Image
+                                            source={require('../assets/Icons/event_host.imageset/event_host.png')}
+                                        />
+                                    </View>
+                                    <View style={styles.textDetailsContainer}>
+                                        <View style={styles.eventDetailsClickableItem}>
+                                            <TouchableOpacity
+                                                onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    Confirmed Guests
+                                                </Text>
+                                            </TouchableOpacity>
+                                            <Image
+                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                        </View>
+                                        <View style={styles.guestPicsContainer}>
+                                            <View style={styles.guestPicThumbnailContainer}>
+                                                <Image
+                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                                    style={styles.guestPicThumbnail}
+                                                />
+                                                <Text style={styles.guestName}> Eric </Text>
+                                            </View>
+                                            <View style={styles.guestPicThumbnailContainer}>
+                                                <Image
+                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                                    style={styles.guestPicThumbnail}
+                                                />
+                                                <Text style={styles.guestName}> Flora </Text>
+                                            </View>
+                                            <View style={styles.guestPicThumbnailContainer}>
+                                                <Image
+                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                                    style={styles.guestPicThumbnail}
+                                                />
+                                                <Text style={styles.guestName}> Keith </Text>
+                                            </View>
+                                            <View style={styles.guestPicThumbnailContainer}>
+                                                <Image
+                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                                    style={styles.guestPicThumbnail}
+                                                />
+                                                <Text style={styles.guestName}> Ryan </Text>
+                                            </View>
+                                        </View>
+                                        <View style={styles.divider}/>
+                                    </View>
+                                </View>
+                                <View style={styles.eventDetailsItemContainer}>
+                                    <View style={styles.eventDetailIcons}>
+                                        <Image
+                                            source={require('../assets/Icons/event_report.imageset/event_report.png')}
+                                        />
+                                    </View>
+                                    <View style={styles.textDetailsContainer}>
+                                        <View style={styles.eventDetailsClickableItem}>
+                                            <Text style={styles.eventDetailsText}>
+                                                Report Event
+                                            </Text>
+                                            <Image
+                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                        </View>
+                                        <View style={styles.divider}/>
+                                    </View>
+                                </View>
                             </View>
-                        </View>
+                            :
+                            <EventDetailsClickableItemsComponent eventConfirmed={false}/>
+                        }
+
+
                     </View>
                 </ScrollView>
             </ImageBackground>
