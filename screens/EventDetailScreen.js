@@ -51,21 +51,12 @@ export default class EventDetailsScreen extends Component {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <View style={styles.headerContainer}>
-                    {eventConfirmed ?
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
-                            <Image
-                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
-                                style={styles.icon}
-                            />
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
-                            <Image
-                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
-                                style={styles.icon}
-                            />
-                        </TouchableOpacity>
-                    }
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                        <Image
+                            source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
 
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
