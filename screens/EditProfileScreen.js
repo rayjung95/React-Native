@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground, TouchableOpacity } from 'react-native';
 
 import Layout from '../constants/Layout';
 
@@ -34,17 +34,6 @@ export default class SettingsComponent extends Component {
 	render() {
 		return (
 			<View style={styles.background}>
-				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
-					<View style={styles.backArrow}>
-						<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
-					</View>
-					<Text style={styles.title}>
-						Edit Profile
-					</Text>
-					<Text style={styles.save}>
-						Save
-					</Text>
-				</ImageBackground>
 				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.09 }} showsVerticalScrollIndicator={false}>
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
@@ -90,6 +79,21 @@ export default class SettingsComponent extends Component {
 						</View>
 					</KeyboardAvoidingView>
 				</ScrollView>
+				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
+					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+						<View style={styles.backArrow}>
+							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+						</View>
+					</TouchableOpacity>
+					<Text style={styles.title}>
+						Edit Profile
+					</Text>
+					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+						<Text style={styles.save}>
+							Save
+						</Text>
+					</TouchableOpacity>
+				</ImageBackground>
 			</View>
 		)
 	}
@@ -97,7 +101,9 @@ export default class SettingsComponent extends Component {
 
 const styles = StyleSheet.create({
 	backArrow: {
-		flex: 1,
+		left: 0,
+		marginRight: SCREEN_WIDTH * 0.06,
+		elevation: 2,
 	},
 	background: {
 		backgroundColor: '#F2F3F4',
@@ -148,15 +154,15 @@ const styles = StyleSheet.create({
 		top: SCREEN_WIDTH * 0.05,
 	},
 	header: {
+		left: 0,
 		flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
+		alignItems: 'center',
         width: '100%',
         height: SCREEN_HEIGHT * 0.091,
-        top: StatusBar.currentHeight,
-        padding: 15,
+        top: '0%',
+        paddingLeft: SCREEN_WIDTH * 0.06,
+        paddingRight: SCREEN_WIDTH * 0.06,
         elevation: 1,
-        overflow: 'hidden',
         position: 'absolute',
 	},
 	imageGallery: {
@@ -208,17 +214,18 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 	},
 	save: {
-		flex: 1,
 		fontFamily: 'Roboto',
 		fontSize: 18,
 		color: '#FDD302',
 		textAlign: 'right',
+		elevation: 2,
 	},
 	title: {
-		flex: 5,
 		fontFamily: 'Roboto',
 		fontSize: 18,
 		color: 'white',
 		textAlign: 'left',
+		elevation: 2,
+		marginRight: SCREEN_WIDTH * 0.43,
 	},
 });
