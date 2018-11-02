@@ -5,7 +5,7 @@ import Layout from "../constants/Layout";
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
-export default class EventDetailsClickableItemsComponent extends Component {
+export default class EventDetailsHiddenItemsComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -30,29 +30,6 @@ export default class EventDetailsClickableItemsComponent extends Component {
         }
 
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.eventConfirmed) {
-    //         this.setState({
-    //             location: {
-    //                 icon: '../assets/Icons/event_away.imageset/event_away.png',
-    //                 value: nextProps.address
-    //             },
-    //             groupChat: {
-    //                 icon: require('../assets/Icons/group_chat.imageset/gc2.png'),
-    //                 value: nextProps.groupChat
-    //             },
-    //             website: {
-    //                 icon: require('../assets/Icons/event_website.imageset/safari40.png'),
-    //                 value: nextProps.website
-    //             },
-    //             guestsInfo: {
-    //                 icon: require('../assets/Icons/event_host.imageset/event_host.png'),
-    //                 value: nextProps.guestsInfo
-    //             }
-    //         });
-    //     }
-    // }
 
     renderEventDetailsItems = () => {
         return Object.values(this.state).map((item, i) => {
