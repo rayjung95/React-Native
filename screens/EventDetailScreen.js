@@ -208,18 +208,20 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
+                                        <TouchableOpacity
+                                            onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                            <View style={styles.eventDetailsClickableItem}>
 
-                                            <Text style={styles.eventDetailsText}>
-                                                Confirmed Guests
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    Confirmed Guests
+                                                </Text>
+
                                                 <Image
                                                     source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                            </TouchableOpacity>
 
-                                        </View>
+                                            </View>
+                                        </TouchableOpacity>
+
                                         <View style={styles.guestPicsContainer}>
                                             <View style={styles.guestPicThumbnailContainer}>
                                                 <Image
