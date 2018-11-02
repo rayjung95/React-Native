@@ -10,7 +10,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 
-export default class SettingsScreen extends Component {
+export default class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
