@@ -89,7 +89,7 @@ export default class GuestInfoConfirmationScreen extends Component {
       return (
         <View style={{flex:1}}>
             <View style={{height:StatusBar.currentHeight, backgroundColor:'black'}}></View>
-            <ScrollView style={{marginBottom: -window.height/6}}>
+            <ScrollView style={{marginBottom: -window.height/7}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
                         <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
@@ -118,14 +118,14 @@ export default class GuestInfoConfirmationScreen extends Component {
                         </View>
                     </View>
                     <View style={styles.description}>
-                        <Text style={{marginLeft:10, marginRight:10, marginBottom:10, fontSize:window.height/45}}>
+                        <Text style={{marginLeft:10, marginRight:10, marginBottom:10, fontSize:window.height/50}}>
                             Johasson began acting during childhood, after her mother started taking her to auditions. 
                             She would audition for commercials but took rejection so hard that her mother began limiting her to film tryouts.
                         </Text>
                     </View>
                     <View style={styles.mutualFriends}>
                         <View style={{flex:0.75, justifyContent:'center'}}>
-                            <Text style={{marginLeft:10, marginRight:10, fontSize:window.height/40}}>Mutual friends: </Text>
+                            <Text style={{marginLeft:10, marginRight:10, fontSize:window.height/45}}>Mutual friends: </Text>
                         </View>
                         <View style={{flex:4}} >
                             <View style={{flex:1, marginLeft:10, marginRight:10}}>
