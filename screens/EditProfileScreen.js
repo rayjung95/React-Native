@@ -34,14 +34,6 @@ export default class SettingsComponent extends Component {
 	render() {
 		return (
 			<View style={styles.background}>
-				<StatusBar translucent={false} backgroundColor={'black'}/>
-				<View style={{
-					height: StatusBar.currentHeight,
-					top: 0,
-					width: SCREEN_WIDTH,
-					backgroundColor: 'black',
-				}}/>
-				
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
 					<View style={styles.backArrow}>
 						<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />

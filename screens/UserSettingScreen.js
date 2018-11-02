@@ -53,11 +53,6 @@ export default class SettingsScreen extends Component {
 				styles.backgroundImage
 			}>
 				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={{
-						height: StatusBar.currentHeight,
-						backgroundColor: 'black',
-					}}/>
-
 					<View style={
 						styles.topSettings
 					}>
