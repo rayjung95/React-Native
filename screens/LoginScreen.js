@@ -46,7 +46,6 @@ export default class LoginScreen extends Component {
                             <Text style={styles.loginWFb}>Log in with Facebook</Text>
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.policy}>Enterprise Signup and Login</Text>
                 </View>
             </ImageBackground>
         );
