@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
-import EventDetailsClickableItemsComponent from "../components/EventDetailsClickableItemsComponent";
+import EventDetailsHiddenItemsComponent from "../components/EventDetailsHiddenItemsComponent";
+import ReportEventComponent from "../components/ReportEventComponent";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -26,10 +28,11 @@ export default class EventDetailsScreen extends Component {
             guestNums: props.guestNums,
             eventAway: props.eventAway,
             eventAddress: props.eventAddress,
-            eventWebsite: props.eventWebsite
+            eventWebsite: props.eventWebsite,
+            isModalVisible: false
         };
 
-        // this._handlePressSlack = this._handlePressSlack.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -52,6 +55,12 @@ export default class EventDetailsScreen extends Component {
         WebBrowser.openBrowserAsync('https://www.google.ca');
     };
 
+    toggleModal() {
+        this.setState({
+            isModalVisible: !this.state.isModalVisible
+        })
+    }
+
     render() {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
@@ -66,7 +75,7 @@ export default class EventDetailsScreen extends Component {
 
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profileContainer}>
                             <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
@@ -251,22 +260,24 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
+                                        <TouchableOpacity
+                                            style={styles.eventDetailsClickableItem}
+                                            onPress={this.toggleModal}
+                                        >
                                             <Text style={styles.eventDetailsText}>
                                                 Report Event
                                             </Text>
                                             <Image
                                                 source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                        </View>
+                                        </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>
                             </View>
                             :
-                            <EventDetailsClickableItemsComponent eventConfirmed={false}/>
+                            <EventDetailsHiddenItemsComponent/>
                         }
-
-
+                        <ReportEventComponent isModalVisible={this.state.isModalVisible}/>
                     </View>
                 </ScrollView>
             </ImageBackground>
