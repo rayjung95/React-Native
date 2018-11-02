@@ -28,6 +28,7 @@ export default class SettingsComponent extends Component {
 		mainImageSource: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
 		smallImage1Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+		addImageSource: require('../assets/Icons/add_photo.imageset/add_photo.png'),
 		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
 		contactInfoText: 'Contact Info',
 	}
@@ -51,7 +52,7 @@ export default class SettingsComponent extends Component {
 							<View style={styles.smallImagesView}>
 								<Image source={this.state.smallImage1Source} style={styles.smallImage} />
 								<Image source={this.state.smallImage2Source} style={styles.smallImage}/>
-								<Image source={require('../assets/Icons/add_photo.imageset/add_photo.png')} style={styles.smallImage}/>
+								<Image source={this.props.addImageSource} style={styles.smallImage}/>
 							</View>
 						</View>
 
