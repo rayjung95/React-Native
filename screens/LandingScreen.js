@@ -32,6 +32,8 @@ class LandingScreen extends Component {
         this.arrowFlip = new Animated.Value(0);
         this.imageXPos = new Animated.Value(0);
         this.position = new Animated.ValueXY();
+        this.pan = new Animated.ValueXY();
+        this.cardAnimation = null;
         this.rotate = this.position.x.interpolate({
             inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
             outputRange: ['-25deg', '0deg', '25deg'],
@@ -74,7 +76,7 @@ class LandingScreen extends Component {
                 this.position.setValue({ x: gs.dx, y: gs.dy })
             },
             onPanResponderRelease: (evt, gs) => {
-                console.log('RELEASED');
+                console.log('RELEASED', gs);
                 this.setState({ isMoving: false })
                 if (gs.dx > 120) {
                     Animated.spring(this.position, {
@@ -172,6 +174,30 @@ class LandingScreen extends Component {
         }).start();
     }
 
+    lock = () => {
+        console.log('lock!')
+        Animated.spring(this.position, {
+            toValue: { x: -SCREEN_WIDTH - 100, y: SCREEN_HEIGHT/2 }
+        }).start(() => {
+            this.setState({
+                imageIndex: this.state.imageIndex + 1
+            }, () => {
+                this.position.setValue({ x: 0, y: 0 })
+            })
+        })
+    }
+    unlock = () => {
+        console.log('unlock!')
+        Animated.spring(this.position, {
+            toValue: { x: SCREEN_WIDTH + 100, y: SCREEN_HEIGHT/2 }
+        }).start(() => {
+            this.setState({
+                imageIndex: this.state.imageIndex + 1
+            }, () => {
+                this.position.setValue({ x: 0, y: 0 })
+            })
+        })
+    }
 
     renderImage = () => {
         return this.props.events.available.map((item, i) => {
@@ -258,10 +284,7 @@ class LandingScreen extends Component {
                 </View>
 
                 {this.renderImage()}
-                <LocksComponent isMoving={this.state.isMoving} position={this.position} />
-
-
-
+                <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock} unlock={this.unlock} />
                 <View style={styles.footer}>
 
                     <TouchableOpacity onPress={() => this._toggleArrowAndEventCreation()}>
