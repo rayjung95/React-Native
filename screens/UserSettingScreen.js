@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
 
 import Layout from '../constants/Layout'
 import Slider from 'react-native-slider';
@@ -64,12 +64,11 @@ export default class SettingsScreen extends Component {
 							}>
 								{'Settings'}
 							</Text>
-							<Image source={
-								require('../assets/Icons/main_feed.imageset/main_feed.png')
-							} style={{
-								position: 'absolute',
-								right: SCREEN_WIDTH * -0.35,
-							}}/>
+							<TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
+								<Image source={
+									require('../assets/Icons/main_feed.imageset/main_feed.png')
+								}/>
+							</TouchableOpacity>
 						</View>
 						<Image source={
 								require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
@@ -81,11 +80,13 @@ export default class SettingsScreen extends Component {
 						}>
 							{this.state.name}
 						</Text>
-						<Text style={
-							styles.editProfileText
-						}>
-							{'Edit Profile'}
-						</Text>
+						<TouchableOpacity onPress={()=>this.props.navigation.navigate('EditProfile')}>
+							<Text style={
+								styles.editProfileText
+							}>
+								{'Edit Profile'}
+							</Text>
+						</TouchableOpacity>
 					</View>
 					<View style={
 						styles.bottomSettings
@@ -251,6 +252,8 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		flex: 1,
+		alignItems: 'center',
+		flexDirection: 'row',
 	},
 	titleText: {
 		justifyContent: 'center',
@@ -260,6 +263,8 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		textAlignVertical: 'center',
 		fontSize: 18,
+		marginLeft: SCREEN_WIDTH * 0.35,
+		marginRight: SCREEN_WIDTH * 0.31,
 	},
 	profileNameText: {
 		justifyContent: 'center',
