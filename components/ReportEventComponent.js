@@ -70,7 +70,7 @@ export default class ReportEventComponent extends Component {
                             <Text style={{
                                 color: '#FDD302',
                                 fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 1.04166667,
-                                fontStyle: 'Roboto',
+                                fontFamily: 'Roboto',
                                 marginBottom: 10
                             }}> CANCEL </Text>
                         </View>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     text: {
         color: '#FDD302',
         fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 1.04166667,
-        fontStyle: 'Roboto'
+        fontFamily: 'Roboto'
     },
     divider: {
         borderTopColor: '#cacbcc',
