@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import { Icon } from 'react-native-elements'
@@ -19,7 +19,11 @@ export default class EventCreationComponent extends React.Component {
     header: null,
   };
 
-  onPressEvent() {
+  closeComponent = () => {
+    this.props.close();
+  }
+
+  onPressEvent = () => {
     Alert.alert(
       '',
       'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
@@ -33,7 +37,7 @@ export default class EventCreationComponent extends React.Component {
   render() {
     return (
       <View style={styles.outer}>
-        <View style={{ width: '100%', height: '100%' , backgroundColor: 'transparent'}}>
+        <View style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }}>
           <View style={{
             flex: 2,
             flexDirection: 'row',
@@ -50,7 +54,10 @@ export default class EventCreationComponent extends React.Component {
                 <Text style={{ flex: 1, fontSize: 18, color: 'black', paddingLeft: 20, paddingTop: 10 }}>
                   Create new event
                 </Text>
-                <Image style={{ marginRight: 15, marginTop: 10 }} source={require('../assets/Icons/close.imageset/close.png')} />
+                <TouchableOpacity onPress={() => this.closeComponent()} style={{ backgroundColor: 'transparent' , marginRight: 15, marginTop: 10, marginBottom: 6}}>
+                  <Image style={{resizeMode:'contain'}} source={require('../assets/Icons/close.imageset/close.png')} />
+                </TouchableOpacity>
+
               </View>
               <View style={{ flex: 2, flexDirection: 'row' }}>
                 <TextInput multiline={false} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ marginTop: 0, flex: 1, backgroundColor: 'white', fontSize: 18, paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' }} fontFamily='Roboto' placeholder='Title' />
@@ -59,7 +66,7 @@ export default class EventCreationComponent extends React.Component {
               <TouchableOpacity
                 style={{ flex: 2, backgroundColor: 'white', paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)', flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => this.props.navigation.navigate('Map')}
-                >
+              >
                 <Text style={{ fontSize: 18, fontFamily: 'Roboto', color: '#8e8e93' }}>Location</Text>
               </TouchableOpacity>
 
@@ -91,7 +98,7 @@ export default class EventCreationComponent extends React.Component {
               <Text style={{ fontSize: 20, color: 'black' }} fontFamily='Roboto' >Invite Friends</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={this.onPressEvent} style={{ flex: 1.5, height: 20, backgroundColor: '#fdd302', justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => this.onPressEvent()} style={{ flex: 1.5, height: 20, backgroundColor: '#fdd302', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 25, color: 'white' }} fontFamily='Roboto' >Post</Text>
           </TouchableOpacity>
         </View>
