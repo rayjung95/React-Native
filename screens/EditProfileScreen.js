@@ -16,7 +16,7 @@ import {
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default class SettingsComponent extends Component {
+export default class EditProfileScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,6 +37,7 @@ export default class SettingsComponent extends Component {
 		mainImageSource: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
 		smallImage1Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+		addImageSource: require('../assets/Icons/add_photo.imageset/add_photo.png'),
 		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
 		contactInfoText: 'Contact Info',
 	}
@@ -60,7 +61,7 @@ export default class SettingsComponent extends Component {
 							<View style={styles.smallImagesView}>
 								<Image source={this.state.smallImage1Source} style={styles.smallImage} />
 								<Image source={this.state.smallImage2Source} style={styles.smallImage}/>
-								<Image source={require('../assets/Icons/add_photo.imageset/add_photo.png')} style={styles.smallImage}/>
+								<Image source={this.props.addImageSource} style={styles.smallImage}/>
 							</View>
 						</View>
 
@@ -102,7 +103,7 @@ export default class SettingsComponent extends Component {
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
 					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
 						<View style={styles.backArrow}>
-							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} style={styles.backArrowImage} />
 						</View>
 					</TouchableOpacity>
 					<Text style={styles.title}>
@@ -124,6 +125,11 @@ const styles = StyleSheet.create({
 		left: 0,
 		marginRight: SCREEN_WIDTH * 0.06,
 		elevation: 2,
+		alignItems: 'center',
+	},
+	backArrowImage: {
+		width: SCREEN_WIDTH * 0.07,
+		height: SCREEN_WIDTH * 0.07,
 	},
 	background: {
 		backgroundColor: '#F2F3F4',
