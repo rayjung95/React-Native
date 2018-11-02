@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import DateTimeComponent from '../components/DateTimeComponent';
+import DateTimeComponent from './DateTimeComponent';
 import { Icon } from 'react-native-elements'
 
 
-export default class EventCreationScreen extends React.Component {
+export default class EventCreationComponent extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -44,9 +44,6 @@ export default class EventCreationScreen extends React.Component {
           </View>
           <View style={{ flex: 13 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
-                <Image source={require('../assets/Icons/down_arrow/down_arrow.png')}></Image>
-              </TouchableOpacity>
             </View>
             <View style={{ flex: 15, flexDirection: 'column', backgroundColor: '#f2f3f4', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
               <View style={{ flex: 2, justifyContent: 'space-between', flexDirection: 'row' }}>

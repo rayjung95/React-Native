@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
-import {Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, { Component } from 'react'
+import { Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View, Easing } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
+import EventCreationComponent from '../components/EventCreationComponent.js';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -14,6 +15,8 @@ export default class LandingScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.eventCreationTop = new Animated.Value(1);
+        this.arrowFlip = new Animated.Value(0);
         this.imageXPos = new Animated.Value(0);
         this.position = new Animated.ValueXY();
         this.rotate = this.position.x.interpolate({
@@ -25,65 +28,99 @@ export default class LandingScreen extends Component {
             transform: [{
                 rotate: this.rotate
             },
-                ...this.position.getTranslateTransform()
+            ...this.position.getTranslateTransform()
             ]
         };
 
         this.state = {
             imageIndex: 0,
             array: [
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
-                {'img': require('../assets/Pngs/intro1.imageset/cards.png')},
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
+                { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
             ],
-            isMoving: false
+            isMoving: false,
+            eventCreationHidden: true,
+            arrowFlipped: false,
         }
 
     }
+
 
     componentWillMount() {
         this.imagePanResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true,
             onPanResponderMove: (evt, gs) => {
-                this.setState({isMoving: true})
+                this.setState({ isMoving: true })
                 // console.log('MOVING', gs.dx, gs.dy)
                 // this.imageXPos.setValue(gs.dx)
-                this.position.setValue({x: gs.dx, y: gs.dy})
+                this.position.setValue({ x: gs.dx, y: gs.dy })
             },
             onPanResponderRelease: (evt, gs) => {
                 console.log('RELEASED');
-                this.setState({isMoving: false})
+                this.setState({ isMoving: false })
                 if (gs.dx > 120) {
                     Animated.spring(this.position, {
-                        toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
+                        toValue: { x: SCREEN_WIDTH + 100, y: gs.dy }
                     }).start(() => {
                         this.setState({
                             imageIndex: this.state.imageIndex + 1
                         }, () => {
-                            this.position.setValue({x: 0, y: 0})
+                            this.position.setValue({ x: 0, y: 0 })
                         })
                     })
                 } else if (gs.dx < -120) {
                     Animated.spring(this.position, {
-                        toValue: {x: -SCREEN_WIDTH - 100, y: gs.dy}
+                        toValue: { x: -SCREEN_WIDTH - 100, y: gs.dy }
                     }).start(() => {
                         this.setState({
                             imageIndex: this.state.imageIndex + 1
                         }, () => {
-                            this.position.setValue({x: 0, y: 0})
+                            this.position.setValue({ x: 0, y: 0 })
                         })
                     })
                 } else {
                     Animated.spring(this.position, {
-                        toValue: {x: 0, y: 0},
+                        toValue: { x: 0, y: 0 },
                         friction: 4
                     }).start()
                 }
             }
         });
+    }
+
+    _toggleEventCreation = () => {
+        const opposite = !this.state.eventCreationHidden;
+        this.setState({
+            eventCreationHidden: opposite,
+        });
+
+
+        const theValue = this.state.eventCreationHidden ? 0 : 1;
+        Animated.timing(this.eventCreationTop, {
+            toValue: theValue,
+            duration: 500,
+            easing: Easing.ease,
+        }).start();
+
+    }
+
+    _toggleArrow = () => {
+        const opposite = !this.state.arrowFlipped;
+        this.setState({
+            arrowFlipped: opposite,
+        });
+
+        const theValue = this.state.arrowFlipped ? 1 : 0;
+
+        Animated.spring(this.arrowFlip, {
+            toValue: theValue,
+            tension: 10,
+            friction: 8
+        }).start();
     }
 
 
@@ -98,7 +135,7 @@ export default class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                        <EventComponent eventHostName='Johnny' eventConfirmed={false} />
                     </Animated.View>
                 )
             } else {
@@ -109,7 +146,7 @@ export default class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             eventConfirmed: false
                         })}>
-                            <EventComponent eventHostName='Johnny' eventConfirmed={false}/>
+                            <EventComponent eventHostName='Johnny' eventConfirmed={false} />
                         </TouchableOpacity>
                     </Animated.View>
                 )
@@ -118,35 +155,61 @@ export default class LandingScreen extends Component {
     };
 
     render() {
+        const arrowInterpolate = this.arrowFlip.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['180deg', '360deg']
+        });
+
+        const arrowStyle = {
+            transform: [
+                { rotateY: arrowInterpolate }
+            ]
+        }
+
+        const eventCreationInterpolate = this.eventCreationTop.interpolate({
+            inputRange: [0, 1],
+            outputRange: ["0%", "100%"]
+        })
+
+        const eventCreationStyle = {
+            top: eventCreationInterpolate,
+        }
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <Animated.Image style={[styles.footerUpArrowImage, arrowStyle]} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
                         <View style={styles.menu1}>
-                            <Image source={require('../assets/Icons/setting_yellow/settings.png')}/>
+                            <Image source={require('../assets/Icons/setting_yellow/settings.png')} />
                         </View>
                     </TouchableOpacity>
                     <View style={styles.menu2}>
-                        <Image style={{width: '100%', height: '100%', resizeMode: 'contain'}}
-                               source={require('../assets/images/logo.png')}/>
+                        <Image style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                            source={require('../assets/images/logo.png')} />
                     </View>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                         <View style={styles.menu3}>
-                            <Image source={require('../assets/Icons/event_yellow/calendar.png')}/>
+                            <Image source={require('../assets/Icons/event_yellow/calendar.png')} />
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 {this.renderImage()}
-                <LocksComponent isMoving={this.state.isMoving} position={this.position}/>
+                <LocksComponent isMoving={this.state.isMoving} position={this.position} />
+
+
 
                 <View style={styles.footer}>
-                    <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')}/>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('EventCreation')}>
+
+                    <TouchableOpacity onPress={() => [this._toggleEventCreation(), this._toggleArrow]}>
                         <Image style={styles.footerImage}
-                               source={require('../assets/Icons/create_event_icon/create_event_icon.png')}/>
+                            source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
                     </TouchableOpacity>
                 </View>
+
+                <Animated.View style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
+                    <EventCreationComponent />
+                </Animated.View>
 
             </ImageBackground>
 
@@ -215,7 +278,11 @@ const styles = StyleSheet.create({
         marginTop: SCREEN_HEIGHT * 0.89914286
     },
     footerUpArrowImage: {
-        width: SCREEN_WIDTH * 0.0761326
+        position: "absolute",
+        width: SCREEN_WIDTH * 0.0761326,
+        // top: SCREEN_HEIGHT - 109.857142857, => This is where the arrow should be before the event creation goes up
+        zIndex: 99,
+        top: SCREEN_HEIGHT - 684.857142857
     },
     footerImage: {
         width: SCREEN_WIDTH * 0.058,
