@@ -88,8 +88,7 @@ export default class GuestInfoConfirmationScreen extends Component {
     render() {
       return (
         <View style={{flex:1}}>
-            <View style={{height:StatusBar.currentHeight, backgroundColor:'black'}}></View>
-            <ScrollView style={{marginBottom: -window.height/7}}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height/7}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
                         <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
@@ -134,6 +133,7 @@ export default class GuestInfoConfirmationScreen extends Component {
                                     renderItem={this.displayMutualFriends}
                                     keyExtractor={(item, index) => item.id.toString()}
                                     horizontal={true}
+                                    showsHorizontalScrollIndicator={false}
                                 />
                             </View>
                         </View>
