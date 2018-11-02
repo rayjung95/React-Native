@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View, Easing } from 'react-native';
+import { Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View, Easing, TouchableHighlight } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
@@ -16,6 +16,7 @@ export default class LandingScreen extends Component {
     constructor(props) {
         super(props);
         this.eventCreationTop = new Animated.Value(1);
+        this.arrowTop = new Animated.Value(0);
         this.arrowFlip = new Animated.Value(0);
         this.imageXPos = new Animated.Value(0);
         this.position = new Animated.ValueXY();
@@ -45,6 +46,7 @@ export default class LandingScreen extends Component {
             isMoving: false,
             eventCreationHidden: true,
             arrowFlipped: false,
+            arrowIsTop: false,
         }
 
     }
@@ -91,6 +93,41 @@ export default class LandingScreen extends Component {
             }
         });
     }
+    _toggleArrowAndEventCreation = () => {
+        const opposite = !this.state.eventCreationHidden;
+        const opposite2 = !this.state.arrowIsTop;
+        const opposite3 = !this.state.arrowFlipped;
+
+        this.setState({
+            eventCreationHidden: opposite,
+            arrowIsTop: opposite2,
+            arrowFlipped: opposite3,
+        });
+
+        const theValue = this.state.eventCreationHidden ? 0 : 1;
+        const theValue2 = this.state.arrowIsTop ? 0 : 1;
+        const theValue3 = this.state.arrowFlipped ? 0 : 1;
+
+        Animated.parallel([
+            Animated.timing(this.eventCreationTop, {
+                toValue: theValue,
+                duration: 500,
+                easing: Easing.ease,
+            }),
+
+            Animated.timing(this.arrowTop, {
+                toValue: theValue2,
+                duration: 500,
+                easing: Easing.ease,
+            }),
+
+            Animated.timing(this.arrowFlip, {
+                toValue: theValue3,
+                duration: 500,
+                easing: Easing.ease
+            }),
+        ]).start()
+    }
 
     _toggleEventCreation = () => {
         const opposite = !this.state.eventCreationHidden;
@@ -109,17 +146,17 @@ export default class LandingScreen extends Component {
     }
 
     _toggleArrow = () => {
-        const opposite = !this.state.arrowFlipped;
+        const opposite = !this.state.arrowIsTop;
         this.setState({
-            arrowFlipped: opposite,
+            arrowIsTop: opposite,
         });
 
-        const theValue = this.state.arrowFlipped ? 1 : 0;
+        const theValue = this.state.arrowIsTop ? 0 : 1;
 
-        Animated.spring(this.arrowFlip, {
+        Animated.timing(this.arrowTop, {
             toValue: theValue,
-            tension: 10,
-            friction: 8
+            duration: 500,
+            easing: Easing.ease,
         }).start();
     }
 
@@ -155,15 +192,22 @@ export default class LandingScreen extends Component {
     };
 
     render() {
-        const arrowInterpolate = this.arrowFlip.interpolate({
+        const interpolateRotation = this.arrowFlip.interpolate({
             inputRange: [0, 1],
-            outputRange: ['180deg', '360deg']
+            outputRange: ['0deg', '180deg'],
+        })
+
+        const arrowInterpolateTop = this.arrowTop.interpolate({
+            inputRange: [0, 1],
+            outputRange: [SCREEN_HEIGHT - 109.857142857, SCREEN_HEIGHT - 684.857142857]
         });
 
         const arrowStyle = {
+            top: arrowInterpolateTop,
             transform: [
-                { rotateY: arrowInterpolate }
-            ]
+                { rotate: interpolateRotation }
+            ],
+
         }
 
         const eventCreationInterpolate = this.eventCreationTop.interpolate({
@@ -176,7 +220,12 @@ export default class LandingScreen extends Component {
         }
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <Animated.Image style={[styles.footerUpArrowImage, arrowStyle]} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+                <Animated.View style={[arrowStyle, { zIndex: 100, position: "absolute", backgroundColor: "transparent" }, styles.arrowView]}>
+                    <TouchableHighlight onPress={() => this._toggleArrowAndEventCreation()} style={{ flex: 1, backgroundColor: 'transparent' }}>
+                        <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+                    </TouchableHighlight>
+                </Animated.View>
+
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
                         <View style={styles.menu1}>
@@ -201,14 +250,14 @@ export default class LandingScreen extends Component {
 
                 <View style={styles.footer}>
 
-                    <TouchableOpacity onPress={() => [this._toggleEventCreation(), this._toggleArrow]}>
+                    <TouchableOpacity onPress={() => this._toggleArrowAndEventCreation()}>
                         <Image style={styles.footerImage}
                             source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
                     </TouchableOpacity>
                 </View>
 
                 <Animated.View style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
-                    <EventCreationComponent />
+                    <EventCreationComponent close={this._toggleArrowAndEventCreation} {...this.props} />
                 </Animated.View>
 
             </ImageBackground>
@@ -280,12 +329,26 @@ const styles = StyleSheet.create({
     footerUpArrowImage: {
         position: "absolute",
         width: SCREEN_WIDTH * 0.0761326,
-        // top: SCREEN_HEIGHT - 109.857142857, => This is where the arrow should be before the event creation goes up
+        // top: SCREEN_HEIGHT - 109.857142857,
         zIndex: 99,
-        top: SCREEN_HEIGHT - 684.857142857
+
     },
+
     footerImage: {
         width: SCREEN_WIDTH * 0.058,
         height: SCREEN_WIDTH * 0.058
+    },
+
+    arrowView: {
+        width: SCREEN_WIDTH * 0.10,
+        height: SCREEN_WIDTH * 0.058,
+        zIndex: 99,
+    },
+
+    arrow: {
+        width: "100%",
+        height: "100%",
+        zIndex: 100,
+        resizeMode: 'contain',
     }
 });
