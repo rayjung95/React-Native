@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native';
 
 import Layout from '../constants/Layout';
 
@@ -17,6 +17,7 @@ export default class SettingsComponent extends Component {
 			profileBioText: this.props.profileBioText,
 			contactInfoText: this.props.contactInfoText
 		}
+		this._connectInsta = this._connectInsta.bind(this);
 	}
 
 	static navigationOptions = {
@@ -29,6 +30,10 @@ export default class SettingsComponent extends Component {
 		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
 		contactInfoText: 'Contact Info',
+	}
+
+	_connectInsta = () => {
+		console.log('ConnectInsta Pressed');
 	}
 
 	render() {
@@ -70,13 +75,18 @@ export default class SettingsComponent extends Component {
 								value= {this.state.contactInfoText}
 							/>
 						</View>
-					
-						<View style={styles.connectInsta}>
-							<Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={styles.instaLogo} />
-							<Text style={styles.connectInstaText}>
-								Connect Instagram
-							</Text>
-						</View>
+						<TouchableHighlight
+							style={styles.connectInsta}
+							onPress={
+								this._connectInsta
+						}>
+							<View style={styles.connectInstaView}>
+								<Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={styles.instaLogo} />
+								<Text style={styles.connectInstaText}>
+									Connect Instagram
+								</Text>
+							</View>
+						</TouchableHighlight>
 					</KeyboardAvoidingView>
 				</ScrollView>
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
@@ -118,8 +128,6 @@ const styles = StyleSheet.create({
 		height: SCREEN_HEIGHT * 0.07,
 		marginTop: SCREEN_HEIGHT * 0.04,
 		marginBottom: SCREEN_HEIGHT * 0.04,
-		paddingLeft: SCREEN_WIDTH * 0.27,
-		paddingRight: SCREEN_WIDTH * 0.27,
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
@@ -128,6 +136,17 @@ const styles = StyleSheet.create({
 	connectInstaText: {
 		fontSize: 15,
 		fontFamily: 'Roboto',
+	},
+	connectInstaView: {
+		backgroundColor: '#FFFFFF',
+		width: '100%',
+		height: '100%',
+		paddingLeft: SCREEN_WIDTH * 0.27,
+		paddingRight: SCREEN_WIDTH * 0.27,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		elevation: 1,
 	},
 	contactInfo: {
 		backgroundColor: '#FFFFFF',
