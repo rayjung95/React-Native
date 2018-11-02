@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import DateTimeComponent from '../components/DateTimeComponent';
+import DateTimeComponent from './DateTimeComponent';
 import { Icon } from 'react-native-elements'
 
 
-export default class EventCreationScreen extends React.Component {
+export default class EventCreationComponent extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -44,9 +44,6 @@ export default class EventCreationScreen extends React.Component {
           </View>
           <View style={{ flex: 13 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')}>
-                <Image source={require('../assets/Icons/down_arrow/down_arrow.png')}></Image>
-              </TouchableOpacity>
             </View>
             <View style={{ flex: 15, flexDirection: 'column', backgroundColor: '#f2f3f4', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
               <View style={{ flex: 2, justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -61,8 +58,8 @@ export default class EventCreationScreen extends React.Component {
 
               <TouchableOpacity
                 style={{ flex: 2, backgroundColor: 'white', paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)', flexDirection: 'row', alignItems: 'center' }}
-                onPress={()=>this.props.navigation.navigate('Map')}
-              >
+                onPress={() => this.props.navigation.navigate('Map')}
+                >
                 <Text style={{ fontSize: 18, fontFamily: 'Roboto', color: '#8e8e93' }}>Location</Text>
               </TouchableOpacity>
 
