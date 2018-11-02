@@ -14,50 +14,6 @@ class UserCalendarScreen extends Component {
         header: null,
     };
 
-    constructor(props) {
-        super(props);
-        // this.state = {
-        //     calendar: [
-        //         {
-        //             eventHostName: 'Quentin',
-        //             eventTitle: 'POCKER & SALSA',
-        //             eventType: 'Party',
-        //             eventDay: 'WED',
-        //             eventTime: '7:00',
-        //             eventDate: 'SEPTEMBER 23',
-        //             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-        //             guestNums: 12,
-        //             eventAway: 2.5,
-        //             eventConfirmed: true
-        //         }, {
-        //             eventHostName: 'Zac',
-        //             eventTitle: 'POCKER & SALSA',
-        //             eventType: 'Party',
-        //             eventDay: 'WED',
-        //             eventTime: '7:00',
-        //             eventDate: 'SEPTEMBER 23',
-        //             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-        //             guestNums: 12,
-        //             eventAway: 2.5,
-        //             eventConfirmed: true
-        //         }, {
-        //             eventHostName: 'Jack',
-        //             eventTitle: 'POCKER & SALSA',
-        //             eventType: 'Party',
-        //             eventDay: 'WED',
-        //             eventTime: '7:00',
-        //             eventDate: 'SEPTEMBER 23',
-        //             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-        //             guestNums: 12,
-        //             eventAway: 2.5,
-        //             eventConfirmed: true
-        //         }
-        //     ]
-
-
-        // }
-    }
-
     renderEvents = () => {
         return this.props.events.confirmed.map((item, i) => {
             return (

@@ -139,7 +139,7 @@ class LandingScreen extends Component {
                 easing: Easing.ease
             }),
         ]).start()
-    }
+    };
 
     _toggleEventCreation = () => {
         const opposite = !this.state.eventCreationHidden;
@@ -174,7 +174,7 @@ class LandingScreen extends Component {
 
 
     renderImage = () => {
-        return this.state.array.map((item, i) => {
+        return this.props.events.available.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
             } else if (i === this.state.imageIndex) {
@@ -184,7 +184,7 @@ class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <EventComponent eventHostName={this.props.events.available[0].eventHostName}
+                        <EventComponent eventHostName={item.eventHostName}
                                         eventConfirmed={false}/>
                     </Animated.View>
                 )
@@ -196,7 +196,7 @@ class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             eventConfirmed: false
                         })}>
-                            <EventComponent eventHostName={this.props.events.available[0].eventHostName}
+                            <EventComponent eventHostName={item.eventHostName}
                                             eventConfirmed={false}/>
                         </TouchableOpacity>
                     </Animated.View>
