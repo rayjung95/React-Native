@@ -1,14 +1,26 @@
-import React, { Component } from 'react'
-import { Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View, Easing, TouchableHighlight } from 'react-native';
+import React, {Component} from 'react'
+import {
+    Animated,
+    Easing,
+    Image,
+    ImageBackground,
+    PanResponder,
+    StyleSheet,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 
+import {connect} from 'react-redux';
+
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
-export default class LandingScreen extends Component {
+class LandingScreen extends Component {
     static navigationOptions = {
         header: null,
     };
@@ -172,7 +184,8 @@ export default class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false} />
+                        <EventComponent eventHostName={this.props.events.available[0].eventHostName}
+                                        eventConfirmed={false}/>
                     </Animated.View>
                 )
             } else {
@@ -183,7 +196,8 @@ export default class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             eventConfirmed: false
                         })}>
-                            <EventComponent eventHostName='Johnny' eventConfirmed={false} />
+                            <EventComponent eventHostName={this.props.events.available[0].eventHostName}
+                                            eventConfirmed={false}/>
                         </TouchableOpacity>
                     </Animated.View>
                 )
@@ -352,3 +366,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     }
 });
+
+const mapStateToProps = (state) => {
+    const {events} = state;
+    return {events}
+};
+
+export default connect(mapStateToProps)(LandingScreen);
