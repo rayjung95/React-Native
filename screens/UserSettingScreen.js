@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight, TouchableOpacity, Alert } from 'react-native';
 
 import Layout from '../constants/Layout'
 import Slider from 'react-native-slider';
@@ -43,6 +43,30 @@ export default class SettingsScreen extends Component {
 
 	_openLink = async (link) => {
 		await WebBrowser.WebBrowser.openBrowserAsync(link);
+	}
+
+	_logOut = () => {
+		Alert.alert(
+			'',
+			'Log out of Rendevous?',
+			[
+				{text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+				{text: 'Log Out', onPress: () => console.log('LogOut Pressed')},
+			],
+			{ cancelable: false }
+		)
+	}
+
+	_deleteAccount = () => {
+		Alert.alert(
+			'Warning',
+			'Are you sure you want to delete your account? All content will be lost.',
+			[
+				{text: 'Yes', onPress: () => console.log('Yes Pressed')},
+				{text: 'No', onPress: () => console.log('No Pressed')},
+			],
+			{ cancelable: false }
+		)
 	}
 
 	render() {
@@ -199,7 +223,7 @@ export default class SettingsScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this.testPress
+							this._logOut
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
@@ -214,7 +238,7 @@ export default class SettingsScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this.testPress
+							this._deleteAccount
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
