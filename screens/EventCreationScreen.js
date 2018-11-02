@@ -61,8 +61,8 @@ export default class EventCreationScreen extends React.Component {
 
               <TouchableOpacity
                 style={{ flex: 2, backgroundColor: 'white', paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)', flexDirection: 'row', alignItems: 'center' }}
-                onPress={() => this.props.navigation.navigate('Map')}
-                >
+                onPress={()=>this.props.navigation.navigate('Map')}
+              >
                 <Text style={{ fontSize: 18, fontFamily: 'Roboto', color: '#8e8e93' }}>Location</Text>
               </TouchableOpacity>
 

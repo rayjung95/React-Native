@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, Image, StatusBar, ImageBackground, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Dimensions, Image, StatusBar, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 
 const window = Dimensions.get('window')
 
@@ -126,7 +126,7 @@ export default class GuestsListEditScreen extends Component {
                             }}
                             >
                                 <Image style={{width:'100%', height:'100%'}} source={
-                                    (this.state.checkBox.indexOf(item.id) >= 0) ? require('../assets/checkbox2.jpg') : require('../assets/checkbox3.jpg')
+                                    (this.state.checkBox.indexOf(item.id) >= 0) ? require('../assets/Icons/checkbox.imageset/checkbox2.jpg') : require('../assets/Icons/checkbox.imageset/checkbox3.jpg')
                                     // () => {
                                     //     if (this.state.checkBox.indexOf(item.id) >= 0) {
                                     //         return require('../assets/checkbox2.jpg')
@@ -160,7 +160,7 @@ export default class GuestsListEditScreen extends Component {
                         <View style={styles.container}>
                             <View style={styles.headerContainer}>
                                 <View style={{flex:1, alignItems:'center'}}>
-                                    <Image style={{width:window.height/34, height:window.height/34, resizeMode:'contain'}} source={require('../assets/checkbox.jpg')}/>
+                                    <Image style={{width:window.height/34, height:window.height/34, resizeMode:'contain'}} source={require('../assets/Icons/checkbox.imageset/checkbox.jpg')}/>
                                 </View>
                                 <View style={{flex:5, alignItems:'flex-start'}}>
                                     <Text style={{color:'white'}}>{this.state.checkBox.length} Selected</Text>
@@ -169,19 +169,24 @@ export default class GuestsListEditScreen extends Component {
                                     <TouchableOpacity
                                         onPress = {(this.state.checkBox.length > 0)
                                         ? () => {
-                                            for (i=0;i<this.state.guestsListData.length;i++) {
-                                                if (this.state.checkBox.indexOf(this.state.guestsListData[i].id) >= 0) {
-                                                    this.state.guestsListData.splice(i, 1)
-                                                    i--;
-                                                    // this.state.guestsListData.splice( this.state.guestsListData.indexOf(this.state.checkBox.indexOf(this.state.guestsListData[i].id)), 1 );
-                                                }
-                                                
-                                            }
-                                            this.setState({
-                                                guestsListData: this.state.guestsListData,
-                                                checkBox: []
-                                            })
-
+                                            Alert.alert('', 'Sure you want to delete selected users?', [
+                                                {text:'CANCEL', onPress: () => console.log('You cancelled')},
+                                                {text:'YES', onPress: () => {
+                                                    for (i=0;i<this.state.guestsListData.length;i++) {
+                                                        if (this.state.checkBox.indexOf(this.state.guestsListData[i].id) >= 0) {
+                                                            this.state.guestsListData.splice(i, 1)
+                                                            i--;
+                                                            // this.state.guestsListData.splice( this.state.guestsListData.indexOf(this.state.checkBox.indexOf(this.state.guestsListData[i].id)), 1 );
+                                                        }
+                                                        
+                                                    }
+                                                    this.setState({
+                                                        guestsListData: this.state.guestsListData,
+                                                        checkBox: []
+                                                    })
+                                                    this.props.navigation.navigate('GuestsList')
+                                                }}
+                                            ])
                                         }: () => {
                                             this.props.navigation.navigate('GuestsList')
                                         }}

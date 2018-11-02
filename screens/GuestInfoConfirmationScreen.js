@@ -92,10 +92,10 @@ export default class GuestInfoConfirmationScreen extends Component {
             <ScrollView style={{marginBottom: -window.height/6}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
-                        <Image style={styles.images} source={require('../assets/girlphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/profilePhoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
-                        <Image style={styles.images} source={require('../assets/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
+                        <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                     </Swiper>
                     <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('Guest')}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
@@ -113,7 +113,7 @@ export default class GuestInfoConfirmationScreen extends Component {
                         <View style={{alignItems:'flex-end', justifyContent:'center', flex:1}}>
                             <View style={{flex:1, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
                                 <Text style={{fontSize:window.height/50}}>Instagram</Text>
-                                <Image source={require('../assets/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
+                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
                             </View>
                         </View>
                     </View>

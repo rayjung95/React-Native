@@ -115,7 +115,7 @@ export default class GuestsListScreen extends Component {
                             <View style={styles.headerContainer}>
                                 <View style={{flex:1, alignItems:'center'}}>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
-                                        <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/go-back-left-arrow.png')}/>
+                                        <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:5, alignItems:'flex-start',}}>
