@@ -1,8 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight } from 'react-native';
-
-import Layout from '../constants/Layout'
+import React, {Component} from 'react';
+import {
+    Alert,
+    Dimensions,
+    Image,
+    ImageBackground,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Slider from 'react-native-slider';
 import WebBrowser from 'expo';
 
@@ -10,7 +18,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 
-export default class SettingsScreen extends Component {
+export default class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,6 +53,30 @@ export default class SettingsScreen extends Component {
 		await WebBrowser.WebBrowser.openBrowserAsync(link);
 	}
 
+    _logOut = () => {
+        Alert.alert(
+            '',
+            'Log out of Rendevous?',
+            [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+                {text: 'Log Out', onPress: () => console.log('LogOut Pressed')},
+            ],
+            {cancelable: false}
+        )
+    }
+
+    _deleteAccount = () => {
+        Alert.alert(
+            'Warning',
+            'Are you sure you want to delete your account? All content will be lost.',
+            [
+                {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+                {text: 'No', onPress: () => console.log('No Pressed')},
+            ],
+            {cancelable: false}
+        )
+    }
+
 	render() {
 		return (
 			<ImageBackground source={
@@ -64,12 +96,11 @@ export default class SettingsScreen extends Component {
 							}>
 								{'Settings'}
 							</Text>
-							<Image source={
-								require('../assets/Icons/main_feed.imageset/main_feed.png')
-							} style={{
-								position: 'absolute',
-								right: SCREEN_WIDTH * -0.35,
-							}}/>
+							<TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
+								<Image source={
+									require('../assets/Icons/main_feed.imageset/main_feed.png')
+								}/>
+							</TouchableOpacity>
 						</View>
 						<Image source={
 								require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
@@ -81,11 +112,13 @@ export default class SettingsScreen extends Component {
 						}>
 							{this.state.name}
 						</Text>
-						<Text style={
-							styles.editProfileText
-						}>
-							{'Edit Profile'}
-						</Text>
+						<TouchableOpacity onPress={()=>this.props.navigation.navigate('EditProfile')}>
+							<Text style={
+								styles.editProfileText
+							}>
+								{'Edit Profile'}
+							</Text>
+						</TouchableOpacity>
 					</View>
 					<View style={
 						styles.bottomSettings
@@ -198,7 +231,7 @@ export default class SettingsScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this.testPress
+                            this._logOut
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
@@ -213,7 +246,7 @@ export default class SettingsScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this.testPress
+                            this._deleteAccount
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
@@ -251,6 +284,8 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		flex: 1,
+		alignItems: 'center',
+		flexDirection: 'row',
 	},
 	titleText: {
 		justifyContent: 'center',
@@ -260,6 +295,8 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		textAlignVertical: 'center',
 		fontSize: 18,
+		marginLeft: SCREEN_WIDTH * 0.35,
+		marginRight: SCREEN_WIDTH * 0.31,
 	},
 	profileNameText: {
 		justifyContent: 'center',

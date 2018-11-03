@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableHighlight, TouchableOpacity, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -87,7 +87,6 @@ export default class GuestProfileScreen extends Component {
     render() {
       return (
         <View style={{flex:1}}>
-            <View style={{height:StatusBar.currentHeight, backgroundColor:'black'}}></View>
             <View>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
@@ -131,6 +130,7 @@ export default class GuestProfileScreen extends Component {
                                     renderItem={this.displayMutualFriends}
                                     keyExtractor={(item, index) => item.id.toString()}
                                     horizontal={true}
+                                    showsHorizontalScrollIndicator={false}
                                 />
                             </View>
                         </View>
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
         height:'100%',
     },
     nameAge:{
-        flex:2,
+        flex: 2.5,
         flexDirection:'row',
     },
     description:{
-        flex:3.25,
+        flex: 3.75,
     },
     mutualFriends:{
         flex:9,

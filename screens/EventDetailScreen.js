@@ -1,8 +1,10 @@
 import React, {Component} from "react";
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
-import EventDetailsClickableItemsComponent from "../components/EventDetailsClickableItemsComponent";
+import EventDetailsHiddenItemsComponent from "../components/EventDetailsHiddenItemsComponent";
+import ReportEventComponent from "../components/ReportEventComponent";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -26,10 +28,11 @@ export default class EventDetailsScreen extends Component {
             guestNums: props.guestNums,
             eventAway: props.eventAway,
             eventAddress: props.eventAddress,
-            eventWebsite: props.eventWebsite
+            eventWebsite: props.eventWebsite,
+            isModalVisible: false
         };
 
-        // this._handlePressSlack = this._handlePressSlack.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -52,10 +55,17 @@ export default class EventDetailsScreen extends Component {
         WebBrowser.openBrowserAsync('https://www.google.ca');
     };
 
+    toggleModal() {
+        this.setState({
+            isModalVisible: !this.state.isModalVisible
+        })
+    }
+
     render() {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <StatusBar hidden/>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Image
@@ -66,7 +76,7 @@ export default class EventDetailsScreen extends Component {
 
                     <Text style={styles.headerText}> Ketchup & Zombie </Text>
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profileContainer}>
                             <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
@@ -199,18 +209,20 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
+                                        <TouchableOpacity
+                                            onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                            <View style={styles.eventDetailsClickableItem}>
 
-                                            <Text style={styles.eventDetailsText}>
-                                                Confirmed Guests
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    Confirmed Guests
+                                                </Text>
+
                                                 <Image
                                                     source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                            </TouchableOpacity>
 
-                                        </View>
+                                            </View>
+                                        </TouchableOpacity>
+
                                         <View style={styles.guestPicsContainer}>
                                             <View style={styles.guestPicThumbnailContainer}>
                                                 <Image
@@ -251,22 +263,24 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
+                                        <TouchableOpacity
+                                            style={styles.eventDetailsClickableItem}
+                                            onPress={this.toggleModal}
+                                        >
                                             <Text style={styles.eventDetailsText}>
                                                 Report Event
                                             </Text>
                                             <Image
                                                 source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                        </View>
+                                        </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>
                             </View>
                             :
-                            <EventDetailsClickableItemsComponent eventConfirmed={false}/>
+                            <EventDetailsHiddenItemsComponent/>
                         }
-
-
+                        <ReportEventComponent isModalVisible={this.state.isModalVisible}/>
                     </View>
                 </ScrollView>
             </ImageBackground>
@@ -286,8 +300,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%',
-        marginTop: SCREEN_HEIGHT * 0.0275
+        width: '100%'
     },
     icon: {
         width: 20,

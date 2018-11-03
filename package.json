@@ -37,7 +37,8 @@
     "react-redux": "^5.1.0",
     "redux": "^4.0.1",
     "redux-axios-middleware": "^4.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-native-modal": "latest"
   },
   "devDependencies": {
     "jest-expo": "30.0.0"
