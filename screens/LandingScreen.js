@@ -16,6 +16,8 @@ import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {confirmEvent} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -82,6 +84,7 @@ class LandingScreen extends Component {
                     Animated.spring(this.position, {
                         toValue: { x: SCREEN_WIDTH + 100, y: gs.dy }
                     }).start(() => {
+                        this.props.confirmEvent(this.state.imageIndex);
                         this.setState({
                             imageIndex: this.state.imageIndex + 1
                         }, () => {
@@ -395,4 +398,10 @@ const mapStateToProps = (state) => {
     return {events}
 };
 
-export default connect(mapStateToProps)(LandingScreen);
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        confirmEvent,
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);

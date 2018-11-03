@@ -10,26 +10,13 @@ const initialState = {
     }, {
         eventHostName: 'Johnny',
         eventTitle: 'Pocker and Salsa',
-        eventConfirmed: true
+        eventConfirmed: false
     }, {
         eventHostName: 'Joseph',
         eventTitle: 'Pocker and Salsa',
-        eventConfirmed: true
+        eventConfirmed: false
     }],
-    confirmed: [{
-        eventHostName: 'Johnny',
-        eventTitle: 'Pocker and Salsa',
-        eventConfirmed: true
-    }, {
-        eventHostName: 'Zac',
-        eventTitle: 'Pocker and Salsa',
-        eventConfirmed: true
-    },
-        {
-            eventHostName: 'Quentin',
-            eventTitle: 'Pocker and Salsa',
-            eventConfirmed: true
-        }]
+    confirmed: []
 };
 
 export const eventsReducer = (state = initialState, action) => {
@@ -39,8 +26,9 @@ export const eventsReducer = (state = initialState, action) => {
                 available,
                 confirmed
             } = state;
-            const confirmedEvent = available.splice(action.payload, 1);
+            const confirmedEvent = available[action.payload];
             confirmed.push(confirmedEvent);
+            available.splice(action.payload, 1);
 
             return {available, confirmed};
 
