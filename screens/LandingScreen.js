@@ -1,14 +1,28 @@
-import React, { Component } from 'react'
-import { Animated, Image, ImageBackground, PanResponder, StyleSheet, TouchableOpacity, View, Easing, TouchableHighlight } from 'react-native';
+import React, {Component} from 'react'
+import {
+    Animated,
+    Easing,
+    Image,
+    ImageBackground,
+    PanResponder,
+    StyleSheet,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {confirmEvent} from "../actions/eventsActions";
+
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
-export default class LandingScreen extends Component {
+class LandingScreen extends Component {
     static navigationOptions = {
         header: null,
     };
@@ -70,6 +84,7 @@ export default class LandingScreen extends Component {
                     Animated.spring(this.position, {
                         toValue: { x: SCREEN_WIDTH + 100, y: gs.dy }
                     }).start(() => {
+                        this.props.confirmEvent(this.state.imageIndex);
                         this.setState({
                             imageIndex: this.state.imageIndex + 1
                         }, () => {
@@ -129,7 +144,7 @@ export default class LandingScreen extends Component {
                 easing: Easing.ease
             }),
         ]).start()
-    }
+    };
 
     _toggleEventCreation = () => {
         const opposite = !this.state.eventCreationHidden;
@@ -188,7 +203,7 @@ export default class LandingScreen extends Component {
     }
 
     renderImage = () => {
-        return this.state.array.map((item, i) => {
+        return this.props.events.available.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
             } else if (i === this.state.imageIndex) {
@@ -198,7 +213,8 @@ export default class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <EventComponent eventHostName='Johnny' eventConfirmed={false} />
+                        <EventComponent eventHostName={item.eventHostName}
+                                        eventConfirmed={false}/>
                     </Animated.View>
                 )
             } else {
@@ -209,7 +225,8 @@ export default class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             eventConfirmed: false
                         })}>
-                            <EventComponent eventHostName='Johnny' eventConfirmed={false} />
+                            <EventComponent eventHostName={item.eventHostName}
+                                            eventConfirmed={false}/>
                         </TouchableOpacity>
                     </Animated.View>
                 )
@@ -375,3 +392,16 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     }
 });
+
+const mapStateToProps = (state) => {
+    const {events} = state;
+    return {events}
+};
+
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        confirmEvent,
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);

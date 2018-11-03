@@ -1,5 +1,15 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, Image, StatusBar, ImageBackground, TouchableOpacity, Alert } from 'react-native';
+import React, {Component} from 'react';
+import {
+    Alert,
+    Dimensions,
+    FlatList,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const window = Dimensions.get('window')
 
@@ -7,7 +17,8 @@ export default class GuestsListEditScreen extends Component {
     static navigationOptions = {
         header: null,
       };
-    constructor({ navigation }) {
+
+    constructor({navigation}) {
         super();
         this.state = {
             guestsListData: navigation.getParam('guests', 'No guest'),
@@ -40,7 +51,7 @@ export default class GuestsListEditScreen extends Component {
                             </View>
                         </View>
                         <View style={{flex:5, alignItems:'flex-start'}}>
-                            <Text style={{fontWeight:'bold', fontSize:window.height/40}}>{item.guestName}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: window.height / 40}}>{item.guestName}</Text>
                         </View>
                         <View style={{flex:1, alignItems:'center'}}>
                             <TouchableOpacity style={{width:window.height/34, height:window.height/34}}
@@ -85,7 +96,7 @@ export default class GuestsListEditScreen extends Component {
     }
 
     render() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         return(
             <View style={{flex:1}}>
                 <View style={{flex:1}}>
@@ -99,7 +110,10 @@ export default class GuestsListEditScreen extends Component {
                                     <Image style={{width:window.height/34, height:window.height/34, resizeMode:'contain'}} source={require('../assets/Icons/checkbox.imageset/checkbox.jpg')}/>
                                 </View>
                                 <View style={{flex:5, alignItems:'flex-start'}}>
-                                    <Text style={{color:'white', fontSize:window.height/40}}>{this.state.checkBox.length} Selected</Text>
+                                    <Text style={{
+                                        color: 'white',
+                                        fontSize: window.height / 40
+                                    }}>{this.state.checkBox.length} Selected</Text>
                                 </View>
                                 <View style={{flex:1, alignItems:'flex-start'}}>
                                     <TouchableOpacity
@@ -123,10 +137,13 @@ export default class GuestsListEditScreen extends Component {
                                                 }}
                                             ])
                                         }: () => {
-                                            this.props.navigation.navigate('GuestsList',{guestsRemain:this.state.guestsListData})
+                                                this.props.navigation.navigate('GuestsList', {guestsRemain: this.state.guestsListData})
                                         }}
                                     >
-                                        <Text style={{color:'yellow', fontSize:window.height/40}}>{(this.state.checkBox.length > 0) ? 'Delete':'Done'}</Text>
+                                        <Text style={{
+                                            color: 'yellow',
+                                            fontSize: window.height / 40
+                                        }}>{(this.state.checkBox.length > 0) ? 'Delete' : 'Done'}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

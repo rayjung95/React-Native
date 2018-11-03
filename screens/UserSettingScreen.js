@@ -1,8 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, ScrollView, TouchableHighlight, TouchableOpacity, Alert } from 'react-native';
-
-import Layout from '../constants/Layout'
+import React, {Component} from 'react';
+import {
+    Alert,
+    Dimensions,
+    Image,
+    ImageBackground,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Slider from 'react-native-slider';
 import WebBrowser from 'expo';
 
@@ -45,29 +53,29 @@ export default class UserSettingScreen extends Component {
 		await WebBrowser.WebBrowser.openBrowserAsync(link);
 	}
 
-	_logOut = () => {
-		Alert.alert(
-			'',
-			'Log out of Rendevous?',
-			[
-				{text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
-				{text: 'Log Out', onPress: () => console.log('LogOut Pressed')},
-			],
-			{ cancelable: false }
-		)
-	}
+    _logOut = () => {
+        Alert.alert(
+            '',
+            'Log out of Rendevous?',
+            [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+                {text: 'Log Out', onPress: () => console.log('LogOut Pressed')},
+            ],
+            {cancelable: false}
+        )
+    }
 
-	_deleteAccount = () => {
-		Alert.alert(
-			'Warning',
-			'Are you sure you want to delete your account? All content will be lost.',
-			[
-				{text: 'Yes', onPress: () => console.log('Yes Pressed')},
-				{text: 'No', onPress: () => console.log('No Pressed')},
-			],
-			{ cancelable: false }
-		)
-	}
+    _deleteAccount = () => {
+        Alert.alert(
+            'Warning',
+            'Are you sure you want to delete your account? All content will be lost.',
+            [
+                {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+                {text: 'No', onPress: () => console.log('No Pressed')},
+            ],
+            {cancelable: false}
+        )
+    }
 
 	render() {
 		return (
@@ -223,7 +231,7 @@ export default class UserSettingScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this._logOut
+                            this._logOut
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
@@ -238,7 +246,7 @@ export default class UserSettingScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonContainer
 						} onPress={
-							this._deleteAccount
+                            this._deleteAccount
 						}>
 							<View style={styles.textButtonHighlight}>
 								<Text style={{
