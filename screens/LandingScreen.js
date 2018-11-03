@@ -292,7 +292,7 @@ class LandingScreen extends Component {
                 {/* </View> */}
 
                 <Animated.View style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
-                    <EventCreationComponent close={this._toggleArrowAndEventCreation} {...this.props} />
+                    <EventCreationComponent title='Create new event ' buttonText='Post' close={this._toggleArrowAndEventCreation} {...this.props} />
                 </Animated.View>
 
             </ImageBackground>

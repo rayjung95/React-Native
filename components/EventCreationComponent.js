@@ -22,6 +22,9 @@ const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
 export default class EventCreationComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   static navigationOptions = {
     header: null,
   };
@@ -57,7 +60,7 @@ export default class EventCreationComponent extends React.Component {
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ width: SCREEN_WIDTH, flexDirection: 'column', backgroundColor: '#f2f3f4', borderTopLeftRadius: SCREEN_WIDTH * (10 / 360), borderTopRightRadius: SCREEN_WIDTH * (10 / 360) }}>
           <View style={{ height: SCREEN_HEIGHT * (54 / 592), justifyContent:'space-between', flexDirection: 'row', alignItems: 'center' }}>
             <Text style={{ marginLeft: SCREEN_WIDTH * (17/360), fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black'}}>
-              Create new event
+              {this.props.title}
               </Text>
             <TouchableOpacity onPress={() => this.closeComponent()} style={{ backgroundColor: 'transparent', marginRight: SCREEN_WIDTH * (15/360), marginTop: SCREEN_HEIGHT * (16 / 592), marginBottom: SCREEN_HEIGHT * (16 / 592) }}>
               <Image style={{ resizeMode: 'contain' }} source={require('../assets/Icons/close.imageset/close.png')} />
@@ -101,7 +104,7 @@ export default class EventCreationComponent extends React.Component {
             </View>
           </View>
           <TouchableOpacity onPress={this.onPressEvent} style={{ height: SCREEN_HEIGHT * (54 / 592), backgroundColor: '#fdd302', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: SCREEN_HEIGHT * (15 / 592), color: 'white', fontWeight: 'bold' }} fontFamily='Roboto' >Post</Text>
+            <Text style={{ fontSize: SCREEN_HEIGHT * (15 / 592), color: 'white', fontWeight: 'bold' }} fontFamily='Roboto' >{this.props.buttonText}</Text>
           </TouchableOpacity>
 
 
