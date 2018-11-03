@@ -167,7 +167,7 @@ export default class UserSettingScreen extends Component {
 						<TouchableHighlight style={
 							styles.textButtonWithArrowContainer
 						} onPress={
-							this.testPress
+							() => this.props.navigation.navigate('Invite')
 						}>
 							<View style={styles.highlightView}>
 								<Text style={{
