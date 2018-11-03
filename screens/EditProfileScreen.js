@@ -40,7 +40,7 @@ export default class EditProfileScreen extends Component {
 	render() {
 		return (
 			<View style={styles.background}>
-				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.09 }} showsVerticalScrollIndicator={false}>
+				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.091 }} showsVerticalScrollIndicator={false}>
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
 							<View style={styles.mainImageView}>
