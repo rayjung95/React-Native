@@ -34,7 +34,7 @@ export default class EventDetailsHiddenItemsComponent extends Component {
     renderEventDetailsItems = () => {
         return Object.values(this.state).map((item, i) => {
             return (
-                <View style={styles.eventDetailsItemContainer}>
+                <View key={i} style={styles.eventDetailsItemContainer}>
                     <View style={styles.eventDetailIcons}>
                         <Image source={item.icon}/>
                     </View>
