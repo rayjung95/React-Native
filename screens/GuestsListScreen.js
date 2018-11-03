@@ -17,7 +17,6 @@ export default class GuestsListScreen extends Component {
     }
 
     componentWillMount() {
-        // if (navigation.getParam('guests', 'No Image') == undefined){
         this.setState({
             guestsListData: [
                 {
@@ -78,11 +77,6 @@ export default class GuestsListScreen extends Component {
             ],
 
         })
-        // }else {
-        //     this.setState({
-        //         guestsListData:navigation.getParam('guestsRemain', 'No guest')
-        //     })
-        // }
     }
 
     displayGuestsList = ({item}) => {
@@ -116,9 +110,6 @@ export default class GuestsListScreen extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                {/* <View 
-                style={{height:StatusBar.currentHeight, backgroundColor:'black'}}>
-                </View> */}
                 <View style={{flex: 1}}>
                     <ImageBackground
                         source={require('../assets/Pngs/bg.imageset/bg.png')}
