@@ -1,8 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native';
-
-import Layout from '../constants/Layout';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -17,7 +26,7 @@ export default class EditProfileScreen extends Component {
 			profileBioText: this.props.profileBioText,
 			contactInfoText: this.props.contactInfoText
 		}
-		this._connectInsta = this._connectInsta.bind(this);
+        this._connectInsta = this._connectInsta.bind(this);
 	}
 
 	static navigationOptions = {
@@ -33,9 +42,9 @@ export default class EditProfileScreen extends Component {
 		contactInfoText: 'Contact Info',
 	}
 
-	_connectInsta = () => {
-		console.log('ConnectInsta Pressed');
-	}
+    _connectInsta = () => {
+        console.log('ConnectInsta Pressed');
+    }
 
 	render() {
 		return (
@@ -76,18 +85,19 @@ export default class EditProfileScreen extends Component {
 								value= {this.state.contactInfoText}
 							/>
 						</View>
-						<TouchableHighlight
-							style={styles.connectInsta}
-							onPress={
-								this._connectInsta
-						}>
-							<View style={styles.connectInstaView}>
-								<Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={styles.instaLogo} />
-								<Text style={styles.connectInstaText}>
-									Connect Instagram
-								</Text>
-							</View>
-						</TouchableHighlight>
+                        <TouchableHighlight
+                            style={styles.connectInsta}
+                            onPress={
+                                this._connectInsta
+                            }>
+                            <View style={styles.connectInstaView}>
+                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')}
+                                       style={styles.instaLogo}/>
+                                <Text style={styles.connectInstaText}>
+                                    Connect Instagram
+                                </Text>
+                            </View>
+                        </TouchableHighlight>
 					</KeyboardAvoidingView>
 				</ScrollView>
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
@@ -143,17 +153,17 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		fontFamily: 'Roboto',
 	},
-	connectInstaView: {
-		backgroundColor: '#FFFFFF',
-		width: '100%',
-		height: '100%',
-		paddingLeft: SCREEN_WIDTH * 0.27,
-		paddingRight: SCREEN_WIDTH * 0.27,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		elevation: 1,
-	},
+    connectInstaView: {
+        backgroundColor: '#FFFFFF',
+        width: '100%',
+        height: '100%',
+        paddingLeft: SCREEN_WIDTH * 0.27,
+        paddingRight: SCREEN_WIDTH * 0.27,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        elevation: 1,
+    },
 	contactInfo: {
 		backgroundColor: '#FFFFFF',
 		width: SCREEN_WIDTH,

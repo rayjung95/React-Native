@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
@@ -65,6 +65,7 @@ export default class EventDetailsScreen extends Component {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <StatusBar hidden/>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Image
@@ -299,8 +300,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%',
-        marginTop: SCREEN_HEIGHT * 0.0275
+        width: '100%'
     },
     icon: {
         width: 20,

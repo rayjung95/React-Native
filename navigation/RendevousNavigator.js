@@ -14,6 +14,7 @@ import GuestProfileScreen from '../screens/GuestProfileScreen';
 import HostProfileScreen from '../screens/HostProfileScreen';
 import GuestInfoConfirmationScreen from '../screens/GuestInfoConfirmationScreen';
 import MessagesScreen from '../screens/MessagesScreen';
+import ChattingScreen from '../screens/ChattingScreen';
 
 export default createStackNavigator({
     Login: LoginScreen,
@@ -31,4 +32,5 @@ export default createStackNavigator({
     HostProfile: HostProfileScreen,
     GuestInfoConfirmation: GuestInfoConfirmationScreen,
     Messages: MessagesScreen,
+    Chatting: ChattingScreen,
 })

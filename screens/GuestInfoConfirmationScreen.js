@@ -1,5 +1,15 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, ImageBackground, StatusBar, TouchableHighlight, TouchableOpacity, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    FlatList,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -88,7 +98,7 @@ export default class GuestInfoConfirmationScreen extends Component {
     render() {
       return (
         <View style={{flex:1}}>
-            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height/7}}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height / 7}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
                         <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
