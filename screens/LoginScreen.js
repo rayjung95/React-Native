@@ -17,7 +17,7 @@ export default class LoginScreen extends Component {
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <StatusBar hidden />
+                <StatusBar barStyle='light-content'/>
                 <View style={styles.loginScreenContainer}>
                     <Text style={styles.welcome}>Welcome to</Text>
                     <Image style={styles.appLogo} source={require('../assets/images/logo.png')} />
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: StatusBar.currentHeight
     },
     loginScreenContainer: {
         alignItems: 'center',

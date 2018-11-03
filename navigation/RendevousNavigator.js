@@ -13,6 +13,7 @@ import GuestsListEditScreen from '../screens/GuestsListEditScreen';
 import GuestProfileScreen from '../screens/GuestProfileScreen';
 import HostProfileScreen from '../screens/HostProfileScreen';
 import GuestInfoConfirmationScreen from '../screens/GuestInfoConfirmationScreen';
+import InviteFriends from '../screens/InviteFriends';
 import MessagesScreen from '../screens/MessagesScreen';
 import ChattingScreen from '../screens/ChattingScreen';
 
@@ -31,6 +32,7 @@ export default createStackNavigator({
     GuestProfile: GuestProfileScreen,
     HostProfile: HostProfileScreen,
     GuestInfoConfirmation: GuestInfoConfirmationScreen,
+    Invite: InviteFriends,
     Messages: MessagesScreen,
     Chatting: ChattingScreen,
 })
