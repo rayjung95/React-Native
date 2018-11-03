@@ -172,9 +172,11 @@ export default class GuestConfirmationScreen extends Component {
             </View>
           </View>
           <View style={styles.menu2}>
-            <Image style={{ width: 26, height: 24 }}
-              source={require('../assets/Icons/not_message.imageset/not_message.png')} />
-            {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
+              <Image style={{ width: 26, height: 24 }}
+                source={require('../assets/Icons/not_message.imageset/not_message.png')} />
+              {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
+            </TouchableOpacity>
           </View>
         </View>
 
