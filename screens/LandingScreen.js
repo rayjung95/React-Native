@@ -115,17 +115,8 @@ export default class LandingScreen extends Component {
                 easing: Easing.ease,
             }),
 
-            Animated.timing(this.arrowTop, {
-                toValue: theValue2,
-                duration: 500,
-                easing: Easing.ease,
-            }),
 
-            Animated.timing(this.arrowFlip, {
-                toValue: theValue3,
-                duration: 500,
-                easing: Easing.ease
-            }),
+            
         ]).start()
     }
 
@@ -199,11 +190,12 @@ export default class LandingScreen extends Component {
 
         const arrowInterpolateTop = this.arrowTop.interpolate({
             inputRange: [0, 1],
-            outputRange: [SCREEN_HEIGHT - 109.857142857, SCREEN_HEIGHT - 684.857142857]
+            outputRange: [SCREEN_HEIGHT * 0.0931458699472, SCREEN_HEIGHT * 0.8345070422535]
+            // outputRange: [SCREEN_HEIGHT * (0.175465838509317 + 0.036), SCREEN_HEIGHT * (0.830745341614907 - 0.036)]
         });
 
         const arrowStyle = {
-            top: arrowInterpolateTop,
+            bottom: arrowInterpolateTop,
             transform: [
                 { rotate: interpolateRotation }
             ],
@@ -248,13 +240,13 @@ export default class LandingScreen extends Component {
 
 
 
-                <View style={styles.footer}>
+                {/* <View style={styles.footer}> */}
 
-                    <TouchableOpacity onPress={() => this._toggleArrowAndEventCreation()}>
+                    <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
                         <Image style={styles.footerImage}
                             source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
                     </TouchableOpacity>
-                </View>
+                {/* </View> */}
 
                 <Animated.View style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
                     <EventCreationComponent close={this._toggleArrowAndEventCreation} {...this.props} />
@@ -318,13 +310,15 @@ const styles = StyleSheet.create({
         bottom: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT * 0.5217 / 2,
     },
     footer: {
-        width: SCREEN_WIDTH * 0.0761326,
-        height: SCREEN_WIDTH * 0.116,
+        // width: SCREEN_WIDTH * 0.0761326,
+        // height: SCREEN_WIDTH * 0.116,
+        height: SCREEN_HEIGHT * 0.0369718309859,
+        width: SCREEN_WIDTH * (21/360),
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'absolute',
-        marginTop: SCREEN_HEIGHT * 0.89914286
+        bottom: SCREEN_HEIGHT * (25/592),
     },
     footerUpArrowImage: {
         position: "absolute",
@@ -335,13 +329,17 @@ const styles = StyleSheet.create({
     },
 
     footerImage: {
-        width: SCREEN_WIDTH * 0.058,
-        height: SCREEN_WIDTH * 0.058
+        // width: SCREEN_WIDTH * 0.058,
+        // height: SCREEN_WIDTH * 0.058
+        width: "100%",
+        height: "100%",
+        resizeMode: 'contain',
     },
 
     arrowView: {
-        width: SCREEN_WIDTH * 0.10,
-        height: SCREEN_WIDTH * 0.058,
+        width: SCREEN_WIDTH * 0.06801105,
+        height: SCREEN_HEIGHT * 0.00908178,
+        backgroundColor: 'transparent',
         zIndex: 99,
     },
 

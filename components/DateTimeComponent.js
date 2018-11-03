@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Layout from '../constants/Layout';
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class DateTimePickerTester extends Component {
   constructor(props) {
     super(props);
     this.state = {
       word: this.props.word,
-      datetime: '' 
+      datetime: 'Enter a date and time' 
     }
   }
   
@@ -49,9 +52,9 @@ export default class DateTimePickerTester extends Component {
     return (
       <View style={{ flex: 1 , flexDirection: "row", justifyContent: 'space-between',}}>
         <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text style={{ flex: 1, fontSize: 18, color: 'black' , paddingLeft: 20, paddingTop: 10}} fontFamily='Roboto'>{this.state.word}</Text>
+          <Text style={{ flex: 1, fontSize: SCREEN_HEIGHT * (16/592), color: 'black' , marginLeft: 20, paddingTop: 10}} fontFamily='Roboto'>{this.state.word}</Text>
         </TouchableOpacity>
-          <Text style={{ flex: 1, fontSize: 18, color: 'black', paddingTop: 10, marginLeft: 150}} fontFamily='Roboto'>{this.state.datetime}</Text>
+          <Text style={{ flex: 1, fontSize: SCREEN_HEIGHT * (10/592), color: 'black', paddingTop: 10, marginLeft: 150}} fontFamily='Roboto'>{this.state.datetime}</Text>
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
