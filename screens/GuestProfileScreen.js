@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableHighlight, TouchableOpacity, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
         height:'100%',
     },
     nameAge:{
-        flex:2.5,
+        flex: 2.5,
         flexDirection:'row',
     },
     description:{
-        flex:3.75,
+        flex: 3.75,
     },
     mutualFriends:{
         flex:9,

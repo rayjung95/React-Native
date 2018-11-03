@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, StatusBar, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const window = Dimensions.get('window')
@@ -123,7 +123,7 @@ export default class HostProfileScreen extends Component {
                         <View style={{flex:0.75, justifyContent:'center'}}>
                             <Text style={{marginLeft:10, marginRight:10, fontSize:window.height/45}}>Mutual friends: </Text>
                         </View>
-                        <View style={{flex:4,}} >
+                        <View style={{flex: 4,}}>
                             <View style={{flex:1, marginLeft:10, marginRight:10}}>
                                 <FlatList
                                     data={this.state.mutualFriendsData}
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
         height:'100%',
     },
     nameAge:{
-        flex:2.5,
+        flex: 2.5,
         flexDirection:'row',
     },
     description:{
-        flex:3.75,
+        flex: 3.75,
     },
     mutualFriends:{
         flex:9,

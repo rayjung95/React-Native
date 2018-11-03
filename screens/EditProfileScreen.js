@@ -1,13 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TextInput, KeyboardAvoidingView, ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native';
-
-import Layout from '../constants/Layout';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export default class SettingsComponent extends Component {
+export default class EditProfileScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -17,7 +26,7 @@ export default class SettingsComponent extends Component {
 			profileBioText: this.props.profileBioText,
 			contactInfoText: this.props.contactInfoText
 		}
-		this._connectInsta = this._connectInsta.bind(this);
+        this._connectInsta = this._connectInsta.bind(this);
 	}
 
 	static navigationOptions = {
@@ -28,13 +37,14 @@ export default class SettingsComponent extends Component {
 		mainImageSource: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
 		smallImage1Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+		addImageSource: require('../assets/Icons/add_photo.imageset/add_photo.png'),
 		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
 		contactInfoText: 'Contact Info',
 	}
 
-	_connectInsta = () => {
-		console.log('ConnectInsta Pressed');
-	}
+    _connectInsta = () => {
+        console.log('ConnectInsta Pressed');
+    }
 
 	render() {
 		return (
@@ -51,7 +61,7 @@ export default class SettingsComponent extends Component {
 							<View style={styles.smallImagesView}>
 								<Image source={this.state.smallImage1Source} style={styles.smallImage} />
 								<Image source={this.state.smallImage2Source} style={styles.smallImage}/>
-								<Image source={require('../assets/Icons/add_photo.imageset/add_photo.png')} style={styles.smallImage}/>
+								<Image source={this.props.addImageSource} style={styles.smallImage}/>
 							</View>
 						</View>
 
@@ -75,24 +85,25 @@ export default class SettingsComponent extends Component {
 								value= {this.state.contactInfoText}
 							/>
 						</View>
-						<TouchableHighlight
-							style={styles.connectInsta}
-							onPress={
-								this._connectInsta
-						}>
-							<View style={styles.connectInstaView}>
-								<Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={styles.instaLogo} />
-								<Text style={styles.connectInstaText}>
-									Connect Instagram
-								</Text>
-							</View>
-						</TouchableHighlight>
+                        <TouchableHighlight
+                            style={styles.connectInsta}
+                            onPress={
+                                this._connectInsta
+                            }>
+                            <View style={styles.connectInstaView}>
+                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')}
+                                       style={styles.instaLogo}/>
+                                <Text style={styles.connectInstaText}>
+                                    Connect Instagram
+                                </Text>
+                            </View>
+                        </TouchableHighlight>
 					</KeyboardAvoidingView>
 				</ScrollView>
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
 					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
 						<View style={styles.backArrow}>
-							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} style={styles.backArrowImage} />
 						</View>
 					</TouchableOpacity>
 					<Text style={styles.title}>
@@ -114,6 +125,11 @@ const styles = StyleSheet.create({
 		left: 0,
 		marginRight: SCREEN_WIDTH * 0.06,
 		elevation: 2,
+		alignItems: 'center',
+	},
+	backArrowImage: {
+		width: SCREEN_WIDTH * 0.07,
+		height: SCREEN_WIDTH * 0.07,
 	},
 	background: {
 		backgroundColor: '#F2F3F4',
@@ -137,17 +153,17 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		fontFamily: 'Roboto',
 	},
-	connectInstaView: {
-		backgroundColor: '#FFFFFF',
-		width: '100%',
-		height: '100%',
-		paddingLeft: SCREEN_WIDTH * 0.27,
-		paddingRight: SCREEN_WIDTH * 0.27,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		elevation: 1,
-	},
+    connectInstaView: {
+        backgroundColor: '#FFFFFF',
+        width: '100%',
+        height: '100%',
+        paddingLeft: SCREEN_WIDTH * 0.27,
+        paddingRight: SCREEN_WIDTH * 0.27,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        elevation: 1,
+    },
 	contactInfo: {
 		backgroundColor: '#FFFFFF',
 		width: SCREEN_WIDTH,

@@ -69,7 +69,7 @@ export default class ReportEventComponent extends Component {
                         <View style={styles.textContainer}>
                             <Text style={{
                                 color: '#FDD302',
-                                fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 1.04166667,
+                                fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 0.8,
                                 fontFamily: 'Roboto',
                                 marginBottom: 10
                             }}> CANCEL </Text>
@@ -84,7 +84,7 @@ export default class ReportEventComponent extends Component {
 const styles = StyleSheet.create({
     text: {
         color: '#FDD302',
-        fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 1.04166667,
+        fontSize: SCREEN_WIDTH * SCREEN_HEIGHT / 10000 * 0.8,
         fontFamily: 'Roboto'
     },
     divider: {

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
@@ -65,6 +65,7 @@ export default class EventDetailsScreen extends Component {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <StatusBar hidden/>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Image
@@ -208,18 +209,20 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
-                                        <View style={styles.eventDetailsClickableItem}>
+                                        <TouchableOpacity
+                                            onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                            <View style={styles.eventDetailsClickableItem}>
 
-                                            <Text style={styles.eventDetailsText}>
-                                                Confirmed Guests
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    Confirmed Guests
+                                                </Text>
+
                                                 <Image
                                                     source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-                                            </TouchableOpacity>
 
-                                        </View>
+                                            </View>
+                                        </TouchableOpacity>
+
                                         <View style={styles.guestPicsContainer}>
                                             <View style={styles.guestPicThumbnailContainer}>
                                                 <Image
@@ -297,8 +300,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%',
-        marginTop: SCREEN_HEIGHT * 0.0275
+        width: '100%'
     },
     icon: {
         width: 20,
