@@ -21,12 +21,14 @@
     "react-native-divider": "^1.0.3",
     "react-native-elements": "^0.19.1",
     "react-native-fbsdk": "^0.8.0",
+    "react-native-gifted-chat": "^0.4.3",
     "react-native-google-place-picker": "^1.2.1",
     "react-native-google-places-autocomplete": "^1.3.9",
     "react-native-hyperlink": "0.0.14",
     "react-native-linear-gradient": "^2.4.3",
     "react-native-maps": "^0.22.0",
     "react-native-material-cards": "^1.0.9",
+    "react-native-modal": "latest",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-permissions": "^1.1.1",
     "react-native-phone-input": "^0.2.1",
@@ -37,8 +39,7 @@
     "react-redux": "^5.1.0",
     "redux": "^4.0.1",
     "redux-axios-middleware": "^4.0.0",
-    "redux-thunk": "^2.3.0",
-    "react-native-modal": "latest"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "jest-expo": "30.0.0"
