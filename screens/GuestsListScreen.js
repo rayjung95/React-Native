@@ -17,7 +17,6 @@ export default class GuestsListScreen extends Component {
     }
 
     componentWillMount() {
-        // if (navigation.getParam('guests', 'No Image') == undefined){
         this.setState({
             guestsListData:[
                 {   
@@ -78,11 +77,6 @@ export default class GuestsListScreen extends Component {
             ],
 
         })
-    // }else {
-    //     this.setState({
-    //         guestsListData:navigation.getParam('guestsRemain', 'No guest')
-    //     })
-    // }
     }
 
     displayGuestsList = ({item}) => {
