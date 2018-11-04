@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Layout from "../constants/Layout";
+import RF from "react-native-responsive-fontsize"
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
-        marginTop: SCREEN_HEIGHT * 0.05
+        // marginTop: SCREEN_HEIGHT * 0.05
     },
     hostPicContainer: {
         alignItems: 'center',
@@ -147,24 +148,24 @@ const styles = StyleSheet.create({
     },
     hostName: {
         fontFamily: 'sans-serif-thin',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.7
+        fontSize: RF(3.5)
     },
     subheading: {
         fontFamily: 'sans-serif-thin',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.6
+        fontSize: RF(3)
     },
     eventTitle: {
         fontFamily: 'Roboto',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.9,
+        fontSize: RF(4),
         fontWeight: 'bold',
     },
     heading1: {
         fontFamily: 'Roboto',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.9,
+        fontSize: RF(4)
     },
     eventDate: {
         fontFamily: 'sans-serif-thin',
-        fontSize: SCREEN_HEIGHT * SCREEN_WIDTH / 10000 * 0.55
+        fontSize: RF(2)
     },
     divider: {
         borderBottomColor: '#f1f1f1',

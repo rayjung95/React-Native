@@ -27,8 +27,9 @@ export const eventsReducer = (state = initialState, action) => {
                 confirmed
             } = state;
             const confirmedEvent = available[action.payload];
+            confirmedEvent.eventConfirmed = true;
             confirmed.push(confirmedEvent);
-            available.splice(action.payload, 1);
+            // available.splice(action.payload, 1);
 
             return {available, confirmed};
 

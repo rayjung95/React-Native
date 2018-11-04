@@ -20,7 +20,7 @@ class UserCalendarScreen extends Component {
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        eventConfirmed: true
+                        eventConfirmed: item.eventConfirmed
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
