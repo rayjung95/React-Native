@@ -30,6 +30,7 @@ export default class GuestConfirmationScreen extends Component {
     };
 
     this.state = {
+      showCard: true,
       imageIndex: 0,
       array: [
         { 'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png') },
@@ -94,6 +95,11 @@ export default class GuestConfirmationScreen extends Component {
       eventCreationHidden: opposite,
     });
 
+    if (this.state.eventCreationHidden) {
+      this.setState({ showCard: false })
+    } else {
+      this.setState({ showCard: true })
+    }
 
     const theValue = this.state.eventCreationHidden ? 0 : 1;
     Animated.timing(this.eventCreationTop, {
@@ -209,7 +215,7 @@ export default class GuestConfirmationScreen extends Component {
           </View>
         </View>
 
-        {this.renderImage()}
+        {this.state.showCard === true && this.renderImage()}
         <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock} unlock={this.unlock} />
 
         <View style={styles.footer}>

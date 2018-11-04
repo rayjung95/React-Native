@@ -10,11 +10,11 @@ export default class DateTimePickerTester extends Component {
     super(props);
     this.state = {
       word: this.props.word,
-      date: null,
-      time: 'Enter a date and time' 
+      date: '',
+      time: 'Enter a date and time'
     }
   }
-  
+
 
   static defaultProps = {
     word: 'no words'
@@ -30,8 +30,8 @@ export default class DateTimePickerTester extends Component {
 
   _handleDatePicked = (date) => {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
     console.log('A date has been picked: ', date);
     timeString = this._formatAMPM(date);
     this.setState({
@@ -47,24 +47,27 @@ export default class DateTimePickerTester extends Component {
     var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
   }
 
   componentWillMount = () => {
-    console.log(SCREEN_WIDTH *(17/360));
+    console.log(SCREEN_WIDTH * (17 / 360));
   }
-  
 
-  render () {
+
+  render() {
     return (
-      
-        <TouchableOpacity onPress={this._showDateTimePicker} style={{ flexDirection: 'row', height: SCREEN_HEIGHT * (43 / 592), backgroundColor: 'white', borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' , alignItems: 'center', justifyContent: 'space-between'}}>
-          <Text style={{ marginLeft: SCREEN_WIDTH *(15/360), fontSize: SCREEN_HEIGHT * (11/592), color: 'black'}} fontFamily='Roboto'>{this.state.word}</Text>
-        
-          {this.state.date && <Text style={{ marginLeft: SCREEN_WIDTH * (224/360), position: 'absolute', fontSize: SCREEN_HEIGHT * (11/592), color: 'black', }} fontFamily='Roboto'>{this.state.date}</Text>}
-          <Text style={{ marginRight: SCREEN_WIDTH * (17/360), fontSize: SCREEN_HEIGHT * (11/592), color: 'black', }} fontFamily='Roboto'>{this.state.time}</Text>
+
+      <TouchableOpacity onPress={this._showDateTimePicker} style={{ flexDirection: 'row', height: SCREEN_HEIGHT * (43 / 592), backgroundColor: 'white', borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ marginLeft: SCREEN_WIDTH * (15 / 360), fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black' }} fontFamily='Roboto'>{this.state.word}</Text>
+
+        <View style={{ width: SCREEN_WIDTH * (167/360), height: SCREEN_HEIGHT * (14/592), flexDirection: 'row', justifyContent: 'space-between', paddingRight: SCREEN_WIDTH * (13/360)}}>
+          <Text style={{fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black', }} fontFamily='Roboto'>{this.state.date}</Text>
+          <Text style={{fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black', }} fontFamily='Roboto'>{this.state.time}</Text>
+        </View>
+
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
@@ -72,7 +75,7 @@ export default class DateTimePickerTester extends Component {
           mode={'datetime'}
           is24Hour={false}
         />
-        </TouchableOpacity>
+      </TouchableOpacity>
     );
   }
 

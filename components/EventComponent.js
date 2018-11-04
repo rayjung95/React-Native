@@ -13,13 +13,12 @@ export default class EventComponent extends Component {
         this.state = {
             eventHostName: props.eventHostName,
             eventTitle: props.eventTitle,
-            eventType: 'Party',
-            eventDay: 'WED',
-            eventTime: '7:00',
-            eventDate: 'SEPTEMBER 23',
-            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-            guestNums: 12,
-            eventAway: 2.5,
+            eventDay: props.eventDay,
+            eventTime: props.eventTime,
+            eventDate: props.eventDate,
+            eventHostPhoto: props.eventHostPhoto,
+            guestNums: props.guestNums,
+            eventAway: props.eventAway,
             eventConfirmed: props.eventConfirmed
         };
 
@@ -29,6 +28,12 @@ export default class EventComponent extends Component {
         this.setState({
             eventHostName: nextProps.eventHostName,
             eventTitle: nextProps.eventTitle,
+            eventDay: nextProps.eventDay,
+            eventTime: nextProps.eventTime,
+            eventDate: nextProps.eventDate,
+            eventHostPhoto: nextProps.eventHostPhoto,
+            guestNums: nextProps.guestNums,
+            eventAway: nextProps.eventAway,
             eventConfirmed: nextProps.eventConfirmed
         });
     }
@@ -43,7 +48,7 @@ export default class EventComponent extends Component {
                                 <Text style={{color: 'white'}}>Updated</Text>
                             </View>
                             <Image
-                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                source={this.state.eventHostPhoto}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />
@@ -54,7 +59,7 @@ export default class EventComponent extends Component {
                         :
                         <View style={styles.hostPicContainer}>
                             <Image
-                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                source={this.state.eventHostPhoto}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />
@@ -68,17 +73,24 @@ export default class EventComponent extends Component {
                         <Text style={styles.subheading}>Host</Text>
                         <View style={styles.divider}/>
                         <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
-                        <Text style={styles.heading1}>{this.state.eventType}</Text>
                         <Text style={styles.heading1}> {this.state.eventDay} , {this.state.eventTime}</Text>
                         <Text style={styles.eventDate}> {this.state.eventDate} </Text>
                         <View style={styles.cardFooter}>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                <Image style={{width: 30, height: 30}}
+                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                                <Image style={{
+                                    width: 30,
+                                    height: 30,
+                                    marginRight: 20
+                                }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
                                 12 Guests
                             </Text>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                <Image style={{width: 30, height: 30}}
+                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                                <Image style={{
+                                    width: 30,
+                                    height: 30,
+                                    marginLeft: -20
+                                }}
                                        source={require('../assets/Icons/away.imageset/away.png')}/>
                                 2.5 Miles away
                             </Text>
@@ -110,13 +122,13 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     details: {
+        paddingTop: SCREEN_WIDTH * 0.05,
         zIndex: 2,
         alignItems: 'center',
         width: '100%',
         height: '100%',
         flexDirection: 'column',
-        paddingTop: 80,
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         flex: 1,
         backgroundColor: 'white',
         borderRadius: 5
@@ -128,7 +140,8 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
-        // marginTop: SCREEN_HEIGHT * 0.05
+        position: 'absolute',
+        bottom: 20
     },
     hostPicContainer: {
         alignItems: 'center',
