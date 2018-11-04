@@ -79,13 +79,21 @@ export default class EventComponent extends Component {
                         <Text style={styles.heading1}> {this.state.eventDay} , {this.state.eventTime}</Text>
                         <Text style={styles.eventDate}> {this.state.eventDate} </Text>
                         <View style={styles.cardFooter}>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                <Image style={{width: 30, height: 30}}
+                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                                <Image style={{
+                                    width: SCREEN_WIDTH * 0.093333,
+                                    height: SCREEN_WIDTH * 0.093333,
+                                    marginRight: 15
+                                }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
                                 12 Guests
                             </Text>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: 13}}>
-                                <Image style={{width: 30, height: 30}}
+                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                                <Image style={{
+                                    width: SCREEN_WIDTH * 0.093333,
+                                    height: SCREEN_WIDTH * 0.093333,
+                                    marginRight: 15
+                                }}
                                        source={require('../assets/Icons/away.imageset/away.png')}/>
                                 2.5 Miles away
                             </Text>
@@ -117,13 +125,13 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     details: {
+        paddingTop: SCREEN_WIDTH * 0.1,
         zIndex: 2,
         alignItems: 'center',
         width: '100%',
         height: '100%',
         flexDirection: 'column',
-        paddingTop: 80,
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         flex: 1,
         backgroundColor: 'white',
         borderRadius: 5
@@ -135,6 +143,8 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
+        position: 'absolute',
+        bottom: 20
     },
     hostPicContainer: {
         alignItems: 'center',
