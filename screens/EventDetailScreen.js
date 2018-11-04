@@ -20,7 +20,6 @@ export default class EventDetailsScreen extends Component {
         this.state = {
             eventHostName: props.eventHostName,
             eventTitle: props.eventTitle,
-            eventType: props.eventType,
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
@@ -39,7 +38,6 @@ export default class EventDetailsScreen extends Component {
         this.setState = {
             eventHostName: nextProps.eventHostName,
             eventTitle: nextProps.eventTitle,
-            eventType: nextProps.eventType,
             eventDay: nextProps.eventDay,
             eventTime: nextProps.eventTime,
             eventDate: nextProps.eventDate,

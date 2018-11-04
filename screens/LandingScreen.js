@@ -194,6 +194,7 @@ class LandingScreen extends Component {
         Animated.spring(this.position, {
             toValue: {x: SCREEN_WIDTH + 100, y: SCREEN_HEIGHT / 2}
         }).start(() => {
+            this.props.confirmEvent(this.state.imageIndex);
             this.setState({
                 imageIndex: this.state.imageIndex + 1
             }, () => {
@@ -214,7 +215,7 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                        eventType={item.eventType} eventDay={item.eventDay} eventTime={item.eventTime}
+                                        eventDay={item.eventDay} eventTime={item.eventTime}
                                         eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
                                         guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={false}/>
                     </Animated.View>
@@ -228,8 +229,7 @@ class LandingScreen extends Component {
                             eventConfirmed: false
                         })}>
                             <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                            eventType={item.eventType} eventDay={item.eventDay}
-                                            eventTime={item.eventTime}
+                                            eventDay={item.eventDay} eventTime={item.eventTime}
                                             eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
                                             guestNums={item.guestNums} eventAway={item.eventAway}
                                             eventConfirmed={false}/>
@@ -244,7 +244,7 @@ class LandingScreen extends Component {
         const interpolateRotation = this.arrowFlip.interpolate({
             inputRange: [0, 1],
             outputRange: ['0deg', '180deg'],
-        })
+        });
 
         const arrowInterpolateTop = this.arrowTop.interpolate({
             inputRange: [0, 1],
@@ -258,16 +258,16 @@ class LandingScreen extends Component {
                 {rotate: interpolateRotation}
             ],
 
-        }
+        };
 
         const eventCreationInterpolate = this.eventCreationTop.interpolate({
             inputRange: [0, 1],
             outputRange: ["0%", "100%"]
-        })
+        });
 
         const eventCreationStyle = {
             top: eventCreationInterpolate,
-        }
+        };
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <Animated.View style={[arrowStyle, {
@@ -298,18 +298,15 @@ class LandingScreen extends Component {
                     </TouchableOpacity>
                 </View>
 
-                {this.state.showCard == true && this.renderImage()}
+                {this.state.showCard === true && this.renderImage()}
                 <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
                                 unlock={this.unlock}/>
 
-
-                {/* <View style={styles.footer}> */}
 
                 <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
                     <Image style={styles.footerImage}
                            source={require('../assets/Icons/create_event_icon/create_event_icon.png')}/>
                 </TouchableOpacity>
-                {/* </View> */}
 
                 <Animated.View
                     style={[{position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT}, eventCreationStyle]}>

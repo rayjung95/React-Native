@@ -13,7 +13,6 @@ export default class EventComponent extends Component {
         this.state = {
             eventHostName: props.eventHostName,
             eventTitle: props.eventTitle,
-            eventType: props.eventType,
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
@@ -29,7 +28,6 @@ export default class EventComponent extends Component {
         this.setState({
             eventHostName: nextProps.eventHostName,
             eventTitle: nextProps.eventTitle,
-            eventType: nextProps.eventType,
             eventDay: nextProps.eventDay,
             eventTime: nextProps.eventTime,
             eventDate: nextProps.eventDate,
@@ -75,24 +73,23 @@ export default class EventComponent extends Component {
                         <Text style={styles.subheading}>Host</Text>
                         <View style={styles.divider}/>
                         <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
-                        <Text style={styles.heading1}>{this.state.eventType}</Text>
                         <Text style={styles.heading1}> {this.state.eventDay} , {this.state.eventTime}</Text>
                         <Text style={styles.eventDate}> {this.state.eventDate} </Text>
                         <View style={styles.cardFooter}>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{
-                                    width: SCREEN_WIDTH * 0.093333,
-                                    height: SCREEN_WIDTH * 0.093333,
-                                    marginRight: 15
+                                    width: 30,
+                                    height: 30,
+                                    marginRight: 20
                                 }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
                                 12 Guests
                             </Text>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{
-                                    width: SCREEN_WIDTH * 0.093333,
-                                    height: SCREEN_WIDTH * 0.093333,
-                                    marginRight: 15
+                                    width: 30,
+                                    height: 30,
+                                    marginLeft: -20
                                 }}
                                        source={require('../assets/Icons/away.imageset/away.png')}/>
                                 2.5 Miles away
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     details: {
-        paddingTop: SCREEN_WIDTH * 0.1,
+        paddingTop: SCREEN_WIDTH * 0.05,
         zIndex: 2,
         alignItems: 'center',
         width: '100%',

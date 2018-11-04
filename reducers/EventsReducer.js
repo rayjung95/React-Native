@@ -1,8 +1,7 @@
-const initialState = {
+const eventStates = {
     availableEvents: [{
         eventHostName: 'Johnny',
         eventTitle: 'POCKER & SALSA',
-        eventType: 'Party',
         eventDay: 'WED',
         eventTime: '7:00 PM',
         eventDate: 'SEPTEMBER 23',
@@ -13,7 +12,6 @@ const initialState = {
     }, {
         eventHostName: 'Joseph',
         eventTitle: 'POOL PARTY',
-        eventType: 'Party',
         eventDay: 'WED',
         eventTime: '7:00 PM',
         eventDate: 'SEPTEMBER 23',
@@ -24,7 +22,6 @@ const initialState = {
     }, {
         eventHostName: 'Patrick',
         eventTitle: 'STARCRAFT',
-        eventType: 'Party',
         eventDay: 'WED',
         eventTime: '7:00 PM',
         eventDate: 'SEPTEMBER 23',
@@ -35,7 +32,6 @@ const initialState = {
     }, {
         eventHostName: 'Danny',
         eventTitle: 'DANISH GIRL',
-        eventType: 'Party',
         eventDay: 'WED',
         eventTime: '7:00 PM',
         eventDate: 'SEPTEMBER 23',
@@ -47,19 +43,25 @@ const initialState = {
     confirmedEvents: []
 };
 
-export const eventsReducer = (state = initialState, action) => {
+export const eventsReducer = (state = eventStates, action) => {
+
+    const {
+        availableEvents,
+        confirmedEvents
+    } = state;
+
     switch (action.type) {
+
         case 'CONFIRM_EVENT':
-            const {
-                availableEvents,
-                confirmedEvents
-            } = state;
             const confirmedEvent = availableEvents[action.payload];
             confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
             // availableEvents.splice(action.payload, 1);
-
             return {availableEvents, confirmedEvents};
+
+        case 'CREATE_EVENT':
+            confirmedEvent.push(action.payload);
+            return {availableEvents, confirmedEvent};
 
         default:
             return state
