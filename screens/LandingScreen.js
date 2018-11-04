@@ -50,6 +50,7 @@ class LandingScreen extends Component {
         };
 
         this.state = {
+            showCard: true,
             imageIndex: 0,
             array: [
                 { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
@@ -120,6 +121,14 @@ class LandingScreen extends Component {
             arrowIsTop: opposite2,
             arrowFlipped: opposite3,
         });
+
+        // console.log('creation is ' + this.state.eventCreationHidden);
+
+        if (this.state.eventCreationHidden) {
+            this.setState({showCard: false})
+        } else {
+            this.setState({showCard: true})
+        }
 
         const theValue = this.state.eventCreationHidden ? 0 : 1;
         const theValue2 = this.state.arrowIsTop ? 0 : 1;
@@ -278,7 +287,7 @@ class LandingScreen extends Component {
                     </TouchableOpacity>
                 </View>
 
-                {this.renderImage()}
+                {this.state.showCard == true && this.renderImage()}
                 <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock} unlock={this.unlock}/>
 
 
