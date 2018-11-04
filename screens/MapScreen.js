@@ -108,7 +108,7 @@ render() {
       <StatusBar hidden />
       <View style={styles.map}>
         <MapView
-          region={this.state.region}
+          // region={this.state.region}
           style={styles.map}
           provider="google"
           // customMapStyle={gMapsStyle}
