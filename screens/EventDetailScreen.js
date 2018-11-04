@@ -356,7 +356,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     textDetailsContainer: {
-        width: SCREEN_WIDTH * 0.86
+        width: SCREEN_WIDTH * 0.85,
+        paddingLeft: 5
     },
     divider: {
         borderBottomColor: '#cacbcc',
@@ -442,8 +443,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     eventDetailIcons: {
-        width: SCREEN_WIDTH * 0.14,
+        width: SCREEN_WIDTH * 0.15,
         marginTop: 5,
+        paddingHorizontal: 5
     }
 });
 
