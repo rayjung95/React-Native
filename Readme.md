@@ -1,4 +1,4 @@
-
+[[https://github.com/ajmross/Rendevous-android/blob/master/assets/AppIcon.appiconset/Icon-App-57x57%402x.png]]
 
 # Rendevous
 This app was built using [React Native](https://facebook.github.io/react-native/).
