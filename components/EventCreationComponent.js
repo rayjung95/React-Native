@@ -24,6 +24,15 @@ const SCREEN_WIDTH = Layout.window.width;
 export default class EventCreationComponent extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      location: 'Location',
+      title: '',
+      starts: null,
+      ends: null,
+      website: null,
+      eventInfo: null
+
+    }
   }
   static navigationOptions = {
     header: null,
@@ -44,6 +53,8 @@ export default class EventCreationComponent extends React.Component {
       { cancelable: false }
     )
   }
+
+  
   render() {
     return (
       <View style={styles.outer}>
@@ -65,14 +76,14 @@ export default class EventCreationComponent extends React.Component {
 
           </View>
           <View style={{ height: SCREEN_HEIGHT * (43 / 592), flexDirection: 'row' }}>
-            <TextInput multiline={false} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ paddingLeft: SCREEN_WIDTH * (17 / 360), flex: 1, backgroundColor: 'white', fontSize: SCREEN_HEIGHT * (11 / 592), paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' }} fontFamily='Roboto' placeholder='Title' />
+            <TextInput onChangeText={(value) => this.setState({title: value})} multiline={false} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ paddingLeft: SCREEN_WIDTH * (17 / 360), flex: 1, backgroundColor: 'white', fontSize: SCREEN_HEIGHT * (11 / 592), paddingLeft: 15, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' }} fontFamily='Roboto' placeholder='Title' />
           </View>
 
           <TouchableOpacity
             style={{ height: SCREEN_HEIGHT * (43 / 592), backgroundColor: 'white', borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
             onPress={() => this.props.navigation.navigate('Map')}
           >
-            <Text style={{ marginLeft: SCREEN_WIDTH * (17 / 360), fontSize: SCREEN_HEIGHT * (11 / 592), fontFamily: 'Roboto', color: '#8e8e93' }}>Location</Text>
+            <Text style={{ marginLeft: SCREEN_WIDTH * (17 / 360), fontSize: SCREEN_HEIGHT * (11 / 592), fontFamily: 'Roboto', color: '#8e8e93' }}>{this.state.location}</Text>
             <Image style={{ marginRight: SCREEN_WIDTH * (16 / 360) }} source={require('../assets/Icons/navigation-filled/navigation.png')} />
           </TouchableOpacity>
 
@@ -83,18 +94,18 @@ export default class EventCreationComponent extends React.Component {
           </View>
 
 
-          <DateTimeComponent word="Starts" />
+          <DateTimeComponent {...this.state} word="Starts" />
           {/* <Text>Starts</Text> */}
 
 
-          <DateTimeComponent word="Ends" />
+          <DateTimeComponent {...this.state} word="Ends" />
           {/* <Text>Ends</Text> */}
 
           {/* <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginBottom: 40, marginTop: 40, justifyContent: 'center'}}> */}
-          <TextInput multiline={false} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ marginBottom: 40, marginTop: 40, height: SCREEN_HEIGHT * (43 / 592), backgroundColor: 'white', fontSize: SCREEN_HEIGHT * (11 / 592), paddingLeft: SCREEN_WIDTH * (17 / 360), borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' }} fontFamily='Roboto' placeholder='Website (Optional)' />
+          <TextInput onChangeText={(value) => this.setState({website: value})} multiline={false} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ marginBottom: 40, marginTop: 40, height: SCREEN_HEIGHT * (43 / 592), backgroundColor: 'white', fontSize: SCREEN_HEIGHT * (11 / 592), paddingLeft: SCREEN_WIDTH * (17 / 360), borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: 'rgba(0,0,0, 0.1)' }} fontFamily='Roboto' placeholder='Website (Optional)' />
           {/* <Text style={{ fontSize: 18, color: '#8e8e93', marginLeft: 15 }} fontFamily='Roboto'>Contact Info (Optional)</Text> */}
           <View style={{ height: SCREEN_HEIGHT * (100 / 592), backgroundColor: 'white', borderTopWidth: 0, paddingTop: SCREEN_HEIGHT * (17 / 592) }}>
-            <TextInput multiline={true} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ paddingLeft: SCREEN_WIDTH * (17 / 360), fontSize: SCREEN_HEIGHT * (11 / 592) }} fontFamily='Roboto' placeholder='Tell us about your event' />
+            <TextInput onChangeText={(value) => this.setState({eventInfo: value})} multiline={true} placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{ paddingLeft: SCREEN_WIDTH * (17 / 360), fontSize: SCREEN_HEIGHT * (11 / 592) }} fontFamily='Roboto' placeholder='Tell us about your event' />
           </View>
           <View style={{ paddingVertical: SCREEN_HEIGHT * (26 / 592), paddingHorizontal: SCREEN_WIDTH * (34 / 360), height: SCREEN_HEIGHT * (80 / 592), backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ justifyContent: 'center', alignItems: 'center', height: SCREEN_HEIGHT * (34 / 592), width: SCREEN_WIDTH * (291 / 360), borderColor: 'black', borderWidth: 0.3 }}>
