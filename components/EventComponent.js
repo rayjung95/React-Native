@@ -12,7 +12,7 @@ export default class EventComponent extends Component {
         super(props);
         this.state = {
             eventHostName: props.eventHostName,
-            eventTitle: 'POCKER & SALSA',
+            eventTitle: props.eventTitle,
             eventType: 'Party',
             eventDay: 'WED',
             eventTime: '7:00',
@@ -28,6 +28,7 @@ export default class EventComponent extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             eventHostName: nextProps.eventHostName,
+            eventTitle: nextProps.eventTitle,
             eventConfirmed: nextProps.eventConfirmed
         });
     }

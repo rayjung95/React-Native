@@ -25,7 +25,11 @@ class UserCalendarScreen extends Component {
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
-                        <EventComponent eventHostName={item.eventHostName} eventConfirmed={true}/>
+                        <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
+                                        eventType={item.eventType} eventDay={item.eventDay} eventTime={item.eventTime}
+                                        eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
+                                        guestNums={item.guestNums} eventAway={item.eventAway}
+                                        eventConfirmed={true}/>
                     </View>
                 </TouchableOpacity>
             )

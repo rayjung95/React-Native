@@ -1,19 +1,47 @@
 const initialState = {
     available: [{
-        eventHostName: 'Zac',
-        eventTitle: 'Pocker and Salsa',
+        eventHostName: 'Sam',
+        eventTitle: 'POCKER & SALSA',
+        eventType: 'Party',
+        eventDay: 'WED',
+        eventTime: '7:00',
+        eventDate: 'SEPTEMBER 23',
+        eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+        guestNums: 12,
+        eventAway: 2.5,
         eventConfirmed: false
     }, {
-        eventHostName: 'Quentin',
-        eventTitle: 'Pocker and Salsa',
+        eventHostName: 'Marvin',
+        eventTitle: 'World of Warcraft',
+        eventType: 'Party',
+        eventDay: 'WED',
+        eventTime: '7:00',
+        eventDate: 'SEPTEMBER 23',
+        eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+        guestNums: 12,
+        eventAway: 2.5,
         eventConfirmed: false
     }, {
-        eventHostName: 'Johnny',
-        eventTitle: 'Pocker and Salsa',
+        eventHostName: 'David',
+        eventTitle: 'POCKER & SALSA',
+        eventType: 'Party',
+        eventDay: 'WED',
+        eventTime: '7:00',
+        eventDate: 'SEPTEMBER 23',
+        eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+        guestNums: 12,
+        eventAway: 2.5,
         eventConfirmed: false
     }, {
         eventHostName: 'Joseph',
-        eventTitle: 'Pocker and Salsa',
+        eventTitle: 'POCKER & SALSA',
+        eventType: 'Party',
+        eventDay: 'WED',
+        eventTime: '7:00',
+        eventDate: 'SEPTEMBER 23',
+        eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+        guestNums: 12,
+        eventAway: 2.5,
         eventConfirmed: false
     }],
     confirmed: []
