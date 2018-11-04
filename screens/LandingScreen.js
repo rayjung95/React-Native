@@ -215,7 +215,7 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                        eventType={item.eventType} eventDay={item.eventDay} eventTime={item.eventTime}
+                                        eventDay={item.eventDay} eventTime={item.eventTime}
                                         eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
                                         guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={false}/>
                     </Animated.View>
@@ -229,8 +229,7 @@ class LandingScreen extends Component {
                             eventConfirmed: false
                         })}>
                             <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                            eventType={item.eventType} eventDay={item.eventDay}
-                                            eventTime={item.eventTime}
+                                            eventDay={item.eventDay} eventTime={item.eventTime}
                                             eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
                                             guestNums={item.guestNums} eventAway={item.eventAway}
                                             eventConfirmed={false}/>
