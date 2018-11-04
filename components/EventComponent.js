@@ -12,14 +12,14 @@ export default class EventComponent extends Component {
         super(props);
         this.state = {
             eventHostName: props.eventHostName,
-            eventTitle: 'POCKER & SALSA',
-            eventType: 'Party',
-            eventDay: 'WED',
-            eventTime: '7:00',
-            eventDate: 'SEPTEMBER 23',
-            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-            guestNums: 12,
-            eventAway: 2.5,
+            eventTitle: props.eventTitle,
+            eventType: props.eventType,
+            eventDay: props.eventDay,
+            eventTime: props.eventTime,
+            eventDate: props.eventDate,
+            eventHostPhoto: props.eventHostPhoto,
+            guestNums: props.guestNums,
+            eventAway: props.eventAway,
             eventConfirmed: props.eventConfirmed
         };
 
@@ -28,6 +28,14 @@ export default class EventComponent extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             eventHostName: nextProps.eventHostName,
+            eventTitle: nextProps.eventTitle,
+            eventType: nextProps.eventType,
+            eventDay: nextProps.eventDay,
+            eventTime: nextProps.eventTime,
+            eventDate: nextProps.eventDate,
+            eventHostPhoto: nextProps.eventHostPhoto,
+            guestNums: nextProps.guestNums,
+            eventAway: nextProps.eventAway,
             eventConfirmed: nextProps.eventConfirmed
         });
     }
@@ -42,7 +50,7 @@ export default class EventComponent extends Component {
                                 <Text style={{color: 'white'}}>Updated</Text>
                             </View>
                             <Image
-                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                source={this.state.eventHostPhoto}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />
@@ -53,7 +61,7 @@ export default class EventComponent extends Component {
                         :
                         <View style={styles.hostPicContainer}>
                             <Image
-                                source={require(PICTURES_PATH + 'profilePhoto.imageset/profilePhoto.png')}
+                                source={this.state.eventHostPhoto}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />
@@ -127,7 +135,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
-        // marginTop: SCREEN_HEIGHT * 0.05
     },
     hostPicContainer: {
         alignItems: 'center',
