@@ -8,7 +8,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
+  Platform
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
@@ -72,6 +73,17 @@ class LandingScreen extends Component {
   componentWillMount() {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (e, gestureState) => {
+        if (
+          Platform.OS == 'android'
+          && (gestureState.dx < 2 && gestureState.dx > -2)
+          && (gestureState.dy < 2 && gestureState.dy > -2)
+        ) {
+          return false;
+        }
+
+        return true;
+      },
       onPanResponderMove: (evt, gs) => {
         this.setState({ isMoving: true })
         // console.log('MOVING', gs.dx, gs.dy)
@@ -214,10 +226,15 @@ class LandingScreen extends Component {
             key={i}
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
-            <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-              eventDay={item.eventDay} eventTime={item.eventTime}
-              eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-              guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={false} />
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
+              eventConfirmed: false
+            })}>
+              <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
+                eventDay={item.eventDay} eventTime={item.eventTime}
+                eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
+                guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={false} 
+              />
+            </TouchableOpacity>
           </Animated.View>
         )
       } else {
@@ -225,15 +242,12 @@ class LandingScreen extends Component {
           <Animated.View
             key={i}
             style={styles.cardContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
-              eventConfirmed: false
-            })}>
               <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
                 eventDay={item.eventDay} eventTime={item.eventTime}
                 eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
                 guestNums={item.guestNums} eventAway={item.eventAway}
-                eventConfirmed={false} />
-            </TouchableOpacity>
+                eventConfirmed={false} 
+              />
           </Animated.View>
         )
       }
@@ -256,8 +270,7 @@ class LandingScreen extends Component {
       bottom: arrowInterpolateTop,
       transform: [
         { rotate: interpolateRotation }
-      ],
-
+      ]
     };
 
     const eventCreationInterpolate = this.eventCreationTop.interpolate({
@@ -268,6 +281,7 @@ class LandingScreen extends Component {
     const eventCreationStyle = {
       top: eventCreationInterpolate,
     };
+    
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
         <Animated.View style={[arrowStyle, {
