@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Easing, Animated, Image, ImageBackground, PanResponder, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Easing, Animated, Image, ImageBackground, PanResponder, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
@@ -49,6 +49,17 @@ export default class GuestConfirmationScreen extends Component {
   componentWillMount() {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (e, gestureState) => {
+        if (
+          Platform.OS == 'android'
+          && (gestureState.dx < 2 && gestureState.dx > -2)
+          && (gestureState.dy < 2 && gestureState.dy > -2)
+        ) {
+          return false;
+        }
+
+        return true;
+      },
       onPanResponderMove: (evt, gs) => {
         this.setState({ isMoving: true })
         // console.log('MOVING', gs.dx, gs.dy)
@@ -113,7 +124,7 @@ export default class GuestConfirmationScreen extends Component {
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
-      toValue: { x: -SCREEN_WIDTH - 80, y: SCREEN_HEIGHT / 2 }
+      toValue: { x: -SCREEN_WIDTH - 400, y: SCREEN_HEIGHT / 4 }
     }).start(() => {
       this.setState({
         imageIndex: this.state.imageIndex + 1
@@ -125,7 +136,7 @@ export default class GuestConfirmationScreen extends Component {
   unlock = () => {
     console.log('unlock!')
     Animated.spring(this.position, {
-      toValue: { x: SCREEN_WIDTH + 80, y: SCREEN_HEIGHT / 2 }
+      toValue: { x: SCREEN_WIDTH + 400, y: SCREEN_HEIGHT / 4 }
     }).start(() => {
       this.setState({
         imageIndex: this.state.imageIndex + 1
@@ -149,13 +160,12 @@ export default class GuestConfirmationScreen extends Component {
             key={i}
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
+            <TouchableOpacity style={styles.touchableCard} onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
               <Image source={item.img} />
+              <View>
+                <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
+              </View>
             </TouchableOpacity>
-            <View>
-              <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
-            </View>
-
           </Animated.View>
 
         )
@@ -289,6 +299,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: SCREEN_HEIGHT / 2 - SCREEN_HEIGHT * 0.5217 / 2,
     backgroundColor: '#ffff',
+  },
+  touchableCard: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    // backgroundColor: 'green',
   },
   footer: {
     width: SCREEN_WIDTH * 0.0761326,
