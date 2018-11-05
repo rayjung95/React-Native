@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'
-import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
 
 const window = Dimensions.get('window')
 
-export default class DirectMessage extends Component {
+export default class DirectMessageScreen extends Component {
 
     static navigationOptions = {
         header: null,
@@ -52,7 +52,9 @@ export default class DirectMessage extends Component {
                     <View style={styles.container}>
                         <View style={styles.headerContainer}>
                             <View style={{flex:1, alignItems:'center'}}>
-                                <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+                                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                                    <Image style={{width:window.height/25, height:window.height/25, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+                                </TouchableOpacity>
                             </View>
                             <View style={{flex:5, alignItems:'flex-start',}}>
                                 <Text style={{color:'white', fontSize:window.height/40}}>Quentin</Text>
@@ -64,6 +66,11 @@ export default class DirectMessage extends Component {
                                 onSend={messages => this.onSend(messages)}
                                 user={{
                                 _id: 1,
+                                name: 'Quentin',
+                                avatar:'https://images.pexels.com/photos/658687/pexels-photo-658687.jpeg?auto=compress&cs=tinysrgb&h=350'
+                                }}
+                                onPressAvatar = {(user) => {
+                                    this.props.navigation.navigate('GuestProfile')
                                 }}
                             />  
                         </View>

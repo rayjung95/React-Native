@@ -38,7 +38,7 @@ export default class ChattingScreen extends Component {
                 user: {
                   _id: 4,
                   name: 'Jodee Furrow',
-                  avatar: 'https://placeimg.com/140/140/any',
+                  avatar: 'https://www.gettyimages.com/gi-resources/images/CreativeLandingPage/HP_Sept_24_2018/CR3_GettyImages-159018836.jpg',
                 },
               },
               {
@@ -48,7 +48,7 @@ export default class ChattingScreen extends Component {
                 user: {
                   _id: 3,
                   name: 'Ethel Wolfram',
-                  avatar: 'https://placeimg.com/140/140/any',
+                  avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSfpGcZfNOEMi5KxNb9tPlxzhY4BXZIFC8x1K4i1PbjjeFGnnJ',
                 },
               },
               {
@@ -58,7 +58,7 @@ export default class ChattingScreen extends Component {
                 user: {
                   _id: 2,
                   name: 'Karl Nyland',
-                  avatar: 'https://placeimg.com/140/140/any',
+                  avatar: 'https://www.irishtimes.com/polopoly_fs/1.2614603.1461003507!/image/image.jpg_gen/derivatives/box_620_330/image.jpg',
                 },
               },
           ],
@@ -71,6 +71,7 @@ export default class ChattingScreen extends Component {
         console.log(this.state.messages)
     }
 
+
     render() {
         return(
             <View style={{flex:1}}>
@@ -82,8 +83,8 @@ export default class ChattingScreen extends Component {
                     <View style={styles.container}>
                         <View style={styles.headerContainer}>
                             <View style={{flex:1, alignItems:'center'}}>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
-                                    <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+                                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                                    <Image style={{width:window.height/25, height:window.height/25, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
                                 </TouchableOpacity>
                                 
                             </View>
@@ -95,8 +96,18 @@ export default class ChattingScreen extends Component {
                             <GiftedChat
                                 messages={this.state.messages}
                                 onSend={messages => this.onSend(messages)}
+                                showUserAvatar = {true}
                                 user={{
                                 _id: 1,
+                                name: 'Austin',
+                                avatar:'https://images.pexels.com/photos/658687/pexels-photo-658687.jpeg?auto=compress&cs=tinysrgb&h=350'
+                                }}
+                                onPressAvatar = {(user) => {
+                                    if (user == 1) {
+                                        this.props.navigation.navigate('ProfileSetting')
+                                    }else {
+                                        this.props.navigation.navigate('GuestProfile')
+                                    }
                                 }}
                             />  
                         </View>

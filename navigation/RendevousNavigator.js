@@ -14,7 +14,7 @@ import GuestProfileScreen from '../screens/GuestProfileScreen';
 import HostProfileScreen from '../screens/HostProfileScreen';
 import GuestInfoConfirmationScreen from '../screens/GuestInfoConfirmationScreen';
 import ChattingScreen from '../screens/ChattingScreen';
-import DirectMessageScreen from '../screens/DirectMessage'
+import DirectMessageScreen from '../screens/DirectMessageScreen'
 import InviteFriends from '../screens/InviteFriends';
 import MessagesScreen from '../screens/MessagesScreen';
 

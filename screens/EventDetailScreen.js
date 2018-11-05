@@ -89,10 +89,14 @@ export default class EventDetailsScreen extends Component {
                                 source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
                                 style={styles.eventDetailsHostPic}
                             />
-                            <Image
-                                source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                style={{marginLeft: -40, zIndex: 1}}
-                            />
+                            <TouchableOpacity 
+                                style={{marginLeft: -40, zIndex: 1, width: 39}}
+                                onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                                <Image
+                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                    style={{zIndex: 1}}
+                                />
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.hostDetailsContainer}>
                             <Text style={styles.eventDetailsHostName}> Quentin </Text>
@@ -159,6 +163,8 @@ export default class EventDetailsScreen extends Component {
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
+                                        <TouchableOpacity
+                                            onPress={() => this.props.navigation.navigate('Chatting')}>
                                         <View style={styles.eventDetailsClickableItem}>
                                             <Text style={styles.eventDetailsText}>
                                                 Group Chat
@@ -177,6 +183,7 @@ export default class EventDetailsScreen extends Component {
                                                     source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                             </View>
                                         </View>
+                                        </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>

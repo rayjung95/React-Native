@@ -106,12 +106,12 @@ export default class GuestInfoConfirmationScreen extends Component {
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                     </Swiper>
-                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('Guest')}>
+                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.goBack()}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity> */}
-                        <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
-                    {/* </TouchableOpacity> */}
+                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                        <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.profInfoContainer}>

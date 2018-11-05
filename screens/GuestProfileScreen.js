@@ -96,7 +96,7 @@ export default class GuestProfileScreen extends Component {
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                     </Swiper>
                     <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}}
-                        onPress={() => this.props.navigation.navigate('GuestsList')}>
+                        onPress={() => this.props.navigation.goBack()}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     </TouchableOpacity>
                 </View>
