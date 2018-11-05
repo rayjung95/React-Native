@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Animated, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 import Layout from "../constants/Layout";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -11,6 +11,7 @@ export default class LocksComponent extends Component {
     super(props);
     this.state = {
       isMoving: props.isMoving,
+      whichButtonClicked:'',
       position: props.position
     };
 
@@ -33,6 +34,31 @@ export default class LocksComponent extends Component {
     });
   }
 
+  lock = () => {
+    this.setState({
+      whichButtonClicked:''
+    })
+    this.props.lock()
+  }
+
+  unlock = () => {
+    this.setState({
+      whichButtonClicked:''
+    })
+    this.props.unlock()
+  }
+
+  _onShowUnderlay = (type) => {
+    if (type === 'lock') {
+      this.setState({
+        whichButtonClicked: 'lock'
+      })
+    } else {
+      this.setState({
+        whichButtonClicked:'unlock'
+      })
+    }
+  }
 
   render() {
     if (this.state.isMoving) {
@@ -63,19 +89,33 @@ export default class LocksComponent extends Component {
             width: SCREEN_HEIGHT * 0.1,
             height: SCREEN_HEIGHT * 0.1
           }}>
-          <TouchableOpacity onPress={this.props.lock}>
-            <Image style={styles.lockImage}
-                source={require('../assets/Icons/lock.imageset/lock.png')} />
-          </TouchableOpacity>
+          <TouchableHighlight 
+            activeOpacity={1}
+            onPress={this.lock}
+            onShowUnderlay={() => this._onShowUnderlay('lock')}
+            underlayColor={'#ffffff00'}
+          >
+            <Image 
+              style={styles.lockImage}
+              source={this.state.whichButtonClicked === 'lock' ? require('../assets/Icons/lock_highlight.imageset/lock_highlight.png') : require('../assets/Icons/lock.imageset/lock.png')}
+            />
+          </TouchableHighlight>
           </Animated.View>
           <Animated.View style={{
             width: SCREEN_HEIGHT * 0.1,
             height: SCREEN_HEIGHT * 0.1
           }}>
-          <TouchableOpacity onPress={this.props.unlock}>
-            <Image style={styles.lockImage}
-                source={require('../assets/Icons/unlock.imageset/unlock.png')} />
-          </TouchableOpacity>
+          <TouchableHighlight 
+            activeOpacity={1}
+            onPress={this.unlock}
+            onShowUnderlay={() => this._onShowUnderlay('unlock')}
+            underlayColor={'#ffffff00'}
+          >
+            <Image 
+              style={styles.lockImage}
+              source={this.state.whichButtonClicked === 'unlock' ? require('../assets/Icons/unlock_highlight.imageset/unlock_highlight.png') : require('../assets/Icons/unlock.imageset/unlock.png')}
+            />
+          </TouchableHighlight>
           </Animated.View>
         </View>
       )

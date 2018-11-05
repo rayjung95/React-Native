@@ -113,7 +113,7 @@ export default class GuestConfirmationScreen extends Component {
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
-      toValue: { x: -SCREEN_WIDTH - 80, y: SCREEN_HEIGHT / 2 }
+      toValue: { x: -SCREEN_WIDTH - 400, y: SCREEN_HEIGHT / 4 }
     }).start(() => {
       this.setState({
         imageIndex: this.state.imageIndex + 1
@@ -125,7 +125,7 @@ export default class GuestConfirmationScreen extends Component {
   unlock = () => {
     console.log('unlock!')
     Animated.spring(this.position, {
-      toValue: { x: SCREEN_WIDTH + 80, y: SCREEN_HEIGHT / 2 }
+      toValue: { x: SCREEN_WIDTH + 400, y: SCREEN_HEIGHT / 4 }
     }).start(() => {
       this.setState({
         imageIndex: this.state.imageIndex + 1
