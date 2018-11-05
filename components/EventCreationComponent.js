@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import {bindActionCreators} from "redux";
-import {createEvent} from "../actions/eventsActions";
+import { bindActionCreators } from "redux";
+import { createEvent } from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -29,8 +29,8 @@ export class EventCreationComponent extends React.Component {
             starts: null,
             ends: null,
             website: null,
-            eventInfo: null
-
+            eventInfo: null,
+            showAlert: false,
         }
     }
 
@@ -38,9 +38,11 @@ export class EventCreationComponent extends React.Component {
         header: null,
     };
 
+
     closeComponent = () => {
+        console.log('closing');
         this.props.close();
-        console.log('asld;als;kdfals;flsa;f');
+        console.log('closing2');
     };
 
     create = () => {
@@ -53,19 +55,12 @@ export class EventCreationComponent extends React.Component {
             '',
             'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
             [
-                {
-                    text: 'Accept', onPress: () => {
-                        this.closeComponent();
-                        this.props.createEvent(this.state);
-                    }
-                },
-                {text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                { text: 'Accept', onPress: () => this.create() },
+                { text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
             ],
-            {cancelable: false}
+            { cancelable: false }
         )
     }
-
-
     render() {
         return (
             <View style={styles.outer}>
@@ -77,8 +72,8 @@ export class EventCreationComponent extends React.Component {
                 }}></View>
                 <TouchableNativeFeedback onPress={() => this.closeComponent()}>
 
-                    <Image style={{marginBottom: -2}}
-                           source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')}/>
+                    <Image style={{ marginBottom: -2 }}
+                        source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')} />
 
                 </TouchableNativeFeedback>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
@@ -107,23 +102,23 @@ export class EventCreationComponent extends React.Component {
                             marginTop: SCREEN_HEIGHT * (16 / 592),
                             marginBottom: SCREEN_HEIGHT * (16 / 592)
                         }}>
-                            <Image style={{resizeMode: 'cover'}}
-                                   source={require('../assets/Icons/close.imageset/close.png')}/>
+                            <Image style={{ resizeMode: 'cover' }}
+                                source={require('../assets/Icons/close.imageset/close.png')} />
                         </TouchableOpacity>
 
                     </View>
-                    <View style={{height: SCREEN_HEIGHT * (43 / 592), flexDirection: 'row'}}>
-                        <TextInput onChangeText={(value) => this.setState({title: value})} multiline={false}
-                                   placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
-                            paddingLeft: SCREEN_WIDTH * (17 / 360),
-                            flex: 1,
-                            backgroundColor: 'white',
-                            fontSize: SCREEN_HEIGHT * (11 / 592),
-                            paddingLeft: 15,
-                            borderBottomWidth: 0.5,
-                            borderTopWidth: 0.5,
-                            borderColor: 'rgba(0,0,0, 0.1)'
-                        }} fontFamily='Roboto' placeholder='Title'/>
+                    <View style={{ height: SCREEN_HEIGHT * (43 / 592), flexDirection: 'row' }}>
+                        <TextInput onChangeText={(value) => this.setState({ title: value })} multiline={false}
+                            placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
+                                paddingLeft: SCREEN_WIDTH * (17 / 360),
+                                flex: 1,
+                                backgroundColor: 'white',
+                                fontSize: SCREEN_HEIGHT * (11 / 592),
+                                paddingLeft: 15,
+                                borderBottomWidth: 0.5,
+                                borderTopWidth: 0.5,
+                                borderColor: 'rgba(0,0,0, 0.1)'
+                            }} fontFamily='Roboto' placeholder='Title' />
                     </View>
 
                     <TouchableOpacity
@@ -145,42 +140,42 @@ export class EventCreationComponent extends React.Component {
                             fontFamily: 'Roboto',
                             color: '#8e8e93'
                         }}>{this.state.location}</Text>
-                        <Image style={{marginRight: SCREEN_WIDTH * (16 / 360)}}
-                               source={require('../assets/Icons/navigation-filled/navigation.png')}/>
+                        <Image style={{ marginRight: SCREEN_WIDTH * (16 / 360) }}
+                            source={require('../assets/Icons/navigation-filled/navigation.png')} />
                     </TouchableOpacity>
 
 
-                    <View style={{flex: 2, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{ flex: 2, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                         <Image style={{
                             marginVertical: SCREEN_HEIGHT * (8 / 592),
                             marginLeft: SCREEN_WIDTH * (17 / 360),
                             marginRight: SCREEN_WIDTH * (12 / 360)
-                        }} source={require('../assets/Icons/event_away_lock.imageset/event_away_lock.png')}/>
-                        <Text style={{marginVertical: SCREEN_HEIGHT * (11 / 592)}}>Location is private until guest is
+                        }} source={require('../assets/Icons/event_away_lock.imageset/event_away_lock.png')} />
+                        <Text style={{ marginVertical: SCREEN_HEIGHT * (11 / 592) }}>Location is private until guest is
                             confirmed</Text>
                     </View>
 
 
-                    <DateTimeComponent {...this.state} word="Starts"/>
+                    <DateTimeComponent {...this.state} word="Starts" />
                     {/* <Text>Starts</Text> */}
 
 
-                    <DateTimeComponent {...this.state} word="Ends"/>
+                    <DateTimeComponent {...this.state} word="Ends" />
                     {/* <Text>Ends</Text> */}
 
                     {/* <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginBottom: 40, marginTop: 40, justifyContent: 'center'}}> */}
-                    <TextInput onChangeText={(value) => this.setState({website: value})} multiline={false}
-                               placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
-                        marginBottom: 40,
-                        marginTop: 40,
-                        height: SCREEN_HEIGHT * (43 / 592),
-                        backgroundColor: 'white',
-                        fontSize: SCREEN_HEIGHT * (11 / 592),
-                        paddingLeft: SCREEN_WIDTH * (17 / 360),
-                        borderBottomWidth: 0.5,
-                        borderTopWidth: 0.5,
-                        borderColor: 'rgba(0,0,0, 0.1)'
-                    }} fontFamily='Roboto' placeholder='Website (Optional)'/>
+                    <TextInput onChangeText={(value) => this.setState({ website: value })} multiline={false}
+                        placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
+                            marginBottom: 40,
+                            marginTop: 40,
+                            height: SCREEN_HEIGHT * (43 / 592),
+                            backgroundColor: 'white',
+                            fontSize: SCREEN_HEIGHT * (11 / 592),
+                            paddingLeft: SCREEN_WIDTH * (17 / 360),
+                            borderBottomWidth: 0.5,
+                            borderTopWidth: 0.5,
+                            borderColor: 'rgba(0,0,0, 0.1)'
+                        }} fontFamily='Roboto' placeholder='Website (Optional)' />
                     {/* <Text style={{ fontSize: 18, color: '#8e8e93', marginLeft: 15 }} fontFamily='Roboto'>Contact Info (Optional)</Text> */}
                     <View style={{
                         height: SCREEN_HEIGHT * (100 / 592),
@@ -188,11 +183,11 @@ export class EventCreationComponent extends React.Component {
                         borderTopWidth: 0,
                         paddingTop: SCREEN_HEIGHT * (17 / 592)
                     }}>
-                        <TextInput onChangeText={(value) => this.setState({eventInfo: value})} multiline={true}
-                                   placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
-                            paddingLeft: SCREEN_WIDTH * (17 / 360),
-                            fontSize: SCREEN_HEIGHT * (11 / 592)
-                        }} fontFamily='Roboto' placeholder='Tell us about your event'/>
+                        <TextInput onChangeText={(value) => this.setState({ eventInfo: value })} multiline={true}
+                            placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
+                                paddingLeft: SCREEN_WIDTH * (17 / 360),
+                                fontSize: SCREEN_HEIGHT * (11 / 592)
+                            }} fontFamily='Roboto' placeholder='Tell us about your event' />
                     </View>
                     <View style={{
                         paddingVertical: SCREEN_HEIGHT * (26 / 592),
@@ -210,18 +205,18 @@ export class EventCreationComponent extends React.Component {
                             borderColor: 'black',
                             borderWidth: 0.3
                         }}>
-                            <Text style={{fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black', textAlign: 'center'}}
-                                  fontFamily='Roboto'>Invite Friends</Text>
+                            <Text style={{ fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black', textAlign: 'center' }}
+                                fontFamily='Roboto'>Invite Friends</Text>
                         </View>
                     </View>
-                    <TouchableHighlight underlayColor='#433d62' onPress={this.onPressEvent} style={{
+                    <TouchableHighlight underlayColor='#433d62' onPress={() => this.onPressEvent()} style={{
                         height: SCREEN_HEIGHT * (54 / 592),
                         backgroundColor: '#fdd302',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <Text style={{fontSize: SCREEN_HEIGHT * (15 / 592), color: 'white', fontWeight: 'bold'}}
-                              fontFamily='Roboto'>{this.props.buttonText}</Text>
+                        <Text style={{ fontSize: SCREEN_HEIGHT * (15 / 592), color: 'white', fontWeight: 'bold' }}
+                            fontFamily='Roboto'>{this.props.buttonText}</Text>
                     </TouchableHighlight>
 
 
@@ -243,8 +238,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {events} = state;
-    return {events}
+    const { events } = state;
+    return { events }
 };
 
 const mapDispatchToProps = dispatch => (
