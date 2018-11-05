@@ -80,7 +80,8 @@ export default class EventComponent extends Component {
                                 <Image style={{
                                     width: 30,
                                     height: 30,
-                                    marginRight: 20
+                                    marginRight: 20,
+                                    resizeMode: 'contain'
                                 }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
                                 12 Guests
@@ -89,7 +90,8 @@ export default class EventComponent extends Component {
                                 <Image style={{
                                     width: 30,
                                     height: 30,
-                                    marginLeft: -20
+                                    marginLeft: -20,
+                                    resizeMode: 'contain'
                                 }}
                                        source={require('../assets/Icons/away.imageset/away.png')}/>
                                 2.5 Miles away
