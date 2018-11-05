@@ -60,8 +60,19 @@ export const eventsReducer = (state = eventStates, action) => {
             return {availableEvents, confirmedEvents};
 
         case 'CREATE_EVENT':
-            confirmedEvent.push(action.payload);
-            return {availableEvents, confirmedEvent};
+            const submittedEvent = action.payload;
+            let confirmed = {};
+            confirmed.eventHostName = 'Johnny';
+            confirmed.eventTitle = submittedEvent.title;
+            confirmed.eventDay = 'FRI';
+            confirmed.eventDate = 'FEBRUARY 30';
+            confirmed.eventHostPhoto = require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png');
+            confirmed.guestNums = 'No guests yet';
+            confirmed.eventAway = 2.5;
+
+            confirmedEvents.push(confirmed);
+
+            return {availableEvents, confirmedEvents};
 
         default:
             return state
