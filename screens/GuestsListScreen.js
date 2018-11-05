@@ -82,7 +82,7 @@ export default class GuestsListScreen extends Component {
     displayGuestsList = ({item}) => {
         return (
             <View style={{height: window.height / 8, flexDirection: 'column'}}>
-                <TouchableOpacity style={styles.guest}
+                <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', flex: 60}}
                                   onPress={() => this.props.navigation.navigate('GuestProfile')}
                 >
                     <View style={{flex: 2, alignItems: 'center'}}>
@@ -120,8 +120,8 @@ export default class GuestsListScreen extends Component {
                                 <View style={{flex: 1, alignItems: 'center'}}>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails')}>
                                         <Image style={{
-                                            width: window.height / 38,
-                                            height: window.height / 38,
+                                            width: window.height / 25,
+                                            height: window.height / 25,
                                             resizeMode: 'contain'
                                         }}
                                                source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
@@ -137,14 +137,14 @@ export default class GuestsListScreen extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            <View style={styles.guestsList}>
-                                {/* <FlatList
+                            <View style={{flex:9, backgroundColor:'white'}}>
+                                <FlatList
                                     data={this.state.guestsListData}
                                     renderItem={this.displayGuestsList}
                                     numColumns={1}
                                     keyExtractor={(item, index) => item.id.toString()}
                                     showsVerticalScrollIndicator={false}
-                                /> */}
+                                />
                             </View>
                         </View>
                     </ImageBackground>
