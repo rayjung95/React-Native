@@ -20,7 +20,7 @@ export default class EventDetailsScreen extends Component {
         this.state = {
             eventHostName: 'Johnny',
             eventTitle: props.eventTitle,
-            eventDescription: ' Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
+            eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
                 'Come visit us again soon and let us know how it goes.',
             eventDay: 'FRI',
             eventTime: '7:00 pm',
