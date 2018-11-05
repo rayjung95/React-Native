@@ -8,8 +8,8 @@ export default class GuestsListScreen extends Component {
         header: null,
     };
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             guestsListData: [],
 
