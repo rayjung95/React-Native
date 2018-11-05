@@ -19,7 +19,8 @@ export default class EventComponent extends Component {
             eventHostPhoto: props.eventHostPhoto,
             guestNums: props.guestNums,
             eventAway: props.eventAway,
-            eventConfirmed: props.eventConfirmed
+            eventConfirmed: props.eventConfirmed,
+            isCurrentUserHost: props.isCurrentUserHost
         };
 
     }
@@ -34,7 +35,8 @@ export default class EventComponent extends Component {
             eventHostPhoto: nextProps.eventHostPhoto,
             guestNums: nextProps.guestNums,
             eventAway: nextProps.eventAway,
-            eventConfirmed: nextProps.eventConfirmed
+            eventConfirmed: nextProps.eventConfirmed,
+            isCurrentUserHost: nextProps.isCurrentUserHost
         });
     }
 
@@ -43,19 +45,35 @@ export default class EventComponent extends Component {
             <View>
                 <View style={styles.cardHeader}>
                     {this.state.eventConfirmed ?
-                        <View style={styles.hostPicContainer}>
-                            <View style={styles.notifStatus1}>
-                                <Text style={{color: 'white'}}>Updated</Text>
+                        this.state.isCurrentUserHost ?
+                            <View style={styles.hostPicContainer}>
+                                <View style={styles.dummyStatus}>
+                                    <Text style={{color: 'white'}}>{' '}{' '}{' '}{' '}{' '}{' '}{' '}{' '}</Text>
+                                </View>
+                                <Image
+                                    source={this.state.eventHostPhoto}
+                                    style={styles.hostPic}
+                                    resizeMode="cover"
+                                />
+                                <View style={styles.notifStatus3}>
+                                    <Text style={{color: 'white'}}>{'  '}Host{'  '}</Text>
+                                </View>
                             </View>
-                            <Image
-                                source={this.state.eventHostPhoto}
-                                style={styles.hostPic}
-                                resizeMode="cover"
-                            />
-                            <View style={styles.notifStatus2}>
-                                <Text style={{color: 'white'}}>Confirm</Text>
+                            :
+                            <View style={styles.hostPicContainer}>
+                                <View style={styles.notifStatus1}>
+                                    <Text style={{color: 'white'}}>Updated</Text>
+                                </View>
+                                <Image
+                                    source={this.state.eventHostPhoto}
+                                    style={styles.hostPic}
+                                    resizeMode="cover"
+                                />
+                                <View style={styles.notifStatus2}>
+                                    <Text style={{color: 'white'}}>Confirm</Text>
+                                </View>
                             </View>
-                        </View>
+
                         :
                         <View style={styles.hostPicContainer}>
                             <Image
@@ -203,7 +221,19 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     notifStatus2: {
-        backgroundColor: 'green',
+        backgroundColor: '#8cbc45',
+        borderRadius: 50,
+        margin: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10,
+        paddingRight: 15,
+        paddingLeft: 15,
+        marginTop: 40
+    },
+    notifStatus3: {
+        backgroundColor: '#00b9f3',
         borderRadius: 50,
         margin: 5,
         flexDirection: 'row',
@@ -215,14 +245,14 @@ const styles = StyleSheet.create({
         marginTop: 40
     },
     dummyStatus: {
-        backgroundColor: 'white',
         borderRadius: 50,
         margin: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8,
-        top: 30
+        paddingRight: 15,
+        paddingLeft: 15,
+        marginTop: 40
     },
 });

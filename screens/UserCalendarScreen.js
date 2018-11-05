@@ -28,7 +28,7 @@ class UserCalendarScreen extends Component {
                         <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
                                         eventDay={item.eventDay} eventTime={item.eventTime}
                                         eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true}/>
+                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true} isCurrentUserHost={item.isCurrentUserHost}/>
                     </View>
                 </TouchableOpacity>
             )
