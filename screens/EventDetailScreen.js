@@ -18,16 +18,18 @@ export default class EventDetailsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventHostName: props.eventHostName,
+            eventHostName: 'Johnny',
             eventTitle: props.eventTitle,
-            eventDay: props.eventDay,
-            eventTime: props.eventTime,
-            eventDate: props.eventDate,
+            eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
+                'Come visit us again soon and let us know how it goes.',
+            eventDay: 'FRI',
+            eventTime: '7:00 pm',
+            eventDate: 'FEBRUARY 30',
             eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-            guestNums: props.guestNums,
-            eventAway: props.eventAway,
-            eventAddress: props.eventAddress,
-            eventWebsite: props.eventWebsite,
+            guestNums: 12,
+            eventAway: '2.5 miles away',
+            eventAddress: '1.7 Miles away. \n 2167 Daryl Mountains, Redwood',
+            eventWebsite: 'www.google.ca',
             isModalVisible: false
         };
 
@@ -112,10 +114,7 @@ export default class EventDetailsScreen extends Component {
                             </View>
 
                             <View style={styles.textDetailsContainer}>
-                                <Text style={styles.eventDetailsText}>
-                                    Paul and I can't believe how quickly the week went by. It was so great to see you.
-                                    Come visit us again soon and let us know how it goes.
-                                </Text>
+                                <Text style={styles.eventDetailsText}> {this.state.eventDescription} </Text>
                                 <View style={styles.divider}/>
                             </View>
                         </View>
@@ -145,8 +144,7 @@ export default class EventDetailsScreen extends Component {
                                     <View style={styles.textDetailsContainer}>
                                         <View style={styles.eventDetailsClickableItem}>
                                             <Text style={styles.eventDetailsText}>
-                                                1.7 Miles away. {"\n"}
-                                                2167 Daryl Mountains, Redwood
+                                                {this.state.eventAddress}
                                             </Text>
                                             <Image
                                                 source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
@@ -198,7 +196,7 @@ export default class EventDetailsScreen extends Component {
                                         <TouchableOpacity onPress={this._handlePressSlack}>
                                             <View style={styles.eventDetailsClickableItem}>
                                                 <Text style={styles.eventDetailsText}>
-                                                    https://www.google.ca
+                                                    {this.state.eventWebsite}
                                                 </Text>
                                                 <Image
                                                     source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
