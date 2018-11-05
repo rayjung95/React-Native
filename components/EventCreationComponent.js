@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import { bindActionCreators } from "redux";
-import { createEvent } from "../actions/eventsActions";
+import {bindActionCreators} from "redux";
+import {createEvent} from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -189,7 +189,9 @@ export class EventCreationComponent extends React.Component {
                                 fontSize: SCREEN_HEIGHT * (11 / 592)
                             }} fontFamily='Roboto' placeholder='Tell us about your event' />
                     </View>
-                    <View style={{
+                    <TouchableOpacity onPress={
+                        () => this.props.navigation.navigate('Invite')
+                    } style={{
                         paddingVertical: SCREEN_HEIGHT * (26 / 592),
                         paddingHorizontal: SCREEN_WIDTH * (34 / 360),
                         height: SCREEN_HEIGHT * (80 / 592),
@@ -208,7 +210,7 @@ export class EventCreationComponent extends React.Component {
                             <Text style={{ fontSize: SCREEN_HEIGHT * (11 / 592), color: 'black', textAlign: 'center' }}
                                 fontFamily='Roboto'>Invite Friends</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <TouchableHighlight underlayColor='#433d62' onPress={() => this.onPressEvent()} style={{
                         height: SCREEN_HEIGHT * (54 / 592),
                         backgroundColor: '#fdd302',
