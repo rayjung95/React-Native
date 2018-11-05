@@ -44,7 +44,7 @@ export default class GuestsListEditScreen extends Component {
     displayGuestsList = ({item}) => {
         return(
                 <View style={{height:window.height/8, flexDirection:'column'}}>
-                    <View style={styles.guest}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', flex: 60}}>
                         <View style={{flex:2, alignItems:'center'}}>
                             <View style={{width:window.width/7, height:window.width/7}}>
                                 <Image style={{width:'100%', height:'100%', borderRadius:window.width, resizeMode:'cover'}} source={{uri: item.imageURL}}/>
@@ -147,7 +147,7 @@ export default class GuestsListEditScreen extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            <View style={styles.guestsList}>
+                            <View style={{flex:9, backgroundColor:'white'}}>
                                 <FlatList
                                     data={this.state.guestsListData}
                                     renderItem={this.displayGuestsList}
@@ -176,13 +176,4 @@ styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
     },
-    guestsList:{
-        flex:9,
-        backgroundColor:'white',
-    },
-    guest:{
-        flexDirection:'row',
-        alignItems:'center',
-        flex:60,
-    }
 })
