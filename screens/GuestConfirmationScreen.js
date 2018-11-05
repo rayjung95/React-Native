@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Animated, Image, ImageBackground, PanResponder, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Easing, Animated, Image, ImageBackground, PanResponder, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
+import EventCreationComponent from '../components/EventCreationComponent.js';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -13,6 +14,7 @@ export default class GuestConfirmationScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.eventCreationTop = new Animated.Value(1);
     this.position = new Animated.ValueXY();
     this.rotate = this.position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
@@ -28,6 +30,7 @@ export default class GuestConfirmationScreen extends Component {
     };
 
     this.state = {
+      showCard: true,
       imageIndex: 0,
       array: [
         { 'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png') },
@@ -37,7 +40,8 @@ export default class GuestConfirmationScreen extends Component {
         { 'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png') },
         { 'img': require('../assets/Pngs/girlphoto.imageset/girlphoto.png') },
       ],
-      isMoving: false
+      isMoving: false,
+      eventCreationHidden: true,
     }
 
   }
@@ -84,6 +88,28 @@ export default class GuestConfirmationScreen extends Component {
     });
   }
 
+
+  _toggleEventCreation = () => {
+    const opposite = !this.state.eventCreationHidden;
+    this.setState({
+      eventCreationHidden: opposite,
+    });
+
+    if (this.state.eventCreationHidden) {
+      this.setState({ showCard: false })
+    } else {
+      this.setState({ showCard: true })
+    }
+
+    const theValue = this.state.eventCreationHidden ? 0 : 1;
+    Animated.timing(this.eventCreationTop, {
+      toValue: theValue,
+      duration: 500,
+      easing: Easing.ease,
+    }).start();
+
+  }
+
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
@@ -126,10 +152,10 @@ export default class GuestConfirmationScreen extends Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
               <Image source={item.img} />
             </TouchableOpacity>
-              <View>
-                <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
-              </View>
-            
+            <View>
+              <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
+            </View>
+
           </Animated.View>
 
         )
@@ -149,8 +175,17 @@ export default class GuestConfirmationScreen extends Component {
   }
 
   render() {
+    const eventCreationInterpolate = this.eventCreationTop.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["0%", "100%"]
+    })
+
+    const eventCreationStyle = {
+      top: eventCreationInterpolate,
+    }
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+
         <View style={styles.header}>
           <View style={styles.menu1}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
@@ -172,20 +207,29 @@ export default class GuestConfirmationScreen extends Component {
             </View>
           </View>
           <View style={styles.menu2}>
-            <Image style={{ width: 26, height: 24 }}
-              source={require('../assets/Icons/not_message.imageset/not_message.png')} />
-            {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
+              <Image style={{ width: 26, height: 24 }}
+                source={require('../assets/Icons/not_message.imageset/not_message.png')} />
+              {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
+            </TouchableOpacity>
           </View>
         </View>
 
-        {this.renderImage()}
+        {this.state.showCard === true && this.renderImage()}
         <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock} unlock={this.unlock} />
 
         <View style={styles.footer}>
-          <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
-          <Image style={styles.footerImage}
-            source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
+          <TouchableOpacity onPress={() => this._toggleEventCreation()}>
+            <Image style={styles.footerUpArrowImage} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this._toggleEventCreation()}>
+            <Image style={styles.footerImage}
+              source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
+          </TouchableOpacity>
         </View>
+        <Animated.View style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
+          <EventCreationComponent title='Edit event' buttonText='Update' close={this._toggleEventCreation} {...this.props} />
+        </Animated.View>
 
       </ImageBackground>
 
@@ -195,15 +239,15 @@ export default class GuestConfirmationScreen extends Component {
 
 const styles = StyleSheet.create({
   backArrow: {
-		left: 0,
-		marginRight: SCREEN_WIDTH * 0.06,
-		elevation: 2,
-		alignItems: 'center',
-	},
-	backArrowImage: {
-		width: SCREEN_WIDTH * 0.07,
-		height: SCREEN_WIDTH * 0.07,
-	},
+    left: 0,
+    marginRight: SCREEN_WIDTH * 0.06,
+    elevation: 2,
+    alignItems: 'center',
+  },
+  backArrowImage: {
+    width: SCREEN_WIDTH * 0.07,
+    height: SCREEN_WIDTH * 0.07,
+  },
   background: {
     flex: 1,
     alignItems: 'center',

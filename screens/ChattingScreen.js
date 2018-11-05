@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'
-import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, StatusBar } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Dimensions, Image, ImageBackground, StatusBar } from 'react-native';
 
 const window = Dimensions.get('window')
 
@@ -82,7 +82,10 @@ export default class ChattingScreen extends Component {
                     <View style={styles.container}>
                         <View style={styles.headerContainer}>
                             <View style={{flex:1, alignItems:'center'}}>
-                                <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
+                                    <Image style={{width:window.height/32, height:window.height/32, resizeMode:'contain'}} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')}/>
+                                </TouchableOpacity>
+                                
                             </View>
                             <View style={{flex:5, alignItems:'flex-start',}}>
                                 <Text style={{color:'white', fontSize:window.height/40}}>Hot Tub and Bear</Text>

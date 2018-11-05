@@ -20,7 +20,6 @@ export default class EventDetailsScreen extends Component {
         this.state = {
             eventHostName: props.eventHostName,
             eventTitle: props.eventTitle,
-            eventType: props.eventType,
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
@@ -39,7 +38,6 @@ export default class EventDetailsScreen extends Component {
         this.setState = {
             eventHostName: nextProps.eventHostName,
             eventTitle: nextProps.eventTitle,
-            eventType: nextProps.eventType,
             eventDay: nextProps.eventDay,
             eventTime: nextProps.eventTime,
             eventDate: nextProps.eventDate,
@@ -349,30 +347,27 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     eventDetailsItemContainer: {
-        width: SCREEN_WIDTH * 0.86,
+        width: SCREEN_WIDTH,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 20,
-        marginLeft: 15
     },
     textDetailsContainer: {
-        width: SCREEN_WIDTH * 0.86,
-        paddingLeft: SCREEN_WIDTH * 0.053
+        width: SCREEN_WIDTH * 0.85,
+        paddingLeft: 5
     },
     divider: {
         borderBottomColor: '#cacbcc',
         borderBottomWidth: 1,
         marginTop: 20,
         marginBottom: -20,
-        marginLeft: SCREEN_WIDTH * 0.053,
         width: '100%'
     },
     eventDetailsText: {
         color: '#8F8E94',
         fontSize: 14,
         fontFamily: 'Roboto',
-        marginLeft: SCREEN_WIDTH * 0.053,
 
     },
     eventDetailsClickableItem: {
@@ -400,7 +395,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginLeft: SCREEN_WIDTH * 0.053,
         width: '100%'
     },
     guestPicThumbnail: {
@@ -447,9 +441,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     eventDetailIcons: {
-        width: SCREEN_WIDTH * 0.14,
+        width: SCREEN_WIDTH * 0.15,
         marginTop: 5,
-        paddingHorizontal: SCREEN_WIDTH * 0.021666667
+        paddingHorizontal: 5
     }
 });
 
