@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: 20,
+        padding: 15,
     },
     textDetailsContainer: {
         width: SCREEN_WIDTH * 0.85,
