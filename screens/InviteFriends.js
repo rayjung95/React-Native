@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         width: width,
         height: height * 0.08,
-        backgroundColor: 'yellow',
+        backgroundColor: '#FDD302',
     },
     selectCounterBg: {
         alignItems: 'center',
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         marginRight: width * 0.01
     },
     selectCounter: {
-        color: 'yellow',
+        color: '#FDD302',
         fontSize: width / 20,
     },
     sendInviteText: {
