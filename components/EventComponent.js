@@ -13,6 +13,7 @@ export default class EventComponent extends Component {
         this.state = {
             eventHostName: props.eventHostName,
             eventTitle: props.eventTitle,
+            eventDescription: props.eventDescription,
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
@@ -29,14 +30,16 @@ export default class EventComponent extends Component {
         this.setState({
             eventHostName: nextProps.eventHostName,
             eventTitle: nextProps.eventTitle,
+            eventDescription: nextProps.eventDescription,
             eventDay: nextProps.eventDay,
             eventTime: nextProps.eventTime,
             eventDate: nextProps.eventDate,
             eventHostPhoto: nextProps.eventHostPhoto,
             guestNums: nextProps.guestNums,
+            eventAddress: nextProps.eventAddress,
             eventAway: nextProps.eventAway,
             eventConfirmed: nextProps.eventConfirmed,
-            isCurrentUserHost: nextProps.isCurrentUserHost
+            eventWebsite: nextProps.eventWebsite
         });
     }
 

@@ -20,15 +20,17 @@ class UserCalendarScreen extends Component {
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        eventConfirmed: true
+                        event: item
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
                         <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
+                                        eventDescription={item.eventDescription}
                                         eventDay={item.eventDay} eventTime={item.eventTime}
                                         eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true} isCurrentUserHost={item.isCurrentUserHost}/>
+                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true}
+                                        isCurrentUserHost={item.isCurrentUserHost}/>
                     </View>
                 </TouchableOpacity>
             )

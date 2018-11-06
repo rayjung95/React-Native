@@ -18,37 +18,40 @@ export default class EventDetailsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventHostName: 'Johnny',
-            eventTitle: props.eventTitle,
+            eventHostName: 'Joseph',
+            eventTitle: 'POOL PARTY',
             eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
                 'Come visit us again soon and let us know how it goes.',
-            eventDay: 'FRI',
-            eventTime: '7:00 pm',
-            eventDate: 'FEBRUARY 30',
-            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
+            eventDay: 'WED',
+            eventTime: '7:00 PM',
+            eventDate: 'SEPTEMBER 23',
+            eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
             guestNums: 12,
-            eventAway: '2.5 miles away',
-            eventAddress: '1.7 Miles away. \n 2167 Daryl Mountains, Redwood',
-            eventWebsite: 'www.google.ca',
+            eventAway: 2.5,
+            eventAddress: '123 Main st',
+            eventConfirmed: false,
             isModalVisible: false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState = {
-            eventHostName: nextProps.eventHostName,
-            eventTitle: nextProps.eventTitle,
-            eventDay: nextProps.eventDay,
-            eventTime: nextProps.eventTime,
-            eventDate: nextProps.eventDate,
-            eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-            guestNums: nextProps.guestNums,
-            eventAddress: nextProps.eventAddress,
-            eventAway: nextProps.eventAway,
-            eventWebsite: nextProps.eventWebsite
-        }
+    componentDidMount() {
+        console.log(this.props.navigation.getParam('event'));
+        this.setState({
+            eventHostName: this.props.navigation.getParam('event').eventHostName,
+            eventTitle: this.props.navigation.getParam('event').eventTitle,
+            eventDescription: this.props.navigation.getParam('event').eventDescription,
+            eventDay: this.props.navigation.getParam('event').eventDay,
+            eventTime: this.props.navigation.getParam('event').eventTime,
+            eventDate: this.props.navigation.getParam('event').eventDate,
+            eventHostPhoto: this.props.navigation.getParam('event').eventHostPhoto,
+            guestNums: this.props.navigation.getParam('event').guestNums,
+            eventAddress: this.props.navigation.getParam('event').eventAddress,
+            eventAway: this.props.navigation.getParam('event').eventAway,
+            eventConfirmed: this.props.navigation.getParam('event').eventConfirmed,
+            eventWebsite: this.props.navigation.getParam('event').eventWebsite,
+        })
     }
 
     _handlePressSlack = () => {
@@ -62,7 +65,7 @@ export default class EventDetailsScreen extends Component {
     }
 
     render() {
-        const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
+        const eventConfirmed = this.props.navigation.getParam('event').eventConfirmed;
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <StatusBar hidden/>
@@ -74,7 +77,7 @@ export default class EventDetailsScreen extends Component {
                         />
                     </TouchableOpacity>
 
-                    <Text style={styles.headerText}> Ketchup & Zombie </Text>
+                    <Text style={styles.headerText}> {this.state.eventTitle} </Text>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.profilePicContainer}>
@@ -88,7 +91,7 @@ export default class EventDetailsScreen extends Component {
                             </TouchableOpacity>
 
                             <Image
-                                source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
+                                source={this.state.eventHostPhoto}
                                 style={styles.eventDetailsHostPic}
                             />
                             <TouchableOpacity 
@@ -101,7 +104,7 @@ export default class EventDetailsScreen extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.hostDetailsContainer}>
-                            <Text style={styles.eventDetailsHostName}> Quentin </Text>
+                            <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
                     </View>
@@ -324,8 +327,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     eventDetailsHostPic: {
-        width: SCREEN_WIDTH * 0.4,
-        height: SCREEN_WIDTH * 0.4,
+        width: SCREEN_HEIGHT * 0.24,
+        height: SCREEN_HEIGHT * 0.24,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         borderBottomRightRadius: 100,
