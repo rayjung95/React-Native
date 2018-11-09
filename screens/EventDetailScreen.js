@@ -94,14 +94,18 @@ export default class EventDetailsScreen extends Component {
                                 source={this.state.eventHostPhoto}
                                 style={styles.eventDetailsHostPic}
                             />
-                            <TouchableOpacity 
-                                style={{marginLeft: -40, zIndex: 1, width: 39}}
-                                onPress={() => this.props.navigation.navigate('DirectMessage')}>
-                                <Image
-                                    source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                    style={{zIndex: 1}}
-                                />
-                            </TouchableOpacity>
+                            {eventConfirmed ?
+                                <TouchableOpacity
+                                    style={{marginLeft: -40, zIndex: 1, width: 39}}
+                                    onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                                    <Image
+                                        source={require('../assets/Icons/chatting.imageset/chatting.png')}
+                                        style={{zIndex: 1}}
+                                    />
+                                </TouchableOpacity>
+                                : <View/>
+                            }
+
                         </View>
                         <View style={styles.hostDetailsContainer}>
                             <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
@@ -166,24 +170,24 @@ export default class EventDetailsScreen extends Component {
                                     <View style={styles.textDetailsContainer}>
                                         <TouchableOpacity
                                             onPress={() => this.props.navigation.navigate('Chatting')}>
-                                        <View style={styles.eventDetailsClickableItem}>
-                                            <Text style={styles.eventDetailsText}>
-                                                Group Chat
-                                            </Text>
+                                            <View style={styles.eventDetailsClickableItem}>
+                                                <Text style={styles.eventDetailsText}>
+                                                    Group Chat
+                                                </Text>
 
-                                            <View style={{
-                                                flexDirection: 'row',
-                                                flex: 1,
-                                                justifyContent: 'flex-end',
-                                                alignItems: 'center'
-                                            }}>
-                                                <View style={styles.msgAlert}>
-                                                    <Text style={styles.alertNum}> 2 </Text>
+                                                <View style={{
+                                                    flexDirection: 'row',
+                                                    flex: 1,
+                                                    justifyContent: 'flex-end',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <View style={styles.msgAlert}>
+                                                        <Text style={styles.alertNum}> 2 </Text>
+                                                    </View>
+                                                    <Image
+                                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                                 </View>
-                                                <Image
-                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                             </View>
-                                        </View>
                                         </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
