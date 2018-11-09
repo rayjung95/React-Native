@@ -16,6 +16,7 @@ export default class InviteFriends extends Component {
         // numSelectedContacts - shows number of currently select contacts at invite friends button at the bottom
         // selectedContactsList - list of currently select contacts to send.
         // allContactsSelected - bool whether 'Select All' contacts button has been used
+        // allNumber - number of all contacts in an array for 'Select All' purposes
         this.state = {
             headerLeftImg: require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png'),
             contactUnselected: require('../assets/Icons/selectContact.imageset/unchecked.png'),
@@ -143,15 +144,37 @@ export default class InviteFriends extends Component {
         )
     }
 
-    //NOT USED. For show/hide search bar
-    openSearch = () => {
-        if (this.state.search) {
-            return <TextInput style={styles.searchBar}/>
+    searchContacts = (value) => {
+        var trggr = false;
+        var contacts = [];
+        var filtered = [];
+        
+        if (value != null) {
+            for ( a in this.state.myContacts) {
+                for ( c in this.state.myContacts[a].data) {
+                    // console.log(this.state.myContacts[a].data[c].name);
+                    if (this.state.myContacts[a].data[c].name.toLowerCase().includes(value.toLowerCase())) {
+                        contacts.push(this.state.myContacts[a].data[c]);
+                        trggr = true;
+                    }
+                }
+                if (trggr) {
+                    filtered.push({ head: this.state.myContacts[a].head, data: contacts});
+                }
+                contacts = [];
+                trggr = false;
+            }
+            this.setState({
+                shownContacts: filtered
+            });
         } else {
-            return null;
+            this.setState({
+                shownContacts: this.state.myContacts
+            })
         }
     }
 
+    // return a new allNumbers array every time 'Select All' is pressed
     getAllNumbers = () => {
         var allNum = [];
         for (num in this.state.allNumbers) {
@@ -181,7 +204,7 @@ export default class InviteFriends extends Component {
                                 allContactsSelected: this.state.allContactsSelected ? false : true,
                                 numSelectedContacts: this.state.allContactsSelected ? 0 : this.state.allNumbers.length,
                             })
-                            console.log('Before ' + this.state.search); }}>
+                            }}>
                             <Text style={styles.headerRightText}>{!this.state.allContactsSelected ? "Select All" : "Unselect All"}</Text>
                         </TouchableOpacity>
                     </View>
@@ -203,8 +226,13 @@ export default class InviteFriends extends Component {
                 </View>
 
                 {/* Search Bar */}
-                <View>
-                    <TextInput style={{width: width, fontSize: width / 20, marginLeft: width * 0.03}} placeholder={'Search'} underlineColorAndroid={'transparent'}/>
+                <View style={styles.searchBarContainer}>
+                    <View style={styles.searchBar}>
+                        <Image style={{ width: width * 0.05, height: width * 0.05, marginLeft: width * 0.02 }} 
+                            source={require('../assets/Icons/search.imageset/searchgrey.png')} />
+                        <TextInput style={{ width: width * 0.87, fontSize: width / 20, marginLeft: width * 0.03, paddingRight: width * 0.02}} placeholder={'Search'} 
+                            underlineColorAndroid={'transparent'} onChangeText={(value) => {this.searchContacts(value)}}/>
+                    </View>
                 </View>
 
                 {/* Contacts Section List */}
@@ -283,9 +311,19 @@ const styles = StyleSheet.create({
         height: height / 40,
         width: height / 40,
     },
-    searchBar: {
+    searchBarContainer: {
+        backgroundColor: '#B8B8B8',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: width,
         height: height * 0.05,
+    },
+    searchBar: {
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     contactViews: {
         flex: 1,
@@ -301,9 +339,6 @@ const styles = StyleSheet.create({
         height: height * 0.05
     },
     sendInviteButton: {
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
         width: width,
         height: height * 0.08,
         backgroundColor: '#FDD302',
