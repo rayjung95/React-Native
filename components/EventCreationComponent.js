@@ -61,25 +61,36 @@ export class EventCreationComponent extends React.Component {
 
 
     onPressEvent = () => {
-        Alert.alert(
-            '',
-            'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
-            [
-                {text: 'Accept', onPress: () => this.create()},
-                {text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            ],
-            {cancelable: false}
-        )
+        const datetime = this.DateTimeComponent.getDateTimeState();
+
+        if (!this.state.title || this.state.title.length === 0) {
+            Alert.alert(
+                '',
+                'Please fill out event title!',
+                [{text: 'Ok'}]
+            )
+        } else if (!datetime || !datetime.date && datetime.word === 'Starts' || !datetime.date && datetime.word === 'Ends') {
+            Alert.alert(
+                '',
+                'Please fill out event date and time!',
+                [{text: 'Ok'}]
+            )
+        } else {
+            Alert.alert(
+                '',
+                'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
+                [
+                    {text: 'Accept', onPress: () => this.create()},
+                    {text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        }
     };
 
     getDateTimeState = () => {
-        // console.log(this.DateTimeComponent.getDateTimeState());
-        this.setState({
-            starts: this.DateTimeComponent.getDateTimeState().word === 'Starts' ? this.DateTimeComponent.getDateTimeState().date : '',
-            ends: this.DateTimeComponent.getDateTimeState().word === 'Ends' ? this.DateTimeComponent.getDateTimeState().date : ''
-        });
-
         const datetime = this.DateTimeComponent.getDateTimeState();
+
         if (datetime.word === 'Starts') {
             this.setState({
                 startDate: datetime.date,
@@ -93,6 +104,7 @@ export class EventCreationComponent extends React.Component {
                 endDayOfWeek: datetime.dayOfWeek
             })
         }
+
     };
 
     // locationColor = () => {
@@ -193,13 +205,17 @@ export class EventCreationComponent extends React.Component {
                     </View>
 
 
-                    <DateTimeComponent {...this.state} ref={instance => {
-                        this.DateTimeComponent = instance
-                    }} word="Starts"/>
+                    <DateTimeComponent {...this.state}
+                                       ref={instance => {
+                                           this.DateTimeComponent = instance
+                                       }} word="Starts"/>
                     {/* <Text>Starts</Text> */}
 
 
-                    <DateTimeComponent {...this.state} word="Ends"/>
+                    <DateTimeComponent {...this.state}
+                                       ref={instance => {
+                                           this.DateTimeComponent = instance
+                                       }} word="Ends"/>
                     {/* <Text>Ends</Text> */}
 
                     {/* <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginBottom: 40, marginTop: 40, justifyContent: 'center'}}> */}
