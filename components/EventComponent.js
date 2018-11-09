@@ -51,7 +51,7 @@ export default class EventComponent extends Component {
                         this.state.isCurrentUserHost ?
                             <View style={styles.hostPicContainer}>
                                 <View style={styles.dummyStatus}>
-                                    <Text style={{color: 'white'}}>{' '}{' '}{' '}{' '}{' '}{' '}{' '}{' '}</Text>
+                                    <Text style={{color: 'white'}}>{'             '}</Text>
                                 </View>
                                 <Image
                                     source={this.state.eventHostPhoto}
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
         bottom: 20
     },
     hostPicContainer: {
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: SCREEN_WIDTH * 0.4,
         flexDirection: 'row',
@@ -227,9 +228,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8cbc45',
         borderRadius: 50,
         margin: 5,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
         zIndex: 10,
         paddingRight: 15,
         paddingLeft: 15,
@@ -239,9 +238,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00b9f3',
         borderRadius: 50,
         margin: 5,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
         zIndex: 10,
         paddingRight: 15,
         paddingLeft: 15,
