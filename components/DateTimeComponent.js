@@ -12,6 +12,7 @@ export default class DateTimePickerTester extends Component {
         this.state = {
             word: this.props.word,
             date: '',
+            dayOfWeek: '',
             time: 'Enter a date and time'
         }
     }
@@ -35,15 +36,17 @@ export default class DateTimePickerTester extends Component {
 
     _handleDatePicked = (date) => {
 
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
         ];
 
-        timeString = this._formatAMPM(date);
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"]
+
         this.setState({
-            date: (date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear()),
-            time: timeString,
-        })
+            date: (monthNames[date.getMonth()] + ' ' + date.getDate()),
+            dayOfWeek: dayNames[date.getDay()],
+            time: this._formatAMPM(date),
+        });
         this._hideDateTimePicker();
     };
 

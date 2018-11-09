@@ -26,8 +26,12 @@ export class EventCreationComponent extends React.Component {
         this.state = {
             location: 'Location',
             title: '',
-            starts: null,
-            ends: null,
+            startDate: null,
+            startTime: null,
+            startDayOfWeek: null,
+            endDate: null,
+            endTime: null,
+            endDayOfWeek: null,
             website: null,
             eventInfo: null,
             showAlert: false,
@@ -69,12 +73,27 @@ export class EventCreationComponent extends React.Component {
     };
 
     getDateTimeState = () => {
-        console.log(this.DateTimeComponent.getDateTimeState());
+        // console.log(this.DateTimeComponent.getDateTimeState());
         this.setState({
             starts: this.DateTimeComponent.getDateTimeState().word === 'Starts' ? this.DateTimeComponent.getDateTimeState().date : '',
             ends: this.DateTimeComponent.getDateTimeState().word === 'Ends' ? this.DateTimeComponent.getDateTimeState().date : ''
-        })
-    }
+        });
+
+        const datetime = this.DateTimeComponent.getDateTimeState();
+        if (datetime.word === 'Starts') {
+            this.setState({
+                startDate: datetime.date,
+                startTime: datetime.time,
+                startDayOfWeek: datetime.dayOfWeek
+            })
+        } else if (this.DateTimeComponent.getDateTimeState().word === 'Ends') {
+            this.setState({
+                endDate: datetime.date,
+                endTime: datetime.time,
+                endDayOfWeek: datetime.dayOfWeek
+            })
+        }
+    };
 
     // locationColor = () => {
     //     var theColor = '#8e8e93';
