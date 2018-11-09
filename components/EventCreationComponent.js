@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import { bindActionCreators } from "redux";
-import { createEvent } from "../actions/eventsActions";
+import {bindActionCreators} from "redux";
+import {createEvent} from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -125,7 +125,6 @@ export class EventCreationComponent extends React.Component {
                     <View style={{ height: SCREEN_HEIGHT * (43 / 592), flexDirection: 'row' }}>
                         <TextInput onChangeText={(value) => this.setState({ title: value })} multiline={false}
                             placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
-                                paddingLeft: SCREEN_WIDTH * (17 / 360),
                                 flex: 1,
                                 backgroundColor: 'white',
                                 fontSize: SCREEN_HEIGHT * (11 / 592),
