@@ -30,6 +30,7 @@ export default class LoginScreen extends Component {
     render() {
         return (
             <ImageBackground style={styles.background} source={this.state.bg}>
+            <StatusBar hidden />
                 <View style={styles.loginScreenContainer}>
                     <Text style={styles.welcome}>Welcome to</Text>
                     <Image style={styles.appLogo} source={require('../assets/images/logo.png')} />

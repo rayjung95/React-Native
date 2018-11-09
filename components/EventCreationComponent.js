@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import {bindActionCreators} from "redux";
-import {createEvent} from "../actions/eventsActions";
+import { bindActionCreators } from "redux";
+import { createEvent } from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -50,6 +50,12 @@ export class EventCreationComponent extends React.Component {
         this.closeComponent();
     };
 
+    returnData(theData, locationName) {
+        this.setState({ data: theData, location: locationName });
+    }
+
+
+
     onPressEvent = () => {
         Alert.alert(
             '',
@@ -61,6 +67,15 @@ export class EventCreationComponent extends React.Component {
             { cancelable: false }
         )
     }
+
+    // locationColor = () => {
+    //     var theColor = '#8e8e93';
+    //     console.log(this.state.title);
+    //     if (this.state.title != 'Location') {
+    //         theColor = 'black';
+    //     }
+    //     return theColor;
+    // }
     render() {
         return (
             <View style={styles.outer}>
@@ -68,7 +83,7 @@ export class EventCreationComponent extends React.Component {
                 <View style={{
                     backgroundColor: 'transparent',
                     width: SCREEN_WIDTH,
-                    height: SCREEN_HEIGHT * (99 / 592)
+                    height: SCREEN_HEIGHT * (30 / 592)
                 }}></View>
                 <TouchableNativeFeedback onPress={() => this.closeComponent()}>
 
@@ -132,14 +147,9 @@ export class EventCreationComponent extends React.Component {
                             alignItems: 'center',
                             justifyContent: 'space-between'
                         }}
-                        onPress={() => this.props.navigation.navigate('Map')}
+                        onPress={() => this.props.navigation.navigate('Map', { returnData: this.returnData.bind(this) })}
                     >
-                        <Text style={{
-                            marginLeft: SCREEN_WIDTH * (17 / 360),
-                            fontSize: SCREEN_HEIGHT * (11 / 592),
-                            fontFamily: 'Roboto',
-                            color: '#8e8e93'
-                        }}>{this.state.location}</Text>
+                        <Text style={this.state.location === 'Location' ? styles.grey : styles.black}>{this.state.location}</Text>
                         <Image style={{ marginRight: SCREEN_WIDTH * (16 / 360) }}
                             source={require('../assets/Icons/navigation-filled/navigation.png')} />
                     </TouchableOpacity>
@@ -235,7 +245,19 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'space-between',
         alignItems: 'center',
-    }
+    },
+    grey: {
+        marginLeft: SCREEN_WIDTH * (17 / 360),
+        fontSize: SCREEN_HEIGHT * (11 / 592),
+        fontFamily: 'Roboto',
+        color: "#8e8e93",
+    },
+    black: {
+        marginLeft: SCREEN_WIDTH * (17 / 360),
+        fontSize: SCREEN_HEIGHT * (11 / 592),
+        fontFamily: 'Roboto',
+        color: "black",
+    },
 
 });
 

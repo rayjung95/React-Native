@@ -43,14 +43,15 @@ export default class MapScreen extends Component {
   }
 
   _onPress = (data, details) => {
-    console.log(data);
+    // console.log(data);
+    console.log(details.formatted_address);
     const position = {
       latitude: details.geometry.location.lat,
       latitudeDelta: 0.1,
       longitude: details.geometry.location.lng,
       longitudeDelta: 0.1,
     }
-    this.setState({ region: position, title: data.description });
+    this.setState({ region: position, title: details.formatted_address, data: data, details: details });
     this.setMarkandCircle(position.latitude, position.longitude);
   }
 
@@ -117,6 +118,11 @@ export default class MapScreen extends Component {
       this.setMarkandCircle(position.coords.latitude, position.coords.longitude)
     },
       (error) => alert(JSON.stringify(error)));
+  }
+
+  handleOnPress = () => {
+    this.props.navigation.state.params.returnData(this.state.data, this.state.title);
+    this.props.navigation.goBack();
   }
 
 
@@ -198,6 +204,7 @@ export default class MapScreen extends Component {
             },
 
             textInput: {
+              borderRadius: 50,
 
             },
 
@@ -238,9 +245,17 @@ export default class MapScreen extends Component {
           }}
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           renderLeftButton={() =>
-            <View style={{ justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * (40 / 360), height: SCREEN_WIDTH * (40 / 360)}}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * (40 / 360), height: SCREEN_WIDTH * (40 / 360) }}>
               <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                <Image resizeMode='contain' style={{ marginHorizontal: SCREEN_WIDTH * (10/ 360), marginVertical: SCREEN_HEIGHT * (10/592), flex: 1 }} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+                <Image resizeMode='contain' style={{ marginLeft: SCREEN_WIDTH * (10 / 360), marginVertical: SCREEN_HEIGHT * (10 / 592), flex: 1 }} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+              </TouchableOpacity>
+            </View>
+          }
+
+          renderRightButton={() =>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => this.handleOnPress()}>
+                <Text style={{ color: '#fdd301', fontSize: SCREEN_HEIGHT * (12 / 592), marginRight: SCREEN_WIDTH * (10 / 360) }}>Select</Text>
               </TouchableOpacity>
             </View>
           }

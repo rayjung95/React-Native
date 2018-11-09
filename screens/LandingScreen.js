@@ -9,7 +9,8 @@ import {
     StyleSheet,
     TouchableHighlight,
     TouchableOpacity,
-    View
+    View,
+    StatusBar
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
@@ -215,6 +216,8 @@ class LandingScreen extends Component {
         })
     }
 
+    
+
     renderImage = () => {
         return this.props.events.availableEvents.map((item, i) => {
             if (i < this.state.imageIndex) {
@@ -288,6 +291,7 @@ class LandingScreen extends Component {
 
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <StatusBar hidden />
                 <Animated.View style={[arrowStyle, {
                     zIndex: 100,
                     position: "absolute",
@@ -299,7 +303,7 @@ class LandingScreen extends Component {
                     </TouchableHighlight>
                 </Animated.View>
 
-                <View style={styles.header}>
+                {this.state.showCard === true && <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
                         <View style={styles.menu1}>
                             <Image source={require('../assets/Icons/setting_yellow/settings.png')}/>
@@ -314,11 +318,11 @@ class LandingScreen extends Component {
                             <Image source={require('../assets/Icons/event_yellow/calendar.png')}/>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View>}
 
                 {this.state.showCard === true && this.renderImage()}
-                <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
-                                unlock={this.unlock}/>
+                {this.state.showCard === true &&  <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
+                                unlock={this.unlock}/> }
 
                 <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
                     <Image style={styles.footerImage}
@@ -328,7 +332,8 @@ class LandingScreen extends Component {
                 <Animated.View
                     style={[{position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT}, eventCreationStyle]}>
                     <EventCreationComponent title='Create new event ' buttonText='Post'
-                                            close={this._toggleArrowAndEventCreation} {...this.props} />
+                                            close={this._toggleArrowAndEventCreation}
+                                            {...this.props} />
                 </Animated.View>
 
             </ImageBackground>
