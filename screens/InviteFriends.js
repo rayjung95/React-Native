@@ -9,9 +9,13 @@ export default class InviteFriends extends Component {
 
     constructor() {
         super();
-        //Usage of states:
-        //myContacts - base array with all contacts
-        //shownContacts - initially equal to myContacts. will change depending on search parameters.
+        // Usage of states:
+        // myContacts - base array with all contacts
+        // shownContacts - initially equal to myContacts. will change depending on search parameters
+        // search - bool to show/hide search bar. NOTE: currently unused
+        // numSelectedContacts - shows number of currently select contacts at invite friends button at the bottom
+        // selectedContactsList - list of currently select contacts to send.
+        // allContactsSelected - bool whether 'Select All' contacts button has been used
         this.state = {
             headerLeftImg: require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png'),
             contactUnselected: require('../assets/Icons/selectContact.imageset/unchecked.png'),
@@ -19,11 +23,14 @@ export default class InviteFriends extends Component {
             headerLeftText: 'Invite Friends',
             myContacts: [],
             shownContacts: [],
-            numSelectedContacts: 0,
             search: false,
+            numSelectedContacts: 0,
             selectedContactsList: [],
+            allContactsSelected: false,
+            allNumbers: [],
         }
         this.getContactAsync();
+        this.getAllNumbers = this.getAllNumbers.bind(this);
     }
 
     static navigationOptions = {
@@ -44,6 +51,7 @@ export default class InviteFriends extends Component {
         var tempdata = [];
         var headerString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var primaryNumSaved = false;
+        var allNumbers = [];
         //loop thru alphabet string a letter at a time
         for (indx in headerString) {
             //loop thru each contact
@@ -59,6 +67,7 @@ export default class InviteFriends extends Component {
                                 phone: contacts.data[item].phoneNumbers[0].number,
                                 id: contacts.data[item].id,
                             });
+                            allNumbers.push(contacts.data[item].phoneNumbers[0].number);
                         } else if (contacts.data[item].phoneNumbers.length > 1) {
                             //if contact has more than 1 number saved, look if there is a primary assigned,
                             //else get the first number in the array
@@ -70,6 +79,7 @@ export default class InviteFriends extends Component {
                                         phone: contacts.data[item].phoneNumbers[c].number,
                                         id: contacts.data[item].id,
                                     });
+                                    allNumbers.push(contacts.data[item].phoneNumbers[c].number);
                                     primaryNumSaved = true;
                                 }
                             }
@@ -79,6 +89,7 @@ export default class InviteFriends extends Component {
                                     phone: contacts.data[item].phoneNumbers[0].number,
                                     id: contacts.data[item].id,
                                 });
+                                allNumbers.push(contacts.data[item].phoneNumbers[0].number);
                             }
                             primaryNumSaved = false;
                         }
@@ -92,20 +103,25 @@ export default class InviteFriends extends Component {
         }
         this.setState({
             myContacts: temp,
-            shownContacts: temp
+            shownContacts: temp,
+            allNumbers: allNumbers
         })
     }
 
+    // View for each contact
+    // onPress - if contact number is in selectedContactsList, remove it. if not, add it.
+    //           then get number of items in selectedContactsList and setState of numSelectedContacts
     showContacts = ({item, index}) => {
         return (
             <TouchableOpacity onPress={() => {
                     if (this.state.selectedContactsList.includes(item.phone)) {
-                        this.state.selectedContactsList.splice(this.state.selectedContactsList.indexOf(item.phone))
+                        this.state.selectedContactsList.splice(this.state.selectedContactsList.indexOf(item.phone), 1)
                     } else {
                         this.state.selectedContactsList.push(item.phone)
                     }
                     this.setState({
-                        numSelectedContacts: this.state.selectedContactsList.length
+                        numSelectedContacts: this.state.selectedContactsList.length,
+                        allContactsSelected: false,
                     })
                 }}>
                 <View key={index} style={styles.contactViews}>
@@ -118,7 +134,8 @@ export default class InviteFriends extends Component {
         )
     }
 
-    showHeaders = (item) => {
+    // Letter header for contacts. example: A for contacts starting with names that start with A
+    showContactsHeaders = (item) => {
         return (
             <View style={styles.contactHeader}>
                 <Text style={{ fontSize: width / 20, fontWeight: 'bold', marginLeft: width * 0.04 }}>{item.section.head}</Text>
@@ -126,6 +143,7 @@ export default class InviteFriends extends Component {
         )
     }
 
+    //NOT USED. For show/hide search bar
     openSearch = () => {
         if (this.state.search) {
             return <TextInput style={styles.searchBar}/>
@@ -134,48 +152,82 @@ export default class InviteFriends extends Component {
         }
     }
 
+    getAllNumbers = () => {
+        var allNum = [];
+        for (num in this.state.allNumbers) {
+            allNum.push(this.state.allNumbers[num])
+        }
+        return allNum
+    }
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                {/* Header Bar */}
                 <View style={styles.header}>
+                    {/* Left Header Side */}
                     <View style={styles.leftHeader}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
                             <Image style={styles.headerLeftImage} source={this.state.headerLeftImg}/>
                         </TouchableOpacity>
                         <Text style={styles.headerLeftText}>{this.state.headerLeftText}</Text>
                     </View>
+
+                    {/* Right Header Side */}
                     <View style={styles.rightHeader}>
-                        <TouchableOpacity onPress={() => {console.log('Before ' + this.state.search);}}>
+                        <TouchableOpacity onPress={() => {
+                            this.setState({
+                                selectedContactsList: this.state.allContactsSelected ? [] : this.getAllNumbers(),
+                                allContactsSelected: this.state.allContactsSelected ? false : true,
+                                numSelectedContacts: this.state.allContactsSelected ? 0 : this.state.allNumbers.length,
+                            })
+                            console.log('Before ' + this.state.search); }}>
+                            <Text style={styles.headerRightText}>{!this.state.allContactsSelected ? "Select All" : "Unselect All"}</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* NOTE: Old left header with select all and search button. Kept just in case */}
+                    {/* <View style={styles.rightHeader}>
+                        <TouchableOpacity onPress={() => { console.log('Before ' + this.state.search); }}>
                             <Image style={styles.headerMultiSelect} source={require('../assets/Icons/multiselect.imageset/multiselect.png')} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {
-                                this.setState({
-                                    search: this.state.search ? false : true
-                                })
-                                this.openSearch();
-                            }}>
+                            this.setState({
+                                search: this.state.search ? false : true
+                            })
+                            this.openSearch();
+                        }}>
                             <Image style={styles.headerMultiSelect} source={require('../assets/Icons/search.imageset/search.png')} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
+
+                {/* Search Bar */}
                 <View>
                     <TextInput style={{width: width, fontSize: width / 20, marginLeft: width * 0.03}} placeholder={'Search'} underlineColorAndroid={'transparent'}/>
                 </View>
+
+                {/* Contacts Section List */}
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <SectionList
                         initialNumToRender={100}
                         renderItem={this.showContacts}
                         sections={this.state.shownContacts}
                         keyExtractor={(item, index) => {return item + index}}
-                        renderSectionHeader={this.showHeaders}
+                        renderSectionHeader={this.showContactsHeaders}
                     />
                 </View>
-                {/*-TODO: find a way to have <TouchableOpacity> while absolute. currently dont work.-*/}
+
+                {/*Invite Friends Button*/}
                 <View style={styles.sendInviteButton}>
-                    <View style={styles.selectCounterBg}>
-                        <Text style={styles.selectCounter}>{this.state.numSelectedContacts}</Text>
-                    </View>
-                    <Text style={styles.sendInviteText}>Invite Friends</Text>
+                    <TouchableOpacity>
+                        <View style={styles.sendInviteButtonTouch}>
+                            <View style={styles.selectCounterBg}>
+                                <Text style={styles.selectCounter}>{this.state.numSelectedContacts}</Text>
+                            </View>
+                            <Text style={styles.sendInviteText}>Invite Friends</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </ImageBackground>
         );
@@ -208,6 +260,10 @@ const styles = StyleSheet.create({
         margin: width * 0.045,
     },
     headerLeftText: {
+        color: 'white',
+        fontSize: width / 19,
+    },
+    headerRightText: {
         color: 'white',
         fontSize: width / 19,
     },
@@ -245,15 +301,19 @@ const styles = StyleSheet.create({
         height: height * 0.05
     },
     sendInviteButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
         position: 'absolute',
         left: 0,
         bottom: 0,
         width: width,
         height: height * 0.08,
         backgroundColor: '#FDD302',
+    },
+    sendInviteButtonTouch: {
+        flexDirection: 'row',
+        width: width,
+        height: height * 0.08,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     selectCounterBg: {
         alignItems: 'center',
