@@ -208,7 +208,7 @@ export default class GuestConfirmationScreen extends Component {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
 
-                <View style={styles.header}>
+                {this.state.showCard === true && <View style={styles.header}>
                     <View style={styles.menu1}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
                             <View style={styles.backArrow}>
@@ -236,11 +236,11 @@ export default class GuestConfirmationScreen extends Component {
                             {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View>}
 
                 {this.state.showCard === true && this.renderImage()}
-                <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
-                                unlock={this.unlock}/>
+                {this.state.showCard === true && <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
+                                unlock={this.unlock}/>}
 
                 <View style={styles.footer}>
                     <TouchableOpacity onPress={() => this._toggleEventCreation()}>
