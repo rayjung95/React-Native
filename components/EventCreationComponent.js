@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Alert,
     Image,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -69,7 +68,7 @@ export class EventCreationComponent extends React.Component {
                 'Please fill out event title!',
                 [{text: 'Ok'}]
             )
-        } else if (!datetime || !datetime.date && datetime.word === 'Starts' || !datetime.date && datetime.word === 'Ends') {
+        } else if (!datetime || !datetime.startDate || !datetime.endDate || !datetime.startTime || !datetime.endTime) {
             Alert.alert(
                 '',
                 'Please fill out event date and time!',
@@ -90,20 +89,14 @@ export class EventCreationComponent extends React.Component {
 
     getDateTimeState = () => {
         const datetime = this.DateTimeComponent.getDateTimeState();
-
-        if (datetime.word === 'Starts') {
-            this.setState({
-                startDate: datetime.date,
-                startTime: datetime.time,
-                startDayOfWeek: datetime.dayOfWeek
-            })
-        } else if (this.DateTimeComponent.getDateTimeState().word === 'Ends') {
-            this.setState({
-                endDate: datetime.date,
-                endTime: datetime.time,
-                endDayOfWeek: datetime.dayOfWeek
-            })
-        }
+        this.setState({
+            startDate: datetime.startDate,
+            startTime: datetime.startTime,
+            startDayOfWeek: datetime.startDayOfWeek,
+            endDate: datetime.endDate,
+            endTime: datetime.endTime,
+            endDayOfWeek: datetime.endDayOfWeek,
+        })
 
     };
 
@@ -161,7 +154,7 @@ export class EventCreationComponent extends React.Component {
                         </TouchableOpacity>
 
                     </View>
-                    
+
                     <View style={{ height: SCREEN_HEIGHT * (43 / 722), flexDirection: 'row' }}>
                         <TextInput onChangeText={(value) => this.setState({ title: value })} multiline={false}
                             placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
@@ -208,13 +201,7 @@ export class EventCreationComponent extends React.Component {
                     <DateTimeComponent {...this.state}
                                        ref={instance => {
                                            this.DateTimeComponent = instance
-                                       }} word="Starts"/>
-                    {/* <Text>Starts</Text> */}
-
-                    <DateTimeComponent {...this.state}
-                                       ref={instance => {
-                                           this.DateTimeComponent = instance
-                                       }} word="Ends"/>
+                                       }} />
 
                     {/* <Text>Ends</Text> */}
 
