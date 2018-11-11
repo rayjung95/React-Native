@@ -59,7 +59,7 @@ export default class UserSettingScreen extends Component {
             'Log out of Rendevous?',
             [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
-                {text: 'Log Out', onPress: () => console.log('LogOut Pressed')},
+                {text: 'Log Out', onPress: () => this.props.navigation.navigate('Login')},
             ],
             {cancelable: false}
         )
@@ -133,7 +133,7 @@ export default class UserSettingScreen extends Component {
 									textAlign: 'left',
 									margin: 8,
 									flex: 1,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Search distance'}
 								</Text>
@@ -141,7 +141,7 @@ export default class UserSettingScreen extends Component {
 									textAlign: 'right',
 									margin: 8,
 									flex: 1,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{this.state.distance} km
 								</Text>
@@ -173,7 +173,7 @@ export default class UserSettingScreen extends Component {
 								<Text style={{
 									textAlign: 'left',
 									margin: 8,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Invite Friends'}
 								</Text>
@@ -195,7 +195,7 @@ export default class UserSettingScreen extends Component {
 								<Text style={{
 									textAlign: 'left',
 									margin: 8,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Terms of Service'}
 								</Text>
@@ -216,7 +216,7 @@ export default class UserSettingScreen extends Component {
 								<Text style={{
 									textAlign: 'left',
 									margin: 8,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Privacy Policy'}
 								</Text>
@@ -237,7 +237,7 @@ export default class UserSettingScreen extends Component {
 								<Text style={{
 									textAlign: 'center',
 									margin: 8,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Log Out'}
 								</Text>
@@ -252,7 +252,7 @@ export default class UserSettingScreen extends Component {
 								<Text style={{
 									textAlign: 'center',
 									margin: 8,
-									fontSize: 16,
+									fontSize: SCREEN_HEIGHT * 0.025,
 								}}>
 									{'Delete Account'}
 								</Text>
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		textAlign: 'center',
 		textAlignVertical: 'center',
-		fontSize: 18,
+		fontSize: SCREEN_HEIGHT * 0.028125,
 		marginLeft: SCREEN_WIDTH * 0.35,
 		marginRight: SCREEN_WIDTH * 0.31,
 	},
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		textAlign: 'center',
 		textAlignVertical: 'center',
-		fontSize: 24,
+		fontSize: SCREEN_HEIGHT * 0.0375,
 	},
 	editProfileText: {
 		justifyContent: 'center',
@@ -316,16 +316,16 @@ const styles = StyleSheet.create({
 		color: 'white',
 		textAlign: 'center',
 		textAlignVertical: 'center',
-		fontSize: 14,
+		fontSize: SCREEN_HEIGHT * 0.021875,
 	},
 	profileImage: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		resizeMode: 'contain',
-		borderTopRightRadius: 100,
-		borderTopLeftRadius: 100,
-		borderBottomLeftRadius: 70,
-		borderBottomRightRadius: 70,
+		borderTopRightRadius: SCREEN_HEIGHT * 0.15625,
+		borderTopLeftRadius: SCREEN_HEIGHT * 0.15625,
+		borderBottomLeftRadius: SCREEN_HEIGHT * 0.109375,
+		borderBottomRightRadius: SCREEN_HEIGHT * 0.109375,
 		marginTop: SCREEN_HEIGHT * 0.063,
 		marginBottom: SCREEN_HEIGHT * 0.037,
 		width: SCREEN_WIDTH * 0.4,
