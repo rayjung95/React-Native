@@ -28,6 +28,7 @@ export default class EditProfileScreen extends Component {
 			mainImageSource: this.props.mainImageSource,
 			smallImage1Source: this.props.smallImage1Source,
 			smallImage2Source: this.props.smallImage2Source,
+			smallImage3Source: this.props.smallImage3Source,
 			profileBioText: this.props.profileBioText,
 			contactInfoText: this.props.contactInfoText,
 
@@ -58,7 +59,7 @@ export default class EditProfileScreen extends Component {
 			image3XY: new Animated.ValueXY({x: SCREEN_WIDTH * 0.35, y: SCREEN_HEIGHT * 0.555}),
 			image3ZIndex: 1,
 
-			image4Exists: false,
+			image4Exists: true,
 			image4Hovered: [false, false, false],
 			image4OrigScale: 1,
 			image4OrigX: SCREEN_WIDTH * 0.67,
@@ -68,11 +69,12 @@ export default class EditProfileScreen extends Component {
 			image4ZIndex: 1,
 		}
 
+        this._addPhoto = this._addPhoto.bind(this);
+        this._animateMove = this._animateMove.bind(this);
+        this._animateResize = this._animateResize.bind(this);
         this._connectInsta = this._connectInsta.bind(this);
         this._createResponders = this._createResponders.bind(this);
         this._isInimage = this._isInImage.bind(this);
-        this._animateMove = this._animateMove.bind(this);
-        this._animateResize = this._animateResize.bind(this);
         
         this._createResponders();
 	}
@@ -85,6 +87,7 @@ export default class EditProfileScreen extends Component {
 		mainImageSource: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
 		smallImage1Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+		smallImage3Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		addImageSource: require('../assets/Icons/add_photo.imageset/add_photo.png'),
 		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
 		contactInfoText: 'Contact Info',
@@ -100,6 +103,7 @@ export default class EditProfileScreen extends Component {
 	        	if (this.state.image1Exists) {
 		        	this.setState({image1ZIndex: 2, image2ZIndex: 1, image3ZIndex: 1, image4ZIndex: 1});
 		        	this._animateResize(this.state.image1Scale, this.state.image1OrigScale + 0.1);
+		        	this.profileScroll.scrollTo({y: 0, animated: true});
 		        }
 	        },
 	        onPanResponderMove : (e, gesture) => {
@@ -204,6 +208,7 @@ export default class EditProfileScreen extends Component {
 	        	if (this.state.image2Exists) {
 		        	this.setState({image1ZIndex: 1, image2ZIndex: 2, image3ZIndex: 1, image4ZIndex: 1});
 		        	this._animateResize(this.state.image2Scale, this.state.image2OrigScale + 0.1);
+		        	this.profileScroll.scrollTo({y: 0, animated: true});
 		        }
 	        },
 	        onPanResponderMove : (e, gesture) => {
@@ -308,6 +313,7 @@ export default class EditProfileScreen extends Component {
 	        	if (this.state.image3Exists) {
 		        	this.setState({image1ZIndex: 1, image2ZIndex: 1, image3ZIndex: 2, image4ZIndex: 1});
 		        	this._animateResize(this.state.image3Scale, this.state.image3OrigScale + 0.1);
+		        	this.profileScroll.scrollTo({y: 0, animated: true});
 		        }
 	        },
 	        onPanResponderMove : (e, gesture) => {
@@ -412,6 +418,7 @@ export default class EditProfileScreen extends Component {
 	        	if (this.state.image4Exists) {
 		        	this.setState({image1ZIndex: 1, image2ZIndex: 1, image3ZIndex: 1, image4ZIndex: 2});
 		        	this._animateResize(this.state.image4Scale, this.state.image4OrigScale + 0.1);
+		        	this.profileScroll.scrollTo({y: 0, animated: true});
 		        }
 	        },
 	        onPanResponderMove : (e, gesture) => {
@@ -547,10 +554,14 @@ export default class EditProfileScreen extends Component {
         console.log('ConnectInsta Pressed');
     }
 
+    _addPhoto = () => {
+    	console.log('Add Photo');
+    }
+
 	render() {
 		return (
 			<View style={styles.background}>
-				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.091 }} showsVerticalScrollIndicator={false}>
+				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.091 }} showsVerticalScrollIndicator={false} ref={(ref) => this.profileScroll = ref}>
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
 							<Animated.View {...this.image1PanResponder.panHandlers} style={[styles.mainImageView, this.state.image1XY.getLayout(), {zIndex: this.state.image1ZIndex, transform: [{scale: this.state.image1Scale}]}]}>
@@ -559,21 +570,29 @@ export default class EditProfileScreen extends Component {
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
-							<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImage1View, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
+							<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
 								<Animated.Image source={this.state.smallImage1Source} style={[styles.smallImage]} />
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
-							<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImage2View, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
+							<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
 								<Animated.Image source={this.state.smallImage2Source} style={[styles.smallImage]}/>
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
-							<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImage3View, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
-								<Animated.Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+							<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
+								<Animated.Image source={this.state.smallImage3Source} style={[styles.smallImage]}/>
+								<View style={styles.deleteImageView}>
+									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
+								</View>
 							</Animated.View>
+							{/*<TouchableHighlight onPress={this._addPhoto}>
+								<View style={[styles.smallImageView, {left: 30, top: 30, zIndex: 3, elevation: 2}]}>
+									<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+								</View>
+							</TouchableHighlight>*/}
 						</View>
 
 						<View style={styles.profileBio}>
@@ -647,7 +666,7 @@ const styles = StyleSheet.create({
 		flex: 1,
         alignItems: 'center',
         flexDirection: 'column',
-        elevation: -1
+        elevation: -1,
 	},
 	connectInsta: {
 		backgroundColor: '#FFFFFF',
@@ -751,17 +770,7 @@ const styles = StyleSheet.create({
 		width: SCREEN_WIDTH * 0.3,
 		height: SCREEN_WIDTH * 0.3,
 	},
-	smallImage1View: {
-		position: 'absolute',
-		width: SCREEN_WIDTH * 0.3,
-		height: SCREEN_WIDTH * 0.3,
-	},
-	smallImage2View: {
-		position: 'absolute',
-		width: SCREEN_WIDTH * 0.3,
-		height: SCREEN_WIDTH * 0.3,
-	},
-	smallImage3View: {
+	smallImageView: {
 		position: 'absolute',
 		width: SCREEN_WIDTH * 0.3,
 		height: SCREEN_WIDTH * 0.3,
