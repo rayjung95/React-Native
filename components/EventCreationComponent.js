@@ -68,10 +68,22 @@ export class EventCreationComponent extends React.Component {
                 'Please fill out event title!',
                 [{text: 'Ok'}]
             )
+        } else if (!this.state.location || this.state.location.length === 0){
+            Alert.alert(
+                '',
+                'Please fill out event location!',
+                [{text: 'Ok'}]
+            )
         } else if (!datetime || !datetime.startDate || !datetime.endDate || !datetime.startTime || !datetime.endTime) {
             Alert.alert(
                 '',
                 'Please fill out event date and time!',
+                [{text: 'Ok'}]
+            )
+        } else if (!this.state.eventInfo || this.state.eventInfo.length <= 1){
+            Alert.alert(
+                '',
+                'Please fill out event description and tell us more about your event!',
                 [{text: 'Ok'}]
             )
         } else {
