@@ -79,10 +79,6 @@ export default class MessagesScreen extends Component {
 
 	};
 
-	componentDidMount() {
-		console.log(SCREEN_HEIGHT + ', ' + SCREEN_WIDTH);
-	}
-
 	parseDate(date) {
 		var currentDate = new Date();
 		if (!(date.getYear() < currentDate.getYear())) {
