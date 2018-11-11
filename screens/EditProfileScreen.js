@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
 		elevation: 1,
 	},
 	connectInstaText: {
-		fontSize: 15,
+		fontSize: SCREEN_HEIGHT * 0.0234375,
 		fontFamily: 'Roboto',
 	},
     connectInstaView: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 	},
 	contactInfoText: {
 		color: '#8E8E93',
-		fontSize: 15,
+		fontSize: SCREEN_HEIGHT * 0.0234375,
 		fontFamily: 'Roboto',
 		textAlign: 'left',
 	},
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
 	},
 	profileBioText: {
 		color: '#8E8E93',
-		fontSize: 15,
+		fontSize: SCREEN_HEIGHT * 0.0234375,
 		fontFamily: 'Roboto',
 	},
 	smallImage: {
@@ -250,14 +250,14 @@ const styles = StyleSheet.create({
 	},
 	save: {
 		fontFamily: 'Roboto',
-		fontSize: 18,
+		fontSize: SCREEN_HEIGHT * 0.028125,
 		color: '#FDD302',
 		textAlign: 'right',
 		elevation: 2,
 	},
 	title: {
 		fontFamily: 'Roboto',
-		fontSize: 18,
+		fontSize: SCREEN_HEIGHT * 0.028125,
 		color: 'white',
 		textAlign: 'left',
 		elevation: 2,
