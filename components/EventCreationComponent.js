@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Alert,
     Image,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -13,8 +12,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import { bindActionCreators } from "redux";
-import { createEvent } from "../actions/eventsActions";
+import {bindActionCreators} from "redux";
+import {createEvent} from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -26,8 +25,12 @@ export class EventCreationComponent extends React.Component {
         this.state = {
             location: 'Location',
             title: '',
-            starts: null,
-            ends: null,
+            startDate: null,
+            startTime: null,
+            startDayOfWeek: null,
+            endDate: null,
+            endTime: null,
+            endDayOfWeek: null,
             website: null,
             eventInfo: null,
             showAlert: false,
@@ -46,27 +49,68 @@ export class EventCreationComponent extends React.Component {
     };
 
     create = () => {
+        this.getDateTimeState();
         this.props.createEvent(this.state);
         this.closeComponent();
     };
 
     returnData(theData, locationName) {
-        this.setState({ data: theData, location: locationName });
+        this.setState({data: theData, location: locationName});
     }
-
 
 
     onPressEvent = () => {
-        Alert.alert(
-            '',
-            'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
-            [
-                { text: 'Accept', onPress: () => this.create() },
-                { text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-            ],
-            { cancelable: false }
-        )
-    }
+        const datetime = this.DateTimeComponent.getDateTimeState();
+
+        if (!this.state.title || this.state.title.length === 0) {
+            Alert.alert(
+                '',
+                'Please fill out event title!',
+                [{text: 'Ok'}]
+            )
+        } else if (!this.state.location || this.state.location.length === 0){
+            Alert.alert(
+                '',
+                'Please fill out event location!',
+                [{text: 'Ok'}]
+            )
+        } else if (!datetime || !datetime.startDate || !datetime.endDate || !datetime.startTime || !datetime.endTime) {
+            Alert.alert(
+                '',
+                'Please fill out event date and time!',
+                [{text: 'Ok'}]
+            )
+        } else if (!this.state.eventInfo || this.state.eventInfo.length <= 1){
+            Alert.alert(
+                '',
+                'Please fill out event description and tell us more about your event!',
+                [{text: 'Ok'}]
+            )
+        } else {
+            Alert.alert(
+                '',
+                'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
+                [
+                    {text: 'Accept', onPress: () => this.create()},
+                    {text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                {cancelable: false}
+            )
+        }
+    };
+
+    getDateTimeState = () => {
+        const datetime = this.DateTimeComponent.getDateTimeState();
+        this.setState({
+            startDate: datetime.startDate,
+            startTime: datetime.startTime,
+            startDayOfWeek: datetime.startDayOfWeek,
+            endDate: datetime.endDate,
+            endTime: datetime.endTime,
+            endDayOfWeek: datetime.endDayOfWeek,
+        })
+
+    };
 
     // locationColor = () => {
     //     var theColor = '#8e8e93';
@@ -87,8 +131,8 @@ export class EventCreationComponent extends React.Component {
                 }}></View>
                 <TouchableNativeFeedback onPress={() => this.closeComponent()}>
 
-                    <Image style={{ marginBottom: -2 }}
-                        source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')} />
+                    <Image style={{marginBottom: -2}}
+                           source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')}/>
 
                 </TouchableNativeFeedback>
                 <View style={{
@@ -117,11 +161,12 @@ export class EventCreationComponent extends React.Component {
                             marginTop: SCREEN_HEIGHT * (16 / 722),
                             marginBottom: SCREEN_HEIGHT * (16 / 722)
                         }}>
-                            <Image style={{ resizeMode: 'cover' }}
-                                source={require('../assets/Icons/close.imageset/close.png')} />
+                            <Image style={{resizeMode: 'cover'}}
+                                   source={require('../assets/Icons/close.imageset/close.png')}/>
                         </TouchableOpacity>
 
                     </View>
+
                     <View style={{ height: SCREEN_HEIGHT * (43 / 722), flexDirection: 'row' }}>
                         <TextInput onChangeText={(value) => this.setState({ title: value })} multiline={false}
                             placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
@@ -146,13 +191,13 @@ export class EventCreationComponent extends React.Component {
                             alignItems: 'center',
                             justifyContent: 'space-between'
                         }}
-                        onPress={() => this.props.navigation.navigate('Map', { returnData: this.returnData.bind(this) })}
+                        onPress={() => this.props.navigation.navigate('Map', {returnData: this.returnData.bind(this)})}
                     >
-                        <Text style={this.state.location === 'Location' ? styles.grey : styles.black}>{this.state.location}</Text>
-                        <Image style={{ marginRight: SCREEN_WIDTH * (16 / 360) }}
-                            source={require('../assets/Icons/navigation-filled/navigation.png')} />
+                        <Text
+                            style={this.state.location === 'Location' ? styles.grey : styles.black}>{this.state.location}</Text>
+                        <Image style={{marginRight: SCREEN_WIDTH * (16 / 360)}}
+                               source={require('../assets/Icons/navigation-filled/navigation.png')}/>
                     </TouchableOpacity>
-
 
                     <View style={{ height: SCREEN_HEIGHT * (32 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                         <Image style={{
@@ -165,17 +210,18 @@ export class EventCreationComponent extends React.Component {
                     </View>
 
 
-                    <DateTimeComponent {...this.state} word="Starts" />
-                    {/* <Text>Starts</Text> */}
+                    <DateTimeComponent {...this.state}
+                                       ref={instance => {
+                                           this.DateTimeComponent = instance
+                                       }} />
 
-
-                    <DateTimeComponent {...this.state} returnStuff={this} word="Ends" />
                     {/* <Text>Ends</Text> */}
 
                     <View style={{ height: SCREEN_HEIGHT * (26 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                     </View>
 
                     {/* <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginBottom: 40, marginTop: 40, justifyContent: 'center'}}> */}
+
                     <TextInput
                         autoCorrect={false}
                         textContentType='URL'
@@ -271,8 +317,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const { events } = state;
-    return { events }
+    const {events} = state;
+    return {events}
 };
 
 const mapDispatchToProps = dispatch => (

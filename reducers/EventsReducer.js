@@ -81,8 +81,9 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmed.eventHostName = 'Johnny';
             confirmed.eventTitle = submittedEvent.title;
             confirmed.eventDescription = submittedEvent.eventInfo;
-            confirmed.eventDay = 'FRI';
-            confirmed.eventDate = submittedEvent.start;
+            confirmed.eventDay = submittedEvent.startDayOfWeek;
+            confirmed.eventDate = submittedEvent.startDate;
+            confirmed.eventTime = submittedEvent.startTime;
             confirmed.eventHostPhoto = require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png');
             confirmed.guestNums = 'No guests yet';
             confirmed.eventAway = 2.5;

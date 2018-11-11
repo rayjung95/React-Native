@@ -51,7 +51,7 @@ export default class EventComponent extends Component {
                         this.state.isCurrentUserHost ?
                             <View style={styles.hostPicContainer}>
                                 <View style={styles.dummyStatus}>
-                                    <Text style={{color: 'white'}}>{' '}{' '}{' '}{' '}{' '}{' '}{' '}{' '}</Text>
+                                    <Text style={{color: 'white'}}>{'             '}</Text>
                                 </View>
                                 <Image
                                     source={this.state.eventHostPhoto}
@@ -94,7 +94,7 @@ export default class EventComponent extends Component {
                         <Text style={styles.subheading}>Host</Text>
                         <View style={styles.divider}/>
                         <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
-                        <Text style={styles.heading1}> {this.state.eventDay} , {this.state.eventTime}</Text>
+                        <Text style={styles.heading1}> {this.state.eventDay}, {this.state.eventTime}</Text>
                         <Text style={styles.eventDate}> {this.state.eventDate} </Text>
                         <View style={styles.cardFooter}>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
         bottom: 20
     },
     hostPicContainer: {
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: SCREEN_WIDTH * 0.4,
         flexDirection: 'row',
@@ -198,11 +199,11 @@ const styles = StyleSheet.create({
     },
     heading1: {
         fontFamily: 'Roboto',
-        fontSize: RF(4)
+        fontSize: RF(3.7)
     },
     eventDate: {
         fontFamily: 'sans-serif-thin',
-        fontSize: RF(2)
+        fontSize: RF(2.2)
     },
     divider: {
         borderBottomColor: '#f1f1f1',
@@ -227,9 +228,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#8cbc45',
         borderRadius: 50,
         margin: 5,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
         zIndex: 10,
         paddingRight: 15,
         paddingLeft: 15,
@@ -239,9 +238,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00b9f3',
         borderRadius: 50,
         margin: 5,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
         zIndex: 10,
         paddingRight: 15,
         paddingLeft: 15,
