@@ -54,11 +54,18 @@ export default class GuestConfirmationScreen extends Component {
       ],
       isMoving: false,
       eventCreationHidden: true,
+      activeProfile: null
+
     }
 
   }
 
   componentWillMount() {
+    this.allProfiles = {};
+    this.oldPosition = {};
+    this.position = new Animated.ValueXY();
+    this.dimensions = new Animated.ValueXY();
+
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (e, gestureState) => {
@@ -158,6 +165,30 @@ export default class GuestConfirmationScreen extends Component {
     })
   }
 
+  openProfile = index => {
+    this.allProfiles[index].measure((x, y, width, height, pageX, pageY) => {
+      this.oldPosition.x = pageX;
+      this.oldPosition.y = pageY;
+      this.oldPosition.width = width;
+      this.oldPosition.height = height;
+
+      this.position.setValue({
+        x: pageX,
+        y: pageY
+      })
+
+      this.dimensions.setValue({
+        x: width,
+        y: height
+      })
+
+      this.setState({
+        activeProfile: this.state.array[index]
+      })
+
+    })
+  }
+
 
   renderImage = () => {
     return this.state.array.map((item, i) => {
@@ -174,7 +205,11 @@ export default class GuestConfirmationScreen extends Component {
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
               onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
-              <View style={styles.touchableCard}>
+              // onPress={()=>this.openProfile(i)}>
+              <View 
+                style={styles.touchableCard}
+                ref={(profile)=>(this.allProfiles[i] = profile)}
+              >
                 <Image style={styles.profileImage} source={item.img} />
                 <View>
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>

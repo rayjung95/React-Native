@@ -242,6 +242,7 @@ class LandingScreen extends Component {
                 eventAddress={item.eventAddress} eventConfirmed={false}
               />
             </View>
+
             </TouchableWithoutFeedback>
           </Animated.View>
         )

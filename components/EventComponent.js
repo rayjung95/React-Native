@@ -45,7 +45,7 @@ export default class EventComponent extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{width:'100%', height:'100%'}}>
                 <View style={styles.cardHeader}>
                     {this.state.eventConfirmed ?
                         this.state.isCurrentUserHost ?
@@ -133,38 +133,39 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     card: {
-        flex: 1,
+        // flex: 1,
         marginTop: -SCREEN_WIDTH * 0.2,
-        backgroundColor: 'blue',
+        backgroundColor: 'white',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: SCREEN_WIDTH * 0.8722,
-        height: SCREEN_HEIGHT * 0.6234375,
-        zIndex: 0,
-        borderRadius: 5
+        height: SCREEN_HEIGHT * 0.5234375,
+        // zIndex: 0,
+        borderRadius: 6
     },
     details: {
-        paddingTop: SCREEN_WIDTH * 0.05,
-        zIndex: 2,
+        paddingTop: SCREEN_WIDTH * 0.1,
+        marginTop: -SCREEN_WIDTH * 0.1,
         alignItems: 'center',
         width: '100%',
-        height: '100%',
+        height: '110%',
         flexDirection: 'column',
         justifyContent: 'center',
-        flex: 1,
-        backgroundColor: 'white',
+        // backgroundColor: 'orange',
         borderRadius: 5
     },
     cardFooter: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
         position: 'absolute',
-        bottom: 20
+        bottom: 20,
+        // backgroundColor:'yellow',
+        // bottom:-10
     },
     hostPicContainer: {
         alignItems: 'center',
