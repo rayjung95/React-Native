@@ -1,6 +1,17 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity, SectionList, TextInput } from 'react-native';
-import { Contacts, Permissions } from 'expo';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    SectionList,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
+import {Contacts, Permissions} from 'expo';
 
 //TODOS: create method for searching 
 
@@ -190,7 +201,7 @@ export default class InviteFriends extends Component {
                 <View style={styles.header}>
                     {/* Left Header Side */}
                     <View style={styles.leftHeader}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
+                        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                             <Image style={styles.headerLeftImage} source={this.state.headerLeftImg}/>
                         </TouchableOpacity>
                         <Text style={styles.headerLeftText}>{this.state.headerLeftText}</Text>
