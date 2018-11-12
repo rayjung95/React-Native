@@ -197,12 +197,12 @@ const styles = StyleSheet.create({
 	messageChat: {
 		fontFamily: 'Roboto',
 		color: '#787878',
-		fontSize: 16,
+		fontSize: SCREEN_HEIGHT * 0.025,
 	},
 	messageDate: {
 		fontFamily: 'Roboto',
 		color: '#868686',
-		fontSize: 16,
+		fontSize: SCREEN_HEIGHT * 0.025,
 		textAlign: 'right',
 	},
 	messageListView: {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 	messageName: {
 		fontFamily: 'Roboto',
 		color: 'black',
-		fontSize: 16,
+		fontSize: SCREEN_HEIGHT * 0.025,
 		fontWeight: 'bold',
 	},
 	messagePhoto: {
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontFamily: 'Roboto',
-		fontSize: 18,
+		fontSize: SCREEN_HEIGHT * 0.028125,
 		color: 'white',
 		textAlign: 'left',
 	},

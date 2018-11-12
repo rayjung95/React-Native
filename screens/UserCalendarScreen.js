@@ -50,7 +50,7 @@ class UserCalendarScreen extends Component {
                     <View style={{width: 20, height: 20}}/>
                 </View>
 
-                <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
+                <ScrollView style={{zIndex: 1, paddingBottom: 10}} showsVerticalScrollIndicator={false}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')} activeOpacity={0.9}>
                         <View style={styles.notifBox}>
                             <Text style={styles.notifText}>

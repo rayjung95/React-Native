@@ -205,7 +205,7 @@ export default class GuestConfirmationScreen extends Component {
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
               onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
-              // onPress={()=>this.openProfile(i)}>
+              {/* // onPress={()=>this.openProfile(i)}> */}
               <View 
                 style={styles.touchableCard}
                 ref={(profile)=>(this.allProfiles[i] = profile)}
