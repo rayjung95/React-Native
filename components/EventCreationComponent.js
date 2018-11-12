@@ -68,7 +68,7 @@ export class EventCreationComponent extends React.Component {
                 'Please fill out event title!',
                 [{text: 'Ok'}]
             )
-        } else if (!this.state.location || this.state.location.length === 0){
+        } else if (this.state.location === 'Location'){
             Alert.alert(
                 '',
                 'Please fill out event location!',

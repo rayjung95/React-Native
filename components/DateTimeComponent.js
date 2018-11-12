@@ -73,7 +73,6 @@ export default class DateTimePickerTester extends Component {
             });
         }
 
-
         this._hideDateTimePicker();
     };
 
