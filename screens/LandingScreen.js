@@ -11,12 +11,15 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  StatusBar
+  StatusBar,
+  Text,
+  Button,
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
+import Modal from 'react-native-modalbox';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -67,6 +70,7 @@ class LandingScreen extends Component {
       eventCreationHidden: true,
       arrowFlipped: false,
       arrowIsTop: false,
+      isDisabled: false,
     }
 
   }
@@ -216,7 +220,11 @@ class LandingScreen extends Component {
       })
     })
   }
+  
 
+  openModal = () => {
+    this.refs.modal3.open()
+  }
 
 
   renderImage = () => {
@@ -233,15 +241,15 @@ class LandingScreen extends Component {
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
               event: item
             })}>
-            <View style={{width:'100%', height:'100%'}}>
-              <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                eventDescription={item.eventDescription}
-                eventDay={item.eventDay} eventTime={item.eventTime}
-                eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                guestNums={item.guestNums} eventAway={item.eventAway}
-                eventAddress={item.eventAddress} eventConfirmed={false}
-              />
-            </View>
+              <View style={{ width: '100%', height: '100%' }}>
+                <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
+                  eventDescription={item.eventDescription}
+                  eventDay={item.eventDay} eventTime={item.eventTime}
+                  eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
+                  guestNums={item.guestNums} eventAway={item.eventAway}
+                  eventAddress={item.eventAddress} eventConfirmed={false}
+                />
+              </View>
 
             </TouchableWithoutFeedback>
           </Animated.View>
@@ -301,7 +309,9 @@ class LandingScreen extends Component {
           position: "absolute",
           backgroundColor: "transparent"
         }, styles.arrowView]}>
-          <TouchableHighlight onPress={() => this._toggleArrowAndEventCreation()}
+          <TouchableHighlight onPress={
+            () => this._toggleArrowAndEventCreation()
+          }
             style={{ flex: 1, backgroundColor: 'transparent' }}>
             <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
           </TouchableHighlight>
@@ -324,6 +334,15 @@ class LandingScreen extends Component {
           </TouchableOpacity>
         </View>}
 
+        <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
+          <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: '#5bb983', width: "100%", height: SCREEN_HEIGHT * (73 / 1332), borderTopRightRadius: 5, borderTopLeftRadius: 5 }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
+          <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
+          <TouchableOpacity onPress={() => this.refs.modal3.close()}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, backgroundColor: '#fdd302', width: SCREEN_WIDTH * (502 / 748), height: SCREEN_HEIGHT * (56 / 1332), marginBottom: SCREEN_HEIGHT * (22 / 1332) }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Ok</Text></View>
+          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
+        </Modal>
+
         {this.state.showCard === true && this.renderImage()}
         {this.state.showCard === true && <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
           unlock={this.unlock} />}
@@ -337,6 +356,7 @@ class LandingScreen extends Component {
           style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
           <EventCreationComponent title='Create new event ' buttonText='Post'
             close={this._toggleArrowAndEventCreation}
+            openModal={this.openModal}
             {...this.props} />
         </Animated.View>
 
@@ -436,7 +456,17 @@ const styles = StyleSheet.create({
     height: "100%",
     zIndex: 100,
     resizeMode: 'contain',
-  }
+  },
+
+  modal: {
+    borderRadius: 5,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: "center",
+    height: SCREEN_HEIGHT * (313 / 1332),
+    width: SCREEN_WIDTH * (559 / 748),
+  },
+
 });
 
 const mapStateToProps = (state) => {
