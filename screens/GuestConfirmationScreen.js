@@ -61,6 +61,7 @@ export default class GuestConfirmationScreen extends Component {
       ],
       isMoving: false,
       eventCreationHidden: true,
+      activeProfile: null,
       mutualFriendsData: [
         {
           'id': '001',
@@ -229,8 +230,8 @@ export default class GuestConfirmationScreen extends Component {
   }
 
   openProfile = index => {
+    // Tracking Card View position
     this.allProfiles[index].measure((x, y, width, height, pageX, pageY) => {
-      console.log(pageY)
       this.oldPosition.x = pageX;
       this.oldPosition.y = pageY;
       this.oldPosition.width = width;
@@ -240,33 +241,24 @@ export default class GuestConfirmationScreen extends Component {
         x: pageX,
         y: pageY
       })
-
       this.dimensions.setValue({
         x: width,
         y: height
       })
-
       // Tracking image position
       this.allProfileImages[index].measure((ix, iy, iwidth, iheight, ipageX, ipageY) => {
-        console.log(ipageY);
-        this.oldImagePosition.x = ipageX;
-        this.oldImagePosition.y = ipageY;
+        this.oldImagePosition.x = ipageX - pageX;
+        this.oldImagePosition.y = ipageY - pageY;
         this.oldImagePosition.width = iwidth;
         this.oldImagePosition.height = iheight;
-
         this.newImagePosition.setValue({
           x: ipageX - pageX,
           y: ipageY - pageY
         });
-
         this.imageDimensions.setValue({
           x: iwidth,
           y: iheight
         });
-
-
-
-
         this.setState({
           activeProfile: this.state.array[index]
         }, () => {
@@ -321,7 +313,56 @@ export default class GuestConfirmationScreen extends Component {
         })
       })
     })
+  }
 
+  closeImage = () => {
+    Animated.parallel([
+      Animated.timing(this.newViewPosition.x, {
+        toValue: this.oldPosition.x,
+        duration: 300
+      }),
+      Animated.timing(this.newViewPosition.y, {
+        toValue: this.oldPosition.y,
+        duration: 300
+      }),
+      Animated.timing(this.dimensions.x, {
+        toValue: this.oldPosition.width,
+        duration: 300
+      }),
+      Animated.timing(this.dimensions.y, {
+        toValue: this.oldPosition.height,
+        duration: 300
+      }),
+      Animated.timing(this.animation, {
+        toValue: 0,
+        duration: 300
+      }),
+
+      Animated.timing(this.newImagePosition.x, {
+        toValue: this.oldImagePosition.x,
+        duration: 300
+      }),
+      Animated.timing(this.newImagePosition.y, {
+        toValue: this.oldImagePosition.y,
+        duration: 300
+      }),
+      Animated.timing(this.imageDimensions.x, {
+        toValue: this.oldImagePosition.width,
+        duration: 300
+      }),
+      Animated.timing(this.imageDimensions.y, {
+        toValue: this.oldImagePosition.height,
+        duration: 300
+      }),
+      Animated.timing(this.imageAnimation, {
+        toValue: 0,
+        duration: 300
+      })
+    ]).start(() => {
+      this.setState({
+        activeProfile: null
+      })
+    })
   }
 
   renderImage = () => {
@@ -464,7 +505,7 @@ export default class GuestConfirmationScreen extends Component {
         >
           <View style={{ flex: 1, zIndex: 1001 }} ref={(view) => (this.viewProfile = view)}>
             {this.state.activeProfile &&
-              <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff' }, activeProfileStyle]}>
+              <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff', borderRadius:5 }, activeProfileStyle]}>
                 <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 7 }}>
                   <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: 'red' }, activeImageStyle]}>
                     <Swiper horizontal={true} style={{ flex: 1 }} activeDotStyle={{ backgroundColor: 'yellow' }}>
@@ -473,7 +514,7 @@ export default class GuestConfirmationScreen extends Component {
                       <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')} />
                       <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')} />
                     </Swiper>
-                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, left: window.height / 46 }} onPress={() => this.props.navigation.goBack()}>
+                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, left: window.height / 46 }} onPress={() => this.closeImage()}>
                       <Image style={{ width: window.height / 16, height: window.height / 16 }} source={require('../assets/Icons/minimize.imageset/minimize.png')} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, right: window.height / 46 }} onPress={() => this.props.navigation.navigate('DirectMessage')}>
