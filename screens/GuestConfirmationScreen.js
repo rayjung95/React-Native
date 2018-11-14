@@ -10,15 +10,21 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
+  FlatList,
+  ScrollView,
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
-import GuestInfoConfirmationScreen from './GuestInfoConfirmationScreen';
+import Swiper from 'react-native-swiper';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
+const window = Dimensions.get('window')
+
 
 export default class GuestConfirmationScreen extends Component {
   static navigationOptions = {
@@ -55,8 +61,58 @@ export default class GuestConfirmationScreen extends Component {
       ],
       isMoving: false,
       eventCreationHidden: true,
-      activeProfile: null
-
+      mutualFriendsData: [
+        {
+          'id': '001',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '002',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '003',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '004',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '005',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '006',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '007',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '008',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '009',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+        {
+          'id': '010',
+          'mutualFriendName': 'Annie Hall',
+          'imageURL': 'https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg'
+        },
+      ]
     }
 
   }
@@ -64,8 +120,15 @@ export default class GuestConfirmationScreen extends Component {
   componentWillMount() {
     this.allProfiles = {};
     this.oldPosition = {};
-    this.position = new Animated.ValueXY();
+    this.newViewPosition = new Animated.ValueXY();
     this.dimensions = new Animated.ValueXY();
+    this.animation = new Animated.Value(0);
+
+    this.allProfileImages = {};
+    this.oldImagePosition = {};
+    this.newImagePosition = new Animated.ValueXY();
+    this.imageDimensions = new Animated.ValueXY();
+    this.imageAnimation = new Animated.Value(0);
 
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -119,7 +182,6 @@ export default class GuestConfirmationScreen extends Component {
     });
   }
 
-
   _toggleEventCreation = () => {
     const opposite = !this.state.eventCreationHidden;
     this.setState({
@@ -168,12 +230,13 @@ export default class GuestConfirmationScreen extends Component {
 
   openProfile = index => {
     this.allProfiles[index].measure((x, y, width, height, pageX, pageY) => {
+      console.log(pageY)
       this.oldPosition.x = pageX;
       this.oldPosition.y = pageY;
       this.oldPosition.width = width;
       this.oldPosition.height = height;
 
-      this.position.setValue({
+      this.newViewPosition.setValue({
         x: pageX,
         y: pageY
       })
@@ -183,38 +246,83 @@ export default class GuestConfirmationScreen extends Component {
         y: height
       })
 
-      this.setState({
-        activeProfile: this.state.array[index]
-      }, () => {
-        this.viewProfile.measure((dx, dy, dWidth, dHeight, dPageX, dPageY) => {
-          Animated.parallel([
-            Animated.timing(this.position.x, {
-              toValue: dPageX,
-              duration: 300
-            }),
-            Animated.timing(this.position.y, {
-              toValue: dPageY,
-              duration: 300
-            }),
-            Animated.timing(this.dimensions.x, {
-              toValue: dWidth,
-              duration: 300
-            }),
-            Animated.timing(this.dimensions.y, {
-              toValue: dHeight,
-              duration: 300
-            }),
-            Animated.timing(this.animation, {
-              toValue: 1,
-              duration: 300
-            })
-          ]).start();
+      // Tracking image position
+      this.allProfileImages[index].measure((ix, iy, iwidth, iheight, ipageX, ipageY) => {
+        console.log(ipageY);
+        this.oldImagePosition.x = ipageX;
+        this.oldImagePosition.y = ipageY;
+        this.oldImagePosition.width = iwidth;
+        this.oldImagePosition.height = iheight;
+
+        this.newImagePosition.setValue({
+          x: ipageX - pageX,
+          y: ipageY - pageY
+        });
+
+        this.imageDimensions.setValue({
+          x: iwidth,
+          y: iheight
+        });
+
+
+
+
+        this.setState({
+          activeProfile: this.state.array[index]
+        }, () => {
+          this.viewProfile.measure((dx, dy, dWidth, dHeight, dPageX, dPageY) => {
+            // console.log('bf',dPageX)
+            // console.log('bf',dPageY)
+            // console.log('bf',dWidth)
+            // console.log('bf',dHeight)
+            Animated.parallel([
+              Animated.timing(this.newViewPosition.x, {
+                toValue: dPageX,
+                duration: 300
+              }),
+              Animated.timing(this.newViewPosition.y, {
+                toValue: dPageY,
+                duration: 300
+              }),
+              Animated.timing(this.dimensions.x, {
+                toValue: dWidth,
+                duration: 300
+              }),
+              Animated.timing(this.dimensions.y, {
+                toValue: dHeight,
+                duration: 300
+              }),
+              Animated.timing(this.animation, {
+                toValue: 1,
+                duration: 300
+              }),
+              Animated.timing(this.newImagePosition.x, {
+                toValue: dPageX,
+                duration: 300
+              }),
+              Animated.timing(this.newImagePosition.y, {
+                toValue: dPageY,
+                duration: 300
+              }),
+              Animated.timing(this.imageDimensions.x, {
+                toValue: dWidth,
+                duration: 300
+              }),
+              Animated.timing(this.imageDimensions.y, {
+                toValue: window.height / 2 + window.height / 12,
+                duration: 300
+              }),
+              Animated.timing(this.imageAnimation, {
+                toValue: 1,
+                duration: 300
+              })
+            ]).start();
+          })
         })
       })
-
     })
-  }
 
+  }
 
   renderImage = () => {
     return this.state.array.map((item, i) => {
@@ -230,14 +338,17 @@ export default class GuestConfirmationScreen extends Component {
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
-              // onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
-              onPress={()=>this.openProfile(i)}
+              onPress={() => this.openProfile(i)}
             >
-              <View 
+              <View
                 style={styles.touchableCard}
-                ref={(profile)=>(this.allProfiles[i] = profile)}
+                ref={(profile) => (this.allProfiles[i] = profile)}
               >
-                <Image style={styles.profileImage} source={item.img} />
+                <Image
+                  style={styles.profileImage}
+                  source={item.img}
+                  ref={(profileImage) => (this.allProfileImages[i] = profileImage)}
+                />
                 <View>
                   <Text style={{ fontFamily: 'Roboto', fontSize: 25, color: '#505050' }}>Scarlett, 31</Text>
                 </View>
@@ -261,6 +372,17 @@ export default class GuestConfirmationScreen extends Component {
     }).reverse();
   }
 
+  displayMutualFriends = ({ item }) => {
+    return (
+      <View style={styles.friends}>
+        <TouchableHighlight>
+          <Image source={{ uri: item.imageURL }} style={styles.friendsImages} />
+        </TouchableHighlight>
+        <Text style={{ fontSize: window.height / 50 }}>Eric</Text>
+      </View>
+    )
+  }
+
   render() {
     const eventCreationInterpolate = this.eventCreationTop.interpolate({
       inputRange: [0, 1],
@@ -270,9 +392,23 @@ export default class GuestConfirmationScreen extends Component {
     const eventCreationStyle = {
       top: eventCreationInterpolate,
     }
+
+    const activeProfileStyle = {
+      width: this.dimensions.x,
+      height: this.dimensions.y,
+      left: this.newViewPosition.x,
+      top: this.newViewPosition.y
+    }
+
+    const activeImageStyle = {
+      width: this.imageDimensions.x,
+      height: this.imageDimensions.y,
+      left: this.newImagePosition.x,
+      top: this.newImagePosition.y
+    }
+
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-
         <View style={styles.header}>
           <View style={styles.menu1}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
@@ -326,9 +462,75 @@ export default class GuestConfirmationScreen extends Component {
           style={StyleSheet.absoluteFill}
           pointerEvents={this.state.activeProfile ? 'auto' : 'none'}
         >
-          <View style={{flex:2, zIndex:1001, backgroundColor:'aqua'}} ref={(view) => (this.viewProfile = view)}>
+          <View style={{ flex: 1, zIndex: 1001 }} ref={(view) => (this.viewProfile = view)}>
             {this.state.activeProfile &&
-              <GuestInfoConfirmationScreen/>
+              <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff' }, activeProfileStyle]}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 7 }}>
+                  <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: 'red' }, activeImageStyle]}>
+                    <Swiper horizontal={true} style={{ flex: 1 }} activeDotStyle={{ backgroundColor: 'yellow' }}>
+                      <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} />
+                      <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')} />
+                      <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')} />
+                      <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')} />
+                    </Swiper>
+                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, left: window.height / 46 }} onPress={() => this.props.navigation.goBack()}>
+                      <Image style={{ width: window.height / 16, height: window.height / 16 }} source={require('../assets/Icons/minimize.imageset/minimize.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, right: window.height / 46 }} onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                      <Image style={{ width: window.height / 16, height: window.height / 16 }} source={require('../assets/Icons/chatting.imageset/chatting.png')} />
+                    </TouchableOpacity>
+                  </Animated.View>
+
+                  <View style={styles.profInfoContainer}>
+                    <View style={styles.nameAge}>
+                      <View style={{ alignItems: 'flex-start', justifyContent: 'center', flex: 1 }}>
+                        <Text style={{ fontSize: window.height / 28, fontWeight: 'bold', margin: 10 }}>Scarlett, 31</Text>
+                      </View>
+                      <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                          <Text style={{ fontSize: window.height / 50 }}>Instagram</Text>
+                          <Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={{ resizeMode: 'contain', width: window.height / 24, height: window.height / 24, margin: 10 }} />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.description}>
+                      <Text style={{ marginLeft: 10, marginRight: 10, marginBottom: 10, fontSize: window.height / 50 }}>
+                        Johasson began acting during childhood, after her mother started taking her to auditions.
+                        She would audition for commercials but took rejection so hard that her mother began limiting her to film tryouts.
+                          </Text>
+                    </View>
+                    <View style={styles.mutualFriends}>
+                      <View style={{ flex: 0.75, justifyContent: 'center' }}>
+                        <Text style={{ marginLeft: 10, marginRight: 10, fontSize: window.height / 45 }}>Mutual friends: </Text>
+                      </View>
+                      <View style={{ flex: 4 }} >
+                        <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+                          <FlatList
+                            data={this.state.mutualFriendsData}
+                            renderItem={this.displayMutualFriends}
+                            keyExtractor={(item, index) => item.id.toString()}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </ScrollView>
+                <View style={{ flexDirection: 'row', backgroundColor: 'transparent', height: window.height / 6, width: window.width, alignItems: 'center' }}>
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity>
+                      <Image source={require('../assets/Icons/lock1.imageset/lock1.png')} />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity>
+                      <Image source={require('../assets/Icons/unlock1.imageset/unlock1.png')} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+              </Animated.View>
             }
           </View>
         </View>
@@ -420,5 +622,50 @@ const styles = StyleSheet.create({
   profileImage: {
     width: SCREEN_WIDTH * 0.8618 * 0.90415335,
     height: SCREEN_HEIGHT * 0.57432432 * 0.68529412,
-  }
+  },
+
+
+
+  profPicContainer: {
+    width: window.width,
+    height: window.height / 2 + window.height / 12,
+  },
+  profInfoContainer: {
+    width: window.width,
+    height: window.height / 2,
+    flexDirection: 'column',
+  },
+  locks: {
+    width: window.width,
+    backgroundColor: 'red'
+  },
+  images: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
+  },
+  nameAge: {
+    flex: 2,
+    flexDirection: 'row',
+  },
+  description: {
+    flex: 3.25,
+  },
+  mutualFriends: {
+    flex: 9,
+    flexDirection: 'column',
+  },
+  friends: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: window.height / 8,
+    width: window.height / 9,
+    justifyContent: 'flex-end',
+    marginLeft: -5,
+  },
+  friendsImages: {
+    height: window.height / 10.5,
+    width: window.height / 10.5,
+    borderRadius: 5
+  },
 });
