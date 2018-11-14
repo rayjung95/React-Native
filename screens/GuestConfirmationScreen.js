@@ -424,6 +424,20 @@ export default class GuestConfirmationScreen extends Component {
     )
   }
 
+  guestLock = () => {
+    this.closeImage();
+    setTimeout(()=>{
+      this.lock();
+    },1000);
+  }
+
+  guestUnlock = () => {
+    this.closeImage();
+    setTimeout(()=>{
+      this.unlock();
+    },1000);
+  }
+
   render() {
     const eventCreationInterpolate = this.eventCreationTop.interpolate({
       inputRange: [0, 1],
@@ -560,17 +574,16 @@ export default class GuestConfirmationScreen extends Component {
                 </ScrollView>
                 <View style={{ flexDirection: 'row', backgroundColor: 'transparent', height: window.height / 6, width: window.width, alignItems: 'center' }}>
                   <View style={{ flex: 1, alignItems: 'center' }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.guestLock}>
                       <Image source={require('../assets/Icons/lock1.imageset/lock1.png')} />
                     </TouchableOpacity>
                   </View>
                   <View style={{ flex: 1, alignItems: 'center' }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.guestUnlock}>
                       <Image source={require('../assets/Icons/unlock1.imageset/unlock1.png')} />
                     </TouchableOpacity>
                   </View>
                 </View>
-
               </Animated.View>
             }
           </View>
