@@ -15,6 +15,7 @@ import {
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
+import GuestInfoConfirmationScreen from './GuestInfoConfirmationScreen';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -184,6 +185,31 @@ export default class GuestConfirmationScreen extends Component {
 
       this.setState({
         activeProfile: this.state.array[index]
+      }, () => {
+        this.viewProfile.measure((dx, dy, dWidth, dHeight, dPageX, dPageY) => {
+          Animated.parallel([
+            Animated.timing(this.position.x, {
+              toValue: dPageX,
+              duration: 300
+            }),
+            Animated.timing(this.position.y, {
+              toValue: dPageY,
+              duration: 300
+            }),
+            Animated.timing(this.dimensions.x, {
+              toValue: dWidth,
+              duration: 300
+            }),
+            Animated.timing(this.dimensions.y, {
+              toValue: dHeight,
+              duration: 300
+            }),
+            Animated.timing(this.animation, {
+              toValue: 1,
+              duration: 300
+            })
+          ]).start();
+        })
       })
 
     })
@@ -204,8 +230,9 @@ export default class GuestConfirmationScreen extends Component {
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
-              onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
-              {/* // onPress={()=>this.openProfile(i)}> */}
+              // onPress={() => this.props.navigation.navigate('GuestInfoConfirmation')}>
+              onPress={()=>this.openProfile(i)}
+            >
               <View 
                 style={styles.touchableCard}
                 ref={(profile)=>(this.allProfiles[i] = profile)}
@@ -295,6 +322,16 @@ export default class GuestConfirmationScreen extends Component {
           <EventCreationComponent title='Edit event' buttonText='Update'
             close={this._toggleEventCreation} {...this.props} />
         </Animated.View>
+        <View
+          style={StyleSheet.absoluteFill}
+          pointerEvents={this.state.activeProfile ? 'auto' : 'none'}
+        >
+          <View style={{flex:2, zIndex:1001, backgroundColor:'aqua'}} ref={(view) => (this.viewProfile = view)}>
+            {this.state.activeProfile &&
+              <GuestInfoConfirmationScreen/>
+            }
+          </View>
+        </View>
 
       </ImageBackground>
 

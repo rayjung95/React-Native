@@ -8,7 +8,8 @@ import {
     Text,
     TouchableHighlight,
     TouchableOpacity,
-    View
+    View,
+    Animated
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -97,9 +98,9 @@ export default class GuestInfoConfirmationScreen extends Component {
 
     render() {
       return (
-        <View style={{flex:1}}>
+        <Animated.View style={[{top:0, left:0, height:null, width:null, backgroundColor:'#fff', borderRadius:5},this.props.activeProfileStyle]}>
             <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height / 7}}>
-                <View style={styles.profPicContainer}>
+                <Animated.View style={styles.profPicContainer} ref={this.props.imageRef}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
                         <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')}/>
@@ -112,9 +113,9 @@ export default class GuestInfoConfirmationScreen extends Component {
                     <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} onPress={() => this.props.navigation.navigate('DirectMessage')}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
                     </TouchableOpacity>
-                </View>
+                </Animated.View>
 
-                <View style={styles.profInfoContainer}>
+                {/* <View style={styles.profInfoContainer}>
                     <View style={styles.nameAge}>
                         <View style={{alignItems:'flex-start', justifyContent:'center', flex:1}}>
                             <Text style={{fontSize:window.height/28, fontWeight:'bold', margin:10}}>Scarlett, 31</Text>
@@ -149,9 +150,9 @@ export default class GuestInfoConfirmationScreen extends Component {
                         </View>
                     </View>
 
-                </View>
+                </View> */}
             </ScrollView>
-            <View style={{flexDirection:'row', backgroundColor:'transparent', height:window.height/6, width:window.width, alignItems:'center'}}>
+            {/* <View style={{flexDirection:'row', backgroundColor:'transparent', height:window.height/6, width:window.width, alignItems:'center'}}>
                 <View style={{flex:1, alignItems:'center'}}>
                     <TouchableOpacity>
                         <Image source={require('../assets/Icons/lock1.imageset/lock1.png')}/>
@@ -162,8 +163,8 @@ export default class GuestInfoConfirmationScreen extends Component {
                         <Image source={require('../assets/Icons/unlock1.imageset/unlock1.png')}/>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </View>
+            </View> */}
+        </Animated.View>
       );
     }
 }
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
     images:{
         width:'100%',
         height:'100%',
+        resizeMode:'cover'
     },
     nameAge:{
         flex:2,
