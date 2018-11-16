@@ -105,7 +105,7 @@ class LandingScreen extends Component {
           }).start(() => {
             this.props.confirmEvent(this.state.imageIndex);
             this.setState({
-              imageIndex: this.state.imageIndex + 1
+              imageIndex: this.state.imageIndex
             }, () => {
               this.position.setValue({ x: 0, y: 0 })
             })

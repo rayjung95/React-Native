@@ -380,6 +380,9 @@ export default class GuestConfirmationScreen extends Component {
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
               onPress={() => this.openProfile(i)}
+              // onPress={() => this.props.navigation.navigate('GuestInfoConfirmation', {
+              //   message:true
+              // })}
             >
               <View
                 style={styles.touchableCard}
@@ -531,7 +534,7 @@ export default class GuestConfirmationScreen extends Component {
                     <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, left: window.height / 46 }} onPress={() => this.closeImage()}>
                       <Image style={{ width: window.height / 16, height: window.height / 16 }} source={require('../assets/Icons/minimize.imageset/minimize.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, right: window.height / 46 }} onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                    <TouchableOpacity style={{ width: window.height / 16, height: window.height / 16, position: 'absolute', top: window.height / 46, right: window.height / 46 }} onPress={() => this.props.navigation.navigate('ChatRoom')}>
                       <Image style={{ width: window.height / 16, height: window.height / 16 }} source={require('../assets/Icons/chatting.imageset/chatting.png')} />
                     </TouchableOpacity>
                   </Animated.View>
