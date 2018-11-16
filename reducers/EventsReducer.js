@@ -1,5 +1,6 @@
 const eventStates = {
-    availableEvents: [{
+    availableEvents: [
+    {
         eventHostName: 'Johnny',
         eventTitle: 'POCKER & SALSA',
         eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
@@ -72,7 +73,7 @@ export const eventsReducer = (state = eventStates, action) => {
             const confirmedEvent = availableEvents[action.payload];
             confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
-            // availableEvents.splice(action.payload, 1);
+            availableEvents.splice(action.payload, 1);
             return {availableEvents, confirmedEvents};
 
         case 'CREATE_EVENT':

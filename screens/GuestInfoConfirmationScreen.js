@@ -11,6 +11,7 @@ import {
     View
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import ProfileScreen from './ProfileScreen'
 
 const window = Dimensions.get('window')
 
@@ -98,6 +99,7 @@ export default class GuestInfoConfirmationScreen extends Component {
     render() {
       return (
         <View style={{flex:1}}>
+            {/* <ProfileScreen/> */}
             <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height / 6}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>

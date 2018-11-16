@@ -75,7 +75,7 @@ export default class GuestsListEditScreen extends Component {
                             }}
                             >
                                 <Image style={{width:'100%', height:'100%'}} source={
-                                    (this.state.checkBox.indexOf(item.id) >= 0) ? require('../assets/Icons/checkbox.imageset/checkbox2.jpg') : require('../assets/Icons/checkbox.imageset/checkbox3.jpg')
+                                    (this.state.checkBox.indexOf(item.id) >= 0) ? require('../assets/Icons/selectContact.imageset/checked.png') : require('../assets/Icons/selectContact.imageset/unchecked.png')
                                     // () => {
                                     //     if (this.state.checkBox.indexOf(item.id) >= 0) {
                                     //         return require('../assets/checkbox2.jpg')
@@ -107,7 +107,7 @@ export default class GuestsListEditScreen extends Component {
                         <View style={styles.container}>
                             <View style={styles.headerContainer}>
                                 <View style={{flex:1, alignItems:'center'}}>
-                                    <Image style={{width:window.height/34, height:window.height/34, resizeMode:'contain'}} source={require('../assets/Icons/checkbox.imageset/checkbox.jpg')}/>
+                                    <Image style={{width:window.height/34, height:window.height/34, resizeMode:'contain'}} source={require('../assets/Icons/selectContact.imageset/checked.png')}/>
                                 </View>
                                 <View style={{flex:5, alignItems:'flex-start'}}>
                                     <Text style={{

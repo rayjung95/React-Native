@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 const window = Dimensions.get('window')
 
 
-export default class HostProfileScreen extends Component {
+export default class ProfileScreen extends Component {
     static navigationOptions = {
         header: null,
     };
@@ -85,6 +85,8 @@ export default class HostProfileScreen extends Component {
     }
 
     render() {
+    const { navigation } = this.props;
+    const message = navigation.getParam('message', false);
       return (
         <View style={{flex:1}}>
             <View>
@@ -98,7 +100,11 @@ export default class HostProfileScreen extends Component {
                     <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('EventDetails')}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     </TouchableOpacity>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                    {message === true &&
+                        <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} onPress={() => this.props.navigation.navigate('ChatRoom')}>
+                            <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                        </TouchableOpacity>
+                    }
                 </View>
 
                 <View style={styles.profInfoContainer}>
