@@ -97,7 +97,7 @@ export default class ProfileScreen extends Component {
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                     </Swiper>
-                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('EventDetails')}>
+                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.goBack()}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     </TouchableOpacity>
                     {message === true &&
@@ -111,12 +111,6 @@ export default class ProfileScreen extends Component {
                     <View style={styles.nameAge}>
                         <View style={{alignItems:'flex-start', justifyContent:'center', flex:1}}>
                             <Text style={{fontSize:window.height/28, fontWeight:'bold', margin:10}}>Scarlett, 31</Text>
-                        </View>
-                        <View style={{alignItems:'flex-end', justifyContent:'center', flex:1}}>
-                            <View style={{flex:1, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
-                                <Text style={{fontSize:window.height/50}}>Instagram</Text>
-                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
-                            </View>
                         </View>
                     </View>
                     <View style={styles.description}>
