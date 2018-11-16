@@ -14,19 +14,23 @@ import {
 import Slider from 'react-native-slider';
 import WebBrowser from 'expo';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { saveSearchDistance } from "../actions/eventsActions";
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 
-export default class UserSettingScreen extends Component {
+class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			distance: this.props.distance,
+			distance: this.props.events.currentUser.search_distance_km,
+			name: this.props.events.currentUser.first,
 			min: this.props.min,
 			max: this.props.max,
 			step: this.props.step,
-			name: this.props.name,
 		}
 		this._openLink = this._openLink.bind(this);
 	}
@@ -36,7 +40,6 @@ export default class UserSettingScreen extends Component {
 	};
 
 	static defaultProps = {
-		distance: 1,
 		min: 1,
 		max: 100,
 		step: 1,
@@ -47,6 +50,10 @@ export default class UserSettingScreen extends Component {
 
 	testPress() {
 		console.log('touchable pressed!\n');
+	}
+
+	componentWillUnmount() {
+		this.props.saveSearchDistance(this.state.distance);
 	}
 
 	_openLink = async (link) => {
@@ -400,3 +407,16 @@ const styles = StyleSheet.create({
     	alignItems: 'center',
 	},
 });
+
+const mapStateToProps = (state) => {
+	const { events } = state;
+	return { events }
+};
+
+const mapDispatchToProps = dispatch => (
+	bindActionCreators({
+    	saveSearchDistance,
+	}, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettingScreen);

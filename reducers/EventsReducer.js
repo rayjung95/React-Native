@@ -56,14 +56,30 @@ const eventStates = {
         eventWebsite: 'www.website.com',
         eventConfirmed: false
     }],
-    confirmedEvents: []
+    confirmedEvents: [],
+
+    currentUser: {
+        first: 'Zac',
+        last: null,
+        about: null,
+        contact: null,
+        photo1_url: null,
+        photo2_url: null,
+        photo3_url: null,
+        photo4_url: null,
+        friend_ids: null,
+        user_id: null,
+        search_distance_km: 1,
+        email: null,
+    },
 };
 
 export const eventsReducer = (state = eventStates, action) => {
 
     const {
         availableEvents,
-        confirmedEvents
+        confirmedEvents,
+        currentUser,
     } = state;
 
     switch (action.type) {
@@ -95,6 +111,13 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmedEvents.push(confirmed);
 
             return {availableEvents, confirmedEvents};
+
+        case 'SAVE_SEARCH_DISTANCE':
+            const distance = action.payload;
+            let user = currentUser;
+            user.search_distance_km = distance;
+
+            return {availableEvents, confirmedEvents, currentUser};
 
         default:
             return state
