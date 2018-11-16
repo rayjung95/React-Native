@@ -5062,6 +5062,14 @@ react-native-modal@latest:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
+react-native-modalbox@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-modalbox/-/react-native-modalbox-1.6.0.tgz#ee353a2d568715a2b10db8eeb91132fb1f45952b"
+  integrity sha512-kib6ooTWLgsms59DrRQWt1NBj/UiA7/Q76H8S+awQcKca/OxCAJuqEA+MRZLlt4SsTblOy6lz7Qn9MC/SE9yOw==
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+
 react-native-parsed-text@^0.0.20:
   version "0.0.20"
   resolved "https://registry.yarnpkg.com/react-native-parsed-text/-/react-native-parsed-text-0.0.20.tgz#7bd35fec88c3ca0eb0e8250a98e24092b4ee7fef"

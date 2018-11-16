@@ -98,7 +98,7 @@ export default class GuestInfoConfirmationScreen extends Component {
     render() {
       return (
         <View style={{flex:1}}>
-            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height / 7}}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom: -window.height / 6}}>
                 <View style={styles.profPicContainer}>
                     <Swiper horizontal={true} style={{flex:1}} activeDotStyle={{backgroundColor:'yellow'}}>
                         <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')}/>
@@ -117,7 +117,7 @@ export default class GuestInfoConfirmationScreen extends Component {
                 <View style={styles.profInfoContainer}>
                     <View style={styles.nameAge}>
                         <View style={{alignItems:'flex-start', justifyContent:'center', flex:1}}>
-                            <Text style={{fontSize:window.height/28, fontWeight:'bold', margin:10}}>Scarlett, 31</Text>
+                            <Text style={{fontFamily:'Roboto', fontSize:window.height/28, fontWeight:'bold', margin:10}}>Scarlett, 31</Text>
                         </View>
                         <View style={{alignItems:'flex-end', justifyContent:'center', flex:1}}>
                             <View style={{flex:1, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
