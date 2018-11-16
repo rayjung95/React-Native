@@ -20,6 +20,7 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Swiper from 'react-native-swiper';
+import Modal from 'react-native-modalbox';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -315,6 +316,10 @@ export default class GuestConfirmationScreen extends Component {
     })
   }
 
+  openModal = () => {
+    this.refs.modal4.open()
+  }
+
   closeImage = () => {
     Animated.parallel([
       Animated.timing(this.newViewPosition.x, {
@@ -426,16 +431,16 @@ export default class GuestConfirmationScreen extends Component {
 
   guestLock = () => {
     this.closeImage();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.lock();
-    },1000);
+    }, 1000);
   }
 
   guestUnlock = () => {
     this.closeImage();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.unlock();
-    },1000);
+    }, 1000);
   }
 
   render() {
@@ -484,6 +489,9 @@ export default class GuestConfirmationScreen extends Component {
               <Text style={{ color: 'white', fontFamily: 'Roboto', fontSize: 13, }}>sat, 10:00pm, Sep
                                 26</Text>
             </View>
+
+
+
           </View>
           <View style={styles.menu2}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
@@ -493,6 +501,15 @@ export default class GuestConfirmationScreen extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"} ref={"modal4"} isDisabled={this.state.isDisabled}>
+          <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: '#5bb983', width: "100%", height: SCREEN_HEIGHT * (73 / 1332), borderTopRightRadius: 5, borderTopLeftRadius: 5 }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
+          <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
+          <TouchableOpacity onPress={() => this.refs.modal4.close()}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, backgroundColor: '#fdd302', width: SCREEN_WIDTH * (502 / 748), height: SCREEN_HEIGHT * (56 / 1332), marginBottom: SCREEN_HEIGHT * (22 / 1332) }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Ok</Text></View>
+          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
+        </Modal>
 
         {this.state.showCard === true && this.renderImage()}
         <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
@@ -511,7 +528,9 @@ export default class GuestConfirmationScreen extends Component {
         <Animated.View
           style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
           <EventCreationComponent title='Edit event' buttonText='Update'
-            close={this._toggleEventCreation} {...this.props} />
+            close={this._toggleEventCreation} {...this.props}
+            openModal={this.openModal}
+          />
         </Animated.View>
         <View
           style={StyleSheet.absoluteFill}
@@ -519,7 +538,7 @@ export default class GuestConfirmationScreen extends Component {
         >
           <View style={{ flex: 1, zIndex: 1001 }} ref={(view) => (this.viewProfile = view)}>
             {this.state.activeProfile &&
-              <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff', borderRadius:5 }, activeProfileStyle]}>
+              <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff', borderRadius: 5 }, activeProfileStyle]}>
                 <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 7 }}>
                   <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: 'red' }, activeImageStyle]}>
                     <Swiper horizontal={true} style={{ flex: 1 }} activeDotStyle={{ backgroundColor: 'yellow' }}>
@@ -539,7 +558,7 @@ export default class GuestConfirmationScreen extends Component {
                   <View style={styles.profInfoContainer}>
                     <View style={styles.nameAge}>
                       <View style={{ alignItems: 'flex-start', justifyContent: 'center', flex: 1 }}>
-                        <Text style={{ fontFamily:'Roboto' ,fontSize: window.height / 28, fontWeight: 'bold', margin: 10 }}>Scarlett, 31</Text>
+                        <Text style={{ fontFamily: 'Roboto', fontSize: window.height / 28, fontWeight: 'bold', margin: 10 }}>Scarlett, 31</Text>
                       </View>
                       <View style={{ alignItems: 'flex-end', justifyContent: 'center', flex: 1 }}>
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -721,5 +740,13 @@ const styles = StyleSheet.create({
     height: window.height / 10.5,
     width: window.height / 10.5,
     borderRadius: 5
+  },
+  modal: {
+    borderRadius: 5,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: "center",
+    height: SCREEN_HEIGHT * (313 / 1332),
+    width: SCREEN_WIDTH * (559 / 748),
   },
 });

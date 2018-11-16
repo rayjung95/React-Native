@@ -101,7 +101,7 @@ class LandingScreen extends Component {
         this.setState({ isMoving: false })
         if (gs.dx > 120) {
           Animated.spring(this.position, {
-            toValue: { x: SCREEN_WIDTH + 100, y: gs.dy }
+            toValue: { x: SCREEN_WIDTH + 200, y: gs.dy }
           }).start(() => {
             this.props.confirmEvent(this.state.imageIndex);
             this.setState({
@@ -112,7 +112,7 @@ class LandingScreen extends Component {
           })
         } else if (gs.dx < -120) {
           Animated.spring(this.position, {
-            toValue: { x: -SCREEN_WIDTH - 100, y: gs.dy }
+            toValue: { x: -SCREEN_WIDTH - 200, y: gs.dy }
           }).start(() => {
             this.setState({
               imageIndex: this.state.imageIndex + 1
@@ -198,7 +198,9 @@ class LandingScreen extends Component {
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
-      toValue: { x: -SCREEN_WIDTH - 400, y: SCREEN_HEIGHT / 4 }
+      toValue: { x: -SCREEN_WIDTH - 200, y: SCREEN_HEIGHT / 6 },
+      friction: 500,
+      tension: 1,
     }).start(() => {
       this.setState({
         imageIndex: this.state.imageIndex + 1
@@ -210,7 +212,9 @@ class LandingScreen extends Component {
   unlock = () => {
     console.log('unlock!')
     Animated.spring(this.position, {
-      toValue: { x: SCREEN_WIDTH + 400, y: SCREEN_HEIGHT / 4 }
+      toValue: { x: SCREEN_WIDTH + 200, y: SCREEN_HEIGHT / 6 },
+      friction: 500,
+      tension: 1,
     }).start(() => {
       this.props.confirmEvent(this.state.imageIndex);
       this.setState({
@@ -220,7 +224,7 @@ class LandingScreen extends Component {
       })
     })
   }
-  
+
 
   openModal = () => {
     this.refs.modal3.open()
@@ -465,6 +469,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: SCREEN_HEIGHT * (313 / 1332),
     width: SCREEN_WIDTH * (559 / 748),
+    zIndex: 105,
   },
 
 });
