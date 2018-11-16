@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, Text, View, Dimensions, Image, ImageBackg
 
 const window = Dimensions.get('window')
 
-export default class ChattingScreen extends Component {
+export default class ChatRoomScreen extends Component {
 
     static navigationOptions = {
         header: null,
@@ -103,11 +103,9 @@ export default class ChattingScreen extends Component {
                                 avatar:'https://images.pexels.com/photos/658687/pexels-photo-658687.jpeg?auto=compress&cs=tinysrgb&h=350'
                                 }}
                                 onPressAvatar = {(user) => {
-                                    if (user == 1) {
-                                        this.props.navigation.navigate('ProfileSetting')
-                                    }else {
-                                        this.props.navigation.navigate('GuestProfile')
-                                    }
+                                    this.props.navigation.navigate('Profile', {
+                                        message:false
+                                    })
                                 }}
                             />  
                         </View>

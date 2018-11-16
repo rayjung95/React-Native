@@ -9,10 +9,9 @@ import GuestConfirmationScreen from '../screens/GuestConfirmationScreen';
 import MapScreen from '../screens/MapScreen';
 import GuestsListScreen from '../screens/GuestsListScreen';
 import GuestsListEditScreen from '../screens/GuestsListEditScreen';
-import GuestProfileScreen from '../screens/GuestProfileScreen';
-import HostProfileScreen from '../screens/HostProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import GuestInfoConfirmationScreen from '../screens/GuestInfoConfirmationScreen';
-import ChattingScreen from '../screens/ChattingScreen';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
 import DirectMessageScreen from '../screens/DirectMessageScreen'
 import InviteFriends from '../screens/InviteFriends';
 import MessagesScreen from '../screens/MessagesScreen';
@@ -28,11 +27,10 @@ export default createStackNavigator({
     Map: MapScreen,
     GuestsList: GuestsListScreen,
     GuestsListEdit: GuestsListEditScreen,
-    GuestProfile: GuestProfileScreen,
-    HostProfile: HostProfileScreen,
+    Profile: ProfileScreen,
     GuestInfoConfirmation: GuestInfoConfirmationScreen,
     DirectMessage: DirectMessageScreen,
     Invite: InviteFriends,
     Messages: MessagesScreen,
-    Chatting: ChattingScreen,
+    ChatRoom: ChatRoomScreen,
 })

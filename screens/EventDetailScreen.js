@@ -83,7 +83,9 @@ export default class EventDetailsScreen extends Component {
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profileContainer}>
                             <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
-                                              onPress={() => this.props.navigation.navigate('HostProfile')}>
+                                              onPress={() => this.props.navigation.navigate('Profile', {
+                                                  message: eventConfirmed
+                                              })}>
                                 <Image
                                     source={require('../assets/Icons/account.imageset/account.png')}
                                     style={{zIndex: 1}}
@@ -97,7 +99,7 @@ export default class EventDetailsScreen extends Component {
                             {eventConfirmed ?
                                 <TouchableOpacity
                                     style={{marginLeft: -40, zIndex: 1, width: 39}}
-                                    onPress={() => this.props.navigation.navigate('DirectMessage')}>
+                                    onPress={() => this.props.navigation.navigate('ChatRoom')}>
                                     <Image
                                         source={require('../assets/Icons/chatting.imageset/chatting.png')}
                                         style={{zIndex: 1}}
@@ -169,7 +171,7 @@ export default class EventDetailsScreen extends Component {
                                     </View>
                                     <View style={styles.textDetailsContainer}>
                                         <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('Chatting')}>
+                                            onPress={() => this.props.navigation.navigate('ChatRoom')}>
                                             <View style={styles.eventDetailsClickableItem}>
                                                 <Text style={styles.eventDetailsText}>
                                                     Group Chat

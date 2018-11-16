@@ -70,7 +70,9 @@ export default class DirectMessageScreen extends Component {
                                 avatar:'https://images.pexels.com/photos/658687/pexels-photo-658687.jpeg?auto=compress&cs=tinysrgb&h=350'
                                 }}
                                 onPressAvatar = {(user) => {
-                                    this.props.navigation.navigate('GuestProfile')
+                                    this.props.navigation.navigate('Profile', {
+                                        message:false
+                                    })
                                 }}
                             />  
                         </View>

@@ -93,7 +93,7 @@ export default class MessagesScreen extends Component {
 	}
 
 	pressRow(rowID) {
-		this.props.navigation.navigate('Chatting');
+		this.props.navigation.navigate('ChatRoom');
 	}
 
 	renderRow(message, sectionID, rowID, highlightRow) {
