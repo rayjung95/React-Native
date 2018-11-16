@@ -267,7 +267,7 @@ export class EventCreationComponent extends React.Component {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <Text style={{ fontSize: SCREEN_HEIGHT * (15 / 722), color: 'white', fontWeight: 'bold' }}
+                        <Text style={{ fontFamily: 'Roboto', fontSize: SCREEN_HEIGHT * (15 / 722), color: 'white', fontWeight: 'bold' }}
                             fontFamily='Roboto'>{this.props.buttonText}</Text>
                     </TouchableHighlight>
 
