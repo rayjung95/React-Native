@@ -435,6 +435,13 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@expo/react-native-action-sheet@^1.0.1":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@expo/react-native-action-sheet/-/react-native-action-sheet-1.1.2.tgz#4c2f9b8190678799552e83134a975ec370a694d9"
+  dependencies:
+    hoist-non-react-statics "^2.2.2"
+    prop-types "^15.5.10"
+
 "@expo/samples@2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@expo/samples/-/samples-2.1.1.tgz#563ccd71f6c7fd9eb9389f4aa91d37c65040dbff"
@@ -892,7 +899,7 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-check-es2015-constants@^6.5.0, babel-plugin-check-es2015-constants@^6.8.0:
+babel-plugin-check-es2015-constants@6.22.0, babel-plugin-check-es2015-constants@^6.5.0, babel-plugin-check-es2015-constants@^6.8.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
@@ -1604,6 +1611,10 @@ chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
+charenc@~0.0.1:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+
 chownr@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.1.tgz#54726b8b8fff4df053c42187e801fb4412df1494"
@@ -1797,7 +1808,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-create-react-class@^15.6.3:
+create-react-class@^15.6.0, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -1819,6 +1830,10 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     lru-cache "^4.0.1"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+crypt@~0.0.1:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
 
 cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   version "0.3.4"
@@ -2895,7 +2910,7 @@ has@^1.0.1:
   dependencies:
     function-bind "^1.1.1"
 
-hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.2.2, hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
@@ -2963,6 +2978,12 @@ immediate@^3.2.2:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
 
+immutability-helper@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.8.1.tgz#3c5ec05fcd83676bfae7146f319595243ad904f4"
+  dependencies:
+    invariant "^2.2.0"
+
 import-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -3026,7 +3047,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.0, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
@@ -3056,7 +3077,7 @@ is-arrayish@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
 
-is-buffer@^1.1.5:
+is-buffer@^1.1.5, is-buffer@~1.1.1:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
@@ -3785,6 +3806,12 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+linkify-it@^1.2.0:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-1.2.4.tgz#0773526c317c8fd13bd534ee1d180ff88abf881a"
+  dependencies:
+    uc.micro "^1.0.1"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npmjs.org/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -3936,6 +3963,18 @@ md5-file@^3.2.3:
   resolved "https://registry.yarnpkg.com/md5-file/-/md5-file-3.2.3.tgz#f9bceb941eca2214a4c0727f5e700314e770f06f"
   dependencies:
     buffer-alloc "^1.1.0"
+
+md5@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
+  dependencies:
+    charenc "~0.0.1"
+    crypt "~0.0.1"
+    is-buffer "~1.1.1"
+
+mdurl@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
 mem@^1.1.0:
   version "1.1.0"
@@ -4200,6 +4239,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   resolved "http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment@^2.19.0:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 morgan@^1.9.0:
   version "1.9.1"
@@ -4753,6 +4796,14 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@15.6.1:
+  version "15.6.1"
+  resolved "http://registry.npmjs.org/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
@@ -4848,9 +4899,19 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-awesome-alerts@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-awesome-alerts/-/react-native-awesome-alerts-1.2.0.tgz#a19b105d5133e92712d865795d532cd3f1e4de2d"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
+
+react-native-communications@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -4903,6 +4964,21 @@ react-native-gesture-handler@1.0.6:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-gifted-chat@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-gifted-chat/-/react-native-gifted-chat-0.4.3.tgz#25b4da866c802e407c06e589495f421f7dcdf70a"
+  dependencies:
+    "@expo/react-native-action-sheet" "^1.0.1"
+    md5 "2.2.1"
+    moment "^2.19.0"
+    prop-types "15.6.1"
+    react-native-communications "2.2.1"
+    react-native-invertible-scroll-view "^1.1.0"
+    react-native-lightbox "^0.7.0"
+    react-native-parsed-text "^0.0.20"
+    shallowequal "1.0.2"
+    uuid "3.2.1"
+
 react-native-google-place-picker@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-google-place-picker/-/react-native-google-place-picker-1.2.1.tgz#8b014d60102f72364e0dcf4ec63811c291f80708"
@@ -4914,6 +4990,36 @@ react-native-google-places-autocomplete@^1.3.9:
     lodash.debounce "^4.0.8"
     prop-types "^15.5.10"
     qs "^5.2.0"
+
+react-native-hyperlink@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-hyperlink/-/react-native-hyperlink-0.0.14.tgz#138bbfe5b410667d1e37f04a2b4713163ab0ed81"
+  dependencies:
+    linkify-it "^1.2.0"
+    mdurl "^1.0.0"
+
+react-native-invertible-scroll-view@^1.1.0:
+  version "1.1.1"
+  resolved "http://registry.npmjs.org/react-native-invertible-scroll-view/-/react-native-invertible-scroll-view-1.1.1.tgz#43039037e6537dc8c4f29baae1cd1a223bc25d81"
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+    react-clone-referenced-element "^1.0.1"
+    react-native-scrollable-mixin "^1.0.1"
+
+react-native-iphone-x-helper@^1.0.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
+
+react-native-lightbox@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.7.0.tgz#e52b4d7fcc141f59d7b23f0180de535e35b20ec9"
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-linear-gradient@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.3.tgz#a7f5fe685b1a2ac788cca37828c5c9ca91357a16"
 
 react-native-maps@0.21.0:
   version "0.21.0"
@@ -4949,6 +5055,28 @@ react-native-modal@^6.2.0:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
+react-native-modal@latest:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-7.0.0.tgz#85bda8b52e0e9181e09bd2ec636ed7cec10d74c3"
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-animatable "^1.2.4"
+
+react-native-modalbox@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-modalbox/-/react-native-modalbox-1.6.0.tgz#ee353a2d568715a2b10db8eeb91132fb1f45952b"
+  integrity sha512-kib6ooTWLgsms59DrRQWt1NBj/UiA7/Q76H8S+awQcKca/OxCAJuqEA+MRZLlt4SsTblOy6lz7Qn9MC/SE9yOw==
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+
+react-native-parsed-text@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/react-native-parsed-text/-/react-native-parsed-text-0.0.20.tgz#7bd35fec88c3ca0eb0e8250a98e24092b4ee7fef"
+  dependencies:
+    babel-plugin-check-es2015-constants "6.22.0"
+    prop-types "^15.5.10"
+
 react-native-permissions@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-1.1.1.tgz#4876004681ff8556454613d85249b01baff9b35b"
@@ -4969,6 +5097,12 @@ react-native-reanimated@1.0.0-alpha.6:
   version "1.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.0.0-alpha.6.tgz#169d23b3b39d1c88e509ddc97027b1c8cc066da8"
 
+react-native-responsive-fontsize@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-responsive-fontsize/-/react-native-responsive-fontsize-0.1.2.tgz#eda8ed31d62410ed0f11a89fed977650870dc174"
+  dependencies:
+    react-native-iphone-x-helper "^1.0.2"
+
 react-native-safe-area-view@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
@@ -4984,6 +5118,10 @@ react-native-safe-module@^1.1.0:
 react-native-screens@^1.0.0-alpha.11, react-native-screens@^1.0.0-alpha.5:
   version "1.0.0-alpha.15"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.15.tgz#5b5a0041310b46f12048fda1908d52e7290ec18f"
+
+react-native-scrollable-mixin@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npmjs.org/react-native-scrollable-mixin/-/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
 
 react-native-slider@^0.11.0:
   version "0.11.0"
@@ -5557,6 +5695,10 @@ setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
 
+shallowequal@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.0.2.tgz#1561dbdefb8c01408100319085764da3fcf83f8f"
+
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
@@ -5972,6 +6114,10 @@ ua-parser-js@^0.7.18:
   version "0.7.19"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
 
+uc.micro@^1.0.1:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
+
 uglify-es@^3.1.9:
   version "3.3.9"
   resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
@@ -6062,6 +6208,10 @@ uuid-js@^0.7.5:
 uuid@3.0.1:
   version "3.0.1"
   resolved "http://registry.npmjs.org/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
+
+uuid@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 uuid@^3.3.2:
   version "3.3.2"

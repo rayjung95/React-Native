@@ -1,66 +1,178 @@
-import React, { Component } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {Component} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Layout from '../constants/Layout';
+
+const SCREEN_HEIGHT = Layout.window.height;
+const SCREEN_WIDTH = Layout.window.width;
 
 export default class DateTimePickerTester extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      word: this.props.word,
-      datetime: '' 
+    constructor(props) {
+        super(props);
+        this.state = {
+            word: this.props.word,
+            startDate: null,
+            startTime: null,
+            startDayOfWeek: null,
+            endDate: null,
+            endTime: null,
+            endDayOfWeek: null,
+        }
     }
-  }
-  
 
-  static defaultProps = {
-    word: 'no words'
-  }
 
-  state = {
-    isDateTimePickerVisible: false,
-  };
+    static defaultProps = {
+        word: 'no words'
+    }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+    state = {
+        isDateTimePickerVisible: false,
+    };
 
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+    getDateTimeState = () => {
+        return this.state;
+    };
 
-  _handleDatePicked = (date) => {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-    console.log('A date has been picked: ', date);
-    time = this._formatAMPM(date);
-    this.setState({datetime: (date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() + '  ' + time)})
-    this._hideDateTimePicker();
-  };
+    _showDateTimePicker = (mode) => {
+        if (mode === 'Starts') {
+            this.setState({
+                word: 'Starts',
+                isDateTimePickerVisible: true
+            })
+        } else if (mode === 'Ends') {
+            this.setState({
+                word: 'Ends',
+                isDateTimePickerVisible: true
+            })
+        }
+    };
 
-  _formatAMPM = (date) => {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
-  }
+    _hideDateTimePicker = () => this.setState({isDateTimePickerVisible: false});
 
-  render () {
-    return (
-      <View style={{ flex: 1 , flexDirection: "row", justifyContent: 'space-between',}}>
-        <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text style={{ flex: 1, fontSize: 18, color: 'black' , paddingLeft: 20, paddingTop: 10}} fontFamily='Roboto'>{this.state.word}</Text>
-        </TouchableOpacity>
-          <Text style={{ flex: 1, fontSize: 18, color: 'black', paddingTop: 10, marginLeft: 150}} fontFamily='Roboto'>{this.state.datetime}</Text>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-          mode={'datetime'}
-          is24Hour={false}
-        />
-      </View>
-    );
-  }
+    _handleDatePicked = (date) => {
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
+        if (this.state.word === 'Starts') {
+            this.setState({
+                startDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
+                startDayOfWeek: dayNames[date.getDay()],
+                startTime: this._formatAMPM(date),
+            });
+        } else if (this.state.word === 'Ends') {
+            console.log('asfdja;lksdlsa;kdfjlksda;lsfd');
+            console.log(this.state);
+            this.setState({
+                endDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
+                endDayOfWeek: dayNames[date.getDay()],
+                endTime: this._formatAMPM(date),
+            });
+        }
+
+        this._hideDateTimePicker();
+    };
+
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+
+    componentWillMount = () => {
+        // console.log(SCREEN_WIDTH * (17 / 360));
+        console.log(this.props.starts);
+    }
+
+
+    render() {
+        return (
+            <View>
+
+                <TouchableOpacity onPress={() => [this._showDateTimePicker('Starts')]} style={{
+                    flexDirection: 'row',
+                    height: SCREEN_HEIGHT * (43 / 722),
+                    backgroundColor: 'white',
+                    borderBottomWidth: 0.5,
+                    borderTopWidth: 0.5,
+                    borderColor: 'rgba(0,0,0, 0.1)',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <Text style={{
+                        marginLeft: SCREEN_WIDTH * (15 / 360),
+                        fontSize: SCREEN_HEIGHT * (11 / 722),
+                        color: 'black'
+                    }} fontFamily='Roboto'>Starts</Text>
+
+                    <View style={{
+                        width: SCREEN_WIDTH * (167 / 360),
+                        height: SCREEN_HEIGHT * (14 / 722),
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        paddingRight: SCREEN_WIDTH * (13 / 360)
+                    }}>
+                        <Text style={{fontSize: SCREEN_HEIGHT * (11 / 722), color: 'black',}}
+                              fontFamily='Roboto'>{this.state.startDate}</Text>
+                        <Text style={{fontSize: SCREEN_HEIGHT * (11 / 722), color: 'black',}}
+                              fontFamily='Roboto'>{this.state.startTime}</Text>
+                    </View>
+
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                        mode={'datetime'}
+                        is24Hour={false}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => [this._showDateTimePicker('Ends')]} style={{
+                    flexDirection: 'row',
+                    height: SCREEN_HEIGHT * (43 / 722),
+                    backgroundColor: 'white',
+                    borderBottomWidth: 0.5,
+                    borderTopWidth: 0.5,
+                    borderColor: 'rgba(0,0,0, 0.1)',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <Text style={{
+                        marginLeft: SCREEN_WIDTH * (15 / 360),
+                        fontSize: SCREEN_HEIGHT * (11 / 722),
+                        color: 'black'
+                    }} fontFamily='Roboto'>Ends</Text>
+
+                    <View style={{
+                        width: SCREEN_WIDTH * (167 / 360),
+                        height: SCREEN_HEIGHT * (14 / 722),
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        paddingRight: SCREEN_WIDTH * (13 / 360)
+                    }}>
+                        <Text style={{fontSize: SCREEN_HEIGHT * (11 / 722), color: 'black',}}
+                              fontFamily='Roboto'>{this.state.endDate}</Text>
+                        <Text style={{fontSize: SCREEN_HEIGHT * (11 / 722), color: 'black',}}
+                              fontFamily='Roboto'>{this.state.endTime}</Text>
+                    </View>
+
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                        mode={'datetime'}
+                        is24Hour={false}
+                    />
+                </TouchableOpacity>
+            </View>
+
+        );
+    }
 
 }

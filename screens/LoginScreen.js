@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
-import Layout from "../constants/Layout";
-
-
-const SCREEN_HEIGHT = Layout.window.height;
-const SCREEN_WIDTH = Layout.window.width;
+import WebBrowser from 'expo';
 
 
 export default class LoginScreen extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            bg: require('../assets/Pngs/bg.imageset/bg.png')
+        }
+        this._openLink = this._openLink.bind(this);
+    }
 
     static navigationOptions = {
         header: null,
     };
 
+    static defaultProps = {
+        tos_url: 'http://www.rendevousapp.com/terms-of-service/',
+        privacy_url: 'http://www.rendevousapp.com/privacy-policy/',
+    }
+
+    _openLink = async (link) => {
+        await WebBrowser.WebBrowser.openBrowserAsync(link);
+    }
+
     render() {
         return (
-            <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <StatusBar hidden />
+            <ImageBackground style={styles.background} source={this.state.bg}>
+            <StatusBar hidden />
                 <View style={styles.loginScreenContainer}>
                     <Text style={styles.welcome}>Welcome to</Text>
                     <Image style={styles.appLogo} source={require('../assets/images/logo.png')} />
@@ -39,14 +52,17 @@ export default class LoginScreen extends Component {
                             </View>
                         </Swiper>
                     </View>
-                    <Text style={styles.policy}>{`By continuing you agree to our\nTerms of Service and Privacy Policy`}</Text>
+                    <Text style={styles.policy}>By continuing you agree to our{'\n'}
+                        <Text onPress={() => this._openLink(this.props.tos_url)}>Terms of Service </Text>
+                        and
+                        <Text onPress={() => this._openLink(this.props.privacy_url)}> Privacy Policy</Text>
+                    </Text>
                     <TouchableOpacity onPress={()=>this.props.navigation.navigate('Landing')}>
                         <View style={styles.loginButton}>
                             <Image style={styles.fbLogo} source={require('../assets/images/fb-logo.png')} />
                             <Text style={styles.loginWFb}>Log in with Facebook</Text>
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.policy}>Enterprise Signup and Login</Text>
                 </View>
             </ImageBackground>
         );
@@ -64,6 +80,7 @@ const styles = StyleSheet.create({
     loginScreenContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: StatusBar.currentHeight
     },
     welcome: {
         fontFamily: 'Roboto',

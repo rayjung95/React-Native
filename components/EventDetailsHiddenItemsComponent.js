@@ -5,7 +5,7 @@ import Layout from "../constants/Layout";
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
-export default class EventDetailsClickableItemsComponent extends Component {
+export default class EventDetailsHiddenItemsComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -16,11 +16,11 @@ export default class EventDetailsClickableItemsComponent extends Component {
                 value: 'Address is locked till approved by host'
             },
             groupChat: {
-                icon: require('../assets/Icons/event_host_lock.imageset/event_host_lock.png'),
+                icon: require('../assets/Icons/group_chat_lock/icon_2.png'),
                 value: 'Group chat is locked till approved by host'
             },
             website: {
-                icon: require('../assets/Icons/event_host_lock.imageset/event_host_lock.png'),
+                icon: require('../assets/Icons/event_website_lock/icon_3.png'),
                 value: 'Website info is locked till approved by host'
             },
             guestsInfo: {
@@ -31,33 +31,10 @@ export default class EventDetailsClickableItemsComponent extends Component {
 
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.eventConfirmed) {
-    //         this.setState({
-    //             location: {
-    //                 icon: '../assets/Icons/event_away.imageset/event_away.png',
-    //                 value: nextProps.address
-    //             },
-    //             groupChat: {
-    //                 icon: require('../assets/Icons/group_chat.imageset/gc2.png'),
-    //                 value: nextProps.groupChat
-    //             },
-    //             website: {
-    //                 icon: require('../assets/Icons/event_website.imageset/safari40.png'),
-    //                 value: nextProps.website
-    //             },
-    //             guestsInfo: {
-    //                 icon: require('../assets/Icons/event_host.imageset/event_host.png'),
-    //                 value: nextProps.guestsInfo
-    //             }
-    //         });
-    //     }
-    // }
-
     renderEventDetailsItems = () => {
         return Object.values(this.state).map((item, i) => {
             return (
-                <View style={styles.eventDetailsItemContainer}>
+                <View key={i} style={styles.eventDetailsItemContainer}>
                     <View style={styles.eventDetailIcons}>
                         <Image source={item.icon}/>
                     </View>
@@ -83,30 +60,27 @@ export default class EventDetailsClickableItemsComponent extends Component {
 
 const styles = StyleSheet.create({
     eventDetailsItemContainer: {
-        width: SCREEN_WIDTH * 0.86,
+        width: SCREEN_WIDTH,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: 20,
-        marginLeft: 15
+        padding: 15,
     },
     textDetailsContainer: {
-        width: SCREEN_WIDTH * 0.86,
-        paddingLeft: SCREEN_WIDTH * 0.053
+        width: SCREEN_WIDTH * 0.85,
+        paddingLeft: 5
     },
     divider: {
         borderBottomColor: '#cacbcc',
         borderBottomWidth: 1,
         marginTop: 20,
         marginBottom: -20,
-        marginLeft: SCREEN_WIDTH * 0.053,
         width: '100%'
     },
     eventDetailsText: {
         color: '#8F8E94',
         fontSize: 14,
         fontFamily: 'Roboto',
-        marginLeft: SCREEN_WIDTH * 0.053,
 
     },
     eventDetailsClickableItem: {
@@ -116,8 +90,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     eventDetailIcons: {
-        width: SCREEN_WIDTH * 0.14,
+        width: SCREEN_WIDTH * 0.15,
         marginTop: 5,
-        paddingHorizontal: SCREEN_WIDTH * 0.021666667
+        paddingHorizontal: 5
     }
 });
