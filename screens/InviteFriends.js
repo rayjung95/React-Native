@@ -53,12 +53,13 @@ export default class InviteFriends extends Component {
     };
 
     sendSMS = async () => {
-        const { SMS, Permissions } = Expo;
+        const { Permissions } = Expo;
         const { status } = await Permissions.askAsync(Permissions.SMS);
         const isAvailable = await Expo.SMS.isAvailableAsync();
         if (status === 'granted') {
             if (isAvailable) {
                 Expo.SMS.sendSMSAsync(this.state.selectedContactsList, 'I just made an event on Rendevous. Go download Rendevous so you can swipe on my event');
+                this.setState({ selectedContactsList: [] });
             } else {
                 alert('No SMS available on this device');
             }
@@ -211,10 +212,10 @@ export default class InviteFriends extends Component {
             this.setState({
                 shownContacts: filtered
             });
-        } else if (value === "")  {
+        } else if (value === "") {
             this.setState({
                 hideSelectAll: 1,
-            });            
+            });
         } else {
             this.setState({
                 shownContacts: this.state.myContacts,

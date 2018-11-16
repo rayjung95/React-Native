@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Image, View, StyleSheet, StatusBar, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, Image, View, StyleSheet, StatusBar, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 // import MapViewComponent from './components/MapViewComponent';
 import MapView, { Circle, Marker } from 'react-native-maps';
-import Permissions from 'react-native-permissions';
+// import Permissions from 'react-native-permissions';
+import { Constants, Location, Permissions } from 'expo';
+
 import Layout from "../constants/Layout";
 
 const apiKey = 'AIzaSyCdkuIQGc6zBWg22z3i7EalpRQL_79RLjU';
@@ -14,6 +16,11 @@ const SCREEN_WIDTH = Layout.window.width;
 
 const { width, height } = Dimensions.get('window');
 
+const ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
+
+const LATITUDE_DELTA =  0.0922;
+const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
+
 
 export default class MapScreen extends Component {
 
@@ -22,13 +29,14 @@ export default class MapScreen extends Component {
   };
 
   constructor() {
+    console.log(LATITUDE_DELTA);
     super();
     this.state = {
       region: {
-        latitude: 0,
-        latitudeDelta: 0,
-        longitude: 0,
-        longitudeDelta: 0
+        latitude: 49.092607,
+        longitude: -122.491718,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
       coordinate: {
         latitude: 0,
@@ -37,87 +45,94 @@ export default class MapScreen extends Component {
       locationPermission: 'unknown',
       position: 'unknown',
       set: true,
+      location: null,
+      errorMessage: null,
     };
 
 
   }
 
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let searchTerm = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${apiKey}`
+
+    await fetch(searchTerm)
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          title: responseJson.results[0].formatted_address,
+          
+        }, function () {
+
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    this.setState({
+      location,
+      region: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      coordinate: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      },
+    });
+    console.log(this.state.location);
+  };
+
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
+    }
+  }
+
   _onPress = (data, details) => {
-    // console.log(data);
-    console.log(details.formatted_address);
     const position = {
       latitude: details.geometry.location.lat,
       latitudeDelta: 0.1,
       longitude: details.geometry.location.lng,
       longitudeDelta: 0.1,
     }
-    this.setState({ region: position, title: details.formatted_address, data: data, details: details });
-    this.setMarkandCircle(position.latitude, position.longitude);
-  }
-
-  goToCurrentLocation = () => {
-    this.setState({ region: this.state.currentRegion, title: 'Current Position' })
-    this.setMarkandCircle(this.state.currentRegion.latitude, this.state.currentRegion.longitude);
-  }
-
-  _requestPermission() {
-    Permissions.request('location')
-      .then(response => {
-        this.setState({
-          locationPermission: response
-        })
-        console.log("Response: " + response);
-      });
-  }
-
-  setMarkandCircle = (lat, lng) => {
-    console.log('setmrk: ' + lat);
-    console.log('setmrk: ' + lng);
-
     this.setState({
+      region: position,
+      title: details.formatted_address,
+      data: data,
+      details: details,
       coordinate: {
-        latitude: lat,
-        longitude: lng
-      },
-      set: false,
-    })
+        latitude: position.latitude,
+        longitude: position.longitude,
+      }
+
+    });
   }
 
-  doStuff = (data, details) => {
-    let data2 = data;
-    data
-    // this.setState({
-
-    // }, () => console.log())
-  }
-
-
-  componentDidMount = async () => {
-    this._requestPermission();
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log('my position' + position.coords.latitude + ', ' + position.coords.longitude);
-      let coordinates = position.coords.latitude + ', ' + position.coords.longitude;
-      this.setState({
-        position: coordinates,
-        currentRegion: {
-          latitude: position.coords.latitude,
-          latitudeDelta: 0.1,
-          longitude: position.coords.longitude,
-          longitudeDelta: 0.1,
-        },
-        region: {
-          latitude: position.coords.latitude,
-          latitudeDelta: 0.1,
-          longitude: position.coords.longitude,
-          longitudeDelta: 0.1,
-        },
-
-        title: 'Current Position',
-
-      })
-      this.setMarkandCircle(position.coords.latitude, position.coords.longitude)
-    },
-      (error) => alert(JSON.stringify(error)));
+  async _requestPermission() {
+    const { Location, Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      return Location.getCurrentPositionAsync();
+    } else {
+      throw new Error('Location permission not granted');
+    }
   }
 
   handleOnPress = () => {
@@ -131,7 +146,7 @@ export default class MapScreen extends Component {
       <View style={styles.container}>
         <StatusBar hidden />
         <View style={{ justifyContent: 'center', alignItems: 'center', bottom: SCREEN_HEIGHT * (16 / 592), right: SCREEN_WIDTH * (16 / 360), width: SCREEN_WIDTH * (57 / 360), height: SCREEN_WIDTH * (57 / 360), position: 'absolute' }}>
-          <TouchableOpacity onPress={() => this.goToCurrentLocation()}>
+          <TouchableOpacity onPress={() => this._getLocationAsync()}>
             <Image resizeMode='contain' style={{ flex: 1 }} source={require('../assets/Icons/get-current-location-icon/current-location.png')} />
           </TouchableOpacity>
         </View>
@@ -165,7 +180,7 @@ export default class MapScreen extends Component {
             // this.setState({});
             this._onPress(data, details)
           }}
-          onEndEditing={console.log('hi')}
+          // onEndEditing={}
 
           getDefaultValue={() => ''}
 
