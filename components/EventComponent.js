@@ -17,30 +17,13 @@ export default class EventComponent extends Component {
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
-            eventHostPhoto: props.eventHostPhoto,
+            eventHostPhoto: {uri: props.eventHostPhoto},
             guestNums: props.guestNums,
             eventAway: props.eventAway,
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost
         };
 
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            eventHostName: nextProps.eventHostName,
-            eventTitle: nextProps.eventTitle,
-            eventDescription: nextProps.eventDescription,
-            eventDay: nextProps.eventDay,
-            eventTime: nextProps.eventTime,
-            eventDate: nextProps.eventDate,
-            eventHostPhoto: nextProps.eventHostPhoto,
-            guestNums: nextProps.guestNums,
-            eventAddress: nextProps.eventAddress,
-            eventAway: nextProps.eventAway,
-            eventConfirmed: nextProps.eventConfirmed,
-            eventWebsite: nextProps.eventWebsite
-        });
     }
 
     render() {

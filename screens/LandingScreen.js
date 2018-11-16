@@ -6,11 +6,11 @@ import {
     ImageBackground,
     PanResponder,
     Platform,
+    StatusBar,
     StyleSheet,
     TouchableHighlight,
     TouchableOpacity,
-    View,
-    StatusBar
+    View
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
@@ -232,10 +232,10 @@ class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             event: item
                         })}>
-                            <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                            eventDescription={item.eventDescription}
+                            <EventComponent eventHostName={item['event']['owner']['first']} eventTitle={item['event']['name']}
+                                            eventDescription={item['event']['detail']}
                                             eventDay={item.eventDay} eventTime={item.eventTime}
-                                            eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
+                                            eventDate={item.eventDate} eventHostPhoto={item['event']['owner']['photo1_url']}
                                             guestNums={item.guestNums} eventAway={item.eventAway}
                                             eventAddress={item.eventAddress} eventConfirmed={false}
                             />
