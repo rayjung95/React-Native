@@ -75,6 +75,31 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmedEvents.push(confirmedEvent);
             availableEvents.splice(action.payload, 1);
             return {availableEvents, confirmedEvents};
+        
+        case 'SONGKICK_EVENT':
+            const allEvents = action.payload;
+            // allEvents.forEach((event) => {
+            //     let oneEvent = {};
+            //     oneEvent.eventHostName = event.displayName
+            // })
+            for (i = 0; i < allEvents.length; i++) {
+                oneEvent = allEvents[i]
+                let event = {};
+                event.eventHostName = 'SongKick'
+                event.eventTitle = oneEvent.displayName
+                event.eventDescription = oneEvent.type
+                event.eventDay = null
+                event.eventTime = null
+                event.eventDate = oneEvent.start.date
+                event.eventHostPhoto = oneEvent
+                event.guestNums = null
+                event.eventAway = null
+                event.eventAddress = oneEvent.venue.displayName + oneEvent.location.city
+                event.eventWebsite = oneEvent.uri
+                event.eventConfirmed = false
+                availableEvents.push(event);
+            }
+            return {availableEvents, confirmedEvents};
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;

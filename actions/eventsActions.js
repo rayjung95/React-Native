@@ -7,3 +7,8 @@ export const createEvent = event => ({
     type: 'CREATE_EVENT',
     payload: event
 });
+
+export const songKickEvent = event => ({
+    type: 'SONGKICK_EVENT',
+    payload:event
+})

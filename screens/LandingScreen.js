@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Animated,
   Easing,
@@ -20,13 +20,16 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { confirmEvent } from "../actions/eventsActions";
+import { songKickEvent } from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
+const SKapiKey = "mzzfkojpy82tOJLz";
+// const EventEmitter = require('events');
+// const myEmitter = new EventEmitter();
 
 class LandingScreen extends Component {
   static navigationOptions = {
@@ -71,6 +74,7 @@ class LandingScreen extends Component {
       arrowFlipped: false,
       arrowIsTop: false,
       isDisabled: false,
+      songKickEvents: [],
     }
 
   }
@@ -128,6 +132,26 @@ class LandingScreen extends Component {
         }
       }
     });
+  }
+
+
+
+  fetchSongKickEvents() {
+    fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
+    .then((response) => response.json())
+    .then((response) => {
+      this.setState({
+        songKickEvents: response.resultsPage.results.event
+      })
+      this.props.songKickEvent(this.state.songKickEvents)
+    })
+  }
+
+  componentDidMount () {
+    // const emitter = new EventEmitter()
+    // emitter.setMaxListeners();
+    this.fetchSongKickEvents();
+    // console.log(this.state.songKickEvents);
   }
 
   _toggleArrowAndEventCreation = () => {
@@ -482,6 +506,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     confirmEvent,
+    songKickEvent,
   }, dispatch)
 );
 
