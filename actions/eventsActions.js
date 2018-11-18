@@ -11,7 +11,7 @@ export const createEvent = event => ({
 export const songKickEvent = event => ({
     type: 'SONGKICK_EVENT',
     payload:event
-})
+});
 
 export const saveSearchDistance = settings => ({
 	type: 'SAVE_SEARCH_DISTANCE',

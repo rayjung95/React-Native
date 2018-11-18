@@ -90,7 +90,7 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
             availableEvents.splice(action.payload, 1);
-            return {availableEvents, confirmedEvents};
+            return state;
         
         case 'SONGKICK_EVENT':
             const allEvents = action.payload;
@@ -115,7 +115,7 @@ export const eventsReducer = (state = eventStates, action) => {
                 event.eventConfirmed = false
                 availableEvents.push(event);
             }
-            return {availableEvents, confirmedEvents};
+            return state;
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;
@@ -136,14 +136,14 @@ export const eventsReducer = (state = eventStates, action) => {
 
             confirmedEvents.push(confirmed);
 
-            return {availableEvents, confirmedEvents};
+            return state;
 
         case 'SAVE_SEARCH_DISTANCE':
             const distance = action.payload;
             let user = currentUser;
             user.search_distance_km = distance;
 
-            return {availableEvents, confirmedEvents, currentUser};
+            return state;
 
         case 'SAVE_PROFILE_DETAILS':
             const profileDetails = action.payload;
