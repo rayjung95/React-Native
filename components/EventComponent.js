@@ -88,7 +88,7 @@ export default class EventComponent extends Component {
                                     resizeMode: 'contain'
                                 }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                12 Guests
+                                {' ' + this.state.guestNums + ' '} Guests
                             </Text>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{

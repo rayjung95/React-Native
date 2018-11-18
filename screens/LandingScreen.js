@@ -216,9 +216,22 @@ class LandingScreen extends Component {
         })
     }
 
-    
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
 
     renderImage = () => {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
         return this.props.events.availableEvents.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
@@ -232,12 +245,15 @@ class LandingScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
                             event: item
                         })}>
-                            <EventComponent eventHostName={item['event']['owner']['first']} eventTitle={item['event']['name']}
+                            <EventComponent eventHostName={item['event']['owner']['first']}
+                                            eventTitle={item['event']['name']}
                                             eventDescription={item['event']['detail']}
-                                            eventDay={item.eventDay} eventTime={item.eventTime}
-                                            eventDate={item.eventDate} eventHostPhoto={item['event']['owner']['photo1_url']}
-                                            guestNums={item.guestNums} eventAway={item.eventAway}
-                                            eventAddress={item.eventAddress} eventConfirmed={false}
+                                            eventDay={dayNames[new Date(item['event']['start']).getDay()]}
+                                            eventTime={this._formatAMPM(new Date(item['event']['start']))}
+                                            eventDate={monthNames[new Date(item['event']['start']).getMonth()] + ' ' + new Date(item['event']['start']).getDate()}
+                                            eventHostPhoto={item['event']['owner']['photo1_url']}
+                                            guestNums={item['event']['guests'].length} eventAway={item.eventAway}
+                                            eventAddress={item['event']['location_name']} eventConfirmed={false}
                             />
                         </TouchableOpacity>
                     </Animated.View>
@@ -291,7 +307,7 @@ class LandingScreen extends Component {
 
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <StatusBar hidden />
+                <StatusBar hidden/>
                 <Animated.View style={[arrowStyle, {
                     zIndex: 100,
                     position: "absolute",
@@ -321,8 +337,9 @@ class LandingScreen extends Component {
                 </View>}
 
                 {this.state.showCard === true && this.renderImage()}
-                {this.state.showCard === true &&  <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
-                                unlock={this.unlock}/> }
+                {this.state.showCard === true &&
+                <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
+                                unlock={this.unlock}/>}
 
                 <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
                     <Image style={styles.footerImage}
