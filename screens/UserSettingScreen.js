@@ -26,6 +26,7 @@ class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			profileImageSource: this.props.events.currentUser.photo1_url,
 			distance: this.props.events.currentUser.search_distance_km,
 			name: this.props.events.currentUser.first,
 			min: this.props.min,
@@ -33,6 +34,13 @@ class UserSettingScreen extends Component {
 			step: this.props.step,
 		}
 		this._openLink = this._openLink.bind(this);
+
+		this.willFocus = this.props.navigation.addListener(
+			'willFocus',
+			() => {
+				this.setState({profileImageSource: this.props.events.currentUser.photo1_url});
+			}
+		);
 	}
 
 	static navigationOptions = {
@@ -43,7 +51,6 @@ class UserSettingScreen extends Component {
 		min: 1,
 		max: 100,
 		step: 1,
-		name: 'Zac',
 		tos_url: 'http://www.rendevousapp.com/terms-of-service/',
 		privacy_url: 'http://www.rendevousapp.com/privacy-policy/',
 	}
@@ -53,6 +60,7 @@ class UserSettingScreen extends Component {
 	}
 
 	componentWillUnmount() {
+		this.willFocus.remove();
 		this.props.saveSearchDistance(this.state.distance);
 	}
 
@@ -110,7 +118,7 @@ class UserSettingScreen extends Component {
 							</TouchableOpacity>
 						</View>
 						<Image source={
-								require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
+								this.state.profileImageSource
 						} style={
 							styles.profileImage
 						}/>
