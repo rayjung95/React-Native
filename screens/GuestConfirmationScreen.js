@@ -20,6 +20,7 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Swiper from 'react-native-swiper';
+import ProfileScreen from './ProfileScreen';
 import Modal from 'react-native-modalbox';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -542,7 +543,7 @@ export default class GuestConfirmationScreen extends Component {
           <View style={{ flex: 1, zIndex: 1001 }} ref={(view) => (this.viewProfile = view)}>
             {this.state.activeProfile &&
               <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff', borderRadius: 5 }, activeProfileStyle]}>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 7 }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 6}}>
                   <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: 'red' }, activeImageStyle]}>
                     <Swiper horizontal={true} style={{ flex: 1 }} activeDotStyle={{ backgroundColor: 'yellow' }}>
                       <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} />

@@ -75,6 +75,7 @@ class LandingScreen extends Component {
       arrowIsTop: false,
       isDisabled: false,
       songKickEvents: [],
+      fetching: false
     }
 
   }
@@ -148,10 +149,17 @@ class LandingScreen extends Component {
   }
 
   componentDidMount () {
+    console.log('start fetching')
     // const emitter = new EventEmitter()
     // emitter.setMaxListeners();
-    this.fetchSongKickEvents();
-    // console.log(this.state.songKickEvents);
+    if (!this.state.fetching) {
+      console.log('fetching')
+      this.fetchSongKickEvents();
+      this.setState({
+        fetching: true
+      })
+    }
+    console.log('stop fetching')
   }
 
   _toggleArrowAndEventCreation = () => {
