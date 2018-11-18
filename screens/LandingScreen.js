@@ -243,7 +243,17 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
-                            event: item
+                            eventHostName: item['event']['owner']['first'],
+                            eventTitle: item['event']['name'],
+                            eventDescription: item['event']['detail'],
+                            eventDay: dayNames[new Date(item['event']['start']).getDay()],
+                            eventTime: this._formatAMPM(new Date(item['event']['start'])),
+                            eventDate: monthNames[new Date(item['event']['start']).getMonth()] + ' ' + new Date(item['event']['start']).getDate(),
+                            eventHostPhoto: {uri: item['event']['owner']['photo1_url']},
+                            guestNums: item['event']['guests'].length,
+                            eventAway: item.eventAway,
+                            eventAddress: item['event']['location_name'],
+                            eventConfirmed: false
                         })}>
                             <EventComponent eventHostName={item['event']['owner']['first']}
                                             eventTitle={item['event']['name']}
@@ -251,7 +261,7 @@ class LandingScreen extends Component {
                                             eventDay={dayNames[new Date(item['event']['start']).getDay()]}
                                             eventTime={this._formatAMPM(new Date(item['event']['start']))}
                                             eventDate={monthNames[new Date(item['event']['start']).getMonth()] + ' ' + new Date(item['event']['start']).getDate()}
-                                            eventHostPhoto={item['event']['owner']['photo1_url']}
+                                            eventHostPhoto={{uri: item['event']['owner']['photo1_url']}}
                                             guestNums={item['event']['guests'].length} eventAway={item.eventAway}
                                             eventAddress={item['event']['location_name']} eventConfirmed={false}
                             />

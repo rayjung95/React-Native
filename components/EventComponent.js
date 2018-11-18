@@ -17,7 +17,7 @@ export default class EventComponent extends Component {
             eventDay: props.eventDay,
             eventTime: props.eventTime,
             eventDate: props.eventDate,
-            eventHostPhoto: {uri: props.eventHostPhoto},
+            eventHostPhoto: props.eventHostPhoto,
             guestNums: props.guestNums,
             eventAway: props.eventAway,
             eventConfirmed: props.eventConfirmed,

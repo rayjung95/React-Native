@@ -37,20 +37,19 @@ export default class EventDetailsScreen extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.navigation.getParam('event'));
         this.setState({
-            eventHostName: this.props.navigation.getParam('event').eventHostName,
-            eventTitle: this.props.navigation.getParam('event').eventTitle,
-            eventDescription: this.props.navigation.getParam('event').eventDescription,
-            eventDay: this.props.navigation.getParam('event').eventDay,
-            eventTime: this.props.navigation.getParam('event').eventTime,
-            eventDate: this.props.navigation.getParam('event').eventDate,
-            eventHostPhoto: this.props.navigation.getParam('event').eventHostPhoto,
-            guestNums: this.props.navigation.getParam('event').guestNums,
-            eventAddress: this.props.navigation.getParam('event').eventAddress,
-            eventAway: this.props.navigation.getParam('event').eventAway,
-            eventConfirmed: this.props.navigation.getParam('event').eventConfirmed,
-            eventWebsite: this.props.navigation.getParam('event').eventWebsite,
+            eventHostName: this.props.navigation.getParam('eventHostName'),
+            eventTitle: this.props.navigation.getParam('eventTitle'),
+            eventDescription: this.props.navigation.getParam('eventDescription'),
+            eventDay: this.props.navigation.getParam('eventDay'),
+            eventTime: this.props.navigation.getParam('eventTime'),
+            eventDate: this.props.navigation.getParam('eventDate'),
+            eventHostPhoto: this.props.navigation.getParam('eventHostPhoto'),
+            guestNums: this.props.navigation.getParam('guestNums'),
+            eventAddress: this.props.navigation.getParam('eventAddress'),
+            eventAway: this.props.navigation.getParam('eventAway'),
+            eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
+            eventWebsite: this.props.navigation.getParam('eventWebsite'),
         })
     }
 
@@ -65,7 +64,7 @@ export default class EventDetailsScreen extends Component {
     }
 
     render() {
-        const eventConfirmed = this.props.navigation.getParam('event').eventConfirmed;
+        const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <StatusBar hidden/>
