@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     Dimensions,
     Image,
@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import {Contacts, Permissions} from 'expo';
+import { Contacts, Permissions } from 'expo';
 
 //TODOS: create method for searching 
 
@@ -40,14 +40,35 @@ export default class InviteFriends extends Component {
             selectedContactsList: [],
             allContactsSelected: false,
             allNumbers: [],
+            hideSelectAll: 1,
         }
         this.getContactAsync();
         this.getAllNumbers = this.getAllNumbers.bind(this);
+
+
     }
 
     static navigationOptions = {
         header: null,
     };
+
+    sendSMS = async () => {
+        const { Permissions } = Expo;
+        const { status } = await Permissions.askAsync(Permissions.SMS);
+        const isAvailable = await Expo.SMS.isAvailableAsync();
+        if (status === 'granted') {
+            if (isAvailable) {
+                Expo.SMS.sendSMSAsync(this.state.selectedContactsList, 'I just made an event on Rendevous. Go download Rendevous so you can swipe on my event');
+                this.setState({ selectedContactsList: [] });
+            } else {
+                alert('No SMS available on this device');
+            }
+        }
+        else {
+            throw new Error('SMS Permission not granted');
+        }
+
+    }
 
     async getContactAsync() {
         // Ask for permission to query contacts.
@@ -58,18 +79,25 @@ export default class InviteFriends extends Component {
         //     return;
         // }
         const contacts = await Contacts.getContactsAsync();
-        // console.log(contacts.data);
+        // console.log(contacts);
         var temp = [];
         var tempdata = [];
         var headerString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var primaryNumSaved = false;
         var allNumbers = [];
+
+        var test = 0;
         //loop thru alphabet string a letter at a time
         for (indx in headerString) {
             //loop thru each contact
-            for ( item in contacts.data) {
+            for (item in contacts.data) {
+
+                // console.log(contacts.data[item] instanceof Object);
+                // if (typeof contacts.data[item].phoneNumbers == 'undefined') break;
+
+
                 //if contact has a phone number saved, proceed, else ignore
-                if (contacts.data[item].phoneNumbers.length != 0) {
+                if (typeof contacts.data[item].phoneNumbers != 'undefined' && contacts.data[item].phoneNumbers.length != 0) {
                     //if contact name first letter in uppercase is same as current letter being looped
                     if (contacts.data[item].name[0].toUpperCase() == headerString[indx]) {
                         //if contact only has 1 number, use number
@@ -109,7 +137,7 @@ export default class InviteFriends extends Component {
                 }
             }
             if (tempdata.length != 0) {
-                temp.push({ head: headerString[indx], data: tempdata});
+                temp.push({ head: headerString[indx], data: tempdata });
                 tempdata = [];
             }
         }
@@ -123,23 +151,23 @@ export default class InviteFriends extends Component {
     // View for each contact
     // onPress - if contact number is in selectedContactsList, remove it. if not, add it.
     //           then get number of items in selectedContactsList and setState of numSelectedContacts
-    showContacts = ({item, index}) => {
+    showContacts = ({ item, index }) => {
         return (
             <TouchableOpacity onPress={() => {
-                    if (this.state.selectedContactsList.includes(item.phone)) {
-                        this.state.selectedContactsList.splice(this.state.selectedContactsList.indexOf(item.phone), 1)
-                    } else {
-                        this.state.selectedContactsList.push(item.phone)
-                    }
-                    this.setState({
-                        numSelectedContacts: this.state.selectedContactsList.length,
-                        allContactsSelected: false,
-                    })
-                }}>
+                if (this.state.selectedContactsList.includes(item.phone)) {
+                    this.state.selectedContactsList.splice(this.state.selectedContactsList.indexOf(item.phone), 1)
+                } else {
+                    this.state.selectedContactsList.push(item.phone)
+                }
+                this.setState({
+                    numSelectedContacts: this.state.selectedContactsList.length,
+                    allContactsSelected: false,
+                })
+            }}>
                 <View key={index} style={styles.contactViews}>
                     <Text style={{ fontSize: width / 20, marginLeft: width * 0.04 }}>{item.name}</Text>
                     <Text style={{ fontSize: width / 30, marginLeft: width * 0.04 }}>{item.phone}</Text>
-                    <Image style={{position: 'absolute', right: width * 0.07, top: 0, bottom: 0, width: width * 0.05, resizeMode: 'contain'}}
+                    <Image style={{ position: 'absolute', right: width * 0.07, top: 0, bottom: 0, width: width * 0.05, resizeMode: 'contain' }}
                         source={this.state.selectedContactsList.includes(item.phone) ? this.state.contactSelected : this.state.contactUnselected} />
                 </View>
             </TouchableOpacity>
@@ -159,10 +187,16 @@ export default class InviteFriends extends Component {
         var trggr = false;
         var contacts = [];
         var filtered = [];
-        
-        if (value != null) {
-            for ( a in this.state.myContacts) {
-                for ( c in this.state.myContacts[a].data) {
+
+        console.log(value === "a");
+
+
+        if (value != null && value !== "") {
+            this.setState({
+                hideSelectAll: 0,
+            });
+            for (a in this.state.myContacts) {
+                for (c in this.state.myContacts[a].data) {
                     // console.log(this.state.myContacts[a].data[c].name);
                     if (this.state.myContacts[a].data[c].name.toLowerCase().includes(value.toLowerCase())) {
                         contacts.push(this.state.myContacts[a].data[c]);
@@ -170,7 +204,7 @@ export default class InviteFriends extends Component {
                     }
                 }
                 if (trggr) {
-                    filtered.push({ head: this.state.myContacts[a].head, data: contacts});
+                    filtered.push({ head: this.state.myContacts[a].head, data: contacts });
                 }
                 contacts = [];
                 trggr = false;
@@ -178,9 +212,13 @@ export default class InviteFriends extends Component {
             this.setState({
                 shownContacts: filtered
             });
+        } else if (value === "") {
+            this.setState({
+                hideSelectAll: 1,
+            });
         } else {
             this.setState({
-                shownContacts: this.state.myContacts
+                shownContacts: this.state.myContacts,
             })
         }
     }
@@ -202,23 +240,24 @@ export default class InviteFriends extends Component {
                     {/* Left Header Side */}
                     <View style={styles.leftHeader}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                            <Image style={styles.headerLeftImage} source={this.state.headerLeftImg}/>
+                            <Image style={styles.headerLeftImage} source={this.state.headerLeftImg} />
                         </TouchableOpacity>
                         <Text style={styles.headerLeftText}>{this.state.headerLeftText}</Text>
                     </View>
 
                     {/* Right Header Side */}
-                    <View style={styles.rightHeader}>
-                        <TouchableOpacity onPress={() => {
-                            this.setState({
-                                selectedContactsList: this.state.allContactsSelected ? [] : this.getAllNumbers(),
-                                allContactsSelected: this.state.allContactsSelected ? false : true,
-                                numSelectedContacts: this.state.allContactsSelected ? 0 : this.state.allNumbers.length,
-                            })
+                    {this.state.hideSelectAll === 1 &&
+                        <View style={[styles.rightHeader]}>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({
+                                    selectedContactsList: this.state.allContactsSelected ? [] : this.getAllNumbers(),
+                                    allContactsSelected: this.state.allContactsSelected ? false : true,
+                                    numSelectedContacts: this.state.allContactsSelected ? 0 : this.state.allNumbers.length,
+                                })
                             }}>
-                            <Text style={styles.headerRightText}>{!this.state.allContactsSelected ? "Select All" : "Unselect All"}</Text>
-                        </TouchableOpacity>
-                    </View>
+                                <Text style={styles.headerRightText}>{!this.state.allContactsSelected ? "Select All" : "Unselect All"}</Text>
+                            </TouchableOpacity>
+                        </View>}
 
                     {/* NOTE: Old left header with select all and search button. Kept just in case */}
                     {/* <View style={styles.rightHeader}>
@@ -239,27 +278,27 @@ export default class InviteFriends extends Component {
                 {/* Search Bar */}
                 <View style={styles.searchBarContainer}>
                     <View style={styles.searchBar}>
-                        <Image style={{ width: width * 0.05, height: width * 0.05, marginLeft: width * 0.02 }} 
+                        <Image style={{ width: width * 0.05, height: width * 0.05, marginLeft: width * 0.02 }}
                             source={require('../assets/Icons/search.imageset/searchgrey.png')} />
-                        <TextInput style={{ width: width * 0.87, fontSize: width / 20, marginLeft: width * 0.03, paddingRight: width * 0.02}} placeholder={'Search'} 
-                            underlineColorAndroid={'transparent'} onChangeText={(value) => {this.searchContacts(value)}}/>
+                        <TextInput style={{ width: width * 0.87, fontSize: width / 20, marginLeft: width * 0.03, paddingRight: width * 0.02 }} placeholder={'Search'}
+                            underlineColorAndroid={'transparent'} onChangeText={(value) => { this.searchContacts(value) }} />
                     </View>
                 </View>
 
                 {/* Contacts Section List */}
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <SectionList
                         initialNumToRender={100}
                         renderItem={this.showContacts}
                         sections={this.state.shownContacts}
-                        keyExtractor={(item, index) => {return item + index}}
+                        keyExtractor={(item, index) => { return item + index }}
                         renderSectionHeader={this.showContactsHeaders}
                     />
                 </View>
 
                 {/*Invite Friends Button*/}
                 <View style={styles.sendInviteButton}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.sendSMS()}>
                         <View style={styles.sendInviteButtonTouch}>
                             <View style={styles.selectCounterBg}>
                                 <Text style={styles.selectCounter}>{this.state.numSelectedContacts}</Text>

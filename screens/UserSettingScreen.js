@@ -14,21 +14,33 @@ import {
 import Slider from 'react-native-slider';
 import WebBrowser from 'expo';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { saveSearchDistance } from "../actions/eventsActions";
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 
-export default class UserSettingScreen extends Component {
+class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			distance: this.props.distance,
+			profileImageSource: this.props.events.currentUser.photo1_url,
+			distance: this.props.events.currentUser.search_distance_km,
+			name: this.props.events.currentUser.first,
 			min: this.props.min,
 			max: this.props.max,
 			step: this.props.step,
-			name: this.props.name,
 		}
 		this._openLink = this._openLink.bind(this);
+
+		this.willFocus = this.props.navigation.addListener(
+			'willFocus',
+			() => {
+				this.setState({profileImageSource: this.props.events.currentUser.photo1_url});
+			}
+		);
 	}
 
 	static navigationOptions = {
@@ -36,17 +48,20 @@ export default class UserSettingScreen extends Component {
 	};
 
 	static defaultProps = {
-		distance: 1,
 		min: 1,
 		max: 100,
 		step: 1,
-		name: 'Zac',
 		tos_url: 'http://www.rendevousapp.com/terms-of-service/',
 		privacy_url: 'http://www.rendevousapp.com/privacy-policy/',
 	}
 
 	testPress() {
 		console.log('touchable pressed!\n');
+	}
+
+	componentWillUnmount() {
+		this.willFocus.remove();
+		this.props.saveSearchDistance(this.state.distance);
 	}
 
 	_openLink = async (link) => {
@@ -103,7 +118,7 @@ export default class UserSettingScreen extends Component {
 							</TouchableOpacity>
 						</View>
 						<Image source={
-								require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png')
+								this.state.profileImageSource
 						} style={
 							styles.profileImage
 						}/>
@@ -400,3 +415,16 @@ const styles = StyleSheet.create({
     	alignItems: 'center',
 	},
 });
+
+const mapStateToProps = (state) => {
+	const { events } = state;
+	return { events }
+};
+
+const mapDispatchToProps = dispatch => (
+	bindActionCreators({
+    	saveSearchDistance,
+	}, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettingScreen);

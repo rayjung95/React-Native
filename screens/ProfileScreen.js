@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 const window = Dimensions.get('window')
 
 
-export default class HostProfileScreen extends Component {
+export default class ProfileScreen extends Component {
     static navigationOptions = {
         header: null,
     };
@@ -85,6 +85,8 @@ export default class HostProfileScreen extends Component {
     }
 
     render() {
+    const { navigation } = this.props;
+    const message = navigation.getParam('message', false);
       return (
         <View style={{flex:1}}>
             <View>
@@ -95,22 +97,20 @@ export default class HostProfileScreen extends Component {
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                         <Image style={styles.images} source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}/>
                     </Swiper>
-                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.navigate('EventDetails')}>
+                    <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, left:window.height/46}} onPress={() => this.props.navigation.goBack()}>
                         <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/minimize.imageset/minimize.png')}/>
                     </TouchableOpacity>
-                    <Image style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                    {message === true &&
+                        <TouchableOpacity style={{width:window.height/16,height:window.height/16,position:'absolute', top:window.height/46, right:window.height/46}} onPress={() => this.props.navigation.navigate('ChatRoom')}>
+                            <Image style={{width:window.height/16,height:window.height/16}} source={require('../assets/Icons/chatting.imageset/chatting.png')}/>
+                        </TouchableOpacity>
+                    }
                 </View>
 
                 <View style={styles.profInfoContainer}>
                     <View style={styles.nameAge}>
                         <View style={{alignItems:'flex-start', justifyContent:'center', flex:1}}>
                             <Text style={{fontSize:window.height/28, fontWeight:'bold', margin:10}}>Scarlett, 31</Text>
-                        </View>
-                        <View style={{alignItems:'flex-end', justifyContent:'center', flex:1}}>
-                            <View style={{flex:1, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
-                                <Text style={{fontSize:window.height/50}}>Instagram</Text>
-                                <Image source={require('../assets/Icons/instagram.imageset/instagram.png')} style={{resizeMode:'contain',width:window.height/24, height:window.height/24, margin:10}}/>
-                            </View>
                         </View>
                     </View>
                     <View style={styles.description}>

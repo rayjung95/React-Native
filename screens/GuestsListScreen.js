@@ -80,10 +80,13 @@ export default class GuestsListScreen extends Component {
     }
 
     displayGuestsList = ({item}) => {
+        console.log(item.guestName);
         return (
             <View style={{height: window.height / 8, flexDirection: 'column'}}>
                 <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', flex: 60}}
-                                  onPress={() => this.props.navigation.navigate('GuestProfile')}
+                                  onPress={() => this.props.navigation.navigate('Profile', {
+                                      message: false
+                                  })}
                 >
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <View style={{width: window.width / 7, height: window.width / 7}}>
@@ -93,7 +96,7 @@ export default class GuestsListScreen extends Component {
                         </View>
                     </View>
                     <View style={{flex: 5, alignItems: 'flex-start'}}>
-                        <Text style={{fontWeight: 'bold', fontSize: window.height / 40}}>{item.guestName}</Text>
+                        <Text style={{fontFamily: 'Roboto', fontWeight: 'bold', fontSize: window.height / 40}}>{item.guestName}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <Image style={{width: window.height / 45, height: window.height / 45, resizeMode: 'contain'}}

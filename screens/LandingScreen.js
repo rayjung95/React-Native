@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 import {
     Animated,
     Easing,
@@ -6,23 +6,30 @@ import {
     ImageBackground,
     PanResponder,
     Platform,
-    StatusBar,
     StyleSheet,
     TouchableHighlight,
     TouchableOpacity,
-    View
+    TouchableWithoutFeedback,
+    View,
+    StatusBar,
+    Text,
+    Button,
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
-
+import Modal from 'react-native-modalbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {confirmEvent} from "../actions/eventsActions";
+import {songKickEvent} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
+const SKapiKey = "mzzfkojpy82tOJLz";
+// const EventEmitter = require('events');
+// const myEmitter = new EventEmitter();
 
 class LandingScreen extends Component {
     static navigationOptions = {
@@ -66,6 +73,9 @@ class LandingScreen extends Component {
             eventCreationHidden: true,
             arrowFlipped: false,
             arrowIsTop: false,
+            isDisabled: false,
+            songKickEvents: [],
+            fetching: false
         }
 
     }
@@ -92,22 +102,22 @@ class LandingScreen extends Component {
                 this.position.setValue({x: gs.dx, y: gs.dy})
             },
             onPanResponderRelease: (evt, gs) => {
-                console.log('RELEASED', gs);
+                // console.log('RELEASED', gs);
                 this.setState({isMoving: false})
                 if (gs.dx > 120) {
                     Animated.spring(this.position, {
-                        toValue: {x: SCREEN_WIDTH + 100, y: gs.dy}
+                        toValue: {x: SCREEN_WIDTH + 200, y: gs.dy}
                     }).start(() => {
                         this.props.confirmEvent(this.state.imageIndex);
                         this.setState({
-                            imageIndex: this.state.imageIndex + 1
+                            imageIndex: this.state.imageIndex
                         }, () => {
                             this.position.setValue({x: 0, y: 0})
                         })
                     })
                 } else if (gs.dx < -120) {
                     Animated.spring(this.position, {
-                        toValue: {x: -SCREEN_WIDTH - 100, y: gs.dy}
+                        toValue: {x: -SCREEN_WIDTH - 200, y: gs.dy}
                     }).start(() => {
                         this.setState({
                             imageIndex: this.state.imageIndex + 1
@@ -123,6 +133,32 @@ class LandingScreen extends Component {
                 }
             }
         });
+    }
+
+
+    fetchSongKickEvents() {
+        fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    songKickEvents: response.resultsPage.results.event
+                })
+                this.props.songKickEvent(this.state.songKickEvents)
+            })
+    }
+
+    componentDidMount() {
+        console.log('start fetching')
+        // const emitter = new EventEmitter()
+        // emitter.setMaxListeners();
+        if (!this.state.fetching) {
+            console.log('fetching')
+            this.fetchSongKickEvents();
+            this.setState({
+                fetching: true
+            })
+        }
+        console.log('stop fetching')
     }
 
     _toggleArrowAndEventCreation = () => {
@@ -193,7 +229,9 @@ class LandingScreen extends Component {
     lock = () => {
         console.log('lock!')
         Animated.spring(this.position, {
-            toValue: {x: -SCREEN_WIDTH - 400, y: SCREEN_HEIGHT / 4}
+            toValue: {x: -SCREEN_WIDTH - 200, y: SCREEN_HEIGHT / 6},
+            friction: 500,
+            tension: 1,
         }).start(() => {
             this.setState({
                 imageIndex: this.state.imageIndex + 1
@@ -205,20 +243,25 @@ class LandingScreen extends Component {
     unlock = () => {
         console.log('unlock!')
         Animated.spring(this.position, {
-            toValue: {x: SCREEN_WIDTH + 400, y: SCREEN_HEIGHT / 4}
+            toValue: {x: SCREEN_WIDTH + 200, y: SCREEN_HEIGHT / 6},
+            friction: 500,
+            tension: 1,
         }).start(() => {
             this.props.confirmEvent(this.state.imageIndex);
             this.setState({
-                imageIndex: this.state.imageIndex + 1
+                imageIndex: this.state.imageIndex
             }, () => {
                 this.position.setValue({x: 0, y: 0})
             })
         })
     }
 
+
+    openModal = () => {
+        this.refs.modal3.open()
+    }
+
     renderImage = () => {
-
-
         return this.props.events.availableEvents.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
@@ -229,12 +272,14 @@ class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
                             event: item['event'],
                             eventConfirmed: false
                         })}>
-                            <EventComponent event={item['event']} eventConfirmed={false}/>
-                        </TouchableOpacity>
+                            <View style={{width: '100%', height: '100%'}}>
+                                <EventComponent event={item['event']} eventConfirmed={false}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </Animated.View>
                 )
             } else {
@@ -285,7 +330,9 @@ class LandingScreen extends Component {
                     position: "absolute",
                     backgroundColor: "transparent"
                 }, styles.arrowView]}>
-                    <TouchableHighlight onPress={() => this._toggleArrowAndEventCreation()}
+                    <TouchableHighlight onPress={
+                        () => this._toggleArrowAndEventCreation()
+                    }
                                         style={{flex: 1, backgroundColor: 'transparent'}}>
                         <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')}/>
                     </TouchableHighlight>
@@ -308,6 +355,34 @@ class LandingScreen extends Component {
                     </TouchableOpacity>
                 </View>}
 
+                <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"}
+                       ref={"modal3"} isDisabled={this.state.isDisabled}>
+                    <View style={{
+                        flexDirection: "row",
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#5bb983',
+                        width: "100%",
+                        height: SCREEN_HEIGHT * (73 / 1332),
+                        borderTopRightRadius: 5,
+                        borderTopLeftRadius: 5
+                    }}><Text style={{color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332)}}>Warning</Text></View>
+                    <Text style={{fontSize: SCREEN_HEIGHT * (30 / 1332)}}>Please fill out the required fields.</Text>
+                    <TouchableOpacity onPress={() => this.refs.modal3.close()}>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 5,
+                            backgroundColor: '#fdd302',
+                            width: SCREEN_WIDTH * (502 / 748),
+                            height: SCREEN_HEIGHT * (56 / 1332),
+                            marginBottom: SCREEN_HEIGHT * (22 / 1332)
+                        }}><Text style={{color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332)}}>Ok</Text></View>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
+                </Modal>
+
                 {this.state.showCard === true && this.renderImage()}
                 {this.state.showCard === true &&
                 <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
@@ -322,6 +397,7 @@ class LandingScreen extends Component {
                     style={[{position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT}, eventCreationStyle]}>
                     <EventCreationComponent title='Create new event ' buttonText='Post'
                                             close={this._toggleArrowAndEventCreation}
+                                            openModal={this.openModal}
                                             {...this.props} />
                 </Animated.View>
 
@@ -421,7 +497,18 @@ const styles = StyleSheet.create({
         height: "100%",
         zIndex: 100,
         resizeMode: 'contain',
-    }
+    },
+
+    modal: {
+        borderRadius: 5,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: "center",
+        height: SCREEN_HEIGHT * (313 / 1332),
+        width: SCREEN_WIDTH * (559 / 748),
+        zIndex: 105,
+    },
+
 });
 
 const mapStateToProps = (state) => {
@@ -432,6 +519,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         confirmEvent,
+        songKickEvent,
     }, dispatch)
 );
 

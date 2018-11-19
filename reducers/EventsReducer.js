@@ -191,14 +191,30 @@ const eventStates = {
             }
         ]
     }],
-    confirmedEvents: []
+    confirmedEvents: [],
+
+    currentUser: {
+        first: 'Zac',
+        last: null,
+        about: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
+        contact: 'Contact Info',
+        photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
+        photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        friend_ids: null,
+        user_id: null,
+        search_distance_km: 1,
+        email: null,
+    },
 };
 
 export const eventsReducer = (state = eventStates, action) => {
 
     const {
         availableEvents,
-        confirmedEvents
+        confirmedEvents,
+        currentUser,
     } = state;
 
     switch (action.type) {
@@ -207,8 +223,33 @@ export const eventsReducer = (state = eventStates, action) => {
             const confirmedEvent = availableEvents[action.payload];
             confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
-            // availableEvents.splice(action.payload, 1);
-            return {availableEvents, confirmedEvents};
+            availableEvents.splice(action.payload, 1);
+            return state;
+
+        case 'SONGKICK_EVENT':
+            const allEvents = action.payload;
+            // allEvents.forEach((event) => {
+            //     let oneEvent = {};
+            //     oneEvent.eventHostName = event.displayName
+            // })
+            for (var i = 0; i < allEvents.length; i++) {
+                var oneEvent = allEvents[i]
+                let event = {};
+                event.eventHostName = 'SongKick'
+                event.eventTitle = oneEvent.displayName
+                event.eventDescription = oneEvent.type
+                event.eventDay = null
+                event.eventTime = null
+                event.eventDate = oneEvent.start.date
+                event.eventHostPhoto = null
+                event.guestNums = null
+                event.eventAway = null
+                event.eventAddress = oneEvent.venue.displayName + oneEvent.location.city
+                event.eventWebsite = oneEvent.uri
+                event.eventConfirmed = false
+                availableEvents.push(event);
+            }
+            return state;
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;
@@ -229,7 +270,26 @@ export const eventsReducer = (state = eventStates, action) => {
 
             confirmedEvents.push(confirmed);
 
-            return {availableEvents, confirmedEvents};
+            return state;
+
+        case 'SAVE_SEARCH_DISTANCE':
+            const distance = action.payload;
+            let user = currentUser;
+            user.search_distance_km = distance;
+
+            return state;
+
+        case 'SAVE_PROFILE_DETAILS':
+            const profileDetails = action.payload;
+            let profile = currentUser;
+            profile.about = profileDetails.profileBioText;
+            profile.contact = profileDetails.contactInfoText;
+            profile.photo1_url = profileDetails.imageSource[0];
+            profile.photo2_url = profileDetails.imageSource[1];
+            profile.photo3_url = profileDetails.imageSource[2];
+            profile.photo4_url = profileDetails.imageSource[3];
+
+            return state;
 
         default:
             return state

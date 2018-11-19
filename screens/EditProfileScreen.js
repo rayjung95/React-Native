@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+	Alert,
 	Animated,
     Dimensions,
     Image,
@@ -17,56 +18,69 @@ import {
 
 import update from 'immutability-helper';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { saveProfileDetails } from "../actions/eventsActions";
+
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const HEADER_HEIGHT = SCREEN_HEIGHT * 0.091;
+const IMAGE1_COORD = { x: SCREEN_WIDTH * 0.35, y: SCREEN_WIDTH * 0.35}
+const IMAGE2_COORD = { x: SCREEN_WIDTH * 0.03, y: SCREEN_HEIGHT * 0.555}
+const IMAGE3_COORD = { x: SCREEN_WIDTH * 0.35, y: SCREEN_HEIGHT * 0.555}
+const IMAGE4_COORD = { x: SCREEN_WIDTH * 0.67, y: SCREEN_HEIGHT * 0.555}
 
-export default class EditProfileScreen extends Component {
+class EditProfileScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			mainImageSource: this.props.mainImageSource,
-			smallImage1Source: this.props.smallImage1Source,
-			smallImage2Source: this.props.smallImage2Source,
-			smallImage3Source: this.props.smallImage3Source,
-			profileBioText: this.props.profileBioText,
-			contactInfoText: this.props.contactInfoText,
+			imageSource: [
+				this.props.events.currentUser.photo1_url,
+				this.props.events.currentUser.photo2_url,
+				this.props.events.currentUser.photo3_url,
+				this.props.events.currentUser.photo4_url
+			],
 
-			image1Exists: true,
+			profileBioText: this.props.events.currentUser.about,
+			contactInfoText: this.props.events.currentUser.contact,
+
+			image1Exists: false,
 			image1Hovered: [false, false, false],
 			image1OrigScale: 3.13,
-			image1OrigX: SCREEN_WIDTH * 0.35,
-			image1OrigY: SCREEN_WIDTH * 0.35,
+			image1OrigX: IMAGE1_COORD.x,
+			image1OrigY: IMAGE1_COORD.y,
 			image1Scale: new Animated.Value(3.13),
 			image1XY: new Animated.ValueXY({x: SCREEN_WIDTH * 0.35, y: SCREEN_WIDTH * 0.35}),
 			image1ZIndex: 2,
 
-			image2Exists: true,
+			image2Exists: false,
 			image2Hovered: [false, false, false],
 			image2OrigScale: 1,
-			image2OrigX: SCREEN_WIDTH * 0.03,
-			image2OrigY: SCREEN_HEIGHT * 0.555,
+			image2OrigX: IMAGE2_COORD.x,
+			image2OrigY: IMAGE2_COORD.y,
 			image2Scale: new Animated.Value(1),
 			image2XY: new Animated.ValueXY({x: SCREEN_WIDTH * 0.03, y: SCREEN_HEIGHT * 0.555}),
 			image2ZIndex: 1,
 
-			image3Exists: true,
+			image3Exists: false,
 			image3Hovered: [false, false, false],
 			image3OrigScale: 1,
-			image3OrigX: SCREEN_WIDTH * 0.35,
-			image3OrigY: SCREEN_HEIGHT * 0.555,
+			image3OrigX: IMAGE3_COORD.x,
+			image3OrigY: IMAGE3_COORD.y,
 			image3Scale: new Animated.Value(1),
 			image3XY: new Animated.ValueXY({x: SCREEN_WIDTH * 0.35, y: SCREEN_HEIGHT * 0.555}),
 			image3ZIndex: 1,
 
-			image4Exists: true,
+			image4Exists: false,
 			image4Hovered: [false, false, false],
 			image4OrigScale: 1,
-			image4OrigX: SCREEN_WIDTH * 0.67,
-			image4OrigY: SCREEN_HEIGHT * 0.555,
+			image4OrigX: IMAGE4_COORD.x,
+			image4OrigY: IMAGE4_COORD.y,
 			image4Scale: new Animated.Value(1),
 			image4XY: new Animated.ValueXY({x: SCREEN_WIDTH * 0.67, y: SCREEN_HEIGHT * 0.555}),
 			image4ZIndex: 1,
+
+			changesMade: false,
 		}
 
         this._addPhoto = this._addPhoto.bind(this);
@@ -75,7 +89,10 @@ export default class EditProfileScreen extends Component {
         this._connectInsta = this._connectInsta.bind(this);
         this._createResponders = this._createResponders.bind(this);
         this._isInimage = this._isInImage.bind(this);
-        
+        this._saveProfile = this._saveProfile.bind(this);
+        this._exit = this._exit.bind(this);
+
+		this._checkImagesExists();
         this._createResponders();
 	}
 
@@ -84,14 +101,7 @@ export default class EditProfileScreen extends Component {
 	};
 
 	static defaultProps = {
-		mainImageSource: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-		smallImage1Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-		smallImage2Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-		smallImage3Source: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 		addImageSource: require('../assets/Icons/add_photo.imageset/add_photo.png'),
-		profileBioText: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
-		contactInfoText: 'Contact Info',
-
 		mainImageOffset: 0.1502,
 	}
 
@@ -111,39 +121,57 @@ export default class EditProfileScreen extends Component {
 		        	var curX = gesture.dx + this.state.image1OrigX;
 		        	var curY = gesture.dy + this.state.image1OrigY;
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && this.state.image2Hovered[0] === false && this.state.image2Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && 
+		        	this.state.image2Hovered[0] === false && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {0: {$set: true}})});
 		        		this._animateMove(this.state.image2XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) && this.state.image2Hovered[0] === true && this.state.image2Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) && 
+		        	this.state.image2Hovered[0] === true && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {0: {$set: false}})});
 		        		this._animateMove(this.state.image2XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image2OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) && this.state.image3Hovered[0] === false && this.state.image3Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) && 
+		        	this.state.image3Hovered[0] === false && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {0: {$set: true}})});
 		        		this._animateMove(this.state.image3XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && this.state.image3Hovered[0] === true && this.state.image3Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && 
+		        	this.state.image3Hovered[0] === true && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {0: {$set: false}})});
 		        		this._animateMove(this.state.image3XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image3OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && this.state.image4Hovered[0] === false && this.state.image4Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && 
+		        	this.state.image4Hovered[0] === false && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {0: {$set: true}})});
 		        		this._animateMove(this.state.image4XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image4OrigScale);
 		        		this._animateResize(this.state.image4Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) && this.state.image4Hovered[0] === true && this.state.image4Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) && 
+		        	this.state.image4Hovered[0] === true && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {0: {$set: false}})});
 		        		this._animateMove(this.state.image4XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
@@ -164,6 +192,7 @@ export default class EditProfileScreen extends Component {
 				        	image2OrigScale: prevState.image1OrigScale,
 				        	image2OrigX: prevState.image1OrigX,
 				        	image2OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image3Hovered[0]) {
@@ -175,6 +204,7 @@ export default class EditProfileScreen extends Component {
 				        	image3OrigScale: prevState.image1OrigScale,
 				        	image3OrigX: prevState.image1OrigX,
 				        	image3OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image4Hovered[0]) {
@@ -186,6 +216,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image1OrigScale,
 				        	image4OrigX: prevState.image1OrigX,
 				        	image4OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else {
@@ -216,39 +247,57 @@ export default class EditProfileScreen extends Component {
 		        	var curX = gesture.dx + this.state.image2OrigX;
 		        	var curY = gesture.dy + this.state.image2OrigY;
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) && this.state.image1Hovered[0] === false && this.state.image1Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) && 
+		        	this.state.image1Hovered[0] === false && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {0: {$set: true}})});
 		        		this._animateMove(this.state.image1XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && this.state.image1Hovered[0] === true && this.state.image1Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && 
+		        	this.state.image1Hovered[0] === true && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {0: {$set: false}})});
 		        		this._animateMove(this.state.image1XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image2OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) && this.state.image3Hovered[1] === false && this.state.image3Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) && 
+		        	this.state.image3Hovered[1] === false && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {1: {$set: true}})});
 		        		this._animateMove(this.state.image3XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image3Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image3OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && this.state.image3Hovered[1] === true && this.state.image3Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && 
+		        	this.state.image3Hovered[1] === true && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {1: {$set: false}})});
 		        		this._animateMove(this.state.image3XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image3Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image2OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && this.state.image4Hovered[1] === false && this.state.image4Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && 
+		        	this.state.image4Hovered[1] === false && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {1: {$set: true}})});
 		        		this._animateMove(this.state.image4XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image4OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) && this.state.image4Hovered[1] === true && this.state.image4Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) && 
+		        	this.state.image4Hovered[1] === true && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {1: {$set: false}})});
 		        		this._animateMove(this.state.image4XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image4OrigScale);
@@ -269,6 +318,7 @@ export default class EditProfileScreen extends Component {
 				        	image2OrigScale: prevState.image1OrigScale,
 				        	image2OrigX: prevState.image1OrigX,
 				        	image2OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image3Hovered[1]) {
@@ -280,6 +330,7 @@ export default class EditProfileScreen extends Component {
 				        	image3OrigScale: prevState.image2OrigScale,
 				        	image3OrigX: prevState.image2OrigX,
 				        	image3OrigY: prevState.image2OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image4Hovered[1]) {
@@ -291,6 +342,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image2OrigScale,
 				        	image4OrigX: prevState.image2OrigX,
 				        	image4OrigY: prevState.image2OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else {
@@ -321,39 +373,57 @@ export default class EditProfileScreen extends Component {
 		        	var curX = gesture.dx + this.state.image3OrigX;
 		        	var curY = gesture.dy + this.state.image3OrigY;
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) && this.state.image1Hovered[1] === false && this.state.image1Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) && 
+		        	this.state.image1Hovered[1] === false && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {1: {$set: true}})});
 		        		this._animateMove(this.state.image1XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && this.state.image1Hovered[1] === true && this.state.image1Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && 
+		        	this.state.image1Hovered[1] === true && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {1: {$set: false}})});
 		        		this._animateMove(this.state.image1XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image3OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && this.state.image2Hovered[1] === false && this.state.image2Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && 
+		        	this.state.image2Hovered[1] === false && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {1: {$set: true}})});
 		        		this._animateMove(this.state.image2XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image3Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image3OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) && this.state.image2Hovered[1] === true && this.state.image2Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) && 
+		        	this.state.image2Hovered[1] === true && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {1: {$set: false}})});
 		        		this._animateMove(this.state.image2XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image3Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image2OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && this.state.image4Hovered[2] === false && this.state.image4Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3) && 
+		        	this.state.image4Hovered[2] === false && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {2: {$set: true}})});
 		        		this._animateMove(this.state.image4XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image4OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) && this.state.image4Hovered[2] === true && this.state.image4Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image4OrigX - (this.state.image4OrigScale - 1) *
+		        		this.props.mainImageOffset * SCREEN_WIDTH, this.state.image4OrigY - (this.state.image4OrigScale - 1) *
+		        		this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image4OrigScale * 0.3)) &&
+		        		this.state.image4Hovered[2] === true && this.state.image4Exists) {
 		        		this.setState({image4Hovered: update(this.state.image4Hovered, {2: {$set: false}})});
 		        		this._animateMove(this.state.image4XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image4OrigScale);
@@ -374,6 +444,7 @@ export default class EditProfileScreen extends Component {
 				        	image3OrigScale: prevState.image1OrigScale,
 				        	image3OrigX: prevState.image1OrigX,
 				        	image3OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image2Hovered[1]) {
@@ -385,6 +456,7 @@ export default class EditProfileScreen extends Component {
 				        	image3OrigScale: prevState.image2OrigScale,
 				        	image3OrigX: prevState.image2OrigX,
 				        	image3OrigY: prevState.image2OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image4Hovered[2]) {
@@ -396,6 +468,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image3OrigScale,
 				        	image4OrigX: prevState.image3OrigX,
 				        	image4OrigY: prevState.image3OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else {
@@ -426,39 +499,57 @@ export default class EditProfileScreen extends Component {
 		        	var curX = gesture.dx + this.state.image4OrigX;
 		        	var curY = gesture.dy + this.state.image4OrigY;
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) && this.state.image1Hovered[2] === false && this.state.image1Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3) &&
+		        	this.state.image1Hovered[2] === false && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {2: {$set: true}})});
 		        		this._animateMove(this.state.image1XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image4OrigScale);
 		        		this._animateResize(this.state.image4Scale, this.state.image1OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && this.state.image1Hovered[2] === true && this.state.image1Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image1OrigX - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image1OrigY - (this.state.image1OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image1OrigScale * 0.3)) && 
+		        	this.state.image1Hovered[2] === true && this.state.image1Exists) {
 		        		this.setState({image1Hovered: update(this.state.image1Hovered, {2: {$set: false}})});
 		        		this._animateMove(this.state.image1XY, this.state.image1OrigX, this.state.image1OrigY);
 		        		this._animateResize(this.state.image1Scale, this.state.image1OrigScale);
 		        		this._animateResize(this.state.image4Scale, this.state.image4OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && this.state.image2Hovered[2] === false && this.state.image2Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3) && 
+		        	this.state.image2Hovered[2] === false && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {2: {$set: true}})});
 		        		this._animateMove(this.state.image2XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image2OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image4OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) && this.state.image2Hovered[2] === true && this.state.image2Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image2OrigX - (this.state.image2OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image2OrigY - (this.state.image2OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image2OrigScale * 0.3)) &&
+		        		this.state.image2Hovered[2] === true && this.state.image2Exists) {
 		        		this.setState({image2Hovered: update(this.state.image2Hovered, {2: {$set: false}})});
 		        		this._animateMove(this.state.image2XY, this.state.image2OrigX, this.state.image2OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image4OrigScale);
 		        		this._animateResize(this.state.image2Scale, this.state.image2OrigScale);
 		        	}
 
-		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) && this.state.image3Hovered[2] === false && this.state.image3Exists) {
+		        	if (this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3) &&
+		        	this.state.image3Hovered[2] === false && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {2: {$set: true}})});
 		        		this._animateMove(this.state.image3XY, this.state.image4OrigX, this.state.image4OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image3OrigScale);
 		        		this._animateResize(this.state.image3Scale, this.state.image4OrigScale);
 		        	}
-		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && this.state.image3Hovered[2] === true && this.state.image3Exists) {
+		        	else if (!(this._isInImage(gesture.moveX, gesture.moveY, this.state.image3OrigX - (this.state.image3OrigScale - 1) *
+		        	this.props.mainImageOffset * SCREEN_WIDTH, this.state.image3OrigY - (this.state.image3OrigScale - 1) * 
+		        	this.props.mainImageOffset * SCREEN_WIDTH + HEADER_HEIGHT, SCREEN_WIDTH * this.state.image3OrigScale * 0.3)) && 
+		        	this.state.image3Hovered[2] === true && this.state.image3Exists) {
 		        		this.setState({image3Hovered: update(this.state.image3Hovered, {2: {$set: false}})});
 		        		this._animateMove(this.state.image3XY, this.state.image3OrigX, this.state.image3OrigY);
 		        		this._animateResize(this.state.image4Scale, this.state.image4OrigScale);
@@ -479,6 +570,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image1OrigScale,
 				        	image4OrigX: prevState.image1OrigX,
 				        	image4OrigY: prevState.image1OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image2Hovered[2]) {
@@ -490,6 +582,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image2OrigScale,
 				        	image4OrigX: prevState.image2OrigX,
 				        	image4OrigY: prevState.image2OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else if (this.state.image3Hovered[2]) {
@@ -501,6 +594,7 @@ export default class EditProfileScreen extends Component {
 				        	image4OrigScale: prevState.image3OrigScale,
 				        	image4OrigX: prevState.image3OrigX,
 				        	image4OrigY: prevState.image3OrigY,
+				        	changesMade: true,
 				        }));
 		        	}
 		        	else {
@@ -550,6 +644,72 @@ export default class EditProfileScreen extends Component {
         ).start();
 	}
 
+	_exit = () => {
+		if (this.state.changesMade) {
+			Alert.alert(
+	            '',
+	            'You have unsaved changes to your profile. Would you like to save?',
+	            [
+	                {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+	                {text: 'No', onPress: () => this.props.navigation.navigate('ProfileSetting')},
+	                {text: 'Yes', onPress: () => this._saveProfile()},
+	            ],
+	            {cancelable: false}
+	        )
+		}
+		else {
+			this.props.navigation.navigate('ProfileSetting');
+		}
+	}
+
+	_saveProfile = () => {
+		let oldCoord = [
+			{ x: this.state.image1OrigX, y: this.state.image1OrigY },
+			{ x: this.state.image2OrigX, y: this.state.image2OrigY },
+			{ x: this.state.image3OrigX, y: this.state.image3OrigY },
+			{ x: this.state.image4OrigX, y: this.state.image4OrigY },
+		];
+		let newSourceIndex = [];
+
+		for (let i = 0; i < 4; i++) {
+			newSourceIndex.push(this._getImageOrder(oldCoord[i].x, oldCoord[i].y))
+		}
+
+		let newImageSource = [...this.state.imageSource];
+
+		for(let j = 0; j < 4; j++) {
+			newImageSource[j] = this.state.imageSource[newSourceIndex.indexOf(j)]
+		}
+
+		this.setState({
+			imageSource: newImageSource
+		}, () => this.props.saveProfileDetails(this.state));
+
+		this.props.navigation.navigate('ProfileSetting');
+	}
+
+	_getImageOrder = (x, y) => {
+		if (x == IMAGE1_COORD.x && y == IMAGE1_COORD.y)
+			return 0;
+		if (x == IMAGE2_COORD.x && y == IMAGE2_COORD.y)
+			return 1;
+		if (x == IMAGE3_COORD.x && y == IMAGE3_COORD.y)
+			return 2;
+		if (x == IMAGE4_COORD.x && y == IMAGE4_COORD.y)
+			return 3;
+	}
+
+	_checkImagesExists () {
+		if (this.state.imageSource[0] != null)
+			this.state.image1Exists = true;
+		if (this.state.imageSource[1] != null)
+			this.state.image2Exists = true;
+		if (this.state.imageSource[2] != null)
+			this.state.image3Exists = true;
+		if (this.state.imageSource[3] != null)
+			this.state.image4Exists = true;
+	}
+
     _connectInsta = () => {
         console.log('ConnectInsta Pressed');
     }
@@ -565,25 +725,25 @@ export default class EditProfileScreen extends Component {
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
 							<Animated.View {...this.image1PanResponder.panHandlers} style={[styles.mainImageView, this.state.image1XY.getLayout(), {zIndex: this.state.image1ZIndex, transform: [{scale: this.state.image1Scale}]}]}>
-								<Animated.Image source={this.state.mainImageSource} style={[styles.mainImage]} />
+								<Animated.Image source={this.state.imageSource[0]} style={[styles.mainImage]} />
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
 							<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
-								<Animated.Image source={this.state.smallImage1Source} style={[styles.smallImage]} />
+								<Animated.Image source={this.state.imageSource[1]} style={[styles.smallImage]} />
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
 							<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
-								<Animated.Image source={this.state.smallImage2Source} style={[styles.smallImage]}/>
+								<Animated.Image source={this.state.imageSource[2]} style={[styles.smallImage]}/>
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
 							</Animated.View>
 							<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
-								<Animated.Image source={this.state.smallImage3Source} style={[styles.smallImage]}/>
+								<Animated.Image source={this.state.imageSource[3]} style={[styles.smallImage]}/>
 								<View style={styles.deleteImageView}>
 									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 								</View>
@@ -601,7 +761,7 @@ export default class EditProfileScreen extends Component {
 								underlineColorAndroid={'transparent'}
 								editable={true}
 								multiline={true}
-								onChangeText ={(text) => this.setState({profileBioText: text})}
+								onChangeText ={(text) => this.setState({profileBioText: text, changesMade: true})}
 								value={this.state.profileBioText}
 							/>
 						</View>
@@ -611,11 +771,11 @@ export default class EditProfileScreen extends Component {
 								style={styles.contactInfoText}
 								underlineColorAndroid={'transparent'}
 								editable={true}
-								onChangeText ={(text) => this.setState({contactInfoText: text})}
+								onChangeText ={(text) => this.setState({contactInfoText: text, changesMade: true})}
 								value= {this.state.contactInfoText}
 							/>
 						</View>
-                        <TouchableHighlight
+                        {/*<TouchableHighlight					--- Instagram button, unused
                             style={styles.connectInsta}
                             onPress={
                                 this._connectInsta
@@ -627,11 +787,11 @@ export default class EditProfileScreen extends Component {
                                     Connect Instagram
                                 </Text>
                             </View>
-                        </TouchableHighlight>
+                        </TouchableHighlight>*/}
 					</KeyboardAvoidingView>
 				</ScrollView>
 				<ImageBackground source={require('../assets/Pngs/bg.imageset/bg.png')} style={styles.header}>
-					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+					<TouchableOpacity onPress={()=> this._exit()}>
 						<View style={styles.backArrow}>
 							<Image source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} style={styles.backArrowImage} />
 						</View>
@@ -639,7 +799,7 @@ export default class EditProfileScreen extends Component {
 					<Text style={styles.title}>
 						Edit Profile
 					</Text>
-					<TouchableOpacity onPress={()=>this.props.navigation.navigate('ProfileSetting')}>
+					<TouchableOpacity onPress={()=> this._saveProfile()}>
 						<Text style={styles.save}>
 							Save
 						</Text>
@@ -698,7 +858,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		width: SCREEN_WIDTH,
 		height: SCREEN_HEIGHT * 0.07,
-		marginTop: SCREEN_HEIGHT * 0.04,
+		marginVertical: SCREEN_HEIGHT * 0.04, // change this to marginBottom if Instagram button is used
 		paddingLeft: SCREEN_WIDTH * 0.046,
 		paddingRight: SCREEN_WIDTH * 0.046,
 		justifyContent: 'center',
@@ -791,3 +951,16 @@ const styles = StyleSheet.create({
 		marginRight: SCREEN_WIDTH * 0.43,
 	},
 });
+
+const mapStateToProps = (state) => {
+	const { events } = state;
+	return { events }
+};
+
+const mapDispatchToProps = dispatch => (
+	bindActionCreators({
+    	saveProfileDetails,
+	}, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfileScreen);

@@ -63,29 +63,13 @@ export class EventCreationComponent extends React.Component {
         const datetime = this.DateTimeComponent.getDateTimeState();
 
         if (!this.state.title || this.state.title.length === 0) {
-            Alert.alert(
-                '',
-                'Please fill out event title!',
-                [{text: 'Ok'}]
-            )
+            this.props.openModal()
         } else if (this.state.location === 'Location'){
-            Alert.alert(
-                '',
-                'Please fill out event location!',
-                [{text: 'Ok'}]
-            )
+            this.props.openModal()
         } else if (!datetime || !datetime.startDate || !datetime.endDate || !datetime.startTime || !datetime.endTime) {
-            Alert.alert(
-                '',
-                'Please fill out event date and time!',
-                [{text: 'Ok'}]
-            )
+            this.props.openModal()
         } else if (!this.state.eventInfo || this.state.eventInfo.length <= 1){
-            Alert.alert(
-                '',
-                'Please fill out event description and tell us more about your event!',
-                [{text: 'Ok'}]
-            )
+            this.props.openModal()
         } else {
             Alert.alert(
                 '',
@@ -283,7 +267,7 @@ export class EventCreationComponent extends React.Component {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <Text style={{ fontSize: SCREEN_HEIGHT * (15 / 722), color: 'white', fontWeight: 'bold' }}
+                        <Text style={{ fontFamily: 'Roboto', fontSize: SCREEN_HEIGHT * (15 / 722), color: 'white', fontWeight: 'bold' }}
                             fontFamily='Roboto'>{this.props.buttonText}</Text>
                     </TouchableHighlight>
 
@@ -326,5 +310,6 @@ const mapDispatchToProps = dispatch => (
         createEvent,
     }, dispatch)
 );
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCreationComponent);
