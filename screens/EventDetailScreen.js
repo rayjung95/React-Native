@@ -254,7 +254,9 @@ export default class EventDetailsScreen extends Component {
                                     </View>
                                     <View style={styles.textDetailsContainer}>
                                         <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                            onPress={() => this.props.navigation.navigate('GuestsList', {
+                                                guests: this.state.eventGuests
+                                            })}>
                                             <View style={styles.eventDetailsClickableItem}>
 
                                                 <Text style={styles.eventDetailsText}>
