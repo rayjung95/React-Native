@@ -14,22 +14,33 @@ class UserCalendarScreen extends Component {
         header: null,
     };
 
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+
     renderEvents = () => {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
         return this.props.events.confirmedEvents.map((item, i) => {
             return (
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        event: item
+                        event: item['event'],
+                        eventConfirmed: true
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
-                        <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                        eventDescription={item.eventDescription}
-                                        eventDay={item.eventDay} eventTime={item.eventTime}
-                                        eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true}
+                        <EventComponent event={item['event']} eventConfirmed={true}
                                         isCurrentUserHost={item.isCurrentUserHost}/>
                     </View>
                 </TouchableOpacity>

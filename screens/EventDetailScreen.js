@@ -30,28 +30,45 @@ export default class EventDetailsScreen extends Component {
             eventAway: 2.5,
             eventAddress: '123 Main st',
             eventConfirmed: false,
-            isModalVisible: false
+            isModalVisible: false,
+            eventWebsite: 'No website'
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
         this.setState({
-            eventHostName: this.props.navigation.getParam('eventHostName'),
-            eventTitle: this.props.navigation.getParam('eventTitle'),
-            eventDescription: this.props.navigation.getParam('eventDescription'),
-            eventDay: this.props.navigation.getParam('eventDay'),
-            eventTime: this.props.navigation.getParam('eventTime'),
-            eventDate: this.props.navigation.getParam('eventDate'),
-            eventHostPhoto: this.props.navigation.getParam('eventHostPhoto'),
-            guestNums: this.props.navigation.getParam('guestNums'),
-            eventAddress: this.props.navigation.getParam('eventAddress'),
-            eventAway: this.props.navigation.getParam('eventAway'),
+            eventHostName: this.props.navigation.getParam('event')['owner']['first'],
+            eventTitle: this.props.navigation.getParam('event')['name'],
+            eventDescription: this.props.navigation.getParam('event')['detail'],
+            eventDay: dayNames[new Date(this.props.navigation.getParam('event')['start']).getDay()],
+            eventTime: this._formatAMPM(new Date(this.props.navigation.getParam('event')['start'])),
+            eventDate: monthNames[new Date(this.props.navigation.getParam('event')['start']).getMonth()] + ' ' +
+                new Date(this.props.navigation.getParam('event')['start']).getDate(),
+            eventHostPhoto: {uri: this.props.navigation.getParam('event')['owner']['photo1_url']},
+            guestNums: this.props.navigation.getParam('event')['guests'].length,
+            eventAddress: this.props.navigation.getParam('event')['location_name'],
+            eventAway: '2.5',
             eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
-            eventWebsite: this.props.navigation.getParam('eventWebsite'),
+            eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
         })
     }
+
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    };
 
     _handlePressSlack = () => {
         WebBrowser.openBrowserAsync('https://www.google.ca');

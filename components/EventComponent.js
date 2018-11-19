@@ -17,15 +17,15 @@ export default class EventComponent extends Component {
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
         this.state = {
-            eventHostName: props.event['event']['owner']['first'],
-            eventAddress: props.event['event']['location_name'],
-            eventTitle: props.event['event']['name'],
-            eventDescription: props.event['event']['detail'],
-            eventDay: dayNames[new Date(props.event['event']['start']).getDay()],
-            eventTime: this._formatAMPM(new Date(props.event['event']['start'])),
-            eventDate: monthNames[new Date(props.event['event']['start']).getMonth()] + ' ' + new Date(props.event['event']['start']).getDate(),
-            eventHostPhoto: {uri: props.event['event']['owner']['photo1_url']},
-            guestNums: props.event['event']['guests'].length,
+            eventHostName: props.event['owner']['first'],
+            eventAddress: props.event['location_name'],
+            eventTitle: props.event['name'],
+            eventDescription: props.event['detail'],
+            eventDay: dayNames[new Date(props.event['start']).getDay()],
+            eventTime: this._formatAMPM(new Date(props.event['start'])),
+            eventDate: monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
+            eventHostPhoto: {uri: props.event['owner']['photo1_url']},
+            guestNums: props.event['guests'].length,
             eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost

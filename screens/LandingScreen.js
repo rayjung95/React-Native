@@ -230,19 +230,10 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('EventDetails', {
-                            eventHostName: item['event']['owner']['first'],
-                            eventTitle: item['event']['name'],
-                            eventDescription: item['event']['detail'],
-                            eventDay: dayNames[new Date(item['event']['start']).getDay()],
-                            eventTime: this._formatAMPM(new Date(item['event']['start'])),
-                            eventDate: monthNames[new Date(item['event']['start']).getMonth()] + ' ' + new Date(item['event']['start']).getDate(),
-                            eventHostPhoto: {uri: item['event']['owner']['photo1_url']},
-                            guestNums: item['event']['guests'].length,
-                            eventAway: item.eventAway,
-                            eventAddress: item['event']['location_name'],
+                            event: item['event'],
                             eventConfirmed: false
                         })}>
-                            <EventComponent event={item} eventConfirmed={false} />
+                            <EventComponent event={item['event']} eventConfirmed={false}/>
                         </TouchableOpacity>
                     </Animated.View>
                 )
@@ -251,7 +242,7 @@ class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.cardContainer}>
-                        <EventComponent event={item} eventConfirmed={false} />
+                        <EventComponent event={item} eventConfirmed={false}/>
                     </Animated.View>
                 )
             }
