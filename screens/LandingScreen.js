@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     Animated,
     Easing,
@@ -6,14 +6,13 @@ import {
     ImageBackground,
     PanResponder,
     Platform,
+    StatusBar,
     StyleSheet,
+    Text,
     TouchableHighlight,
     TouchableOpacity,
     TouchableWithoutFeedback,
     View,
-    StatusBar,
-    Text,
-    Button,
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
@@ -22,8 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {confirmEvent} from "../actions/eventsActions";
-import {songKickEvent} from "../actions/eventsActions";
+import {confirmEvent, songKickEvent} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;

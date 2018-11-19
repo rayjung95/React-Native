@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
-	Alert,
-	Animated,
+    Alert,
+    Animated,
     Dimensions,
     Image,
     ImageBackground,
@@ -11,16 +11,15 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableHighlight,
     TouchableOpacity,
     View
 } from 'react-native';
 
 import update from 'immutability-helper';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { saveProfileDetails } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {saveProfileDetails} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;

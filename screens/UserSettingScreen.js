@@ -14,9 +14,9 @@ import {
 import Slider from 'react-native-slider';
 import WebBrowser from 'expo';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { saveSearchDistance } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {saveSearchDistance} from "../actions/eventsActions";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
