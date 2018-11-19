@@ -32,7 +32,8 @@ export default class EventDetailsScreen extends Component {
             eventConfirmed: false,
             isModalVisible: false,
             eventWebsite: 'No website',
-            eventGuests: []
+            eventGuests: [],
+            eventOwner: {}
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -45,20 +46,19 @@ export default class EventDetailsScreen extends Component {
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
         this.setState({
-            eventHostName: this.props.navigation.getParam('event')['owner']['first'],
             eventTitle: this.props.navigation.getParam('event')['name'],
             eventDescription: this.props.navigation.getParam('event')['detail'],
             eventDay: dayNames[new Date(this.props.navigation.getParam('event')['start']).getDay()],
             eventTime: this._formatAMPM(new Date(this.props.navigation.getParam('event')['start'])),
             eventDate: monthNames[new Date(this.props.navigation.getParam('event')['start']).getMonth()] + ' ' +
                 new Date(this.props.navigation.getParam('event')['start']).getDate(),
-            eventHostPhoto: {uri: this.props.navigation.getParam('event')['owner']['photo1_url']},
             guestNums: this.props.navigation.getParam('event')['guests'].length,
             eventAddress: this.props.navigation.getParam('event')['location_name'],
             eventAway: '2.5',
             eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
             eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
-            eventGuests: this.props.navigation.getParam('event')['guests']
+            eventGuests: this.props.navigation.getParam('event')['guests'],
+            eventOwner: this.props.navigation.getParam('event')['owner']
         })
     }
 
@@ -116,7 +116,8 @@ export default class EventDetailsScreen extends Component {
                         <View style={styles.profileContainer}>
                             <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
                                               onPress={() => this.props.navigation.navigate('Profile', {
-                                                  message: eventConfirmed
+                                                  message: eventConfirmed,
+                                                  profileInfo: this.state.eventOwner
                                               })}>
                                 <Image
                                     source={require('../assets/Icons/account.imageset/account.png')}
@@ -125,7 +126,7 @@ export default class EventDetailsScreen extends Component {
                             </TouchableOpacity>
 
                             <Image
-                                source={this.state.eventHostPhoto}
+                                source={{uri: this.state.eventOwner['photo1_url']}}
                                 style={styles.eventDetailsHostPic}
                             />
                             {eventConfirmed ?
@@ -142,7 +143,7 @@ export default class EventDetailsScreen extends Component {
 
                         </View>
                         <View style={styles.hostDetailsContainer}>
-                            <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
+                            <Text style={styles.eventDetailsHostName}> {this.state.eventOwner['first']} </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
                     </View>

@@ -24,12 +24,12 @@ export default class GuestsListScreen extends Component {
     }
 
     displayGuestsList = ({item}) => {
-        console.log(item['first']);
         return (
             <View style={{height: window.height / 8, flexDirection: 'column'}}>
                 <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', flex: 60}}
                                   onPress={() => this.props.navigation.navigate('Profile', {
-                                      message: false
+                                      message: false,
+                                      profileInfo: item
                                   })}
                 >
                     <View style={{flex: 2, alignItems: 'center'}}>
