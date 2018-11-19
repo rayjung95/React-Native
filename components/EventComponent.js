@@ -10,38 +10,38 @@ const PICTURES_PATH = "../assets/Pngs/";
 export default class EventComponent extends Component {
     constructor(props) {
         super(props);
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
         this.state = {
-            eventHostName: props.eventHostName,
-            eventTitle: props.eventTitle,
-            eventDescription: props.eventDescription,
-            eventDay: props.eventDay,
-            eventTime: props.eventTime,
-            eventDate: props.eventDate,
-            eventHostPhoto: props.eventHostPhoto,
-            guestNums: props.guestNums,
-            eventAway: props.eventAway,
+            eventHostName: props.event['owner']['first'],
+            eventAddress: props.event['location_name'],
+            eventTitle: props.event['name'],
+            eventDescription: props.event['detail'],
+            eventDay: dayNames[new Date(props.event['start']).getDay()],
+            eventTime: this._formatAMPM(new Date(props.event['start'])),
+            eventDate: monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
+            eventHostPhoto: {uri: props.event['owner']['photo1_url']},
+            guestNums: props.event['guests'].length,
+            eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost
         };
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            eventHostName: nextProps.eventHostName,
-            eventTitle: nextProps.eventTitle,
-            eventDescription: nextProps.eventDescription,
-            eventDay: nextProps.eventDay,
-            eventTime: nextProps.eventTime,
-            eventDate: nextProps.eventDate,
-            eventHostPhoto: nextProps.eventHostPhoto,
-            guestNums: nextProps.guestNums,
-            eventAddress: nextProps.eventAddress,
-            eventAway: nextProps.eventAway,
-            eventConfirmed: nextProps.eventConfirmed,
-            eventWebsite: nextProps.eventWebsite
-        });
-    }
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    };
 
     render() {
         return (
@@ -105,7 +105,7 @@ export default class EventComponent extends Component {
                                     resizeMode: 'contain'
                                 }}
                                        source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                12 Guests
+                                {' ' + this.state.guestNums + ' '} Guests
                             </Text>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{

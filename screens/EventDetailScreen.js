@@ -30,32 +30,52 @@ export default class EventDetailsScreen extends Component {
             eventAway: 2.5,
             eventAddress: '123 Main st',
             eventConfirmed: false,
-            isModalVisible: false
+            isModalVisible: false,
+            eventWebsite: 'No website',
+            eventGuests: [],
+            eventOwner: {},
+            groupChatRoomId: null
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
-        console.log(this.props.navigation.getParam('event'));
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
         this.setState({
-            eventHostName: this.props.navigation.getParam('event').eventHostName,
-            eventTitle: this.props.navigation.getParam('event').eventTitle,
-            eventDescription: this.props.navigation.getParam('event').eventDescription,
-            eventDay: this.props.navigation.getParam('event').eventDay,
-            eventTime: this.props.navigation.getParam('event').eventTime,
-            eventDate: this.props.navigation.getParam('event').eventDate,
-            eventHostPhoto: this.props.navigation.getParam('event').eventHostPhoto,
-            guestNums: this.props.navigation.getParam('event').guestNums,
-            eventAddress: this.props.navigation.getParam('event').eventAddress,
-            eventAway: this.props.navigation.getParam('event').eventAway,
-            eventConfirmed: this.props.navigation.getParam('event').eventConfirmed,
-            eventWebsite: this.props.navigation.getParam('event').eventWebsite,
+            eventTitle: this.props.navigation.getParam('event')['name'],
+            eventDescription: this.props.navigation.getParam('event')['detail'],
+            eventDay: dayNames[new Date(this.props.navigation.getParam('event')['start']).getDay()],
+            eventTime: this._formatAMPM(new Date(this.props.navigation.getParam('event')['start'])),
+            eventDate: monthNames[new Date(this.props.navigation.getParam('event')['start']).getMonth()] + ' ' +
+                new Date(this.props.navigation.getParam('event')['start']).getDate(),
+            guestNums: this.props.navigation.getParam('event')['guests'].length,
+            eventAddress: this.props.navigation.getParam('event')['location_name'],
+            eventAway: '2.5',
+            eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
+            eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
+            eventGuests: this.props.navigation.getParam('event')['guests'],
+            eventOwner: this.props.navigation.getParam('event')['owner'],
+            groupChatRoomId: this.props.navigation.getParam('event')['group_chat_room_id']
         })
     }
 
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    };
+
     _handlePressSlack = () => {
-        WebBrowser.openBrowserAsync('https://www.google.ca');
+        WebBrowser.openBrowserAsync(this.state.eventWebsite);
     };
 
     toggleModal() {
@@ -64,8 +84,22 @@ export default class EventDetailsScreen extends Component {
         })
     }
 
+    renderGuests = () => {
+        return this.state.eventGuests.slice(0, 4).map((item, i) => {
+            return (
+                <View key={i} style={styles.guestPicThumbnailContainer}>
+                    <Image
+                        source={{uri: item['photo1_url']}}
+                        style={styles.guestPicThumbnail}
+                    />
+                    <Text style={styles.guestName}> {item['first']} </Text>
+                </View>
+            )
+        })
+    }
+
     render() {
-        const eventConfirmed = this.props.navigation.getParam('event').eventConfirmed;
+        const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <StatusBar hidden/>
@@ -84,7 +118,8 @@ export default class EventDetailsScreen extends Component {
                         <View style={styles.profileContainer}>
                             <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
                                               onPress={() => this.props.navigation.navigate('Profile', {
-                                                  message: eventConfirmed
+                                                  message: eventConfirmed,
+                                                  profileInfo: this.state.eventOwner
                                               })}>
                                 <Image
                                     source={require('../assets/Icons/account.imageset/account.png')}
@@ -93,13 +128,15 @@ export default class EventDetailsScreen extends Component {
                             </TouchableOpacity>
 
                             <Image
-                                source={this.state.eventHostPhoto}
+                                source={{uri: this.state.eventOwner['photo1_url']}}
                                 style={styles.eventDetailsHostPic}
                             />
                             {eventConfirmed ?
                                 <TouchableOpacity
                                     style={{marginLeft: -40, zIndex: 1, width: 39}}
-                                    onPress={() => this.props.navigation.navigate('ChatRoom')}>
+                                    onPress={() => this.props.navigation.navigate('ChatRoom', {
+                                        groupChatRoomId: this.state.groupChatRoomId
+                                    })}>
                                     <Image
                                         source={require('../assets/Icons/chatting.imageset/chatting.png')}
                                         style={{zIndex: 1}}
@@ -110,7 +147,7 @@ export default class EventDetailsScreen extends Component {
 
                         </View>
                         <View style={styles.hostDetailsContainer}>
-                            <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
+                            <Text style={styles.eventDetailsHostName}> {this.state.eventOwner['first']} </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
                     </View>
@@ -222,7 +259,9 @@ export default class EventDetailsScreen extends Component {
                                     </View>
                                     <View style={styles.textDetailsContainer}>
                                         <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('GuestsList')}>
+                                            onPress={() => this.props.navigation.navigate('GuestsList', {
+                                                guests: this.state.eventGuests
+                                            })}>
                                             <View style={styles.eventDetailsClickableItem}>
 
                                                 <Text style={styles.eventDetailsText}>
@@ -236,34 +275,7 @@ export default class EventDetailsScreen extends Component {
                                         </TouchableOpacity>
 
                                         <View style={styles.guestPicsContainer}>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Eric </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Flora </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Keith </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Ryan </Text>
-                                            </View>
+                                            {this.renderGuests()}
                                         </View>
                                         <View style={styles.divider}/>
                                     </View>
@@ -412,7 +424,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     guestPicThumbnail: {
-        width: '100%',
+        width: '90%',
         height: SCREEN_HEIGHT * 0.099375,
         borderRadius: 4,
         marginTop: 24,

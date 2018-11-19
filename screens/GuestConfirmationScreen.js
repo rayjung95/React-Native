@@ -1,26 +1,25 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
-  Animated,
-  Easing,
-  Image,
-  ImageBackground,
-  PanResponder,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  TouchableHighlight
+    Animated,
+    Dimensions,
+    Easing,
+    FlatList,
+    Image,
+    ImageBackground,
+    PanResponder,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
 } from 'react-native';
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Swiper from 'react-native-swiper';
-import ProfileScreen from './ProfileScreen';
 import Modal from 'react-native-modalbox';
 
 const SCREEN_HEIGHT = Layout.window.height;

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Text, Image, View, StyleSheet, StatusBar, Dimensions, TouchableOpacity, Platform } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import React, {Component} from 'react';
+import {Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 // import MapViewComponent from './components/MapViewComponent';
-import MapView, { Circle, Marker } from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 // import Permissions from 'react-native-permissions';
-import { Constants, Location, Permissions } from 'expo';
+import {Constants, Location, Permissions} from 'expo';
 
 import Layout from "../constants/Layout";
 
