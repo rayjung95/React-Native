@@ -33,7 +33,8 @@ export default class EventDetailsScreen extends Component {
             isModalVisible: false,
             eventWebsite: 'No website',
             eventGuests: [],
-            eventOwner: {}
+            eventOwner: {},
+            groupChatRoomId: null
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -58,7 +59,8 @@ export default class EventDetailsScreen extends Component {
             eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
             eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
             eventGuests: this.props.navigation.getParam('event')['guests'],
-            eventOwner: this.props.navigation.getParam('event')['owner']
+            eventOwner: this.props.navigation.getParam('event')['owner'],
+            groupChatRoomId: this.props.navigation.getParam('event')['group_chat_room_id']
         })
     }
 
@@ -132,7 +134,9 @@ export default class EventDetailsScreen extends Component {
                             {eventConfirmed ?
                                 <TouchableOpacity
                                     style={{marginLeft: -40, zIndex: 1, width: 39}}
-                                    onPress={() => this.props.navigation.navigate('ChatRoom')}>
+                                    onPress={() => this.props.navigation.navigate('ChatRoom', {
+                                        groupChatRoomId: this.state.groupChatRoomId
+                                    })}>
                                     <Image
                                         source={require('../assets/Icons/chatting.imageset/chatting.png')}
                                         style={{zIndex: 1}}
