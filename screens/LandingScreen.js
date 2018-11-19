@@ -260,6 +260,7 @@ class LandingScreen extends Component {
     }
 
     renderImage = () => {
+        // console.log(this.state.songKickEvents[0]);
         return this.props.events.availableEvents.map((item, i) => {
             if (i < this.state.imageIndex) {
                 return null
@@ -285,7 +286,7 @@ class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.cardContainer}>
-                        <EventComponent event={item} eventConfirmed={false}/>
+                        <EventComponent event={item['event']} eventConfirmed={false}/>
                     </Animated.View>
                 )
             }

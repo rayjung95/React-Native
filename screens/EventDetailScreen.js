@@ -31,7 +31,8 @@ export default class EventDetailsScreen extends Component {
             eventAddress: '123 Main st',
             eventConfirmed: false,
             isModalVisible: false,
-            eventWebsite: 'No website'
+            eventWebsite: 'No website',
+            eventGuests: []
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -57,6 +58,7 @@ export default class EventDetailsScreen extends Component {
             eventAway: '2.5',
             eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
             eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
+            eventGuests: this.props.navigation.getParam('event')['guests']
         })
     }
 
@@ -71,12 +73,26 @@ export default class EventDetailsScreen extends Component {
     };
 
     _handlePressSlack = () => {
-        WebBrowser.openBrowserAsync('https://www.google.ca');
+        WebBrowser.openBrowserAsync(this.state.eventWebsite);
     };
 
     toggleModal() {
         this.setState({
             isModalVisible: !this.state.isModalVisible
+        })
+    }
+
+    renderGuests = () => {
+        return this.state.eventGuests.slice(0, 4).map((item, i) => {
+            return (
+                <View key={i} style={styles.guestPicThumbnailContainer}>
+                    <Image
+                        source={{uri: item['photo1_url']}}
+                        style={styles.guestPicThumbnail}
+                    />
+                    <Text style={styles.guestName}> {item['first']} </Text>
+                </View>
+            )
         })
     }
 
@@ -252,34 +268,7 @@ export default class EventDetailsScreen extends Component {
                                         </TouchableOpacity>
 
                                         <View style={styles.guestPicsContainer}>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Eric </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Flora </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Keith </Text>
-                                            </View>
-                                            <View style={styles.guestPicThumbnailContainer}>
-                                                <Image
-                                                    source={require('../assets/Pngs/userbigphoto.imageset/userbigphoto.png')}
-                                                    style={styles.guestPicThumbnail}
-                                                />
-                                                <Text style={styles.guestName}> Ryan </Text>
-                                            </View>
+                                            {this.renderGuests()}
                                         </View>
                                         <View style={styles.divider}/>
                                     </View>
@@ -428,7 +417,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     guestPicThumbnail: {
-        width: '100%',
+        width: '90%',
         height: SCREEN_HEIGHT * 0.099375,
         borderRadius: 4,
         marginTop: 24,
