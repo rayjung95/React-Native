@@ -16,7 +16,7 @@ import WebBrowser from 'expo';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {saveSearchDistance} from "../actions/eventsActions";
+import {saveSearchDistance} from "../actions/userActions";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -26,9 +26,9 @@ class UserSettingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			profileImageSource: this.props.events.currentUser.photo1_url,
-			distance: this.props.events.currentUser.search_distance_km,
-			name: this.props.events.currentUser.first,
+			profileImageSource: this.props.user.currentUser.photo1_url,
+			distance: this.props.user.currentUser.search_distance_km,
+			name: this.props.user.currentUser.first,
 			min: this.props.min,
 			max: this.props.max,
 			step: this.props.step,
@@ -38,7 +38,7 @@ class UserSettingScreen extends Component {
 		this.willFocus = this.props.navigation.addListener(
 			'willFocus',
 			() => {
-				this.setState({profileImageSource: this.props.events.currentUser.photo1_url});
+				this.setState({profileImageSource: this.props.user.currentUser.photo1_url});
 			}
 		);
 	}
@@ -417,8 +417,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-	const { events } = state;
-	return { events }
+	const { user } = state;
+	return { user }
 };
 
 const mapDispatchToProps = dispatch => (
