@@ -10,21 +10,38 @@ const PICTURES_PATH = "../assets/Pngs/";
 export default class EventComponent extends Component {
     constructor(props) {
         super(props);
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
         this.state = {
-            eventHostName: props.eventHostName,
-            eventTitle: props.eventTitle,
-            eventDescription: props.eventDescription,
-            eventDay: props.eventDay,
-            eventTime: props.eventTime,
-            eventDate: props.eventDate,
-            eventHostPhoto: props.eventHostPhoto,
-            guestNums: props.guestNums,
-            eventAway: props.eventAway,
+            eventHostName: props.event['event']['owner']['first'],
+            eventAddress: props.event['event']['location_name'],
+            eventTitle: props.event['event']['name'],
+            eventDescription: props.event['event']['detail'],
+            eventDay: dayNames[new Date(props.event['event']['start']).getDay()],
+            eventTime: this._formatAMPM(new Date(props.event['event']['start'])),
+            eventDate: monthNames[new Date(props.event['event']['start']).getMonth()] + ' ' + new Date(props.event['event']['start']).getDate(),
+            eventHostPhoto: {uri: props.event['event']['owner']['photo1_url']},
+            guestNums: props.event['event']['guests'].length,
+            eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost
         };
 
     }
+
+    _formatAMPM = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    };
 
     render() {
         return (

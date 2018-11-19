@@ -216,21 +216,8 @@ class LandingScreen extends Component {
         })
     }
 
-    _formatAMPM = (date) => {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        return hours + ':' + minutes + ' ' + ampm;
-    }
-
     renderImage = () => {
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+
 
         return this.props.events.availableEvents.map((item, i) => {
             if (i < this.state.imageIndex) {
@@ -255,16 +242,7 @@ class LandingScreen extends Component {
                             eventAddress: item['event']['location_name'],
                             eventConfirmed: false
                         })}>
-                            <EventComponent eventHostName={item['event']['owner']['first']}
-                                            eventTitle={item['event']['name']}
-                                            eventDescription={item['event']['detail']}
-                                            eventDay={dayNames[new Date(item['event']['start']).getDay()]}
-                                            eventTime={this._formatAMPM(new Date(item['event']['start']))}
-                                            eventDate={monthNames[new Date(item['event']['start']).getMonth()] + ' ' + new Date(item['event']['start']).getDate()}
-                                            eventHostPhoto={{uri: item['event']['owner']['photo1_url']}}
-                                            guestNums={item['event']['guests'].length} eventAway={item.eventAway}
-                                            eventAddress={item['event']['location_name']} eventConfirmed={false}
-                            />
+                            <EventComponent event={item} eventConfirmed={false} />
                         </TouchableOpacity>
                     </Animated.View>
                 )
@@ -273,14 +251,7 @@ class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.cardContainer}>
-                        <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                        eventDescriptions={item.eventDescription}
-                                        eventDay={item.eventDay} eventTime={item.eventTime}
-                                        eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                                        guestNums={item.guestNums} eventAway={item.eventAway}
-                                        eventAddress={item.eventAddress}
-                                        eventConfirmed={false}
-                        />
+                        <EventComponent event={item} eventConfirmed={false} />
                     </Animated.View>
                 )
             }
