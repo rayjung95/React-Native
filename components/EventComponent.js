@@ -23,7 +23,7 @@ export default class EventComponent extends Component {
             eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
             eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] +' ' + props.event['start']['date'].split('-')[2]
                 : monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
-            eventHostPhoto: props.isSongkick ? require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png') : {uri: props.event['owner']['photo1_url']},
+            eventHostPhoto: props.isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + props.event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: props.event['owner']['photo1_url']},
             guestNums: props.isSongkick ? 0 :props.event['guests'].length,
             eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
