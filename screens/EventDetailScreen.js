@@ -17,52 +17,49 @@ export default class EventDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            eventHostName: 'Joseph',
-            eventTitle: 'POOL PARTY',
-            eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-                'Come visit us again soon and let us know how it goes.',
-            eventDay: 'WED',
-            eventTime: '7:00 PM',
-            eventDate: 'SEPTEMBER 23',
-            eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-            guestNums: 12,
-            eventAway: 2.5,
-            eventAddress: '123 Main st',
-            eventConfirmed: false,
-            isModalVisible: false,
-            eventWebsite: 'No website',
-            eventGuests: [],
-            eventOwner: {},
-            groupChatRoomId: null
-        };
-
-        this.toggleModal = this.toggleModal.bind(this);
-    }
-
-    componentDidMount() {
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
-        this.setState({
-            eventTitle: this.props.navigation.getParam('event')['name'],
-            eventDescription: this.props.navigation.getParam('event')['detail'],
-            eventDay: dayNames[new Date(this.props.navigation.getParam('event')['start']).getDay()],
-            eventTime: this._formatAMPM(new Date(this.props.navigation.getParam('event')['start'])),
-            eventDate: monthNames[new Date(this.props.navigation.getParam('event')['start']).getMonth()] + ' ' +
-                new Date(this.props.navigation.getParam('event')['start']).getDate(),
-            guestNums: this.props.navigation.getParam('event')['guests'].length,
-            eventAddress: this.props.navigation.getParam('event')['location_name'],
-            eventAway: '2.5',
-            eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
-            eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
-            eventGuests: this.props.navigation.getParam('event')['guests'],
-            eventOwner: this.props.navigation.getParam('event')['owner'],
-            groupChatRoomId: this.props.navigation.getParam('event')['group_chat_room_id']
-        })
+        const event = this.props.navigation.getParam('event');
+        const isSongkick = this.props.navigation.getParam('isSongkick');
+
+        this.state = {
+            eventHostName: isSongkick ? event['performance'][0]['artist']['displayName']: event['owner']['first'],
+            eventDescription: isSongkick ? event['displayName'] : event['detail'],
+            eventTitle: isSongkick ? event['displayName'] : event['name'],
+            eventDay:  isSongkick ? dayNames[new Date(event['start']['date']).getDay()] : dayNames[new Date(event['start']).getDay()],
+            eventTime: isSongkick ? this._formatTimeforSongKick(event['start']['time']) : this._formatAMPM(new Date(event['start'])),
+            eventDate: isSongkick ? monthNames[event['start']['date'].split('-')[1] - 1] +' ' + event['start']['date'].split('-')[2]
+                : monthNames[new Date(event['start']).getMonth()] + ' ' + new Date(event['start']).getDate(),
+            eventHostPhoto: isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + event['performance'][0]['artist']['id'] + '/huge_avatar'}  : {uri: event['owner']['photo1_url']},
+            guestNums: isSongkick ? 0 :event['guests'].length,
+            eventAway: '2.5 km',
+            eventAddress: isSongkick ? event['venue']['displayName'] : event['location_name'],
+            eventWebsite: isSongkick ? event['uri'] : event['website'] ? event['website'] : 'No website',
+            eventGuests: isSongkick ? [] : event['guests'],
+            eventOwner: isSongkick ? {} : event['owner'],
+            groupChatRoomId: isSongkick ? 0 : event['group_chat_room_id'],
+            isModalVisible: false
+        };
+        console.log(this.state);
+
+
+        this.toggleModal = this.toggleModal.bind(this);
     }
+
+    _formatTimeforSongKick = (time) => {
+        if (time) {
+            let timeArr = time.split(':');
+            if (timeArr[0] > 12) {
+                let hour = timeArr[0] - 12;
+                return hour + ':' + timeArr[1] + ' PM';
+            } else {
+                return timeArr[0] + ':' + timeArr[1] + ' AM'
+            }
+        }
+    };
 
     _formatAMPM = (date) => {
         var hours = date.getHours();
@@ -128,7 +125,7 @@ export default class EventDetailsScreen extends Component {
                             </TouchableOpacity>
 
                             <Image
-                                source={{uri: this.state.eventOwner['photo1_url']}}
+                                source={this.state.eventHostPhoto}
                                 style={styles.eventDetailsHostPic}
                             />
                             {eventConfirmed ?
@@ -147,7 +144,7 @@ export default class EventDetailsScreen extends Component {
 
                         </View>
                         <View style={styles.hostDetailsContainer}>
-                            <Text style={styles.eventDetailsHostName}> {this.state.eventOwner['first']} </Text>
+                            <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
                     </View>

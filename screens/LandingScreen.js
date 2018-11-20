@@ -264,7 +264,7 @@ class LandingScreen extends Component {
     }
 
     renderImage = () => {
-        return this.props.events.availableEvents.concat(this.props.events.songKickEvents).map((item, i) => {
+        return this.props.events.availableEvents.map((item, i) => {
             let isSongkick = 'performance' in item;
             let actualItem = isSongkick ? item : item['event'];
             if (i < this.state.imageIndex) {

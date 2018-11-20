@@ -191,7 +191,6 @@ const eventStates = {
             }
         ]
     }],
-    songKickEvents: [],
     confirmedEvents: []
 };
 
@@ -213,7 +212,7 @@ export const eventsReducer = (state = eventStates, action) => {
             return state;
 
         case 'SONGKICK_EVENT':
-            songKickEvents.push(action.payload);
+            availableEvents.push(action.payload);
             return state;
 
         case 'CREATE_EVENT':
