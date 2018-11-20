@@ -17,52 +17,48 @@ export default class EventDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            eventHostName: 'Joseph',
-            eventTitle: 'POOL PARTY',
-            eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-                'Come visit us again soon and let us know how it goes.',
-            eventDay: 'WED',
-            eventTime: '7:00 PM',
-            eventDate: 'SEPTEMBER 23',
-            eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-            guestNums: 12,
-            eventAway: 2.5,
-            eventAddress: '123 Main st',
-            eventConfirmed: false,
-            isModalVisible: false,
-            eventWebsite: 'No website',
-            eventGuests: [],
-            eventOwner: {},
-            groupChatRoomId: null
-        };
-
-        this.toggleModal = this.toggleModal.bind(this);
-    }
-
-    componentDidMount() {
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
-        this.setState({
-            eventTitle: this.props.navigation.getParam('event')['name'],
-            eventDescription: this.props.navigation.getParam('event')['detail'],
-            eventDay: dayNames[new Date(this.props.navigation.getParam('event')['start']).getDay()],
-            eventTime: this._formatAMPM(new Date(this.props.navigation.getParam('event')['start'])),
-            eventDate: monthNames[new Date(this.props.navigation.getParam('event')['start']).getMonth()] + ' ' +
-                new Date(this.props.navigation.getParam('event')['start']).getDate(),
-            guestNums: this.props.navigation.getParam('event')['guests'].length,
-            eventAddress: this.props.navigation.getParam('event')['location_name'],
-            eventAway: '2.5',
-            eventConfirmed: this.props.navigation.getParam('eventConfirmed'),
-            eventWebsite: this.props.navigation.getParam('event')['website'] ? this.props.navigation.getParam('event')['website'] : 'No website',
-            eventGuests: this.props.navigation.getParam('event')['guests'],
-            eventOwner: this.props.navigation.getParam('event')['owner'],
-            groupChatRoomId: this.props.navigation.getParam('event')['group_chat_room_id']
-        })
+        const event = this.props.navigation.getParam('event');
+        const isSongkick = this.props.navigation.getParam('isSongkick');
+
+        this.state = {
+            isSongkick: isSongkick,
+            eventHostName: isSongkick ? event['performance'][0]['artist']['displayName'] : event['owner']['first'],
+            eventDescription: isSongkick ? event['displayName'] : event['detail'],
+            eventTitle: isSongkick ? event['displayName'] : event['name'],
+            eventDay: isSongkick ? dayNames[new Date(event['start']['date']).getDay()] : dayNames[new Date(event['start']).getDay()],
+            eventTime: isSongkick ? this._formatTimeforSongKick(event['start']['time']) : this._formatAMPM(new Date(event['start'])),
+            eventDate: isSongkick ? monthNames[event['start']['date'].split('-')[1] - 1] + ' ' + event['start']['date'].split('-')[2]
+                : monthNames[new Date(event['start']).getMonth()] + ' ' + new Date(event['start']).getDate(),
+            eventHostPhoto: isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: event['owner']['photo1_url']},
+            guestNums: isSongkick ? 0 : event['guests'].length,
+            eventAway: '2.5 km',
+            eventAddress: isSongkick ? event['venue']['displayName'] : event['location_name'],
+            eventWebsite: isSongkick ? event['uri'] : event['website'] ? event['website'] : 'No website',
+            eventGuests: isSongkick ? [] : event['guests'],
+            eventOwner: isSongkick ? {} : event['owner'],
+            groupChatRoomId: isSongkick ? 0 : event['group_chat_room_id'],
+            isModalVisible: false
+        };
+
+        this.toggleModal = this.toggleModal.bind(this);
     }
+
+    _formatTimeforSongKick = (time) => {
+        if (time) {
+            let timeArr = time.split(':');
+            if (timeArr[0] > 12) {
+                let hour = timeArr[0] - 12;
+                return hour + ':' + timeArr[1] + ' PM';
+            } else {
+                return timeArr[0] + ':' + timeArr[1] + ' AM'
+            }
+        }
+    };
 
     _formatAMPM = (date) => {
         var hours = date.getHours();
@@ -75,7 +71,9 @@ export default class EventDetailsScreen extends Component {
     };
 
     _handlePressSlack = () => {
-        WebBrowser.openBrowserAsync(this.state.eventWebsite);
+        if (this.state.eventWebsite !== 'No website') {
+            WebBrowser.openBrowserAsync(this.state.eventWebsite);
+        }
     };
 
     toggleModal() {
@@ -116,22 +114,25 @@ export default class EventDetailsScreen extends Component {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profileContainer}>
-                            <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
-                                              onPress={() => this.props.navigation.navigate('Profile', {
-                                                  message: eventConfirmed,
-                                                  profileInfo: this.state.eventOwner
-                                              })}>
-                                <Image
-                                    source={require('../assets/Icons/account.imageset/account.png')}
-                                    style={{zIndex: 1}}
-                                />
-                            </TouchableOpacity>
+                            {!this.state.isSongkick ?
+                                <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
+                                                  onPress={() => this.props.navigation.navigate('Profile', {
+                                                      message: eventConfirmed,
+                                                      profileInfo: this.state.eventOwner
+                                                  })}>
+                                    <Image
+                                        source={require('../assets/Icons/account.imageset/account.png')}
+                                        style={{zIndex: 1}}
+                                    />
+                                </TouchableOpacity>
+                                : <View/>}
+
 
                             <Image
-                                source={{uri: this.state.eventOwner['photo1_url']}}
+                                source={this.state.eventHostPhoto}
                                 style={styles.eventDetailsHostPic}
                             />
-                            {eventConfirmed ?
+                            {eventConfirmed && !this.state.isSongkick ?
                                 <TouchableOpacity
                                     style={{marginLeft: -40, zIndex: 1, width: 39}}
                                     onPress={() => this.props.navigation.navigate('ChatRoom', {
@@ -147,7 +148,7 @@ export default class EventDetailsScreen extends Component {
 
                         </View>
                         <View style={styles.hostDetailsContainer}>
-                            <Text style={styles.eventDetailsHostName}> {this.state.eventOwner['first']} </Text>
+                            <Text style={styles.eventDetailsHostName}> {this.state.eventHostName} </Text>
                             <Text style={styles.eventDetailsHostName2}> Host </Text>
                         </View>
                     </View>
@@ -199,38 +200,39 @@ export default class EventDetailsScreen extends Component {
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>
-                                <View style={styles.eventDetailsItemContainer}>
-                                    <View style={styles.eventDetailIcons}>
-                                        <Image
-                                            source={require('../assets/Icons/group_chat.imageset/gc2.png')}
-                                            style={{width: 20, height: 20}}
-                                        />
-                                    </View>
-                                    <View style={styles.textDetailsContainer}>
-                                        <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('ChatRoom')}>
-                                            <View style={styles.eventDetailsClickableItem}>
-                                                <Text style={styles.eventDetailsText}>
-                                                    Group Chat
-                                                </Text>
+                                {!this.state.isSongkick ?
+                                    <View style={styles.eventDetailsItemContainer}>
+                                        <View style={styles.eventDetailIcons}>
+                                            <Image
+                                                source={require('../assets/Icons/group_chat.imageset/gc2.png')}
+                                                style={{width: 20, height: 20}}
+                                            />
+                                        </View>
+                                        <View style={styles.textDetailsContainer}>
+                                            <TouchableOpacity
+                                                onPress={() => this.props.navigation.navigate('ChatRoom')}>
+                                                <View style={styles.eventDetailsClickableItem}>
+                                                    <Text style={styles.eventDetailsText}>
+                                                        Group Chat
+                                                    </Text>
 
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    flex: 1,
-                                                    justifyContent: 'flex-end',
-                                                    alignItems: 'center'
-                                                }}>
-                                                    <View style={styles.msgAlert}>
-                                                        <Text style={styles.alertNum}> 2 </Text>
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                        flex: 1,
+                                                        justifyContent: 'flex-end',
+                                                        alignItems: 'center'
+                                                    }}>
+                                                        <View style={styles.msgAlert}>
+                                                            <Text style={styles.alertNum}> 2 </Text>
+                                                        </View>
+                                                        <Image
+                                                            source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                                     </View>
-                                                    <Image
-                                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
                                                 </View>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <View style={styles.divider}/>
-                                    </View>
-                                </View>
+                                            </TouchableOpacity>
+                                            <View style={styles.divider}/>
+                                        </View>
+                                    </View> : <View/>}
                                 <View style={styles.eventDetailsItemContainer}>
                                     <View style={styles.eventDetailIcons}>
                                         <Image
@@ -251,35 +253,36 @@ export default class EventDetailsScreen extends Component {
                                         <View style={styles.divider}/>
                                     </View>
                                 </View>
-                                <View style={styles.eventDetailsItemContainer}>
-                                    <View style={styles.eventDetailIcons}>
-                                        <Image
-                                            source={require('../assets/Icons/event_host.imageset/event_host.png')}
-                                        />
-                                    </View>
-                                    <View style={styles.textDetailsContainer}>
-                                        <TouchableOpacity
-                                            onPress={() => this.props.navigation.navigate('GuestsList', {
-                                                guests: this.state.eventGuests
-                                            })}>
-                                            <View style={styles.eventDetailsClickableItem}>
-
-                                                <Text style={styles.eventDetailsText}>
-                                                    Confirmed Guests
-                                                </Text>
-
-                                                <Image
-                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <View style={styles.guestPicsContainer}>
-                                            {this.renderGuests()}
+                                {!this.state.isSongkick ?
+                                    <View style={styles.eventDetailsItemContainer}>
+                                        <View style={styles.eventDetailIcons}>
+                                            <Image
+                                                source={require('../assets/Icons/event_host.imageset/event_host.png')}
+                                            />
                                         </View>
-                                        <View style={styles.divider}/>
-                                    </View>
-                                </View>
+                                        <View style={styles.textDetailsContainer}>
+                                            <TouchableOpacity
+                                                onPress={() => this.props.navigation.navigate('GuestsList', {
+                                                    guests: this.state.eventGuests
+                                                })}>
+                                                <View style={styles.eventDetailsClickableItem}>
+
+                                                    <Text style={styles.eventDetailsText}>
+                                                        Confirmed Guests
+                                                    </Text>
+
+                                                    <Image
+                                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <View style={styles.guestPicsContainer}>
+                                                {this.renderGuests()}
+                                            </View>
+                                            <View style={styles.divider}/>
+                                        </View>
+                                    </View> : <View/>}
                                 <View style={styles.eventDetailsItemContainer}>
                                     <View style={styles.eventDetailIcons}>
                                         <Image
@@ -302,7 +305,7 @@ export default class EventDetailsScreen extends Component {
                                 </View>
                             </View>
                             :
-                            <EventDetailsHiddenItemsComponent/>
+                            <EventDetailsHiddenItemsComponent isSongkick={this.state.isSongkick} website={this.state.eventWebsite}/>
                         }
                         <ReportEventComponent isModalVisible={this.state.isModalVisible}/>
                     </View>

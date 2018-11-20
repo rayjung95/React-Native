@@ -264,7 +264,7 @@ class LandingScreen extends Component {
     }
 
     renderImage = () => {
-        return this.props.events.availableEvents.concat(this.props.events.songKickEvents).map((item, i) => {
+        return this.props.events.availableEvents.map((item, i) => {
             let isSongkick = 'performance' in item;
             let actualItem = isSongkick ? item : item['event'];
             if (i < this.state.imageIndex) {
@@ -277,8 +277,9 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-                            event: item['event'],
-                            eventConfirmed: false
+                            event: actualItem,
+                            eventConfirmed: false,
+                            isSongkick: isSongkick
                         })}>
                             <View style={{width: '100%', height: '100%'}}>
                                 <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>

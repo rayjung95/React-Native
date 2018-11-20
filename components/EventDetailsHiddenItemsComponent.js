@@ -10,24 +10,38 @@ export default class EventDetailsHiddenItemsComponent extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            location: {
-                icon: require('../assets/Icons/event_away_lock.imageset/event_away_lock.png'),
-                value: 'Address is locked till approved by host'
-            },
-            groupChat: {
-                icon: require('../assets/Icons/group_chat_lock/icon_2.png'),
-                value: 'Group chat is locked till approved by host'
-            },
-            website: {
-                icon: require('../assets/Icons/event_website_lock/icon_3.png'),
-                value: 'Website info is locked till approved by host'
-            },
-            guestsInfo: {
-                icon: require('../assets/Icons/event_host_lock.imageset/event_host_lock.png'),
-                value: 'Guests info is locked till approved by host'
+        if (props.isSongkick) {
+            this.state = {
+                website: {
+                    icon: require('../assets/Icons/event_website_lock/icon_3.png'),
+                    value: props.website
+                },
+                location: {
+                    icon: require('../assets/Icons/event_away_lock.imageset/event_away_lock.png'),
+                    value: 'Address is locked till approved by host'
+                },
+            }
+        } else {
+            this.state = {
+                location: {
+                    icon: require('../assets/Icons/event_away_lock.imageset/event_away_lock.png'),
+                    value: 'Address is locked till approved by host'
+                },
+                groupChat: {
+                    icon: require('../assets/Icons/group_chat_lock/icon_2.png'),
+                    value: 'Group chat is locked till approved by host'
+                },
+                website: {
+                    icon: require('../assets/Icons/event_website_lock/icon_3.png'),
+                    value: 'Website info is locked till approved by host'
+                },
+                guestsInfo: {
+                    icon: require('../assets/Icons/event_host_lock.imageset/event_host_lock.png'),
+                    value: 'Guests info is locked till approved by host'
+                }
             }
         }
+
 
     }
 
@@ -47,7 +61,8 @@ export default class EventDetailsHiddenItemsComponent extends Component {
                 </View>
             )
         })
-    };
+    }
+
 
     render() {
         return (
@@ -56,8 +71,8 @@ export default class EventDetailsHiddenItemsComponent extends Component {
             </View>
         )
     }
-}
 
+};
 const styles = StyleSheet.create({
     eventDetailsItemContainer: {
         width: SCREEN_WIDTH,
