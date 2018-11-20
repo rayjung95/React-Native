@@ -72,7 +72,9 @@ export default class EventDetailsScreen extends Component {
     };
 
     _handlePressSlack = () => {
-        WebBrowser.openBrowserAsync(this.state.eventWebsite);
+        if (this.state.eventWebsite !== 'No website') {
+            WebBrowser.openBrowserAsync(this.state.eventWebsite);
+        }
     };
 
     toggleModal() {
