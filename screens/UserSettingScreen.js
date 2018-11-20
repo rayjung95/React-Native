@@ -17,6 +17,7 @@ import WebBrowser from 'expo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {saveSearchDistance} from "../actions/userActions";
+import {logoutUser} from "../actions/userActions";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -74,7 +75,13 @@ class UserSettingScreen extends Component {
             'Log out of Rendevous?',
             [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
-                {text: 'Log Out', onPress: () => this.props.navigation.navigate('Login')},
+                {text: 'Log Out', onPress: () => {
+					// clear fb token and state, then redirect to login screen
+					this.props.logoutUser();
+					if (this.props.user.currentUser.isLoggedIn == false) {
+						this.props.navigation.navigate('Login');
+					}
+				}}
             ],
             {cancelable: false}
         )
@@ -423,7 +430,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => (
 	bindActionCreators({
-    	saveSearchDistance,
+		saveSearchDistance,
+		logoutUser,
 	}, dispatch)
 );
 
