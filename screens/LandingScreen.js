@@ -277,8 +277,9 @@ class LandingScreen extends Component {
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
                         <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-                            event: item['event'],
-                            eventConfirmed: false
+                            event: actualItem,
+                            eventConfirmed: false,
+                            isSongkick: isSongkick
                         })}>
                             <View style={{width: '100%', height: '100%'}}>
                                 <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>

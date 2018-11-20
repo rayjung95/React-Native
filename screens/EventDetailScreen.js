@@ -44,8 +44,6 @@ export default class EventDetailsScreen extends Component {
             groupChatRoomId: isSongkick ? 0 : event['group_chat_room_id'],
             isModalVisible: false
         };
-        console.log(this.state);
-
 
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -307,7 +305,7 @@ export default class EventDetailsScreen extends Component {
                                 </View>
                             </View>
                             :
-                            <EventDetailsHiddenItemsComponent/>
+                            <EventDetailsHiddenItemsComponent isSongkick={this.state.isSongkick} website={this.state.eventWebsite}/>
                         }
                         <ReportEventComponent isModalVisible={this.state.isModalVisible}/>
                     </View>
