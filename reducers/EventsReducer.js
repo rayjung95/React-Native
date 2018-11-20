@@ -191,6 +191,7 @@ const eventStates = {
             }
         ]
     }],
+    songKickEvents: [],
     confirmedEvents: []
 };
 
@@ -199,6 +200,7 @@ export const eventsReducer = (state = eventStates, action) => {
     const {
         availableEvents,
         confirmedEvents,
+        songKickEvents
     } = state;
 
     switch (action.type) {
@@ -211,31 +213,7 @@ export const eventsReducer = (state = eventStates, action) => {
             return state;
 
         case 'SONGKICK_EVENT':
-            const allEvents = action.payload;
-            // allEvents.forEach((event) => {
-            //     let oneEvent = {};
-            //     oneEvent.eventHostName = event.displayName
-            // })
-
-            for (var i = 0; i < allEvents.length; i++) {
-                var oneEvent = allEvents[i]
-                console.log(oneEvent);
-                let event = {};
-                event.eventHostName = 'SongKick'
-                event.eventTitle = oneEvent.displayName
-                event.eventDescription = oneEvent.type
-                event.eventDay = null
-                event.eventTime = null
-                event.eventDate = oneEvent.start.date
-                event.eventHostPhoto = null
-                event.guestNums = null
-                event.eventAway = null
-                event.eventAddress = oneEvent.venue.displayName + oneEvent.location.city
-                event.eventWebsite = oneEvent.uri
-                event.eventConfirmed = false
-                break;
-                // availableEvents.push(event);
-            }
+            songKickEvents.push(action.payload);
             return state;
 
         case 'CREATE_EVENT':
@@ -258,7 +236,7 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmedEvents.push(confirmed);
 
             return state;
-            
+
         default:
             return state
     }

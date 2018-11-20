@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {confirmEvent, songKickEvent} from "../actions/eventsActions";
+import {addToSongkickEvents, confirmEvent} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -138,10 +138,14 @@ class LandingScreen extends Component {
         fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
             .then((response) => response.json())
             .then((response) => {
+                let events = response.resultsPage.results.event;
                 this.setState({
-                    songKickEvents: response.resultsPage.results.event
-                })
-                this.props.songKickEvent(this.state.songKickEvents)
+                    songKickEvents: events
+                });
+
+                for (let i = 0; i < events.length; i++) {
+                    this.props.addToSongkickEvents(events[i])
+                }
             })
     }
 
@@ -260,8 +264,9 @@ class LandingScreen extends Component {
     }
 
     renderImage = () => {
-        // console.log(this.state.songKickEvents[0]);
-        return this.props.events.availableEvents.map((item, i) => {
+        return this.props.events.availableEvents.concat(this.props.events.songKickEvents).map((item, i) => {
+            let isSongkick = 'performance' in item;
+            let actualItem = isSongkick ? item : item['event'];
             if (i < this.state.imageIndex) {
                 return null
             } else if (i === this.state.imageIndex) {
@@ -276,7 +281,7 @@ class LandingScreen extends Component {
                             eventConfirmed: false
                         })}>
                             <View style={{width: '100%', height: '100%'}}>
-                                <EventComponent event={item['event']} eventConfirmed={false}/>
+                                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </Animated.View>
@@ -286,7 +291,7 @@ class LandingScreen extends Component {
                     <Animated.View
                         key={i}
                         style={styles.cardContainer}>
-                        <EventComponent event={item['event']} eventConfirmed={false}/>
+                        <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>
                     </Animated.View>
                 )
             }
@@ -518,7 +523,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         confirmEvent,
-        songKickEvent,
+        addToSongkickEvents,
     }, dispatch)
 );
 

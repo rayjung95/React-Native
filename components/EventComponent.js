@@ -17,21 +17,39 @@ export default class EventComponent extends Component {
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
         this.state = {
-            eventHostName: props.event['owner']['first'],
-            eventAddress: props.event['location_name'],
-            eventTitle: props.event['name'],
-            eventDescription: props.event['detail'],
-            eventDay: dayNames[new Date(props.event['start']).getDay()],
-            eventTime: this._formatAMPM(new Date(props.event['start'])),
-            eventDate: monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
-            eventHostPhoto: {uri: props.event['owner']['photo1_url']},
-            guestNums: props.event['guests'].length,
+            eventHostName: props.isSongkick ? props.event['venue']['displayName']: props.event['owner']['first'],
+            eventTitle: props.isSongkick ? props.event['displayName'] : props.event['name'],
+            eventDay:  props.isSongkick ? dayNames[new Date(props.event['start']['date']).getDay()] : dayNames[new Date(props.event['start']).getDay()],
+            eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
+            eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] +' ' + props.event['start']['date'].split('-')[2]
+                : monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
+            eventHostPhoto: props.isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + props.event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: props.event['owner']['photo1_url']},
+            guestNums: props.isSongkick ? 0 :props.event['guests'].length,
             eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost
         };
 
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isSongkick: nextProps.isSongkick,
+            event: nextProps.event
+        })
+    }
+
+    _formatTimeforSongKick = (time) => {
+        if (time) {
+            let timeArr = time.split(':');
+            if (timeArr[0] > 12) {
+                let hour = timeArr[0] - 12;
+                return hour + ':' + timeArr[1] + ' PM';
+            } else {
+                return timeArr[0] + ':' + timeArr[1] + ' AM'
+            }
+        }
+    };
 
     _formatAMPM = (date) => {
         var hours = date.getHours();
