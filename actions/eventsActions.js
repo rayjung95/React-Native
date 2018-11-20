@@ -8,7 +8,7 @@ export const createEvent = event => ({
     payload: event
 });
 
-export const songKickEvent = event => ({
+export const addToSongkickEvents = event => ({
     type: 'SONGKICK_EVENT',
-    payload:event
+    payload: event
 });
