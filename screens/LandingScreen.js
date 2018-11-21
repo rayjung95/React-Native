@@ -134,24 +134,24 @@ class LandingScreen extends Component {
     }
 
 
-    fetchSongKickEvents() {
-        fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
-            .then((response) => response.json())
-            .then((response) => {
-                let events = response.resultsPage.results.event;
-                this.props.addToSongkickEvents(events);
+    // fetchSongKickEvents() {
+    //     fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
+    //         .then((response) => response.json())
+    //         .then((response) => {
+    //             let events = response.resultsPage.results.event;
+    //             this.props.addToSongkickEvents(events);
 
 
-                // this.setState({
-                //     songKickEvents: events
-                // });
+    //             this.setState({
+    //                 songKickEvents: events
+    //             });
 
                 
-                // for (let i = 0; i < events.length; i++) {
-                //     this.props.addToSongkickEvents(events[i])
-                // }
-            })
-    }
+    //             for (let i = 0; i < events.length; i++) {
+    //                 this.props.addToSongkickEvents(events[i])
+    //             }
+    //         })
+    // }
 
     async componentDidMount() {
         console.log('start fetching')
