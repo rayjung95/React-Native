@@ -1,3 +1,6 @@
+import * as ActionType from '../actions';
+import { REQUEST, SUCCESS, FAILURE } from '../constants/Action-Type';
+
 const eventStates = {
     availableEvents: [{
         "status": true,
@@ -192,7 +195,8 @@ const eventStates = {
         ]
     }],
     songKickEvents: [],
-    confirmedEvents: []
+    confirmedEvents: [],
+    loading: false
 };
 
 export const eventsReducer = (state = eventStates, action) => {
@@ -205,6 +209,23 @@ export const eventsReducer = (state = eventStates, action) => {
 
     switch (action.type) {
 
+        case REQUEST(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: true
+            }
+        case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: false,
+                songKickEvents: action.payload.data.resultsPage.results.event
+            }
+        case FAILURE(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while fetching songkick events'
+            }
         case 'CONFIRM_EVENT':
             const confirmedEvent = availableEvents[action.payload];
             confirmedEvent.eventConfirmed = true;
@@ -214,7 +235,10 @@ export const eventsReducer = (state = eventStates, action) => {
 
         case 'SONGKICK_EVENT':
             songKickEvents.push(action.payload);
-            return state;
+            return {
+                ...state,
+                songKickEvents: action.payload.data.resultsPage.results.event
+            };
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;

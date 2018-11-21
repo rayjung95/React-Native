@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addToSongkickEvents, confirmEvent} from "../actions/eventsActions";
+import {addToSongkickEvents, confirmEvent, getSongkickEvents} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -139,23 +139,28 @@ class LandingScreen extends Component {
             .then((response) => response.json())
             .then((response) => {
                 let events = response.resultsPage.results.event;
-                this.setState({
-                    songKickEvents: events
-                });
+                this.props.addToSongkickEvents(events);
 
-                for (let i = 0; i < events.length; i++) {
-                    this.props.addToSongkickEvents(events[i])
-                }
+
+                // this.setState({
+                //     songKickEvents: events
+                // });
+
+                
+                // for (let i = 0; i < events.length; i++) {
+                //     this.props.addToSongkickEvents(events[i])
+                // }
             })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log('start fetching')
         // const emitter = new EventEmitter()
         // emitter.setMaxListeners();
         if (!this.state.fetching) {
             console.log('fetching')
-            this.fetchSongKickEvents();
+            // await this.fetchSongKickEvents();
+            this.props.getSongkickEvents();
             this.setState({
                 fetching: true
             })
@@ -264,7 +269,8 @@ class LandingScreen extends Component {
     }
 
     renderImage = () => {
-        return this.props.events.availableEvents.concat(this.props.events.songKickEvents).map((item, i) => {
+        const { events, songKickEvents } = this.props;
+        return events.availableEvents.concat(songKickEvents).map((item, i) => {
             let isSongkick = 'performance' in item;
             let actualItem = isSongkick ? item : item['event'];
             if (i < this.state.imageIndex) {
@@ -276,10 +282,7 @@ class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-                            event: item['event'],
-                            eventConfirmed: false
-                        })}>
+                        <TouchableWithoutFeedback>
                             <View style={{width: '100%', height: '100%'}}>
                                 <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>
                             </View>
@@ -299,6 +302,7 @@ class LandingScreen extends Component {
     };
 
     render() {
+        // console.log('songkick event', this.props.songKickEvents);
         const interpolateRotation = this.arrowFlip.interpolate({
             inputRange: [0, 1],
             outputRange: ['0deg', '180deg'],
@@ -327,6 +331,7 @@ class LandingScreen extends Component {
         };
 
         return (
+            this.props.loading ? <ImageBackground style={[styles.background, {justifyContent:'center', alignItems:'center'}]} source={require('../assets/Pngs/bg.imageset/bg.png')}><Text>Loading.....</Text></ImageBackground>:
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
                 <StatusBar hidden/>
                 <Animated.View style={[arrowStyle, {
@@ -516,14 +521,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {events} = state;
-    return {events}
+    let {events} = state;
+    let songKickEvents = events.songKickEvents
+    let loading = events.loading
+    return {
+        events,
+        songKickEvents,
+        loading
+    }
 };
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         confirmEvent,
         addToSongkickEvents,
+        getSongkickEvents
     }, dispatch)
 );
 
