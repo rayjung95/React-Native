@@ -1,3 +1,6 @@
+import { SONGKICK_API_KEY } from '../constants/ApiServices';
+import * as ActionType from './index';
+
 export const confirmEvent = eventIndex => ({
     type: 'CONFIRM_EVENT',
     payload: eventIndex
@@ -8,7 +11,20 @@ export const createEvent = event => ({
     payload: event
 });
 
-export const addToSongkickEvents = event => ({
+export const addToSongkickEvents = events => ({
     type: 'SONGKICK_EVENT',
-    payload: event
+    payload: events
 });
+
+export const getSongkickEvents = () => {
+    return {
+      type: ActionType.GET_SONGKICK_EVENTS,
+      payload: {
+        client: 'songkick',
+        request: {
+          url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830`
+        }
+      }
+    };
+  }
+  
