@@ -153,7 +153,7 @@ class LandingScreen extends Component {
     //         })
     // }
 
-    async componentDidMount() {
+    componentDidMount() {
         console.log('start fetching')
         // const emitter = new EventEmitter()
         // emitter.setMaxListeners();
@@ -282,7 +282,11 @@ class LandingScreen extends Component {
                         key={i}
                         style={[this.rotateAndTranslate, styles.cardContainer]}
                     >
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
+                            event: actualItem,
+                            eventConfirmed: false,
+                            isSongkick: isSongkick
+                        })}>
                             <View style={{width: '100%', height: '100%'}}>
                                 <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick}/>
                             </View>

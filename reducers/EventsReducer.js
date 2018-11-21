@@ -233,12 +233,9 @@ export const eventsReducer = (state = eventStates, action) => {
             availableEvents.splice(action.payload, 1);
             return state;
 
-        case 'SONGKICK_EVENT':
-            songKickEvents.push(action.payload);
-            return {
-                ...state,
-                songKickEvents: action.payload.data.resultsPage.results.event
-            };
+        // case 'SONGKICK_EVENT':
+        //     availableEvents.push(action.payload);
+        //     return state;
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;

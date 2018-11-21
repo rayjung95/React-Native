@@ -113,7 +113,8 @@ export default class EventComponent extends Component {
                         <View style={styles.divider}/>
                         <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
                         <Text style={styles.heading1}> {this.state.eventDay}, {this.state.eventTime}</Text>
-                        <Text style={styles.eventDate}> {this.state.eventDate} </Text>
+                        {this.props.isSongkick ? <View/> :
+                            <Text style={styles.eventDate}> {this.state.eventDate} </Text>}
                         <View style={styles.cardFooter}>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         width: SCREEN_WIDTH * 0.8722,
         height: SCREEN_HEIGHT * 0.5234375,
         // zIndex: 0,
