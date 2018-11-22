@@ -18,7 +18,7 @@ export default class EventComponent extends Component {
 
         this.state = {
             eventHostName: props.isSongkick ? props.event['venue']['displayName']: props.event['owner']['first'],
-            eventTitle: props.isSongkick ? props.event['displayName'] : props.event['name'],
+            eventTitle: props.isSongkick ? props.event['performance'][0]['displayName'] : props.event['name'],
             eventDay:  props.isSongkick ? dayNames[new Date(props.event['start']['date']).getDay()] : dayNames[new Date(props.event['start']).getDay()],
             eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
             eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] +' ' + props.event['start']['date'].split('-')[2]
