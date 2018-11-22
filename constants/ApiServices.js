@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-export const BASE = 'http://ec2-34-221-16-108.us-west-2.compute.amazonaws.com';
-
 export const client = {
   rendevous: {
     client: axios.create({
@@ -21,9 +19,6 @@ export const client = {
 export const API_KEY = 'j05wd2ae49d212578ef13cb607cef64b';
 export const SESSION_TOKEN = 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO';
 export const SONGKICK_API_KEY = 'mzzfkojpy82tOJLz';
-
-// Api Endpoint Urls
-export const CREATE_EVENT_URL = `${BASE}/event`
 
 // Header
 export const HEADER = {

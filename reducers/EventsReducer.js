@@ -2,7 +2,8 @@ import * as ActionType from '../actions';
 import { REQUEST, SUCCESS, FAILURE } from '../constants/Action-Type';
 
 const eventStates = {
-    availableEvents: [{
+    availableEvents: [
+        {
         "status": true,
         "message": "Hi.",
         "event": {
