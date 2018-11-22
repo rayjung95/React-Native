@@ -160,7 +160,6 @@ export default class MapScreen extends Component {
             <Marker
               coordinate={this.state.coordinate}
               title={this.state.title}
-
             />
 
 

@@ -17,7 +17,7 @@ import InviteFriends from '../screens/InviteFriends';
 import MessagesScreen from '../screens/MessagesScreen';
 
 export default createStackNavigator({
-    Login: LoginScreen,
+    // Login: LoginScreen,
     Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,

@@ -39,7 +39,7 @@ export default class DateTimePickerTester extends Component {
                 word: 'Starts',
                 isDateTimePickerVisible: true
             })
-        } else if (mode === 'Ends') {
+        } else {
             this.setState({
                 word: 'Ends',
                 isDateTimePickerVisible: true
