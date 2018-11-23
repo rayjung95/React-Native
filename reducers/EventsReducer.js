@@ -37,22 +37,13 @@ export const eventsReducer = (state = eventStates, action) => {
                 error: 'Error while fetching songkick events'
             }
         case 'CONFIRM_EVENT':
-            // const confirmedEvent = availableEvents[action.payload];
-            // // confirmedEvent.eventConfirmed = true;
-            // confirmedEvents.push(confirmedEvent);
-            // availableEvents.splice(action.payload, 1);
-            // console.log(availableEvents);
             console.log('confirm event', action.payload);
-            console.log(state.availableEvents[action.payload]);
-            let modified_availableEvents = state.availableEvents.splice(action.payload + 1);
-            console.log(modified_availableEvents);
             return {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, state.availableEvents[action.payload]]
             }
         case 'DECLINE_EVENT':
             console.log('decline event', action.payload);
-            console.log(state.availableEvents[action.payload]);
             return {
                 ...state,
                 declinedEvents: [...state.declinedEvents, state.availableEvents[action.payload]]
