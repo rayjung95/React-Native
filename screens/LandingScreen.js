@@ -170,10 +170,13 @@ class LandingScreen extends Component {
   }
 
   _toggleEventCreation = () => {
+    console.log("Before: " + this.state.eventCreationHidden);
     const opposite = !this.state.eventCreationHidden;
     this.setState({
       eventCreationHidden: opposite,
     });
+
+    console.log(this.state.eventCreationHidden);
 
     if (this.state.eventCreationHidden) {
       this.setState({ showCard: false })
@@ -193,22 +196,6 @@ class LandingScreen extends Component {
       })
     ]).start()
   };
-
-  _toggleEventCreation = () => {
-    const opposite = !this.state.eventCreationHidden;
-    this.setState({
-      eventCreationHidden: opposite,
-    });
-
-
-    const theValue = this.state.eventCreationHidden ? 0 : 1;
-    Animated.timing(this.eventCreationTop, {
-      toValue: theValue,
-      duration: 500,
-      easing: Easing.ease,
-    }).start();
-
-  }
 
   lock = () => {
     console.log('lock!')
@@ -388,7 +375,7 @@ class LandingScreen extends Component {
             <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
               unlock={this.unlock} />}
 
-          <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
+          <TouchableOpacity style={styles.footer} onPress={() => this._toggleEventCreation()}>
             <Image style={styles.footerImage}
               source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
           </TouchableOpacity>
