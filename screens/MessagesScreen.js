@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, ImageBackground, TouchableHighlight, TouchableOpacity, ListView } from 'react-native';
-
-import Layout from '../constants/Layout';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    ListView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;

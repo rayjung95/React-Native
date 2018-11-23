@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
-	Alert,
-	Animated,
+    Alert,
+    Animated,
     Dimensions,
     Image,
     ImageBackground,
@@ -11,16 +11,15 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableHighlight,
     TouchableOpacity,
     View
 } from 'react-native';
 
 import update from 'immutability-helper';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { saveProfileDetails } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {saveProfileDetails} from "../actions/userActions";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -35,14 +34,14 @@ class EditProfileScreen extends Component {
 		super(props);
 		this.state = {
 			imageSource: [
-				this.props.events.currentUser.photo1_url,
-				this.props.events.currentUser.photo2_url,
-				this.props.events.currentUser.photo3_url,
-				this.props.events.currentUser.photo4_url
+				this.props.user.currentUser.photo1_url,
+				this.props.user.currentUser.photo2_url,
+				this.props.user.currentUser.photo3_url,
+				this.props.user.currentUser.photo4_url
 			],
 
-			profileBioText: this.props.events.currentUser.about,
-			contactInfoText: this.props.events.currentUser.contact,
+			profileBioText: this.props.user.currentUser.about,
+			contactInfoText: this.props.user.currentUser.contact,
 
 			image1Exists: false,
 			image1Hovered: [false, false, false],
@@ -953,8 +952,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-	const { events } = state;
-	return { events }
+	const { user } = state;
+	return { user }
 };
 
 const mapDispatchToProps = dispatch => (

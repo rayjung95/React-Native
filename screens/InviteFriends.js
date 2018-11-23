@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     Dimensions,
     Image,
@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { Contacts, Permissions } from 'expo';
+import {Contacts, Permissions} from 'expo';
 
 //TODOS: create method for searching 
 

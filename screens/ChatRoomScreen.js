@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat'
-import { TouchableOpacity, StyleSheet, Text, View, Dimensions, Image, ImageBackground, StatusBar } from 'react-native';
+import React, {Component} from 'react';
+import {GiftedChat} from 'react-native-gifted-chat'
+import {Dimensions, Image, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const window = Dimensions.get('window')
 

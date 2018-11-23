@@ -6,9 +6,11 @@ import RendevousNavigator from './navigation/RendevousNavigator'
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
 import {reducer} from './reducers';
-import thunk from 'redux-thunk';
+import { multiClientMiddleware } from 'redux-axios-middleware';
+import { client } from './constants/ApiServices';
 
-const store = createStore(reducer, applyMiddleware(thunk));
+
+const store = createStore(reducer, applyMiddleware(multiClientMiddleware(client)));
 
 export default class App extends React.Component {
     state = {

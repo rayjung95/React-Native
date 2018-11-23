@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
     Dimensions,
-    FlatList,
     Image,
     ScrollView,
     StyleSheet,
@@ -10,7 +9,6 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import Swiper from 'react-native-swiper';
 import ProfileScreen from './ProfileScreen'
 
 const window = Dimensions.get('window')

@@ -1,78 +1,10 @@
-const eventStates = {
-    availableEvents: [
-    {
-        eventHostName: 'Johnny',
-        eventTitle: 'POCKER & SALSA',
-        eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-            'Come visit us again soon and let us know how it goes.',
-        eventDay: 'WED',
-        eventTime: '7:00 PM',
-        eventDate: 'SEPTEMBER 23',
-        eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        guestNums: 12,
-        eventAway: 2.5,
-        eventAddress: '123 Main St',
-        eventWebsite: 'www.website.com',
-        eventConfirmed: false
-    }, {
-        eventHostName: 'Joseph',
-        eventTitle: 'POOL PARTY',
-        eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-            'Come visit us again soon and let us know how it goes.',
-        eventDay: 'WED',
-        eventTime: '7:00 PM',
-        eventDate: 'SEPTEMBER 23',
-        eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        guestNums: 12,
-        eventAway: 2.5,
-        eventAddress: '123 Main St',
-        eventWebsite: 'www.website.com',
-        eventConfirmed: false
-    }, {
-        eventHostName: 'Patrick',
-        eventTitle: 'STARCRAFT',
-        eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-            'Come visit us again soon and let us know how it goes.',
-        eventDay: 'WED',
-        eventTime: '7:00 PM',
-        eventDate: 'SEPTEMBER 23',
-        eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        guestNums: 12,
-        eventAway: 2.5,
-        eventAddress: '123 Main St',
-        eventWebsite: 'www.website.com',
-        eventConfirmed: false
-    }, {
-        eventHostName: 'Danny',
-        eventTitle: 'DANISH GIRL',
-        eventDescription: 'Paul and I can\'t believe how quickly the week went by. It was so great to see you.\n' +
-            'Come visit us again soon and let us know how it goes.',
-        eventDay: 'WED',
-        eventTime: '7:00 PM',
-        eventDate: 'SEPTEMBER 23',
-        eventHostPhoto: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        guestNums: 12,
-        eventAway: 2.5,
-        eventAddress: '123 Main St',
-        eventWebsite: 'www.website.com',
-        eventConfirmed: false
-    }],
-    confirmedEvents: [],
+import * as ActionType from '../actions';
+import {FAILURE, REQUEST, SUCCESS} from '../constants/Action-Type';
 
-    currentUser: {
-        first: 'Zac',
-        last: null,
-        about: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
-        contact: 'Contact Info',
-        photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-        photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-        photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-        friend_ids: null,
-        user_id: null,
-        search_distance_km: 1,
-        email: null,
-    },
+const eventStates = {
+    availableEvents: [],
+    confirmedEvents: [],
+    loading: false
 };
 
 export const eventsReducer = (state = eventStates, action) => {
@@ -80,42 +12,40 @@ export const eventsReducer = (state = eventStates, action) => {
     const {
         availableEvents,
         confirmedEvents,
-        currentUser,
+        songKickEvents
     } = state;
 
     switch (action.type) {
 
+        case REQUEST(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: true
+            }
+        case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
+            let newAvailableEvents = availableEvents.concat(action.payload.data.resultsPage.results.event);
+            return {
+                ...state,
+                availableEvents: newAvailableEvents,
+                loading: false
+            }
+        case FAILURE(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while fetching songkick events'
+            }
         case 'CONFIRM_EVENT':
             const confirmedEvent = availableEvents[action.payload];
-            confirmedEvent.eventConfirmed = true;
+            // confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
             availableEvents.splice(action.payload, 1);
+            console.log(availableEvents);
             return state;
-        
-        case 'SONGKICK_EVENT':
-            const allEvents = action.payload;
-            // allEvents.forEach((event) => {
-            //     let oneEvent = {};
-            //     oneEvent.eventHostName = event.displayName
-            // })
-            for (i = 0; i < allEvents.length; i++) {
-                oneEvent = allEvents[i]
-                let event = {};
-                event.eventHostName = 'SongKick'
-                event.eventTitle = oneEvent.displayName
-                event.eventDescription = oneEvent.type
-                event.eventDay = null
-                event.eventTime = null
-                event.eventDate = oneEvent.start.date
-                event.eventHostPhoto = null
-                event.guestNums = null
-                event.eventAway = null
-                event.eventAddress = oneEvent.venue.displayName + oneEvent.location.city
-                event.eventWebsite = oneEvent.uri
-                event.eventConfirmed = false
-                availableEvents.push(event);
-            }
-            return state;
+
+        // case 'SONGKICK_EVENT':
+        //     availableEvents.push(action.payload);
+        //     return state;
 
         case 'CREATE_EVENT':
             const submittedEvent = action.payload;
@@ -135,25 +65,6 @@ export const eventsReducer = (state = eventStates, action) => {
             confirmed.isCurrentUserHost = true;
 
             confirmedEvents.push(confirmed);
-
-            return state;
-
-        case 'SAVE_SEARCH_DISTANCE':
-            const distance = action.payload;
-            let user = currentUser;
-            user.search_distance_km = distance;
-
-            return state;
-
-        case 'SAVE_PROFILE_DETAILS':
-            const profileDetails = action.payload;
-            let profile = currentUser;
-            profile.about = profileDetails.profileBioText;
-            profile.contact = profileDetails.contactInfoText;
-            profile.photo1_url = profileDetails.imageSource[0];
-            profile.photo2_url = profileDetails.imageSource[1];
-            profile.photo3_url = profileDetails.imageSource[2];
-            profile.photo4_url = profileDetails.imageSource[3];
 
             return state;
 

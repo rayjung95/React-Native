@@ -4,10 +4,8 @@ import EventComponent from "../components/EventComponent";
 import Layout from "../constants/Layout";
 import {connect} from 'react-redux';
 
-
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
-const PICTURES_PATH = "../assets/Pngs/";
 
 class UserCalendarScreen extends Component {
     static navigationOptions = {
@@ -16,21 +14,22 @@ class UserCalendarScreen extends Component {
 
     renderEvents = () => {
         return this.props.events.confirmedEvents.map((item, i) => {
+            let isSongkick = 'performance' in item;
+            let actualItem = isSongkick ? item : item['event'];
+            let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
             return (
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        event: item
+                        event: actualItem,
+                        eventConfirmed: true,
+                        isSongkick: isSongkick
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
-                        <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                                        eventDescription={item.eventDescription}
-                                        eventDay={item.eventDay} eventTime={item.eventTime}
-                                        eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                                        guestNums={item.guestNums} eventAway={item.eventAway} eventConfirmed={true}
-                                        isCurrentUserHost={item.isCurrentUserHost}/>
+                        <EventComponent event={actualItem} eventConfirmed={true}
+                                        isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
                     </View>
                 </TouchableOpacity>
             )

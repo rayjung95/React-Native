@@ -1,29 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Animated,
-  Easing,
-  Image,
-  ImageBackground,
-  PanResponder,
-  Platform,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-  StatusBar,
-  Text,
-  Button,
+    Animated,
+    Easing,
+    Image,
+    ImageBackground,
+    PanResponder,
+    Platform,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { confirmEvent } from "../actions/eventsActions";
-import { songKickEvent } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addToSongkickEvents, confirmEvent, getSongkickEvents} from "../actions/eventsActions";
+import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -136,25 +135,33 @@ class LandingScreen extends Component {
   }
 
 
+  // fetchSongKickEvents() {
+  //     fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
+  //         .then((response) => response.json())
+  //         .then((response) => {
+  //             let events = response.resultsPage.results.event;
+  //             this.props.addToSongkickEvents(events);
 
-  fetchSongKickEvents() {
-    fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
-    .then((response) => response.json())
-    .then((response) => {
-      this.setState({
-        songKickEvents: response.resultsPage.results.event
-      })
-      this.props.songKickEvent(this.state.songKickEvents)
-    })
-  }
 
-  componentDidMount () {
+  //             this.setState({
+  //                 songKickEvents: events
+  //             });
+
+
+  //             for (let i = 0; i < events.length; i++) {
+  //                 this.props.addToSongkickEvents(events[i])
+  //             }
+  //         })
+  // }
+
+  componentDidMount() {
     console.log('start fetching')
     // const emitter = new EventEmitter()
     // emitter.setMaxListeners();
     if (!this.state.fetching) {
       console.log('fetching')
-      this.fetchSongKickEvents();
+      // await this.fetchSongKickEvents();
+      this.props.getSongkickEvents();
       this.setState({
         fetching: true
       })
@@ -173,6 +180,26 @@ class LandingScreen extends Component {
     } else {
       this.setState({ showCard: true })
     }
+
+    const theValue = this.state.eventCreationHidden ? 0 : 1;
+    const theValue2 = this.state.arrowIsTop ? 0 : 1;
+    const theValue3 = this.state.arrowFlipped ? 0 : 1;
+
+    Animated.parallel([
+      Animated.timing(this.eventCreationTop, {
+        toValue: theValue,
+        duration: 500,
+        easing: Easing.ease,
+      })
+    ]).start()
+  };
+
+  _toggleEventCreation = () => {
+    const opposite = !this.state.eventCreationHidden;
+    this.setState({
+      eventCreationHidden: opposite,
+    });
+
 
     const theValue = this.state.eventCreationHidden ? 0 : 1;
     Animated.timing(this.eventCreationTop, {
@@ -218,9 +245,12 @@ class LandingScreen extends Component {
     this.refs.modal3.open()
   }
 
-
   renderImage = () => {
+    // const { events, songKickEvents } = this.props;
+    console.log(this.props.events['40']);
     return this.props.events.availableEvents.map((item, i) => {
+      let isSongkick = 'performance' in item;
+      let actualItem = isSongkick ? item : item['event'];
       if (i < this.state.imageIndex) {
         return null
       } else if (i === this.state.imageIndex) {
@@ -231,18 +261,13 @@ class LandingScreen extends Component {
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-              event: item
+              event: actualItem,
+              eventConfirmed: false,
+              isSongkick: isSongkick
             })}>
               <View style={{ width: '100%', height: '100%' }}>
-                <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-                  eventDescription={item.eventDescription}
-                  eventDay={item.eventDay} eventTime={item.eventTime}
-                  eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-                  guestNums={item.guestNums} eventAway={item.eventAway}
-                  eventAddress={item.eventAddress} eventConfirmed={false}
-                />
+                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
               </View>
-
             </TouchableWithoutFeedback>
           </Animated.View>
         )
@@ -251,14 +276,7 @@ class LandingScreen extends Component {
           <Animated.View
             key={i}
             style={styles.cardContainer}>
-            <EventComponent eventHostName={item.eventHostName} eventTitle={item.eventTitle}
-              eventDescriptions={item.eventDescription}
-              eventDay={item.eventDay} eventTime={item.eventTime}
-              eventDate={item.eventDate} eventHostPhoto={item.eventHostPhoto}
-              guestNums={item.guestNums} eventAway={item.eventAway}
-              eventAddress={item.eventAddress}
-              eventConfirmed={false}
-            />
+            <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
           </Animated.View>
         )
       }
@@ -266,6 +284,7 @@ class LandingScreen extends Component {
   };
 
   render() {
+    // console.log('songkick event', this.props.songKickEvents);
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -294,46 +313,86 @@ class LandingScreen extends Component {
     };
 
     return (
-      <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-        <StatusBar hidden />
-        <Animated.View style={[arrowStyle, {
-          zIndex: 100,
-          position: "absolute",
-          backgroundColor: "transparent"
-        }, styles.arrowView]}>
-          <TouchableHighlight onPress={
-            () => this._toggleEventCreation()
-          }
-            style={{ flex: 1, backgroundColor: 'transparent' }}>
-            <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
-          </TouchableHighlight>
-        </Animated.View>
+      this.props.loading ? 
+        <PulseLoader
+          borderColor={'#feea7e'}
+          backgroundColor={'#feea7e'}
+          size={50}
+          pulseMaxSize={400}
+          avatar={require('../assets/Icons/main_feed.imageset/main_feed.png')}
+        />
+        :
+        <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+          <StatusBar hidden />
+          <Animated.View style={[arrowStyle, {
+            zIndex: 100,
+            position: "absolute",
+            backgroundColor: "transparent"
+          }, styles.arrowView]}>
+            <TouchableHighlight onPress={
+              () => this._toggleEventCreation()
+            }
+              style={{ flex: 1, backgroundColor: 'transparent' }}>
+              <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
+            </TouchableHighlight>
+          </Animated.View>
 
-        {this.state.showCard === true && <View style={styles.header}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
-            <View style={styles.menu1}>
-              <Image source={require('../assets/Icons/setting_yellow/settings.png')} />
+          {this.state.showCard && 
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
+              <View style={styles.menu1}>
+                <Image source={require('../assets/Icons/setting_yellow/settings.png')} />
+              </View>
+            </TouchableOpacity>
+            <View style={styles.menu2}>
+              <Image style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                source={require('../assets/images/logo.png')} />
             </View>
-          </TouchableOpacity>
-          <View style={styles.menu2}>
-            <Image style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-              source={require('../assets/images/logo.png')} />
-          </View>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
-            <View style={styles.menu3}>
-              <Image source={require('../assets/Icons/event_yellow/calendar.png')} />
-            </View>
-          </TouchableOpacity>
-        </View>}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
+              <View style={styles.menu3}>
+                <Image source={require('../assets/Icons/event_yellow/calendar.png')} />
+              </View>
+            </TouchableOpacity>
+          </View>}
 
-        <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
-          <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: '#5bb983', width: "100%", height: SCREEN_HEIGHT * (73 / 1332), borderTopRightRadius: 5, borderTopLeftRadius: 5 }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
-          <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
-          <TouchableOpacity onPress={() => this.refs.modal3.close()}>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, backgroundColor: '#fdd302', width: SCREEN_WIDTH * (502 / 748), height: SCREEN_HEIGHT * (56 / 1332), marginBottom: SCREEN_HEIGHT * (22 / 1332) }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Ok</Text></View>
+          <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"}
+            ref={"modal3"} isDisabled={this.state.isDisabled}>
+            <View style={{
+              flexDirection: "row",
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#5bb983',
+              width: "100%",
+              height: SCREEN_HEIGHT * (73 / 1332),
+              borderTopRightRadius: 5,
+              borderTopLeftRadius: 5
+            }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
+            <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
+            <TouchableOpacity onPress={() => this.refs.modal3.close()}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                backgroundColor: '#fdd302',
+                width: SCREEN_WIDTH * (502 / 748),
+                height: SCREEN_HEIGHT * (56 / 1332),
+                marginBottom: SCREEN_HEIGHT * (22 / 1332)
+              }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Ok</Text></View>
+            </TouchableOpacity>
+            {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
+          </Modal>
+
+          {this.state.showCard === true && this.renderImage()}
+          {this.state.showCard === true &&
+            <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
+              unlock={this.unlock} />}
+
+          <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
+            <Image style={styles.footerImage}
+              source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
-        </Modal>
 
         {this.state.showCard === true && this.renderImage()}
         {this.state.showCard === true && <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
@@ -352,7 +411,7 @@ class LandingScreen extends Component {
             {...this.props} />
         </Animated.View>
 
-      </ImageBackground>
+        </ImageBackground>
 
     )
   }
@@ -463,14 +522,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { events } = state;
-  return { events }
+  let { events } = state;
+  let songKickEvents = events.songKickEvents
+  let loading = events.loading
+  return {
+    events,
+    songKickEvents,
+    loading
+  }
 };
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     confirmEvent,
-    songKickEvent,
+    addToSongkickEvents,
+    getSongkickEvents
   }, dispatch)
 );
 
