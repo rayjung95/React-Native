@@ -4,6 +4,7 @@ import {FAILURE, REQUEST, SUCCESS} from '../constants/Action-Type';
 const eventStates = {
     availableEvents: [],
     confirmedEvents: [],
+    declinedEvents: [],
     loading: false
 };
 
@@ -23,10 +24,10 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: true
             }
         case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
-            let newAvailableEvents = availableEvents.concat(action.payload.data.resultsPage.results.event);
+            // let newAvailableEvents = availableEvents.concat(action.payload.data.resultsPage.results.event);
             return {
                 ...state,
-                availableEvents: newAvailableEvents,
+                availableEvents: [...state.availableEvents, ...action.payload.data.resultsPage.results.event],
                 loading: false
             }
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):
@@ -36,12 +37,17 @@ export const eventsReducer = (state = eventStates, action) => {
                 error: 'Error while fetching songkick events'
             }
         case 'CONFIRM_EVENT':
-            const confirmedEvent = availableEvents[action.payload];
-            // confirmedEvent.eventConfirmed = true;
-            confirmedEvents.push(confirmedEvent);
-            availableEvents.splice(action.payload, 1);
-            console.log(availableEvents);
-            return state;
+            console.log('confirm event', action.payload);
+            return {
+                ...state,
+                confirmedEvents: [...state.confirmedEvents, state.availableEvents[action.payload]]
+            }
+        case 'DECLINE_EVENT':
+            console.log('decline event', action.payload);
+            return {
+                ...state,
+                declinedEvents: [...state.declinedEvents, state.availableEvents[action.payload]]
+            }
 
         // case 'SONGKICK_EVENT':
         //     availableEvents.push(action.payload);

@@ -6,6 +6,11 @@ export const confirmEvent = eventIndex => ({
     payload: eventIndex
 });
 
+export const declineEvent = eventIndex => ({
+  type: 'DECLINE_EVENT',
+  payload: eventIndex
+});
+
 export const createEvent = event => ({
     type: 'CREATE_EVENT',
     payload: event
@@ -22,7 +27,7 @@ export const getSongkickEvents = () => {
       payload: {
         client: 'songkick',
         request: {
-          url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830`
+          url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
         }
       }
     };
