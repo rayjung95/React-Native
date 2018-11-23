@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import React, { Component } from 'react';
+import { Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 // import MapViewComponent from './components/MapViewComponent';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 // import Permissions from 'react-native-permissions';
-import {Constants, Location, Permissions} from 'expo';
+import { Constants, Location, Permissions } from 'expo';
 
 import Layout from "../constants/Layout";
 
@@ -17,7 +17,7 @@ const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
 
-const LATITUDE_DELTA =  0.0922;
+const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 
 
@@ -68,7 +68,7 @@ export default class MapScreen extends Component {
 
         this.setState({
           title: responseJson.results[0].formatted_address,
-          
+
         }, function () {
 
         });
@@ -142,139 +142,143 @@ export default class MapScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBar hidden />
-        <View style={{ justifyContent: 'center', alignItems: 'center', bottom: SCREEN_HEIGHT * (16 / 592), right: SCREEN_WIDTH * (16 / 360), width: SCREEN_WIDTH * (57 / 360), height: SCREEN_WIDTH * (57 / 360), position: 'absolute' }}>
-          <TouchableOpacity onPress={() => this._getLocationAsync()}>
-            <Image resizeMode='contain' style={{ flex: 1 }} source={require('../assets/Icons/get-current-location-icon/current-location.png')} />
-          </TouchableOpacity>
-        </View>
+      <ImageBackground style={{ ...StyleSheet.absoluteFillObject, zIndex: -6 }} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+        <View style={styles.container}>
+          <StatusBar hidden />
+          <View style={{ justifyContent: 'center', alignItems: 'center', bottom: SCREEN_HEIGHT * (16 / 592), right: SCREEN_WIDTH * (16 / 360), width: SCREEN_WIDTH * (57 / 360), height: SCREEN_WIDTH * (57 / 360), position: 'absolute', zIndex: 99 }}>
+            <TouchableOpacity onPress={() => this._getLocationAsync()}>
+              <Image resizeMode='contain' style={{ flex: 1 }} source={require('../assets/Icons/get-current-location-icon/current-location.png')} />
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.map}>
-          <MapView
-            region={this.state.region}
-            style={styles.map}
-            provider="google"
-          // customMapStyle={gMapsStyle}
-          >
-            <Marker
-              coordinate={this.state.coordinate}
-              title={this.state.title}
-            />
+          <View style={styles.mapContainer}>
+            <MapView
+              region={this.state.region}
+              style={styles.map}
+              provider="google"
+            // customMapStyle={gMapsStyle}
+            >
+              <Marker
+                coordinate={this.state.coordinate}
+                title={this.state.title}
+              />
 
 
-          </MapView>
-        </View>
-        <GooglePlacesAutocomplete
-          placeholder='Search'
-          minLength={0} // minimum length of text to search
-          autoFocus={false}
-          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-          listViewDisplayed={false}   // true/false/undefined
-          fetchDetails={true}
-          renderDescription={row => row.description} // custom description render
-          // onChangeText={}
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            // this.setState({});
-            this._onPress(data, details)
-          }}
-          // onEndEditing={}
+            </MapView>
+          </View>
+          <GooglePlacesAutocomplete
+            placeholder='Search'
+            minLength={0} // minimum length of text to search
+            autoFocus={false}
+            returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+            listViewDisplayed={false}   // true/false/undefined
+            fetchDetails={true}
+            renderDescription={row => row.description} // custom description render
+            // onChangeText={}
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+              // this.setState({});
+              this._onPress(data, details)
+            }}
+            // onEndEditing={}
 
-          getDefaultValue={() => ''}
+            getDefaultValue={() => ''}
 
-          query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
-            key: apiKey,
-            language: 'en', // language of the results
-            // default: 'geocode'
-          }}
+            query={{
+              // available options: https://developers.google.com/places/web-service/autocomplete
+              key: apiKey,
+              language: 'en', // language of the results
+              // location: `${this.state.region.latitude},${this.state.region.longitude}`,
+              radius: 1000,
+              // default: 'geocode'
+            }}
 
-          styles={{
-            container: {
-              zIndex: 5,
+            styles={{
+              container: {
+                zIndex: 5,
 
-            },
-            textInputContainer: {
-              width: '100%',
-              zIndex: 5,
-              backgroundColor: '#2b0663',
-              borderWidth: 0,
+              },
+              textInputContainer: {
+                width: '100%',
+                zIndex: 5,
+                backgroundColor: 'transparent',
+                borderWidth: 0,
 
-            },
-            description: {
-              fontWeight: 'bold',
-              zIndex: 5,
+              },
+              description: {
+                fontWeight: 'bold',
+                zIndex: 5,
 
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb',
-              zIndex: 5,
-            },
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+                zIndex: 5,
+              },
 
-            listView: {
-              zIndex: 5,
-              opacity: 1,
-            },
+              listView: {
+                zIndex: 5,
+                opacity: 1,
+              },
 
-            textInput: {
-              borderRadius: 50,
+              textInput: {
+                borderRadius: 50,
 
-            },
+              },
 
-            loader: {
+              loader: {
 
-            },
+              },
 
-            powered: {
-              opacity: 0
-            },
+              powered: {
+                opacity: 0
+              },
 
-            poweredContainer: {
-              opacity: 0,
-            },
+              poweredContainer: {
+                opacity: 0,
+              },
 
-            separator: {
+              separator: {
 
-            },
+              },
 
-            row: {
-              backgroundColor: 'white',
+              row: {
+                backgroundColor: 'white',
 
+              }
+
+
+
+            }}
+
+            // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+            // currentLocationLabel="Current location"
+            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+            GoogleReverseGeocodingQuery={{
+              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            }}
+            GooglePlacesSearchQuery={{
+              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+              rankby: 'distance',
+            }}
+            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+            renderLeftButton={() =>
+              <View style={{ justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * (40 / 360), height: SCREEN_WIDTH * (40 / 360) }}>
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                  <Image resizeMode='contain' style={{ marginLeft: SCREEN_WIDTH * (10 / 360), marginVertical: SCREEN_HEIGHT * (10 / 592), flex: 1 }} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
+                </TouchableOpacity>
+              </View>
             }
 
+            renderRightButton={() =>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => this.handleOnPress()}>
+                  <Text style={{ color: '#fdd301', fontSize: SCREEN_HEIGHT * (12 / 592), marginRight: SCREEN_WIDTH * (10 / 360) }}>Select</Text>
+                </TouchableOpacity>
+              </View>
+            }
 
-
-          }}
-
-          // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-          // currentLocationLabel="Current location"
-          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-          GoogleReverseGeocodingQuery={{
-            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-          }}
-          GooglePlacesSearchQuery={{
-            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-            rankby: 'distance',
-          }}
-          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-          renderLeftButton={() =>
-            <View style={{ justifyContent: 'center', alignItems: 'center', width: SCREEN_WIDTH * (40 / 360), height: SCREEN_WIDTH * (40 / 360) }}>
-              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                <Image resizeMode='contain' style={{ marginLeft: SCREEN_WIDTH * (10 / 360), marginVertical: SCREEN_HEIGHT * (10 / 592), flex: 1 }} source={require('../assets/Icons/go-back-left-arrow/go-back-left-arrow.png')} />
-              </TouchableOpacity>
-            </View>
-          }
-
-          renderRightButton={() =>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              <TouchableOpacity onPress={() => this.handleOnPress()}>
-                <Text style={{ color: '#fdd301', fontSize: SCREEN_HEIGHT * (12 / 592), marginRight: SCREEN_WIDTH * (10 / 360) }}>Select</Text>
-              </TouchableOpacity>
-            </View>
-          }
-
-        />
-      </View>
+          />
+        </View>
+      </ImageBackground>
 
     )
   }
@@ -283,20 +287,19 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
   },
 
   mapContainer: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'dodgerblue',
-    zIndex: -1,
+    marginTop: "10%",
+    marginBottom: 0,
+
   },
 
   map: {
-    zIndex: -5,
-    position: 'absolute',
-    width: "100%",
-    height: "100%",
+    zIndex: 1,
+    ...StyleSheet.absoluteFillObject,
     flexDirection: 'column',
   },
 });

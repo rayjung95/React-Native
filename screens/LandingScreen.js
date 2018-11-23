@@ -58,6 +58,7 @@ class LandingScreen extends Component {
     };
 
     this.state = {
+      modalText: 'yikes',
       showCard: true,
       imageIndex: 0,
       array: [
@@ -140,13 +141,10 @@ class LandingScreen extends Component {
   }
 
   _toggleEventCreation = () => {
-    console.log("Before: " + this.state.eventCreationHidden);
     const opposite = !this.state.eventCreationHidden;
     this.setState({
       eventCreationHidden: opposite,
     });
-
-    console.log(this.state.eventCreationHidden);
 
     if (this.state.eventCreationHidden) {
       this.setState({ showCard: false })
@@ -199,8 +197,10 @@ class LandingScreen extends Component {
   }
 
 
-  openModal = () => {
-    this.refs.modal3.open()
+  openModal = (text = "Please fill out the required fields.") => {
+
+    console.log('modal text: ' + text);
+    this.setState({modalText: text}, () => this.refs.modal3.open());
   }
 
   renderImage = () => {
@@ -244,7 +244,7 @@ class LandingScreen extends Component {
   };
 
   render() {
-    console.log('available event', this.props.availableEvents);
+    // console.log('available event', this.props.availableEvents);
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -327,7 +327,7 @@ class LandingScreen extends Component {
               borderTopRightRadius: 5,
               borderTopLeftRadius: 5
             }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
-            <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
+            <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>{this.state.modalText}</Text>
             <TouchableOpacity onPress={() => this.refs.modal3.close()}>
               <View style={{
                 flexDirection: 'row',
@@ -355,8 +355,6 @@ class LandingScreen extends Component {
           {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
 
         {this.state.showCard === true && this.renderImage()}
-        {this.state.showCard === true && <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
-          unlock={this.unlock} />}
 
         <TouchableOpacity style={styles.footer} onPress={() => this._toggleEventCreation()}>
           <Image style={styles.footerImage}

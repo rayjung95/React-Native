@@ -6,6 +6,7 @@ import Layout from '../constants/Layout';
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
+
 export default class DateTimePickerTester extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,7 @@ export default class DateTimePickerTester extends Component {
       endTimeCat: null,
       endDayOfWeek: null,
       isDisabledTouch: false,
+      dateError: false,
     }
   }
 
@@ -60,13 +62,12 @@ export default class DateTimePickerTester extends Component {
   };
 
   _hideDateTimePicker = () => {
-    console.log('cancel');
     this.setState({
       isDateTimePickerVisible: false
     });
   }
 
-  _handleDatePicked = (date) => {
+  _handleDatePicked = async (date) => {
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
@@ -75,34 +76,51 @@ export default class DateTimePickerTester extends Component {
     const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
     if (this.state.word === 'Starts') {
+      console.log('Starts');
+      if (date >= this.state.fullEndDate) {
+        this.setState({
+          dateError: true,
+        }, () => this.props.handleBadDate(this.state.dateError));
+
+      } else {
+        this.setState({
+          dateError: false,
+        }, () => this.props.handleBadDate(this.state.dateError));
+      }
       this.setState({
+        fullStartDate: date,
         startDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
         startDayOfWeek: dayNames[date.getDay()],
         startTime: this._formatAMPM(date),
       });
     } else if (this.state.word === 'Ends') {
-      console.log('asfdja;lksdlsa;kdfjlksda;lsfd');
-      console.log(this.state);
+      console.log('Ends');
+      console.log(date <= this.state.fullStartDate);
+      if (date <= this.state.fullStartDate) {
+        this.setState({
+          dateError: true,
+        }, () => this.props.handleBadDate(this.state.dateError));
+
+      } else {
+        this.setState({
+          dateError: false,
+        }, () => this.props.handleBadDate(this.state.dateError));
+      }
       this.setState({
+        fullEndDate: date,
         endDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
         endDayOfWeek: dayNames[date.getDay()],
-        endTime: this._formatAMPM(date),
         endTimeCat: ('' + date.getHours() + date.getMinutes()),
+        endTime: this._formatAMPM(date),
+
       });
     }
 
     this._hideDateTimePicker();
   };
+  
 
   _formatAMPM = (date) => {
-    let today = new Date();
-    console.log(this.state.endTimeCat);
-
-    if (('' + today.getHours() + today.getMinutes()) > ('' + date.getHours() + date.getMinutes()) && this.state.word === 'Starts') {
-      console.log("Fix the time for Starts");
-    } else if (this.state.endTimeCat < ('' + today.getHours() + today.getMinutes())) {
-      console.log("The end time is earlier than the start time");
-    }
 
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -113,9 +131,6 @@ export default class DateTimePickerTester extends Component {
     return hours + ':' + minutes + ' ' + ampm;
   }
 
-  _toggleDisable = () => {
-
-  }
 
   render() {
     return (
@@ -162,7 +177,7 @@ export default class DateTimePickerTester extends Component {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          disabled={this.state.isDisabledTouch}
+          disabled={this.state.isDisabledTouch || !this.state.startDate}
           onPress={() => [this._showDateTimePicker('Ends')]} style={{
             flexDirection: 'row',
             height: SCREEN_HEIGHT * (43 / 722),
@@ -196,7 +211,7 @@ export default class DateTimePickerTester extends Component {
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
-            minimumDate={new Date()}
+            minimumDate={this.state.fullStartDate}
             mode={'datetime'}
             is24Hour={false}
 

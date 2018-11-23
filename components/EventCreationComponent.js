@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import {bindActionCreators} from "redux";
-import {createEvent} from "../actions/eventsActions";
+import { bindActionCreators } from "redux";
+import { createEvent } from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -34,12 +34,23 @@ export class EventCreationComponent extends React.Component {
             website: null,
             eventInfo: null,
             showAlert: false,
+            badDate : false,
         }
+        this.handleBadDate = this.handleBadDate.bind(this);
     }
 
     static navigationOptions = {
         header: null,
     };
+
+    handleBadDate(param) {
+        if (param) {
+            this.setState({badDate : true,})
+        } else {
+            this.setState({badDate: false,})
+        }
+    }
+
 
 
     closeComponent = () => {
@@ -55,30 +66,37 @@ export class EventCreationComponent extends React.Component {
     };
 
     returnData(theData, locationName) {
-        this.setState({data: theData, location: locationName});
+        this.setState({ data: theData, location: locationName });
     }
 
 
     onPressEvent = () => {
         const datetime = this.DateTimeComponent.getDateTimeState();
-
+        console.log('badDate is' + this.state.badDate);
         if (!this.state.title || this.state.title.length === 0) {
+            console.log('Title Length');
             this.props.openModal()
-        } else if (this.state.location === 'Location'){
+        } else if (this.state.location === 'Location') {
+            console.log('Location');
             this.props.openModal()
         } else if (!datetime || !datetime.startDate || !datetime.endDate || !datetime.startTime || !datetime.endTime) {
+            console.log('noDateTime');
             this.props.openModal()
-        } else if (!this.state.eventInfo || this.state.eventInfo.length <= 1){
+        } else if (!this.state.eventInfo || this.state.eventInfo.length <= 1) {
+            console.log('evInf');
             this.props.openModal()
+        } else if(this.state.badDate){
+
+            this.props.openModal('End Date must be after Start Date.')
         } else {
             Alert.alert(
                 '',
                 'By accepting the terms you accept all liabilities and repercussions done to you or by you at any event in connection / relation through Rendevous presently or in the future.',
                 [
-                    {text: 'Accept', onPress: () => this.create()},
-                    {text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    { text: 'Accept', onPress: () => this.create() },
+                    { text: 'Deny', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                 ],
-                {cancelable: false}
+                { cancelable: false }
             )
         }
     };
@@ -115,8 +133,8 @@ export class EventCreationComponent extends React.Component {
                 }}></View>
                 <TouchableNativeFeedback onPress={() => this.closeComponent()}>
 
-                    <Image style={{marginBottom: -2}}
-                           source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')}/>
+                    <Image style={{ marginBottom: -2 }}
+                        source={require('../assets/Icons/pull-up-notch-with-arrow/notch_small.png')} />
 
                 </TouchableNativeFeedback>
                 <View style={{
@@ -146,14 +164,14 @@ export class EventCreationComponent extends React.Component {
                             marginTop: SCREEN_HEIGHT * (16 / 722),
                             marginBottom: SCREEN_HEIGHT * (16 / 722)
                         }}>
-                            <Image style={{resizeMode: 'cover'}}
-                                   source={require('../assets/Icons/close.imageset/close.png')}/>
+                            <Image style={{ resizeMode: 'cover' }}
+                                source={require('../assets/Icons/close.imageset/close.png')} />
                         </TouchableOpacity>
 
                     </View>
 
                     <View style={{ height: SCREEN_HEIGHT * (43 / 722), flexDirection: 'row' }}>
-                        <TextInput onChangeText={(value) => this.setState({ title: value })} multiline={false}
+                        <TextInput onChangeText={(value) => this.setState({ title: value })} maxLength={60} multiline={false}
                             placeholderTextColor='#8e8e93' underlineColorAndroid='rgba(0,0,0,0)' style={{
                                 paddingLeft: SCREEN_WIDTH * (17 / 360),
                                 flex: 1,
@@ -176,12 +194,12 @@ export class EventCreationComponent extends React.Component {
                             alignItems: 'center',
                             justifyContent: 'space-between'
                         }}
-                        onPress={() => this.props.navigation.navigate('Map', {returnData: this.returnData.bind(this)})}
+                        onPress={() => this.props.navigation.navigate('Map', { returnData: this.returnData.bind(this) })}
                     >
                         <Text
                             style={this.state.location === 'Location' ? styles.grey : styles.black}>{this.state.location}</Text>
-                        <Image style={{marginRight: SCREEN_WIDTH * (16 / 360)}}
-                               source={require('../assets/Icons/navigation-filled/navigation.png')}/>
+                        <Image style={{ marginRight: SCREEN_WIDTH * (16 / 360) }}
+                            source={require('../assets/Icons/navigation-filled/navigation.png')} />
                     </TouchableOpacity>
 
                     <View style={{ height: SCREEN_HEIGHT * (36 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
@@ -196,9 +214,10 @@ export class EventCreationComponent extends React.Component {
 
 
                     <DateTimeComponent {...this.state}
-                                       ref={instance => {
-                                           this.DateTimeComponent = instance
-                                       }} />
+                        handleBadDate={this.handleBadDate}
+                        ref={instance => {
+                            this.DateTimeComponent = instance
+                        }} />
 
                     {/* <Text>Ends</Text> */}
 
@@ -302,8 +321,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {events} = state;
-    return {events}
+    const { events } = state;
+    return { events }
 };
 
 const mapDispatchToProps = dispatch => (
