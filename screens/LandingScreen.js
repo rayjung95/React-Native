@@ -58,6 +58,7 @@ class LandingScreen extends Component {
     };
 
     this.state = {
+      modalText: 'yikes',
       showCard: true,
       imageIndex: 0,
       array: [
@@ -169,18 +170,11 @@ class LandingScreen extends Component {
     console.log('stop fetching')
   }
 
-  _toggleArrowAndEventCreation = () => {
+  _toggleEventCreation = () => {
     const opposite = !this.state.eventCreationHidden;
-    const opposite2 = !this.state.arrowIsTop;
-    const opposite3 = !this.state.arrowFlipped;
-
     this.setState({
       eventCreationHidden: opposite,
-      arrowIsTop: opposite2,
-      arrowFlipped: opposite3,
     });
-
-    // console.log('creation is ' + this.state.eventCreationHidden);
 
     if (this.state.eventCreationHidden) {
       this.setState({ showCard: false })
@@ -200,37 +194,6 @@ class LandingScreen extends Component {
       })
     ]).start()
   };
-
-  _toggleEventCreation = () => {
-    const opposite = !this.state.eventCreationHidden;
-    this.setState({
-      eventCreationHidden: opposite,
-    });
-
-
-    const theValue = this.state.eventCreationHidden ? 0 : 1;
-    Animated.timing(this.eventCreationTop, {
-      toValue: theValue,
-      duration: 500,
-      easing: Easing.ease,
-    }).start();
-
-  }
-
-  _toggleArrow = () => {
-    const opposite = !this.state.arrowIsTop;
-    this.setState({
-      arrowIsTop: opposite,
-    });
-
-    const theValue = this.state.arrowIsTop ? 0 : 1;
-
-    Animated.timing(this.arrowTop, {
-      toValue: theValue,
-      duration: 500,
-      easing: Easing.ease,
-    }).start();
-  }
 
   lock = () => {
     console.log('lock!')
@@ -263,8 +226,10 @@ class LandingScreen extends Component {
   }
 
 
-  openModal = () => {
-    this.refs.modal3.open()
+  openModal = (text = "Please fill out the required fields.") => {
+
+    console.log('modal text: ' + text);
+    this.setState({modalText: text}, () => this.refs.modal3.open());
   }
 
   renderImage = () => {
@@ -306,7 +271,6 @@ class LandingScreen extends Component {
   };
 
   render() {
-    // console.log('songkick event', this.props.songKickEvents);
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -352,14 +316,15 @@ class LandingScreen extends Component {
             backgroundColor: "transparent"
           }, styles.arrowView]}>
             <TouchableHighlight onPress={
-              () => this._toggleArrowAndEventCreation()
+              () => this._toggleEventCreation()
             }
               style={{ flex: 1, backgroundColor: 'transparent' }}>
               <Image style={styles.arrow} source={require('../assets/Icons/up_arrow/up_arrow.png')} />
             </TouchableHighlight>
           </Animated.View>
 
-          {this.state.showCard === true && <View style={styles.header}>
+          {this.state.showCard && 
+          <View style={styles.header}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileSetting')}>
               <View style={styles.menu1}>
                 <Image source={require('../assets/Icons/setting_yellow/settings.png')} />
@@ -388,7 +353,7 @@ class LandingScreen extends Component {
               borderTopRightRadius: 5,
               borderTopLeftRadius: 5
             }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
-            <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Please fill out the required fields.</Text>
+            <Text style={{ fontSize: SCREEN_HEIGHT * (30 / 1332) }}>{this.state.modalText}</Text>
             <TouchableOpacity onPress={() => this.refs.modal3.close()}>
               <View style={{
                 flexDirection: 'row',
@@ -409,18 +374,26 @@ class LandingScreen extends Component {
             <LocksComponent isMoving={this.state.isMoving} position={this.position} lock={this.lock}
               unlock={this.unlock} />}
 
-          <TouchableOpacity style={styles.footer} onPress={() => this._toggleArrowAndEventCreation()}>
+          <TouchableOpacity style={styles.footer} onPress={() => this._toggleEventCreation()}>
             <Image style={styles.footerImage}
               source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
           </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</TouchableOpacity> */}
 
-          <Animated.View
-            style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
-            <EventCreationComponent title='Create new event ' buttonText='Post'
-              close={this._toggleArrowAndEventCreation}
-              openModal={this.openModal}
-              {...this.props} />
-          </Animated.View>
+        {this.state.showCard === true && this.renderImage()}
+
+        <TouchableOpacity style={styles.footer} onPress={() => this._toggleEventCreation()}>
+          <Image style={styles.footerImage}
+            source={require('../assets/Icons/create_event_icon/create_event_icon.png')} />
+        </TouchableOpacity>
+
+        <Animated.View
+          style={[{ position: "absolute", width: SCREEN_WIDTH, height: SCREEN_HEIGHT }, eventCreationStyle]}>
+          <EventCreationComponent title='Create new event ' buttonText='Post'
+            close={this._toggleEventCreation}
+            openModal={this.openModal}
+            {...this.props} />
+        </Animated.View>
 
         </ImageBackground>
 
