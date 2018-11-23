@@ -18,7 +18,7 @@ export default class EventComponent extends Component {
 
         this.state = {
             eventHostName: props.isSongkick ? props.event['venue']['displayName'] : props.event['owner']['first'],
-            eventTitle: props.isSongkick ? props.event['performance'][0]['displayName'] : props.event['name'],
+            eventTitle: props.isSongkick ? this._formatEventTitle(props.event['displayName']) : props.event['name'],
             eventDay: props.isSongkick ? dayNames[new Date(props.event['start']['date']).getDay()] : dayNames[new Date(props.event['start']).getDay()],
             eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
             eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] + ' ' + props.event['start']['date'].split('-')[2]
@@ -38,6 +38,11 @@ export default class EventComponent extends Component {
             event: nextProps.event
         })
     }
+
+    _formatEventTitle = (fullTitle) => {
+        fullTitle = fullTitle.split('at');
+        return fullTitle[0];
+    };
 
     _formatTimeforSongKick = (time) => {
         if (time) {
@@ -111,31 +116,35 @@ export default class EventComponent extends Component {
                         <Text style={styles.hostName}>{this.state.eventHostName}</Text>
                         <Text style={styles.subheading}>Host</Text>
                         <View style={styles.divider}/>
-                        <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
+                        <View style={{
+                            marginBottom: 10
+                        }}>
+                            <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
+                        </View>
                         <Text style={styles.heading1}> {this.state.eventDay}, {this.state.eventTime}</Text>
                         <Text style={styles.eventDate}> {this.state.eventDate} </Text>
-                        <View style={styles.cardFooter}>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
-                                <Image style={{
-                                    width: 30,
-                                    height: 30,
-                                    marginRight: 20,
-                                    resizeMode: 'contain'
-                                }}
-                                       source={require('../assets/Icons/guest.imageset/guest.png')}/>
-                                {' ' + this.state.guestNums + ' '} Guests
-                            </Text>
-                            <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
-                                <Image style={{
-                                    width: 30,
-                                    height: 30,
-                                    marginLeft: -20,
-                                    resizeMode: 'contain'
-                                }}
-                                       source={require('../assets/Icons/away.imageset/away.png')}/>
-                                2.5 Miles away
-                            </Text>
-                        </View>
+                    </View>
+                    <View style={styles.cardFooter}>
+                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                            <Image style={{
+                                width: 30,
+                                height: 30,
+                                marginRight: 20,
+                                resizeMode: 'contain'
+                            }}
+                                   source={require('../assets/Icons/guest.imageset/guest.png')}/>
+                            {' ' + this.state.guestNums + ' '} Guests
+                        </Text>
+                        <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
+                            <Image style={{
+                                width: 30,
+                                height: 30,
+                                marginLeft: -20,
+                                resizeMode: 'contain'
+                            }}
+                                   source={require('../assets/Icons/away.imageset/away.png')}/>
+                            2.5 Miles away
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -164,12 +173,13 @@ const styles = StyleSheet.create({
     },
     details: {
         paddingTop: SCREEN_WIDTH * 0.1,
-        marginTop: -SCREEN_WIDTH * 0.1,
+        marginTop: -SCREEN_WIDTH * 0.06,
         alignItems: 'center',
         width: '100%',
         height: '110%',
         flexDirection: 'column',
         justifyContent: 'center',
+        flex: 1,
         // backgroundColor: 'orange',
         borderRadius: 5
     },
@@ -181,9 +191,7 @@ const styles = StyleSheet.create({
         paddingLeft: SCREEN_WIDTH / 28,
         paddingRight: SCREEN_WIDTH / 28,
         position: 'absolute',
-        bottom: 20,
-        // backgroundColor:'yellow',
-        // bottom:-10
+        bottom: 26,
     },
     hostPicContainer: {
         justifyContent: 'space-between',
@@ -215,6 +223,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: RF(4),
         fontWeight: 'bold',
+        textAlign: 'center'
     },
     heading1: {
         fontFamily: 'Roboto',
@@ -228,8 +237,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#f1f1f1',
         borderBottomWidth: 1,
         width: '30%',
-        marginTop: SCREEN_HEIGHT * 0.02,
-        marginBottom: SCREEN_HEIGHT * 0.02
+        marginTop: SCREEN_HEIGHT * 0.01,
+        marginBottom: SCREEN_HEIGHT * 0.01
     },
     notifStatus1: {
         backgroundColor: '#E3422A',
