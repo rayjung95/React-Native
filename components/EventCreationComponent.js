@@ -111,7 +111,7 @@ export class EventCreationComponent extends React.Component {
                 <View style={{
                     backgroundColor: 'transparent',
                     width: SCREEN_WIDTH,
-                    height: SCREEN_HEIGHT * (100 / 722)
+                    height: SCREEN_HEIGHT * (50 / 722)
                 }}></View>
                 <TouchableNativeFeedback onPress={() => this.closeComponent()}>
 
@@ -120,6 +120,7 @@ export class EventCreationComponent extends React.Component {
 
                 </TouchableNativeFeedback>
                 <View style={{
+                    height: SCREEN_HEIGHT * (672 / 722),
                     width: SCREEN_WIDTH,
                     flexDirection: 'column',
                     backgroundColor: '#f2f3f4',
@@ -134,7 +135,7 @@ export class EventCreationComponent extends React.Component {
                     }}>
                         <Text style={{
                             marginLeft: SCREEN_WIDTH * (17 / 360),
-                            fontSize: SCREEN_HEIGHT * (11 / 722),
+                            fontSize: SCREEN_HEIGHT * (14 / 722),
                             color: 'black'
                         }}>
                             {this.props.title}
@@ -183,7 +184,7 @@ export class EventCreationComponent extends React.Component {
                                source={require('../assets/Icons/navigation-filled/navigation.png')}/>
                     </TouchableOpacity>
 
-                    <View style={{ height: SCREEN_HEIGHT * (32 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ height: SCREEN_HEIGHT * (36 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                         <Image style={{
                             marginVertical: SCREEN_HEIGHT * (8 / 722),
                             marginLeft: SCREEN_WIDTH * (17 / 360),
@@ -201,7 +202,7 @@ export class EventCreationComponent extends React.Component {
 
                     {/* <Text>Ends</Text> */}
 
-                    <View style={{ height: SCREEN_HEIGHT * (26 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ height: SCREEN_HEIGHT * (36 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                     </View>
 
                     {/* <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginBottom: 40, marginTop: 40, justifyContent: 'center'}}> */}
@@ -225,7 +226,7 @@ export class EventCreationComponent extends React.Component {
                         fontFamily='Roboto'
                         placeholder='Website (Optional)' />
                     {/* <Text style={{ fontSize: 18, color: '#8e8e93', marginLeft: 15 }} fontFamily='Roboto'>Contact Info (Optional)</Text> */}
-                    <View style={{ height: SCREEN_HEIGHT * (26 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ height: SCREEN_HEIGHT * (36 / 722), width: SCREEN_WIDTH, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center' }}>
                     </View>
                     <View style={{
                         height: SCREEN_HEIGHT * (101 / 722),
@@ -252,7 +253,7 @@ export class EventCreationComponent extends React.Component {
                         <View style={{
                             justifyContent: 'center',
                             alignItems: 'center',
-                            height: SCREEN_HEIGHT * (34 / 722),
+                            height: SCREEN_HEIGHT * (38 / 722),
                             width: SCREEN_WIDTH * (291 / 360),
                             borderColor: 'black',
                             borderWidth: 0.3
@@ -262,7 +263,7 @@ export class EventCreationComponent extends React.Component {
                         </View>
                     </TouchableOpacity>
                     <TouchableHighlight underlayColor='#433d62' onPress={() => this.onPressEvent()} style={{
-                        height: SCREEN_HEIGHT * (56 / 722),
+                        height: SCREEN_HEIGHT * (75 / 722),
                         backgroundColor: '#fdd302',
                         justifyContent: 'center',
                         alignItems: 'center'

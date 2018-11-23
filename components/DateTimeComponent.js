@@ -18,6 +18,7 @@ export default class DateTimePickerTester extends Component {
       endTime: null,
       endTimeCat: null,
       endDayOfWeek: null,
+      isDisabledTouch: false,
     }
   }
 
@@ -34,12 +35,23 @@ export default class DateTimePickerTester extends Component {
   };
 
   _showDateTimePicker = (mode) => {
+    this.setState({
+      isDisabledTouch: true,
+    });
+
+    // enable after 5 second
+    setTimeout(() => {
+      this.setState({
+        isDisabledTouch: false,
+      });
+    }, 1000)
+
     if (mode === 'Starts') {
       this.setState({
         word: 'Starts',
         isDateTimePickerVisible: true
       })
-    } else if (mode === 'Ends') {
+    } else {
       this.setState({
         word: 'Ends',
         isDateTimePickerVisible: true
@@ -47,7 +59,12 @@ export default class DateTimePickerTester extends Component {
     }
   };
 
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  _hideDateTimePicker = () => {
+    console.log('cancel');
+    this.setState({
+      isDateTimePickerVisible: false
+    });
+  }
 
   _handleDatePicked = (date) => {
 
@@ -70,7 +87,7 @@ export default class DateTimePickerTester extends Component {
         endDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
         endDayOfWeek: dayNames[date.getDay()],
         endTime: this._formatAMPM(date),
-        endTimeCat: ('' + date.getHours() +  date.getMinutes()),
+        endTimeCat: ('' + date.getHours() + date.getMinutes()),
       });
     }
 
@@ -81,7 +98,7 @@ export default class DateTimePickerTester extends Component {
     let today = new Date();
     console.log(this.state.endTimeCat);
 
-    if (('' + today.getHours() + today.getMinutes()) > ('' + date.getHours() +  date.getMinutes()) && this.state.word === 'Starts') {
+    if (('' + today.getHours() + today.getMinutes()) > ('' + date.getHours() + date.getMinutes()) && this.state.word === 'Starts') {
       console.log("Fix the time for Starts");
     } else if (this.state.endTimeCat < ('' + today.getHours() + today.getMinutes())) {
       console.log("The end time is earlier than the start time");
@@ -96,6 +113,10 @@ export default class DateTimePickerTester extends Component {
     return hours + ':' + minutes + ' ' + ampm;
   }
 
+  _toggleDisable = () => {
+
+  }
+
   componentWillMount = () => {
     // console.log(SCREEN_WIDTH * (17 / 360));
     console.log(this.props.starts);
@@ -106,16 +127,18 @@ export default class DateTimePickerTester extends Component {
     return (
       <View>
 
-        <TouchableOpacity onPress={() => [this._showDateTimePicker('Starts')]} style={{
-          flexDirection: 'row',
-          height: SCREEN_HEIGHT * (43 / 722),
-          backgroundColor: 'white',
-          borderBottomWidth: 0.5,
-          borderTopWidth: 0.5,
-          borderColor: 'rgba(0,0,0, 0.1)',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
+        <TouchableOpacity onPress={() => [this._showDateTimePicker('Starts')]}
+          disabled={this.state.isDisabledTouch}
+          style={{
+            flexDirection: 'row',
+            height: SCREEN_HEIGHT * (43 / 722),
+            backgroundColor: 'white',
+            borderBottomWidth: 0.5,
+            borderTopWidth: 0.5,
+            borderColor: 'rgba(0,0,0, 0.1)',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
           <Text style={{
             marginLeft: SCREEN_WIDTH * (15 / 360),
             fontSize: SCREEN_HEIGHT * (11 / 722),
@@ -137,23 +160,25 @@ export default class DateTimePickerTester extends Component {
 
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this._handleDatePicked}
-            onCancel={this._hideDateTimePicker}
+            onConfirm={() => this._handleDatePicked()}
+            onCancel={() => this._hideDateTimePicker()}
             mode={'datetime'}
             minimumDate={new Date()}
             is24Hour={false}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => [this._showDateTimePicker('Ends')]} style={{
-          flexDirection: 'row',
-          height: SCREEN_HEIGHT * (43 / 722),
-          backgroundColor: 'white',
-          borderBottomWidth: 0.5,
-          borderTopWidth: 0.5,
-          borderColor: 'rgba(0,0,0, 0.1)',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
+        <TouchableOpacity
+          disabled={this.state.isDisabledTouch}
+          onPress={() => [this._showDateTimePicker('Ends')]} style={{
+            flexDirection: 'row',
+            height: SCREEN_HEIGHT * (43 / 722),
+            backgroundColor: 'white',
+            borderBottomWidth: 0.5,
+            borderTopWidth: 0.5,
+            borderColor: 'rgba(0,0,0, 0.1)',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
           <Text style={{
             marginLeft: SCREEN_WIDTH * (15 / 360),
             fontSize: SCREEN_HEIGHT * (11 / 722),
