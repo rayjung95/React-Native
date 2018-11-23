@@ -32,9 +32,11 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
             };
         case SUCCESS(ActionType.CREATE_EVENT):
+            let newEvent = action.payload.data.params;
+            newEvent['isCurrentUserHost'] = true;
             return {
                 ...state,
-                confirmedEvents: [...state.confirmedEvents, action.payload.data.params]
+                confirmedEvents: [...state.confirmedEvents, newEvent]
             };
         case 'CONFIRM_EVENT':
             console.log('confirm event', action.payload);
