@@ -17,14 +17,14 @@ export default class EventComponent extends Component {
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 
         this.state = {
-            eventHostName: props.isSongkick ? props.event['venue']['displayName']: props.event['owner']['first'],
+            eventHostName: props.isSongkick ? props.event['venue']['displayName'] : props.event['owner']['first'],
             eventTitle: props.isSongkick ? props.event['performance'][0]['displayName'] : props.event['name'],
-            eventDay:  props.isSongkick ? dayNames[new Date(props.event['start']['date']).getDay()] : dayNames[new Date(props.event['start']).getDay()],
+            eventDay: props.isSongkick ? dayNames[new Date(props.event['start']['date']).getDay()] : dayNames[new Date(props.event['start']).getDay()],
             eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
-            eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] +' ' + props.event['start']['date'].split('-')[2]
+            eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] + ' ' + props.event['start']['date'].split('-')[2]
                 : monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
             eventHostPhoto: props.isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + props.event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: props.event['owner']['photo1_url']},
-            guestNums: props.isSongkick ? 0 :props.event['guests'].length,
+            guestNums: props.isSongkick ? 0 : props.event['guests'].length,
             eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
             isCurrentUserHost: props.isCurrentUserHost
@@ -63,7 +63,7 @@ export default class EventComponent extends Component {
 
     render() {
         return (
-            <View style={{width:'100%', height:'100%'}}>
+            <View style={{width: '100%', height: '100%'}}>
                 <View style={styles.cardHeader}>
                     {this.state.eventConfirmed ?
                         this.state.isCurrentUserHost ?
@@ -113,8 +113,7 @@ export default class EventComponent extends Component {
                         <View style={styles.divider}/>
                         <Text style={styles.eventTitle}>{this.state.eventTitle}</Text>
                         <Text style={styles.heading1}> {this.state.eventDay}, {this.state.eventTime}</Text>
-                        {this.props.isSongkick ? <View/> :
-                            <Text style={styles.eventDate}> {this.state.eventDate} </Text>}
+                        <Text style={styles.eventDate}> {this.state.eventDate} </Text>
                         <View style={styles.cardFooter}>
                             <Text style={{fontFamily: 'sans-serif-thin', fontSize: RF(2)}}>
                                 <Image style={{
