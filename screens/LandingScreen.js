@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Animated,
-  Easing,
-  Image,
-  ImageBackground,
-  PanResponder,
-  Platform,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
+    Animated,
+    Easing,
+    Image,
+    ImageBackground,
+    PanResponder,
+    Platform,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
 } from 'react-native';
 import EventComponent from "../components/EventComponent";
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addToSongkickEvents, confirmEvent, getSongkickEvents} from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -268,8 +268,9 @@ class LandingScreen extends Component {
   }
 
   renderImage = () => {
-    const { events, songKickEvents } = this.props;
-    return events.availableEvents.concat(songKickEvents).map((item, i) => {
+    // const { events, songKickEvents } = this.props;
+    console.log(this.props.events['40']);
+    return this.props.events.availableEvents.map((item, i) => {
       let isSongkick = 'performance' in item;
       let actualItem = isSongkick ? item : item['event'];
       if (i < this.state.imageIndex) {
