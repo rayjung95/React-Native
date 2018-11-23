@@ -11,9 +11,11 @@ export default class DateTimePickerTester extends Component {
         super(props);
         this.state = {
             word: this.props.word,
+            startDatetime: null,
             startDate: null,
             startTime: null,
             startDayOfWeek: null,
+            endDatetime: null,
             endDate: null,
             endTime: null,
             endDayOfWeek: null,
@@ -59,6 +61,7 @@ export default class DateTimePickerTester extends Component {
 
         if (this.state.word === 'Starts') {
             this.setState({
+                startDatetime: date,
                 startDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
                 startDayOfWeek: dayNames[date.getDay()],
                 startTime: this._formatAMPM(date),
@@ -67,6 +70,7 @@ export default class DateTimePickerTester extends Component {
             console.log('asfdja;lksdlsa;kdfjlksda;lsfd');
             console.log(this.state);
             this.setState({
+                endDatetime: date,
                 endDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
                 endDayOfWeek: dayNames[date.getDay()],
                 endTime: this._formatAMPM(date),
@@ -85,6 +89,12 @@ export default class DateTimePickerTester extends Component {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         return hours + ':' + minutes + ' ' + ampm;
     }
+
+    componentWillMount = () => {
+        // console.log(SCREEN_WIDTH * (17 / 360));
+        console.log(this.props.starts);
+    }
+
 
     render() {
         return (

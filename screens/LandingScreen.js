@@ -19,9 +19,9 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent } from "../actions/eventsActions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addToSongkickEvents, confirmEvent, getSongkickEvents} from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -73,6 +73,7 @@ class LandingScreen extends Component {
       arrowFlipped: false,
       arrowIsTop: false,
       isDisabled: false,
+      songKickEvents: [],
       fetching: false
     }
 
@@ -90,6 +91,7 @@ class LandingScreen extends Component {
         ) {
           return false;
         }
+
         return true;
       },
       onPanResponderMove: (evt, gs) => {
@@ -105,10 +107,9 @@ class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: { x: SCREEN_WIDTH + 200, y: gs.dy }
           }).start(() => {
-            console.log('swiping right')
             this.props.confirmEvent(this.state.imageIndex);
             this.setState({
-              imageIndex: this.state.imageIndex + 1
+              imageIndex: this.state.imageIndex
             }, () => {
               this.position.setValue({ x: 0, y: 0 })
             })
@@ -117,8 +118,6 @@ class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: { x: -SCREEN_WIDTH - 200, y: gs.dy }
           }).start(() => {
-            console.log('swiping left')
-            this.props.declineEvent(this.state.imageIndex);
             this.setState({
               imageIndex: this.state.imageIndex + 1
             }, () => {
@@ -135,8 +134,39 @@ class LandingScreen extends Component {
     });
   }
 
+
+  // fetchSongKickEvents() {
+  //     fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
+  //         .then((response) => response.json())
+  //         .then((response) => {
+  //             let events = response.resultsPage.results.event;
+  //             this.props.addToSongkickEvents(events);
+
+
+  //             this.setState({
+  //                 songKickEvents: events
+  //             });
+
+
+  //             for (let i = 0; i < events.length; i++) {
+  //                 this.props.addToSongkickEvents(events[i])
+  //             }
+  //         })
+  // }
+
   componentDidMount() {
-    this.props.getSongkickEvents();
+    console.log('start fetching')
+    // const emitter = new EventEmitter()
+    // emitter.setMaxListeners();
+    if (!this.state.fetching) {
+      console.log('fetching')
+      // await this.fetchSongKickEvents();
+      this.props.getSongkickEvents();
+      this.setState({
+        fetching: true
+      })
+    }
+    console.log('stop fetching')
   }
 
   _toggleArrowAndEventCreation = () => {
@@ -216,7 +246,6 @@ class LandingScreen extends Component {
       })
     })
   }
-
   unlock = () => {
     console.log('unlock!')
     Animated.spring(this.position, {
@@ -226,7 +255,7 @@ class LandingScreen extends Component {
     }).start(() => {
       this.props.confirmEvent(this.state.imageIndex);
       this.setState({
-        imageIndex: this.state.imageIndex + 1
+        imageIndex: this.state.imageIndex
       }, () => {
         this.position.setValue({ x: 0, y: 0 })
       })
@@ -240,13 +269,13 @@ class LandingScreen extends Component {
 
   renderImage = () => {
     // const { events, songKickEvents } = this.props;
-    // console.log(this.props.events['40']);
+    console.log(this.props.events['40']);
     return this.props.events.availableEvents.map((item, i) => {
       let isSongkick = 'performance' in item;
       let actualItem = isSongkick ? item : item['event'];
       if (i < this.state.imageIndex) {
         return null
-      } else if (i == this.state.imageIndex) {
+      } else if (i === this.state.imageIndex) {
         return (
           <Animated.View
             {...this.imagePanResponder.panHandlers}
@@ -269,9 +298,7 @@ class LandingScreen extends Component {
           <Animated.View
             key={i}
             style={styles.cardContainer}>
-            <View style={{ width: '100%', height: '100%' }}>
-                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
-            </View>
+            <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
           </Animated.View>
         )
       }
@@ -279,7 +306,7 @@ class LandingScreen extends Component {
   };
 
   render() {
-    console.log('available event', this.props.availableEvents);
+    // console.log('songkick event', this.props.songKickEvents);
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -507,12 +534,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   let { events } = state;
+  let songKickEvents = events.songKickEvents
   let loading = events.loading
-  let availableEvents = events.availableEvents;
   return {
     events,
-    loading,
-    availableEvents
+    songKickEvents,
+    loading
   }
 };
 
@@ -520,8 +547,7 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({
     confirmEvent,
     addToSongkickEvents,
-    getSongkickEvents,
-    declineEvent
+    getSongkickEvents
   }, dispatch)
 );
 
