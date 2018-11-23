@@ -21,6 +21,8 @@ export default class DateTimePickerTester extends Component {
       endDayOfWeek: null,
       isDisabledTouch: false,
       dateError: false,
+      endDatetime: null,
+
     }
   }
 
@@ -88,10 +90,11 @@ export default class DateTimePickerTester extends Component {
         }, () => this.props.handleBadDate(this.state.dateError));
       }
       this.setState({
-        fullStartDate: date,
+        startDatetime: date,
         startDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
         startDayOfWeek: dayNames[date.getDay()],
         startTime: this._formatAMPM(date),
+        fullStartDate: date,
       });
     } else if (this.state.word === 'Ends') {
       console.log('Ends');
@@ -107,18 +110,17 @@ export default class DateTimePickerTester extends Component {
         }, () => this.props.handleBadDate(this.state.dateError));
       }
       this.setState({
-        fullEndDate: date,
+        endDatetime: date,
         endDate: (monthNames[date.getMonth()] + ' ' + date.getDate()),
         endDayOfWeek: dayNames[date.getDay()],
-        endTimeCat: ('' + date.getHours() + date.getMinutes()),
         endTime: this._formatAMPM(date),
-
+        fullEndDate: date,
       });
     }
 
     this._hideDateTimePicker();
   };
-  
+
 
   _formatAMPM = (date) => {
 

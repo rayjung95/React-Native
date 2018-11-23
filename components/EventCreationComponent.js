@@ -25,9 +25,12 @@ export class EventCreationComponent extends React.Component {
         this.state = {
             location: 'Location',
             title: '',
+            ownerid: 205,
+            startDatetime: null,
             startDate: null,
             startTime: null,
             startDayOfWeek: null,
+            endDatetime: null,
             endDate: null,
             endTime: null,
             endDayOfWeek: null,
@@ -104,9 +107,11 @@ export class EventCreationComponent extends React.Component {
     getDateTimeState = () => {
         const datetime = this.DateTimeComponent.getDateTimeState();
         this.setState({
+            startDatetime: datetime.startDatetime,
             startDate: datetime.startDate,
             startTime: datetime.startTime,
             startDayOfWeek: datetime.startDayOfWeek,
+            endDatetime: datetime.endDatetime,
             endDate: datetime.endDate,
             endTime: datetime.endTime,
             endDayOfWeek: datetime.endDayOfWeek,
