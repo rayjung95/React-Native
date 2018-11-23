@@ -4,6 +4,7 @@ import {FAILURE, REQUEST, SUCCESS} from '../constants/Action-Type';
 const eventStates = {
     availableEvents: [],
     confirmedEvents: [],
+    myEvents: [],
     loading: false
 };
 
@@ -12,7 +13,7 @@ export const eventsReducer = (state = eventStates, action) => {
     const {
         availableEvents,
         confirmedEvents,
-        songKickEvents
+        myEvents
     } = state;
 
     switch (action.type) {
@@ -35,37 +36,22 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: false,
                 error: 'Error while fetching songkick events'
             }
+        case REQUEST(ActionType.CREATE_EVENT):
+            return {
+                ...state,
+            };
+        case SUCCESS(ActionType.CREATE_EVENT):
+            let newEvent = action.payload.data.params;
+            newEvent['isCurrentUserHost'] = true;
+            confirmedEvents.push(newEvent);
+            return {
+                ...state
+            };
         case 'CONFIRM_EVENT':
             const confirmedEvent = availableEvents[action.payload];
-            // confirmedEvent.eventConfirmed = true;
             confirmedEvents.push(confirmedEvent);
             availableEvents.splice(action.payload, 1);
             console.log(availableEvents);
-            return state;
-
-        // case 'SONGKICK_EVENT':
-        //     availableEvents.push(action.payload);
-        //     return state;
-
-        case 'CREATE_EVENT':
-            const submittedEvent = action.payload;
-            let confirmed = {};
-            confirmed.eventHostName = 'Johnny';
-            confirmed.eventTitle = submittedEvent.title;
-            confirmed.eventDescription = submittedEvent.eventInfo;
-            confirmed.eventDay = submittedEvent.startDayOfWeek;
-            confirmed.eventDate = submittedEvent.startDate;
-            confirmed.eventTime = submittedEvent.startTime;
-            confirmed.eventHostPhoto = require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png');
-            confirmed.guestNums = 'No guests yet';
-            confirmed.eventAway = 2.5;
-            confirmed.eventAddress = submittedEvent.location;
-            confirmed.eventWebsite = 'www.website.com';
-            confirmed.eventConfirmed = true;
-            confirmed.isCurrentUserHost = true;
-
-            confirmedEvents.push(confirmed);
-
             return state;
 
         default:
