@@ -117,12 +117,6 @@ export default class DateTimePickerTester extends Component {
 
   }
 
-  componentWillMount = () => {
-    // console.log(SCREEN_WIDTH * (17 / 360));
-    console.log(this.props.starts);
-  }
-
-
   render() {
     return (
       <View>
