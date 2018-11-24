@@ -19,16 +19,13 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addToSongkickEvents, confirmEvent, getSongkickEvents} from "../actions/eventsActions";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents } from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
-const SKapiKey = "mzzfkojpy82tOJLz";
-// const EventEmitter = require('events');
-// const myEmitter = new EventEmitter();
 
 class LandingScreen extends Component {
   static navigationOptions = {
@@ -61,14 +58,6 @@ class LandingScreen extends Component {
       modalText: 'yikes',
       showCard: true,
       imageIndex: 0,
-      array: [
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-        { 'img': require('../assets/Pngs/intro1.imageset/cards.png') },
-      ],
       isMoving: false,
       eventCreationHidden: true,
       arrowFlipped: false,
@@ -110,7 +99,7 @@ class LandingScreen extends Component {
           }).start(() => {
             this.props.confirmEvent(this.state.imageIndex);
             this.setState({
-              imageIndex: this.state.imageIndex
+              imageIndex: this.state.imageIndex + 1
             }, () => {
               this.position.setValue({ x: 0, y: 0 })
             })
@@ -119,6 +108,7 @@ class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: { x: -SCREEN_WIDTH - 200, y: gs.dy }
           }).start(() => {
+            this.props.declineEvent(this.state.imageIndex);
             this.setState({
               imageIndex: this.state.imageIndex + 1
             }, () => {
@@ -135,39 +125,9 @@ class LandingScreen extends Component {
     });
   }
 
-
-  // fetchSongKickEvents() {
-  //     fetch(`http://api.songkick.com/api/3.0/events.json?apikey=${SKapiKey}&location=geo:49.286590,-123.115830`)
-  //         .then((response) => response.json())
-  //         .then((response) => {
-  //             let events = response.resultsPage.results.event;
-  //             this.props.addToSongkickEvents(events);
-
-
-  //             this.setState({
-  //                 songKickEvents: events
-  //             });
-
-
-  //             for (let i = 0; i < events.length; i++) {
-  //                 this.props.addToSongkickEvents(events[i])
-  //             }
-  //         })
-  // }
-
   componentDidMount() {
-    console.log('start fetching')
-    // const emitter = new EventEmitter()
-    // emitter.setMaxListeners();
-    if (!this.state.fetching) {
-      console.log('fetching')
-      // await this.fetchSongKickEvents();
-      this.props.getSongkickEvents();
-      this.setState({
-        fetching: true
-      })
-    }
-    console.log('stop fetching')
+    this.props.getSongkickEvents();
+    this.props.getEvents();
   }
 
   _toggleEventCreation = () => {
@@ -202,6 +162,7 @@ class LandingScreen extends Component {
       friction: 500,
       tension: 1,
     }).start(() => {
+      this.props.declineEvent(this.state.imageIndex);
       this.setState({
         imageIndex: this.state.imageIndex + 1
       }, () => {
@@ -218,7 +179,7 @@ class LandingScreen extends Component {
     }).start(() => {
       this.props.confirmEvent(this.state.imageIndex);
       this.setState({
-        imageIndex: this.state.imageIndex
+        imageIndex: this.state.imageIndex + 1
       }, () => {
         this.position.setValue({ x: 0, y: 0 })
       })
@@ -233,11 +194,9 @@ class LandingScreen extends Component {
   }
 
   renderImage = () => {
-    // const { events, songKickEvents } = this.props;
-    console.log(this.props.events['40']);
-    return this.props.events.availableEvents.map((item, i) => {
+    return this.props.availableEvents.map((item, i) => {
       let isSongkick = 'performance' in item;
-      let actualItem = isSongkick ? item : item['event'];
+      // let actualItem = isSongkick ? item : item['event'];
       if (i < this.state.imageIndex) {
         return null
       } else if (i === this.state.imageIndex) {
@@ -248,12 +207,12 @@ class LandingScreen extends Component {
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-              event: actualItem,
+              event: item,
               eventConfirmed: false,
               isSongkick: isSongkick
             })}>
               <View style={{ width: '100%', height: '100%' }}>
-                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
+                <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
               </View>
             </TouchableWithoutFeedback>
           </Animated.View>
@@ -263,7 +222,9 @@ class LandingScreen extends Component {
           <Animated.View
             key={i}
             style={styles.cardContainer}>
-            <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
+            <View style={{ width: '100%', height: '100%' }}>
+                <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
+            </View>
           </Animated.View>
         )
       }
@@ -509,10 +470,12 @@ const mapStateToProps = (state) => {
   let { events } = state;
   let songKickEvents = events.songKickEvents
   let loading = events.loading
+  let availableEvents = events.availableEvents
   return {
     events,
     songKickEvents,
-    loading
+    loading,
+    availableEvents
   }
 };
 
@@ -520,7 +483,9 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({
     confirmEvent,
     addToSongkickEvents,
-    getSongkickEvents
+    getSongkickEvents,
+    declineEvent,
+    getEvents
   }, dispatch)
 );
 
