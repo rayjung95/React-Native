@@ -8,7 +8,8 @@ const userStates = {
         last: null,
         about: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
         contact: 'Contact Info',
-        photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
+        //photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
+        photo1_url: null,
         photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
         photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
         photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
@@ -16,6 +17,7 @@ const userStates = {
         user_id: null,
         search_distance_km: 1,
         email: null,
+        fbToken: null,
     },
 };
 

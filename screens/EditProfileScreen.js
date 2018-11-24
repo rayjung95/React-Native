@@ -12,6 +12,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
+    TouchableHighlight,
     View
 } from 'react-native';
 
@@ -718,40 +719,77 @@ class EditProfileScreen extends Component {
     }
 
 	render() {
+		const image1 = 	<Animated.View {...this.image1PanResponder.panHandlers} style={[styles.mainImageView, this.state.image1XY.getLayout(), {zIndex: this.state.image1ZIndex, transform: [{scale: this.state.image1Scale}]}]}>
+							<Animated.Image source={this.state.imageSource[0]} style={[styles.mainImage]} />
+							<View style={styles.deleteImageView}>
+								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
+							</View>
+						</Animated.View>;
+
+		const addPhoto1 = 	<TouchableOpacity
+								onPress={this._addPhoto}
+								style={[styles.mainImageView, {top: IMAGE1_COORD.y, left: IMAGE1_COORD.x, transform: [{scale: this.state.image1OrigScale}]}]}
+							>
+								<Image source={this.props.addImageSource} style={[styles.mainImage]}/>
+							</TouchableOpacity>;
+
+		const image2 = 	<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
+							<Animated.Image source={this.state.imageSource[1]} style={[styles.smallImage]} />
+							<View style={styles.deleteImageView}>
+								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
+							</View>
+						</Animated.View>;
+
+		const addPhoto2 = 	<TouchableOpacity
+								onPress={this._addPhoto}
+								style={[styles.smallImageView, {top: IMAGE2_COORD.y, left: IMAGE2_COORD.x, transform: [{scale: this.state.image2OrigScale}]}]}
+							>
+								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+							</TouchableOpacity>;
+
+		const image3 = 	<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
+							<Animated.Image source={this.state.imageSource[2]} style={[styles.smallImage]}/>
+							<View style={styles.deleteImageView}>
+								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
+							</View>
+						</Animated.View>;
+
+		const addPhoto3 = 	<TouchableOpacity
+								onPress={this._addPhoto}
+								style={[styles.smallImageView, {top: IMAGE3_COORD.y, left: IMAGE3_COORD.x, transform: [{scale: this.state.image3OrigScale}]}]}
+							>
+								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+							</TouchableOpacity>;
+
+		const image4 = 	<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
+							<Animated.Image source={this.state.imageSource[3]} style={[styles.smallImage]}/>
+							<View style={styles.deleteImageView}>
+								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
+							</View>
+						</Animated.View>;
+
+		const addPhoto4 = 	<TouchableOpacity
+								onPress={this._addPhoto}
+								style={[styles.smallImageView, {top: IMAGE4_COORD.y, left: IMAGE4_COORD.x, transform: [{scale: this.state.image4OrigScale}]}]}
+							>
+								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+							</TouchableOpacity>;
+
+		// const addPhoto4 = 	<TouchableHighlight onPress={this._addPhoto}>
+		// 						<View style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
+		// 							<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+		// 						</View>
+		// 					</TouchableHighlight>;
+
 		return (
 			<View style={styles.background}>
 				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.091 }} showsVerticalScrollIndicator={false} ref={(ref) => this.profileScroll = ref}>
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
-							<Animated.View {...this.image1PanResponder.panHandlers} style={[styles.mainImageView, this.state.image1XY.getLayout(), {zIndex: this.state.image1ZIndex, transform: [{scale: this.state.image1Scale}]}]}>
-								<Animated.Image source={this.state.imageSource[0]} style={[styles.mainImage]} />
-								<View style={styles.deleteImageView}>
-									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
-								</View>
-							</Animated.View>
-							<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
-								<Animated.Image source={this.state.imageSource[1]} style={[styles.smallImage]} />
-								<View style={styles.deleteImageView}>
-									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
-								</View>
-							</Animated.View>
-							<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
-								<Animated.Image source={this.state.imageSource[2]} style={[styles.smallImage]}/>
-								<View style={styles.deleteImageView}>
-									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
-								</View>
-							</Animated.View>
-							<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
-								<Animated.Image source={this.state.imageSource[3]} style={[styles.smallImage]}/>
-								<View style={styles.deleteImageView}>
-									<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
-								</View>
-							</Animated.View>
-							{/*<TouchableHighlight onPress={this._addPhoto}>
-								<View style={[styles.smallImageView, {left: 30, top: 30, zIndex: 3, elevation: 2}]}>
-									<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
-								</View>
-							</TouchableHighlight>*/}
+							{this.state.image1Exists ? image1 : addPhoto1}
+							{this.state.image2Exists ? image2 : addPhoto2}
+							{this.state.image3Exists ? image3 : addPhoto3}
+							{this.state.image4Exists ? image4 : addPhoto4}
 						</View>
 
 						<View style={styles.profileBio}>
