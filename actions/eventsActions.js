@@ -8,13 +8,30 @@ export const confirmEvent = eventIndex => ({
 });
 
 export const declineEvent = eventIndex => ({
-  type: 'DECLINE_EVENT',
-  payload: eventIndex
+    type: 'DECLINE_EVENT',
+    payload: eventIndex
 });
 
 export const createEvent = event => ({
-    type: 'CREATE_EVENT',
-    payload: event
+    type: ActionType.CREATE_EVENT,
+    payload: {
+        client: 'rendevous',
+        request: {
+            method: 'POST',
+            url: '/event',
+            headers: HEADERS,
+            data: {
+                "owner_id": event.ownerid,
+                "name": event.title,
+                "detail": event.eventInfo,
+                "start": event.startDatetime,
+                "end": event.endDatetime,
+                "location_name": event.location,
+                "lat": 49.171452,
+                "long": -122.5791
+            }
+        }
+    }
 });
 
 export const addToSongkickEvents = events => ({
@@ -24,13 +41,13 @@ export const addToSongkickEvents = events => ({
 
 export const getSongkickEvents = () => {
     return {
-      type: ActionType.GET_SONGKICK_EVENTS,
-      payload: {
-        client: 'songkick',
-        request: {
-          url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
+        type: ActionType.GET_SONGKICK_EVENTS,
+        payload: {
+            client: 'songkick',
+            request: {
+              url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
+            }
         }
-      }
     };
   }
 

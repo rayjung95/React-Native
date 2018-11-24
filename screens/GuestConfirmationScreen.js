@@ -1,20 +1,20 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
-    Animated,
-    Dimensions,
-    Easing,
-    FlatList,
-    Image,
-    ImageBackground,
-    PanResponder,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View
+  Animated,
+  Dimensions,
+  Easing,
+  FlatList,
+  Image,
+  ImageBackground,
+  PanResponder,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
 import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
@@ -385,9 +385,9 @@ export default class GuestConfirmationScreen extends Component {
           >
             <TouchableWithoutFeedback style={styles.touchableCard}
               onPress={() => this.openProfile(i)}
-              // onPress={() => this.props.navigation.navigate('GuestInfoConfirmation', {
-              //   message:true
-              // })}
+            // onPress={() => this.props.navigation.navigate('GuestInfoConfirmation', {
+            //   message:true
+            // })}
             >
               <View
                 style={styles.touchableCard}
@@ -472,7 +472,7 @@ export default class GuestConfirmationScreen extends Component {
 
     return (
       <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-        <View style={styles.header}>
+        {this.state.showCard && <View style={styles.header}>
           <View style={styles.menu1}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('UserCalender')}>
               <View style={styles.backArrow}>
@@ -503,7 +503,7 @@ export default class GuestConfirmationScreen extends Component {
               {/* <Image style={{width:24,height:24, marginLeft:15}} source={require('../assets/Icons/event_yellow/calendar.png')} /> */}
             </TouchableOpacity>
           </View>
-        </View>
+        </View>}
 
         <Modal onBackdropPress={() => console.log('Modal')} style={styles.modal} position={"center"} ref={"modal4"} isDisabled={this.state.isDisabled}>
           <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', backgroundColor: '#5bb983', width: "100%", height: SCREEN_HEIGHT * (73 / 1332), borderTopRightRadius: 5, borderTopLeftRadius: 5 }}><Text style={{ color: 'white', fontSize: SCREEN_HEIGHT * (30 / 1332) }}>Warning</Text></View>
@@ -542,7 +542,7 @@ export default class GuestConfirmationScreen extends Component {
           <View style={{ flex: 1, zIndex: 1001 }} ref={(view) => (this.viewProfile = view)}>
             {this.state.activeProfile &&
               <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: '#fff', borderRadius: 5 }, activeProfileStyle]}>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 6}}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: -window.height / 6 }}>
                   <Animated.View style={[{ width: null, height: null, top: 0, left: 0, backgroundColor: 'red' }, activeImageStyle]}>
                     <Swiper horizontal={true} style={{ flex: 1 }} activeDotStyle={{ backgroundColor: 'yellow' }}>
                       <Image style={styles.images} source={require('../assets/Pngs/girlphoto.imageset/girlphoto.png')} />
