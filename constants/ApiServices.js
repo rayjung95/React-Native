@@ -21,10 +21,10 @@ export const SESSION_TOKEN = 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO';
 export const SONGKICK_API_KEY = 'mzzfkojpy82tOJLz';
 
 // Header
-export const HEADER = {
+export const HEADERS = {
   'Content-Type': 'application/json',
-  'api-key': API_KEY,
-  'session': SESSION_TOKEN
+  'api-key': 'j05wd2ae49d212578ef13cb607cef64b',
+  'sessiontoken': 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO'
 }
 
 // // Api Calls

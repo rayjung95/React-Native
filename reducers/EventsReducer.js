@@ -19,6 +19,7 @@ export const eventsReducer = (state = eventStates, action) => {
     switch (action.type) {
 
         case REQUEST(ActionType.GET_SONGKICK_EVENTS):
+        case REQUEST(ActionType.GET_EVENTS):
             return {
                 ...state,
                 loading: true
@@ -28,6 +29,13 @@ export const eventsReducer = (state = eventStates, action) => {
             return {
                 ...state,
                 availableEvents: [...state.availableEvents, ...action.payload.data.resultsPage.results.event],
+                loading: false
+            }
+        case SUCCESS(ActionType.GET_EVENTS):
+            console.log('Events!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', action.payload.data.events)
+            return {
+                ...state,
+                availableEvents: [...state.availableEvents, ...action.payload.data.events],
                 loading: false
             }
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):

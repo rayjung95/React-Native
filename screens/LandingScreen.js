@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent } from "../actions/eventsActions";
+import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents } from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -137,6 +137,7 @@ class LandingScreen extends Component {
 
   componentDidMount() {
     this.props.getSongkickEvents();
+    this.props.getEvents();
   }
 
   _toggleArrowAndEventCreation = () => {
@@ -243,7 +244,7 @@ class LandingScreen extends Component {
     // console.log(this.props.events['40']);
     return this.props.events.availableEvents.map((item, i) => {
       let isSongkick = 'performance' in item;
-      let actualItem = isSongkick ? item : item['event'];
+      // let actualItem = isSongkick ? item : item['event'];
       if (i < this.state.imageIndex) {
         return null
       } else if (i == this.state.imageIndex) {
@@ -254,12 +255,12 @@ class LandingScreen extends Component {
             style={[this.rotateAndTranslate, styles.cardContainer]}
           >
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('EventDetails', {
-              event: actualItem,
+              event: item,
               eventConfirmed: false,
               isSongkick: isSongkick
             })}>
               <View style={{ width: '100%', height: '100%' }}>
-                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
+                <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
               </View>
             </TouchableWithoutFeedback>
           </Animated.View>
@@ -270,7 +271,7 @@ class LandingScreen extends Component {
             key={i}
             style={styles.cardContainer}>
             <View style={{ width: '100%', height: '100%' }}>
-                <EventComponent event={actualItem} eventConfirmed={false} isSongkick={isSongkick} />
+                <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
             </View>
           </Animated.View>
         )
@@ -521,7 +522,8 @@ const mapDispatchToProps = dispatch => (
     confirmEvent,
     addToSongkickEvents,
     getSongkickEvents,
-    declineEvent
+    declineEvent,
+    getEvents
   }, dispatch)
 );
 
