@@ -54,6 +54,7 @@ class UserSettingScreen extends Component {
 		step: 1,
 		tos_url: 'http://www.rendevousapp.com/terms-of-service/',
 		privacy_url: 'http://www.rendevousapp.com/privacy-policy/',
+		placeholder_pic: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 	}
 
 	testPress() {
@@ -100,6 +101,12 @@ class UserSettingScreen extends Component {
     }
 
 	render() {
+		let profilePicSource;
+		if (this.state.profileImageSource != null)
+			profilePicSource = {uri: this.state.profileImageSource};
+		else
+			profilePicSource = this.props.placeholder_pic;
+
 		return (
 			<ImageBackground source={
 				require('../assets/Pngs/bg.imageset/bg.png')
@@ -125,22 +132,26 @@ class UserSettingScreen extends Component {
 							</TouchableOpacity>
 						</View>
 						<Image source={
-								this.state.profileImageSource
+								profilePicSource
 						} style={
 							styles.profileImage
 						}/>
-						<Text style={
-							styles.profileNameText
+						<View style={
+							styles.topProfileTextContainer
 						}>
-							{this.state.name}
-						</Text>
-						<TouchableOpacity onPress={()=>this.props.navigation.navigate('EditProfile')}>
 							<Text style={
-								styles.editProfileText
+								styles.profileNameText
 							}>
-								{'Edit Profile'}
+								{this.state.name}
 							</Text>
-						</TouchableOpacity>
+							<TouchableOpacity onPress={()=>this.props.navigation.navigate('EditProfile')}>
+								<Text style={
+									styles.editProfileText
+								}>
+									{'Edit Profile'}
+								</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 					<View style={
 						styles.bottomSettings
@@ -292,7 +303,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	topSettings: {
-		justifyContent: 'center',
 		alignItems: 'center',
 		height: SCREEN_HEIGHT * 0.5,
 		padding: SCREEN_HEIGHT * 0.034,
@@ -305,7 +315,7 @@ const styles = StyleSheet.create({
 		height: SCREEN_HEIGHT * 0.75,
 	},
 	titleContainer: {
-		flex: 1,
+		top: 0,
 		alignItems: 'center',
 		flexDirection: 'row',
 	},
@@ -320,9 +330,12 @@ const styles = StyleSheet.create({
 		marginLeft: SCREEN_WIDTH * 0.35,
 		marginRight: SCREEN_WIDTH * 0.31,
 	},
+	topProfileTextContainer: {
+		position: 'absolute',
+		bottom: SCREEN_HEIGHT * 0.034,
+	},
 	profileNameText: {
 		justifyContent: 'center',
-		
 		alignItems: 'stretch',
 		zIndex: 1,
 		fontFamily: 'sans-serif-thin',

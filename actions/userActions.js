@@ -8,6 +8,11 @@ export const saveProfileDetails = details => ({
     payload: details
 });
 
+export const addProfilePhoto = photoURI => ({
+	type: 'ADD_PROFILE_PHOTO',
+	payload: photoURI,
+});
+
 export const saveUserLogin = login => ({
     type: 'SAVE_USER_LOGIN',
     payload: login
