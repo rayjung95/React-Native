@@ -103,7 +103,7 @@ class UserSettingScreen extends Component {
 	render() {
 		let profilePicSource;
 		if (this.state.profileImageSource != null)
-			profilePicSource = this.state.profileImageSource;
+			profilePicSource = {uri: this.state.profileImageSource};
 		else
 			profilePicSource = this.props.placeholder_pic;
 

@@ -8,11 +8,11 @@ const userStates = {
         last: null,
         about: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
         contact: 'Contact Info',
-        photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
+        //photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
         photo1_url: null,
-        photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        //photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
         photo2_url: null,
-        photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        //photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
         photo3_url: null,
         //photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
         photo4_url: null,
@@ -45,6 +45,26 @@ export const userReducer = (state = userStates, action) => {
             profile.photo2_url = profileDetails.imageSource[1];
             profile.photo3_url = profileDetails.imageSource[2];
             profile.photo4_url = profileDetails.imageSource[3];
+
+            return state;
+
+        case 'ADD_PROFILE_PHOTO':
+            const photoURI = action.payload;
+            let profilePhotos = currentUser;
+
+            if (profilePhotos.photo1_url === null)
+                profilePhotos.photo1_url = photoURI;
+            else {
+                if (profilePhotos.photo2_url === null)
+                    profilePhotos.photo2_url = photoURI;
+                else {
+                    if (profilePhotos.photo3_url === null)
+                        profilePhotos.photo3_url = photoURI;
+                    else {
+                        profilePhotos.photo4_url = photoURI;
+                    }
+                }
+            }
 
             return state;
         

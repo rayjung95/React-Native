@@ -718,16 +718,30 @@ class EditProfileScreen extends Component {
 
     _addPhoto = () => {
     	this.setState({
-            isModalVisible: !this.state.isModalVisible
-        })
+            isModalVisible: !this.state.isModalVisible,
+            imageSource: [
+				this.props.user.currentUser.photo1_url,
+				this.props.user.currentUser.photo2_url,
+				this.props.user.currentUser.photo3_url,
+				this.props.user.currentUser.photo4_url
+			],
+        });
+        if (this.state.imageSource[0] != null)
+			this.setState({image1Exists: true});
+		if (this.state.imageSource[1] != null)
+			this.setState({image2Exists: true});
+		if (this.state.imageSource[2] != null)
+			this.setState({image3Exists: true});
+		if (this.state.imageSource[3] != null)
+			this.setState({image4Exists: true});
     }
 
 	render() {
 		const image1 = 	<Animated.View {...this.image1PanResponder.panHandlers} style={[styles.mainImageView, this.state.image1XY.getLayout(), {zIndex: this.state.image1ZIndex, transform: [{scale: this.state.image1Scale}]}]}>
-							<Animated.Image source={this.state.imageSource[0]} style={[styles.mainImage]} />
-							<View style={styles.deleteImageView}>
+							<Animated.Image source={{uri: this.state.imageSource[0]}} style={[styles.mainImage]} />
+							<TouchableOpacity style={styles.deleteImageView}>
 								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
-							</View>
+							</TouchableOpacity>
 						</Animated.View>;
 
 		const addPhoto1 = 	<TouchableOpacity
@@ -738,7 +752,7 @@ class EditProfileScreen extends Component {
 							</TouchableOpacity>;
 
 		const image2 = 	<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
-							<Animated.Image source={this.state.imageSource[1]} style={[styles.smallImage]} />
+							<Animated.Image source={{uri: this.state.imageSource[1]}} style={[styles.smallImage]} />
 							<View style={styles.deleteImageView}>
 								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 							</View>
@@ -752,7 +766,7 @@ class EditProfileScreen extends Component {
 							</TouchableOpacity>;
 
 		const image3 = 	<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
-							<Animated.Image source={this.state.imageSource[2]} style={[styles.smallImage]}/>
+							<Animated.Image source={{uri: this.state.imageSource[2]}} style={[styles.smallImage]}/>
 							<View style={styles.deleteImageView}>
 								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 							</View>
@@ -766,7 +780,7 @@ class EditProfileScreen extends Component {
 							</TouchableOpacity>;
 
 		const image4 = 	<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
-							<Animated.Image source={this.state.imageSource[3]} style={[styles.smallImage]}/>
+							<Animated.Image source={{uri: this.state.imageSource[3]}} style={[styles.smallImage]}/>
 							<View style={styles.deleteImageView}>
 								<Image source={require('../assets/Icons/delete.imageset/delete.png')} style={styles.deleteImage} />
 							</View>

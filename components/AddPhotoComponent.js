@@ -1,15 +1,20 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, TouchableOpacity, View, StatusBar} from 'react-native';
 
+import { ImagePicker, Permissions } from 'expo';
 import Modal from "react-native-modal";
 import Layout from "../constants/Layout";
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addProfilePhoto} from "../actions/userActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
 
-export default class AddPhotoComponent extends Component {
-	constructor() {
-        super();
+class AddPhotoComponent extends Component {
+	constructor(props) {
+        super(props);
         this.state = {
             isModalVisible: false
         };
@@ -29,6 +34,34 @@ export default class AddPhotoComponent extends Component {
         })
     }
 
+    async _pickImage(option) {
+    	let result;
+    	if (option === 0) {
+    		const permission = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+
+			if (permission.status === 'granted') {
+	    		result = await ImagePicker.launchCameraAsync({
+					allowsEditing: true,
+					aspect: [5, 5]
+				});
+	    	}
+		}
+		else {
+			result = await ImagePicker.launchImageLibraryAsync({
+				allowsEditing: true,
+				aspect: [5, 5]
+			});
+		}
+		
+		console.log(result);
+
+		if (!result.cancelled) {
+			this.props.addProfilePhoto(result.uri);
+			console.log(this.props.user.currentUser.photo1_url);
+			this.closeModal();
+		}
+	}
+
     render() {
         return (
             <Modal
@@ -40,13 +73,17 @@ export default class AddPhotoComponent extends Component {
             >
                 <StatusBar hidden={true}/>
                 <View style={styles.menuView}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    	onPress={() => this._pickImage(0)}
+                    >
                         <View style={styles.textContainer}>
                             <Text style={styles.text}> TAKE A PHOTO </Text>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    	onPress={() => this._pickImage(1)}
+                    >
                         <View style={styles.textContainer}>
                             <Text style={styles.text}> SELECT FROM GALLERY </Text>
                         </View>
@@ -95,3 +132,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
+
+const mapStateToProps = (state) => {
+	const { user } = state;
+	return { user }
+};
+
+const mapDispatchToProps = dispatch => (
+	bindActionCreators({
+    	addProfilePhoto,
+	}, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhotoComponent);
