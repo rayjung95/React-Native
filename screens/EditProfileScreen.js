@@ -21,6 +21,7 @@ import update from 'immutability-helper';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {saveProfileDetails} from "../actions/userActions";
+import AddPhotoComponent from "../components/AddPhotoComponent";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -81,6 +82,7 @@ class EditProfileScreen extends Component {
 			image4ZIndex: 1,
 
 			changesMade: false,
+			isModalVisible: false,
 		}
 
         this._addPhoto = this._addPhoto.bind(this);
@@ -715,7 +717,9 @@ class EditProfileScreen extends Component {
     }
 
     _addPhoto = () => {
-    	console.log('Add Photo');
+    	this.setState({
+            isModalVisible: !this.state.isModalVisible
+        })
     }
 
 	render() {
@@ -728,9 +732,9 @@ class EditProfileScreen extends Component {
 
 		const addPhoto1 = 	<TouchableOpacity
 								onPress={this._addPhoto}
-								style={[styles.mainImageView, {top: IMAGE1_COORD.y, left: IMAGE1_COORD.x, transform: [{scale: this.state.image1OrigScale}]}]}
+								style={[styles.mainImageView, {width: SCREEN_WIDTH * 0.939, height: SCREEN_WIDTH * 0.939, top: IMAGE1_COORD.y - SCREEN_WIDTH * 0.317, left: IMAGE1_COORD.x - SCREEN_WIDTH * 0.317}]}
 							>
-								<Image source={this.props.addImageSource} style={[styles.mainImage]}/>
+								<Image source={this.props.addImageSource} style={[styles.mainImage, {width: SCREEN_WIDTH * 0.939, height: SCREEN_WIDTH * 0.939, borderRadius: 0}]}/>
 							</TouchableOpacity>;
 
 		const image2 = 	<Animated.View {...this.image2PanResponder.panHandlers} style={[styles.smallImageView, this.state.image2XY.getLayout(), {zIndex: this.state.image2ZIndex, transform: [{scale: this.state.image2Scale}]}]}>
@@ -744,7 +748,7 @@ class EditProfileScreen extends Component {
 								onPress={this._addPhoto}
 								style={[styles.smallImageView, {top: IMAGE2_COORD.y, left: IMAGE2_COORD.x, transform: [{scale: this.state.image2OrigScale}]}]}
 							>
-								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+								<Image source={this.props.addImageSource} style={[styles.smallImage, {borderRadius: 0}]}/>
 							</TouchableOpacity>;
 
 		const image3 = 	<Animated.View {...this.image3PanResponder.panHandlers} style={[styles.smallImageView, this.state.image3XY.getLayout(), {zIndex: this.state.image3ZIndex, transform: [{scale: this.state.image3Scale}]}]}>
@@ -758,7 +762,7 @@ class EditProfileScreen extends Component {
 								onPress={this._addPhoto}
 								style={[styles.smallImageView, {top: IMAGE3_COORD.y, left: IMAGE3_COORD.x, transform: [{scale: this.state.image3OrigScale}]}]}
 							>
-								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+								<Image source={this.props.addImageSource} style={[styles.smallImage, {borderRadius: 0}]}/>
 							</TouchableOpacity>;
 
 		const image4 = 	<Animated.View {...this.image4PanResponder.panHandlers} style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
@@ -772,7 +776,7 @@ class EditProfileScreen extends Component {
 								onPress={this._addPhoto}
 								style={[styles.smallImageView, {top: IMAGE4_COORD.y, left: IMAGE4_COORD.x, transform: [{scale: this.state.image4OrigScale}]}]}
 							>
-								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
+								<Image source={this.props.addImageSource} style={[styles.smallImage, {borderRadius: 0}]}/>
 							</TouchableOpacity>;
 
 		return (
@@ -840,6 +844,10 @@ class EditProfileScreen extends Component {
 						</Text>
 					</TouchableOpacity>
 				</ImageBackground>
+				<AddPhotoComponent
+					isModalVisible={this.state.isModalVisible}
+					updateModal={this._addPhoto}
+				/>
 			</View>
 		)
 	}
