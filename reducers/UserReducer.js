@@ -82,7 +82,7 @@ export const userReducer = (state = userStates, action) => {
             currentUser.first = data.first;
             currentUser.last = data.last;
             currentUser.email = data.email;
-            currentUser.photo1_url = { uri: data.pic};
+            currentUser.photo1_url = data.pic;
             currentUser.id = data.id;
             currentUser.isLoggedIn = true;
 
