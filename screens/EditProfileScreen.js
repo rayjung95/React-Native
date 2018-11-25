@@ -775,17 +775,15 @@ class EditProfileScreen extends Component {
 								<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
 							</TouchableOpacity>;
 
-		// const addPhoto4 = 	<TouchableHighlight onPress={this._addPhoto}>
-		// 						<View style={[styles.smallImageView, this.state.image4XY.getLayout(), {zIndex: this.state.image4ZIndex, transform: [{scale: this.state.image4Scale}]}]}>
-		// 							<Image source={this.props.addImageSource} style={[styles.smallImage]}/>
-		// 						</View>
-		// 					</TouchableHighlight>;
-
 		return (
 			<View style={styles.background}>
 				<ScrollView contentContainerStyle={{ paddingTop: SCREEN_HEIGHT * 0.091 }} showsVerticalScrollIndicator={false} ref={(ref) => this.profileScroll = ref}>
 					<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-200}>
 						<View style={styles.imageGallery}>
+							<View style={[styles.imageBackground, {top: IMAGE1_COORD.y, left: IMAGE1_COORD.x, transform: [{scale: 3.13}]}]} />
+							<View style={[styles.imageBackground, {top: IMAGE2_COORD.y, left: IMAGE2_COORD.x}]} />
+							<View style={[styles.imageBackground, {top: IMAGE3_COORD.y, left: IMAGE3_COORD.x}]} />
+							<View style={[styles.imageBackground, {top: IMAGE4_COORD.y, left: IMAGE4_COORD.x}]} />
 							{this.state.image1Exists ? image1 : addPhoto1}
 							{this.state.image2Exists ? image2 : addPhoto2}
 							{this.state.image3Exists ? image3 : addPhoto3}
@@ -928,6 +926,13 @@ const styles = StyleSheet.create({
         elevation: 1,
         position: 'absolute',
 	},
+	imageBackground: {
+		position: 'absolute',
+		width: SCREEN_WIDTH * 0.3,
+		height: SCREEN_WIDTH * 0.3,
+		backgroundColor: '#F2F3F4',
+		borderRadius: SCREEN_HEIGHT * 0.01,
+	},
 	imageGallery: {
 		backgroundColor: '#FFFFFF',
 		width: SCREEN_WIDTH,
@@ -941,6 +946,7 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 		width: SCREEN_WIDTH * 0.3,
 		height: SCREEN_WIDTH * 0.3,
+		borderRadius: SCREEN_HEIGHT * 0.01,
 	},
 	mainImageView: {
 		position: 'absolute',
@@ -966,6 +972,7 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 		width: SCREEN_WIDTH * 0.3,
 		height: SCREEN_WIDTH * 0.3,
+		borderRadius: SCREEN_HEIGHT * 0.01,
 	},
 	smallImageView: {
 		position: 'absolute',

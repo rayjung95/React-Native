@@ -54,6 +54,7 @@ class UserSettingScreen extends Component {
 		step: 1,
 		tos_url: 'http://www.rendevousapp.com/terms-of-service/',
 		privacy_url: 'http://www.rendevousapp.com/privacy-policy/',
+		placeholder_pic: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
 	}
 
 	testPress() {
@@ -100,6 +101,12 @@ class UserSettingScreen extends Component {
     }
 
 	render() {
+		let profilePicSource;
+		if (this.state.profileImageSource != null)
+			profilePicSource = this.state.profileImageSource;
+		else
+			profilePicSource = this.props.placeholder_pic;
+
 		return (
 			<ImageBackground source={
 				require('../assets/Pngs/bg.imageset/bg.png')
@@ -125,7 +132,7 @@ class UserSettingScreen extends Component {
 							</TouchableOpacity>
 						</View>
 						<Image source={
-								this.state.profileImageSource
+								profilePicSource
 						} style={
 							styles.profileImage
 						}/>
