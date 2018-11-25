@@ -52,12 +52,9 @@ class AddPhotoComponent extends Component {
 				aspect: [5, 5]
 			});
 		}
-		
-		console.log(result);
 
 		if (!result.cancelled) {
 			this.props.addProfilePhoto(result.uri);
-			console.log(this.props.user.currentUser.photo1_url);
 			this.closeModal();
 		}
 	}
