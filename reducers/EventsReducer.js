@@ -11,6 +11,8 @@ const eventStates = {
 export const eventsReducer = (state = eventStates, action) => {
     switch (action.type) {
         case REQUEST(ActionType.GET_SONGKICK_EVENTS):
+        case REQUEST(ActionType.GET_EVENTS):
+        case REQUEST(ActionType.CREATE_EVENT):
             return {
                 ...state,
                 loading: true
@@ -21,16 +23,13 @@ export const eventsReducer = (state = eventStates, action) => {
                 availableEvents: [...state.availableEvents, ...action.payload.data.resultsPage.results.event],
                 loading: false
             }
-        case FAILURE(ActionType.GET_SONGKICK_EVENTS):
+        case SUCCESS(ActionType.GET_EVENTS):
+            // console.log('Events!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', action.payload.data.events)
             return {
                 ...state,
-                loading: false,
-                error: 'Error while fetching songkick events'
+                availableEvents: [...state.availableEvents, ...action.payload.data.events],
+                loading: false
             }
-        case REQUEST(ActionType.CREATE_EVENT):
-            return {
-                ...state,
-            };
         case SUCCESS(ActionType.CREATE_EVENT):
             let newEvent = action.payload.data.params;
             newEvent['isCurrentUserHost'] = true;
@@ -38,19 +37,22 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, newEvent]
             };
+        case FAILURE(ActionType.GET_SONGKICK_EVENTS):
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while fetching songkick events'
+            }
         case 'CONFIRM_EVENT':
-            console.log('confirm event', action.payload);
             return {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, state.availableEvents[action.payload]]
             }
         case 'DECLINE_EVENT':
-            console.log('decline event', action.payload);
             return {
                 ...state,
                 declinedEvents: [...state.declinedEvents, state.availableEvents[action.payload]]
             }
-
         default:
             return state
     }

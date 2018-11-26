@@ -15,20 +15,19 @@ class UserCalendarScreen extends Component {
     renderEvents = () => {
         return this.props.events.confirmedEvents.map((item, i) => {
             let isSongkick = 'performance' in item;
-            let actualItem = isSongkick ? item : item['event'];
             let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
             return (
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        event: actualItem,
+                        event: item,
                         eventConfirmed: true,
                         isSongkick: isSongkick
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
-                        <EventComponent event={actualItem} eventConfirmed={true}
+                        <EventComponent event={item} eventConfirmed={true}
                                         isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
                     </View>
                 </TouchableOpacity>

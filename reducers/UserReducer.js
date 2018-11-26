@@ -8,14 +8,19 @@ const userStates = {
         last: null,
         about: 'Nam dapibus nisl vitae elit fringilla rutrum.\nAenean sollicitudin, erat a elementum rutrum, neque sem pretium metus, quis mollis nisle nunc et massa.',
         contact: 'Contact Info',
-        photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
-        photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-        photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
-        photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        //photo1_url: require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png'),
+        photo1_url: null,
+        //photo2_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        photo2_url: null,
+        //photo3_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        photo3_url: null,
+        //photo4_url: require('../assets/Pngs/placeholder-user-photo.imageset/placeholder-user-photo-1.png'),
+        photo4_url: null,
         friend_ids: null,
         user_id: null,
         search_distance_km: 1,
         email: null,
+        fbToken: null,
     },
 };
 
@@ -42,6 +47,26 @@ export const userReducer = (state = userStates, action) => {
             profile.photo4_url = profileDetails.imageSource[3];
 
             return state;
+
+        case 'ADD_PROFILE_PHOTO':
+            const photoURI = action.payload;
+            let profilePhotos = currentUser;
+
+            if (profilePhotos.photo1_url === null)
+                profilePhotos.photo1_url = photoURI;
+            else {
+                if (profilePhotos.photo2_url === null)
+                    profilePhotos.photo2_url = photoURI;
+                else {
+                    if (profilePhotos.photo3_url === null)
+                        profilePhotos.photo3_url = photoURI;
+                    else {
+                        profilePhotos.photo4_url = photoURI;
+                    }
+                }
+            }
+
+            return state;
         
         // expect payload = { token: token, first: response.first_name, last: response.last_name,
         //    email: response.email, id: response.id, pic: response.picture.data.url }
@@ -57,7 +82,7 @@ export const userReducer = (state = userStates, action) => {
             currentUser.first = data.first;
             currentUser.last = data.last;
             currentUser.email = data.email;
-            currentUser.photo1_url = { uri: data.pic};
+            currentUser.photo1_url = data.pic;
             currentUser.id = data.id;
             currentUser.isLoggedIn = true;
 
