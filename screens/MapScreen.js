@@ -1,10 +1,20 @@
-import React, { Component } from 'react';
-import { Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import React, {Component} from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    Platform,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 // import MapViewComponent from './components/MapViewComponent';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 // import Permissions from 'react-native-permissions';
-import { Constants, Location, Permissions } from 'expo';
+import {Constants, Location, Permissions} from 'expo';
 
 import Layout from "../constants/Layout";
 
@@ -135,7 +145,7 @@ export default class MapScreen extends Component {
   }
 
   handleOnPress = () => {
-    this.props.navigation.state.params.returnData(this.state.data, this.state.title);
+    this.props.navigation.state.params.returnData(this.state.data, this.state.title, this.state.coordinate);
     this.props.navigation.goBack();
   }
 
