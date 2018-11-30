@@ -1,4 +1,6 @@
 import { AsyncStorage } from 'react-native';
+import { FAILURE, REQUEST, SUCCESS } from '../constants/Action-Type';
+import * as ActionType from '../actions';
 
 // TODO: implement LOAD_USER_INFO on running the app
 
@@ -22,15 +24,55 @@ const userStates = {
         email: null,
         fbToken: null,
     },
+    address: null,
+    userLocation: null,
+
 };
 
 export const userReducer = (state = userStates, action) => {
 
     const { currentUser } = state;
+    address = null;
 
     switch (action.type) {
+        case 'GIVE_USER_LOCATION':
+            let userLocation = action.payload;
+            // console.log('location is ',userLocation);
+            return{
+                ...state,
+                userLocation
+            }
+
+        case 'SET_NEW_ADDRESS':
+            // console.log(action.payload);
+            // let responseJson = action.payload.data;
+            address = action.payload.formatted_address;
+            // console.log(address);
+            return {
+                ...state,
+                address,
+            }
+        case REQUEST(ActionType.GET_USER_ADDRESS):
+            return {
+                ...state
+            }
+        case SUCCESS(ActionType.GET_USER_ADDRESS):
+            let responseJson = action.payload.data;
+            address = responseJson.results[0].formatted_address;
+            return {
+                ...state,
+                address
+            }
+        case FAILURE(ActionType.GET_USER_ADDRESS):
+            return {
+                ...state,
+                error: 'Could not get location'
+            }
+
+
         case 'SAVE_SEARCH_DISTANCE':
             const distance = action.payload;
+            // console.log(distance);
             let user = currentUser;
             user.search_distance_km = distance;
 
@@ -67,7 +109,7 @@ export const userReducer = (state = userStates, action) => {
             }
 
             return state;
-        
+
         // expect payload = { token: token, first: response.first_name, last: response.last_name,
         //    email: response.email, id: response.id, pic: response.picture.data.url }
         // Used: LoginScreen.js
@@ -101,11 +143,11 @@ export const userReducer = (state = userStates, action) => {
         // and clear state with null
         // Used: UserSettingScreen.js
         case 'LOGOUT_USER':
-            const _logout = async() => {
+            const _logout = async () => {
                 let lParams = `access_token=${currentUser.fbToken}`;
                 await fetch(`https://graph.facebook.com/${currentUser.id}/permissions`, { method: 'DELETE', body: lParams });
-                console.log('LOGGING OUT...');
-                await AsyncStorage.mergeItem('userInfo', JSON.stringify({token: null}));
+                // console.log('LOGGING OUT...');
+                await AsyncStorage.mergeItem('userInfo', JSON.stringify({ token: null }));
             }
             _logout();
             currentUser.isLoggedIn = false;

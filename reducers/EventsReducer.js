@@ -5,7 +5,8 @@ const eventStates = {
     availableEvents: [],
     confirmedEvents: [],
     declinedEvents: [],
-    loading: false
+    loading: false,
+    error: null,
 };
 
 export const eventsReducer = (state = eventStates, action) => {

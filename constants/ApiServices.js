@@ -3,15 +3,22 @@ import axios from 'axios';
 export const client = {
   rendevous: {
     client: axios.create({
-       baseURL:'http://ec2-34-221-16-108.us-west-2.compute.amazonaws.com',
-       responseType: 'json'
+      baseURL: 'http://ec2-34-221-16-108.us-west-2.compute.amazonaws.com',
+      responseType: 'json'
     })
   },
   songkick: {
     client: axios.create({
-        baseURL:'http://api.songkick.com/api/3.0',
-        responseType: 'json'
+      baseURL: 'http://api.songkick.com/api/3.0',
+      responseType: 'json'
     })
+  },
+  googleMaps: {
+    client: axios.create({
+      baseURL: 'https://maps.googleapis.com/maps/api/geocode',
+      responseType: 'json'
+    })
+
   }
 }
 
@@ -19,6 +26,7 @@ export const client = {
 export const API_KEY = 'j05wd2ae49d212578ef13cb607cef64b';
 export const SESSION_TOKEN = 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO';
 export const SONGKICK_API_KEY = 'mzzfkojpy82tOJLz';
+export const GOOGLE_API_KEY = 'AIzaSyCdkuIQGc6zBWg22z3i7EalpRQL_79RLjU';
 
 // Header
 export const HEADERS = {
@@ -35,4 +43,5 @@ export const HEADERS = {
 //     headers: HEADER
 //   });
 // }
+
 

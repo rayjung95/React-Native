@@ -1,6 +1,8 @@
-import { SONGKICK_API_KEY, API_KEY } from '../constants/ApiServices';
+import { SONGKICK_API_KEY, API_KEY, GOOGLE_API_KEY } from '../constants/ApiServices';
 import * as ActionType from './index';
 import { HEADERS } from '../constants/ApiServices';
+import { Location } from 'expo';
+
 
 export const confirmEvent = eventIndex => ({
     type: 'CONFIRM_EVENT',
@@ -39,28 +41,94 @@ export const addToSongkickEvents = events => ({
     payload: events
 });
 
+export const setNewAddress = location => ({
+    type: 'SET_NEW_ADDRESS',
+    payload: location,
+});
+
+// export const giveUserLocation = () => {
+//     console.log('using it')
+//     return(dispatch) => {
+//         Location.getCurrentPositionAsync()
+//         .then(res => {
+//             console.log('response is',res);
+//             dispatch({
+//                 type:'GIVE_USER_LOCATION',
+//                 payload: res,
+    
+//             })
+
+//         })
+
+        
+//     }
+// };
+
+export const giveUserLocation = () => {
+    console.log('using it')
+    return(dispatch) => {
+        Location.getCurrentPositionAsync()
+        .then(res => {
+            console.log('response is',res);
+            dispatch({
+                type:'GIVE_USER_LOCATION',
+                payload: res,
+    
+            })
+
+        })
+
+        
+    }
+};
+
+
+
+// export const setNewAddress = (location) => {
+//     console.log('kafdlksajfalskdjfadoisjadsiofjsoi')
+//     console.log(location.formatted_address)
+//     return{
+//         type: ActionType.SET_NEW_ADDRESS,
+//         payload: location,
+//     }
+
+// }
+
+export const getUserAddress = location => {
+    console.log('gua ', location)
+    return {
+        type: ActionType.GET_USER_ADDRESS,
+        payload: {
+            client: 'googleMaps',
+            request: {
+                url: `/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GOOGLE_API_KEY}`
+            }
+        }
+    }
+}
+
 export const getSongkickEvents = () => {
     return {
         type: ActionType.GET_SONGKICK_EVENTS,
         payload: {
             client: 'songkick',
             request: {
-              url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
+                url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
             }
         }
     };
-  }
+}
 
-  export const getEvents = (user_id = 205, latitude =49.2834317, longitude = -123.11491930000001, search_distance = 10000) => {
+export const getEvents = (user_id = 205, latitude = 49.2834317, longitude = -123.11491930000001, search_distance = 10000) => {
     return {
-      type: ActionType.GET_EVENTS,
-      payload: {
-        client: 'rendevous',
-        request: {
-          url: `/event?user_id=${user_id}&latitude=${latitude}&longitude=${longitude}&search_distance=${search_distance}`,
-          headers: HEADERS
+        type: ActionType.GET_EVENTS,
+        payload: {
+            client: 'rendevous',
+            request: {
+                url: `/event?user_id=${user_id}&latitude=${latitude}&longitude=${longitude}&search_distance=${search_distance}`,
+                headers: HEADERS
+            }
         }
-      }
     };
-  }
-  
+}
+
