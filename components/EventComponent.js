@@ -40,6 +40,25 @@ export default class EventComponent extends Component {
         })
     }
 
+    _getRad = (x) => {
+        return x * Math.PI / 180
+    };
+
+    _getDistanceAway = (dest) => {
+        // let origin = this._getCurrentLocaiton();
+        // var R = 6378137; // Earth’s mean radius in meter
+        // var dLat = this._getRad(dest.lat - origin.lat);
+        // var dLong = this._getRad(dest.long - origin.long);
+        // var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        //     Math.cos(this._getRad(origin.lat())) * Math.cos(this._getRad(dest.lat())) *
+        //     Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        // var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        // var d = R * c;
+        // return d / 1000; // returns the distance in km
+        return 0;
+    };
+
+
     _formatEventTitle = (fullTitle) => {
         fullTitle = fullTitle.split('at');
         return fullTitle[0];
