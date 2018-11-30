@@ -31,9 +31,11 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: false
             }
         case SUCCESS(ActionType.CREATE_EVENT):
+            let newEvent = action.payload.data.params;
+            newEvent['isCurrentUserHost'] = true;
             return {
                 ...state,
-                confirmedEvents: [...state.confirmedEvents, action.payload.data.params]
+                confirmedEvents: [...state.confirmedEvents, newEvent]
             };
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):
             return {
