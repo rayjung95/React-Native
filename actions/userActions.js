@@ -18,8 +18,9 @@ export const saveUserLogin = login => ({
     payload: login
 });
 
-export const loadUserInfo = () => ({
-    type: 'LOAD_USER_INFO'
+export const loadUserInfo = info => ({
+    type: 'LOAD_USER_INFO',
+    payload: info
 })
 
 export const logoutUser = () => ({

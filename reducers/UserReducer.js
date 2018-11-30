@@ -73,11 +73,6 @@ export const userReducer = (state = userStates, action) => {
         // Used: LoginScreen.js
         case 'SAVE_USER_LOGIN':
             let data = action.payload;
-            let theUser = {
-                token: data.token,
-                desc: 'fb user token to use for graph api fetch'
-            };
-            AsyncStorage.setItem('userInfo', JSON.stringify(theUser));
             currentUser.fbToken = data.token;
             currentUser.first = data.first;
             currentUser.last = data.last;
@@ -92,8 +87,9 @@ export const userReducer = (state = userStates, action) => {
         // Currenty not implemented
         // TODO: implement in App.js and refactor navigation for conditional initialRouteName
         case 'LOAD_USER_INFO':
-            let info = JSON.parse(AsyncStorage.getItem('userInfo'));
-            currentUser.fbToken = info.token;
+            let userInfo = action.payload;
+            currentUser.fbToken = userInfo.token;
+            currentUser.id = userInfo.fbId;
 
             return state;
 
@@ -105,7 +101,7 @@ export const userReducer = (state = userStates, action) => {
                 let lParams = `access_token=${currentUser.fbToken}`;
                 await fetch(`https://graph.facebook.com/${currentUser.id}/permissions`, { method: 'DELETE', body: lParams });
                 console.log('LOGGING OUT...');
-                await AsyncStorage.mergeItem('userInfo', JSON.stringify({token: null}));
+                await AsyncStorage.removeItem('userInfo');
             }
             _logout();
             currentUser.isLoggedIn = false;
@@ -113,7 +109,8 @@ export const userReducer = (state = userStates, action) => {
             currentUser.first = null;
             currentUser.last = null;
             currentUser.email = null;
-            currentUser.photo1_url = require('../assets/Pngs/profilePhoto.imageset/profilePhoto.png');
+            currentUser.photo1_url = null;
+            currentUser.user_id = null;
             currentUser.id = null;
 
             return state;

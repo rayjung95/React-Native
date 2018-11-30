@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, StatusBar, TouchableOpacity, BackHandler, AsyncStorage } from 'react-native';
 import Swiper from 'react-native-swiper';
 import WebBrowser from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { saveUserLogin } from "../actions/userActions";
+import { saveUserLogin, loadUserInfo } from "../actions/userActions";
+
 
 // TODO: implement backbutton prevention to login screen after logging in
 
@@ -60,6 +61,12 @@ class LoginScreen extends Component {
                     id: response.id,
                     pic: response.picture.data.url
                 }
+                let theUser = {
+                    token: user.token,
+                    desc: 'fb user token to use for graph api fetch',
+                    fbId: user.id
+                };
+                AsyncStorage.setItem('userInfo', JSON.stringify(theUser));
                 this.props.saveUserLogin(user);
             } else {
                 throw (`Login type was ${type}`);
@@ -91,6 +98,47 @@ class LoginScreen extends Component {
         return true;
     };
     // end of attempt code.
+
+
+    // For testing
+    // 
+    async componentDidMount() {
+        let info = await this.getUserFromLocal();
+        this.setUserInfo(info);
+    }
+
+    getUserFromLocal = async() => {
+        let info = await AsyncStorage.getItem('userInfo');
+        return info
+    }
+
+    getUserFromApi = async() => {
+        // add api request here to get user data from database
+        return 'ok'
+    }
+
+    setUserInfo = async (inf) => {
+        try {
+            console.log(inf);
+            if (inf != null) {
+                let user = JSON.parse(inf);
+                this.props.loadUserInfo(user);
+                // console.log('fbToken ', this.props.user.currentUser.fbToken);
+                if (this.props.user.currentUser.fbToken != null) {
+                    this.props.navigation.navigate('Landing');
+                } else {
+                    // this.props.navigation.navigate('Login');
+                    throw (`fbToken is null: ${this.props.user.currentUser.fbToken}`)
+                }
+            } else {
+                // console.log('else ', inf);
+                // this.props.navigation.navigate('Login');
+                throw (`Login data is ${info}`);
+            }
+        } catch ({err}) {
+        	console.log(`AsyncStorage load error: ${inf}`)
+        }
+    }
 
     render() {
         return (
@@ -230,6 +278,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         saveUserLogin,
+        loadUserInfo,
     }, dispatch)
 );
 
