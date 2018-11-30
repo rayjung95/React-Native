@@ -39,15 +39,16 @@ export const addToSongkickEvents = events => ({
     payload: events
 });
 
-export const getSongkickEvents = () => {
+export const getSongkickEvents = (searchDistance) => {
     return {
         type: ActionType.GET_SONGKICK_EVENTS,
         payload: {
             client: 'songkick',
             request: {
               url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
-            }
-        }
+            },
+        },
+        distance: searchDistance,
     };
   }
 
