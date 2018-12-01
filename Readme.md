@@ -4,6 +4,7 @@ This app was built using [React Native](https://facebook.github.io/react-native/
 Rendevous is a social networking mobile app for swiping on parties and events near you. Rendevous solves that problem of loneliness by giving people parties and events they can be personally confirmedEvents to. Rendevous is also used to host parties and events. Hosts are given full control of who becomes a confirmedEvents guest, making the events manageable, in the size and diversity you wish for. Therefore, there is a level of safety and protection through the required Facebook log in and keeping event details locked until guests are confirmedEvents by the host. The host is in total control of whomever he or she decides to engage with.
 
 ## Contributors
+
  **[@emilieez](https://github.com/emilieez)**
  
  **[@rayjung95](https://github.com/rayjung95)**
