@@ -1,4 +1,6 @@
-import { AsyncStorage } from 'react-native';
+import {AsyncStorage} from 'react-native';
+import {REQUEST, SUCCESS} from "../constants/Action-Type";
+import * as ActionType from "../actions";
 
 // TODO: implement LOAD_USER_INFO on running the app
 
@@ -22,11 +24,12 @@ const userStates = {
         email: null,
         fbToken: null,
     },
+    userBookings: []
 };
 
 export const userReducer = (state = userStates, action) => {
 
-    const { currentUser } = state;
+    const { currentUser, userBookings} = state;
 
     switch (action.type) {
         case 'SAVE_SEARCH_DISTANCE':
@@ -114,6 +117,13 @@ export const userReducer = (state = userStates, action) => {
             currentUser.id = null;
 
             return state;
+        case REQUEST(ActionType.GET_USER_BOOKINGS):
+        case SUCCESS(ActionType.GET_USER_BOOKINGS):
+            let bookings = action.payload.data ? action.payload.data.bookings : [];
+            return {
+                ... state,
+                userBookings: [...userBookings, bookings]
+            };
 
         default:
             return state

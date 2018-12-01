@@ -44,23 +44,23 @@ export const getSongkickEvents = (searchDistance) => {
         payload: {
             client: 'songkick',
             request: {
-              url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
+                url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
             },
         },
         distance: searchDistance,
     };
-  }
+}
 
-  export const getEvents = (user_id = 205, latitude =49.2834317, longitude = -123.11491930000001, search_distance = 10000) => {
+export const getEvents = (user_id = 205, latitude = 49.2834317, longitude = -123.11491930000001, search_distance = 10000) => {
     return {
-      type: ActionType.GET_EVENTS,
-      payload: {
-        client: 'rendevous',
-        request: {
-          url: `/event?user_id=${user_id}&latitude=${latitude}&longitude=${longitude}&search_distance=${search_distance}`,
-          headers: HEADERS
+        type: ActionType.GET_EVENTS,
+        payload: {
+            client: 'rendevous',
+            request: {
+                url: `/event?user_id=${user_id}&latitude=${latitude}&longitude=${longitude}&search_distance=${search_distance}`,
+                headers: HEADERS
+            }
         }
-      }
     };
-  }
+}
   

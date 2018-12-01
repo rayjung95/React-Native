@@ -3,6 +3,8 @@ import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, Touchab
 import EventComponent from "../components/EventComponent";
 import Layout from "../constants/Layout";
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {getUserBookings} from "../actions/userActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -12,27 +14,35 @@ class UserCalendarScreen extends Component {
         header: null,
     };
 
+    componentDidMount() {
+        this.props.getUserBookings(199);
+    }
+
     renderEvents = () => {
-        return this.props.events.confirmedEvents.map((item, i) => {
-            let isSongkick = 'performance' in item;
-            let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
-            return (
-                <TouchableOpacity
-                    key={i}
-                    onPress={() => this.props.navigation.navigate('EventDetails', {
-                        event: item,
-                        eventConfirmed: true,
-                        isSongkick: isSongkick
-                    })}
-                    style={{borderRadius: 8}} activeOpacity={0.9}
-                >
-                    <View style={styles.CalendarCardContainer}>
-                        <EventComponent event={item} eventConfirmed={true}
-                                        isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
-                    </View>
-                </TouchableOpacity>
-            )
-        })
+        if (this.props.user.userBookings.length > 0) {
+            return this.props.user.userBookings.map((item, i) => {
+                let isSongkick = 'performance' in item;
+                let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
+                return (
+                    <TouchableOpacity
+                        key={i}
+                        onPress={() => this.props.navigation.navigate('EventDetails', {
+                            event: item,
+                            eventConfirmed: true,
+                            isSongkick: isSongkick
+                        })}
+                        style={{borderRadius: 8}} activeOpacity={0.9}
+                    >
+                        <View style={styles.CalendarCardContainer}>
+                            <EventComponent event={item} eventConfirmed={true}
+                                            isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
+                        </View>
+                    </TouchableOpacity>
+                )
+            })
+        } else {
+            return (<View/>)
+        }
     };
 
     render() {
@@ -193,7 +203,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8,
+        padding: 8
         top: 30
     },
     buttons: {
@@ -203,11 +213,17 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {events} = state;
-    return {events}
+    const {user} = state;
+    return {user}
 };
 
-export default connect(mapStateToProps)(UserCalendarScreen);
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        getUserBookings
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserCalendarScreen);
 
 
 
