@@ -3,7 +3,7 @@ import axios from 'axios';
 export const client = {
   rendevous: {
     client: axios.create({
-       baseURL:'http://ec2-34-221-16-108.us-west-2.compute.amazonaws.com',
+       baseURL:'http://ec2-34-221-16-108.us-west-2.compute.amazonaws.com/',
        responseType: 'json'
     })
   },
@@ -24,7 +24,7 @@ export const SONGKICK_API_KEY = 'mzzfkojpy82tOJLz';
 export const HEADERS = {
   'Content-Type': 'application/json',
   'api-key': 'j05wd2ae49d212578ef13cb607cef64b',
-  'sessiontoken': 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO'
+  'sessiontoken': 'EWOKs+uV/Wi85MGrieZV781YtieBvBg/'
 }
 
 // // Api Calls

@@ -70,6 +70,12 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, newEvent]
             };
+
+        case FAILURE(ActionType.CREATE_EVENT):
+            console.log(action.payload);
+            return {
+                ...state
+            };
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):
             return {
                 ...state,

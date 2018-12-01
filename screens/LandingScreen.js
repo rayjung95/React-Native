@@ -19,10 +19,9 @@ import LocksComponent from "../components/LocksComponent";
 import Layout from "../constants/Layout";
 import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents } from "../actions/eventsActions";
-import PulseLoader from '../constants/PulseLoader/PulseLoader';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addToSongkickEvents, confirmEvent, declineEvent, getEvents, getSongkickEvents} from "../actions/eventsActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -269,15 +268,15 @@ class LandingScreen extends Component {
     };
 
     return (
-      this.props.loading ? 
-        <PulseLoader
-          borderColor={'#feea7e'}
-          backgroundColor={'#feea7e'}
-          size={50}
-          pulseMaxSize={400}
-          avatar={require('../assets/Icons/main_feed.imageset/main_feed.png')}
-        />
-        :
+      // this.props.loading ?
+      //   <PulseLoader
+      //     borderColor={'#feea7e'}
+      //     backgroundColor={'#feea7e'}
+      //     size={50}
+      //     pulseMaxSize={400}
+      //     avatar={require('../assets/Icons/main_feed.imageset/main_feed.png')}
+      //   />
+      //   :
         <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
           <StatusBar hidden />
           <Animated.View style={[arrowStyle, {
