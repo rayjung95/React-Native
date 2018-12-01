@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { FAILURE, REQUEST, SUCCESS } from '../constants/Action-Type';
 import * as ActionType from '../actions';
+import { CompositeDisposable } from 'rx';
 
 // TODO: implement LOAD_USER_INFO on running the app
 
@@ -37,7 +38,8 @@ export const userReducer = (state = userStates, action) => {
     switch (action.type) {
         case 'GIVE_USER_LOCATION':
             let userLocation = action.payload;
-            // console.log('location is ',userLocation);
+            let address = 
+            console.log('location is ',userLocation);
             return{
                 ...state,
                 userLocation

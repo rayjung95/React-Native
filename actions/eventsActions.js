@@ -64,19 +64,21 @@ export const setNewAddress = location => ({
 //     }
 // };
 
-export const giveUserLocation = () => {
+export const giveUserLocation = (getUserAddress) => {
     console.log('using it')
+    Location.getCurrentPositionAsync()
     return(dispatch) => {
         Location.getCurrentPositionAsync()
         .then(res => {
             console.log('response is',res);
+            getUserAddress(res);
             dispatch({
                 type:'GIVE_USER_LOCATION',
                 payload: res,
     
             })
-
         })
+        
 
         
     }

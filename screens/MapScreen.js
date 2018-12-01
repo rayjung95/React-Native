@@ -56,54 +56,25 @@ class MapScreen extends Component {
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
+      console.log("not")
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
     }
+    this.props.giveUserLocation(this.props.getUserAddress)    
 
-    // new Promise((resolve, reject) => {
-      
-    // }).then()
-
-    // firstPromise.then((res) => {
-    //   console.log('sss', res);
-    //   console.log(this.props.userLocation)
-    //   // console.log('props', this.props.userLocation);
-    // })
-    // .catch((e) => {
-    //   console.log(e);
-    // })
-    
-
-
-
-    // var promise1 = new Promise(function(resolve, reject) {
-    //   throw 'Uh-oh!';
-    // });
-
-    // this.props.giveUserLocation()
-    // .then(() => {
-    //   this.props.getUserAddress(this.props.userLocation);
-    // })
-    // .catch((e) => {
-    //   console.log(e);
-    // }) 
-
-
-
-    // this.setState({
-    //   location,
-    //   region: {
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    //     latitudeDelta: LATITUDE_DELTA,
-    //     longitudeDelta: LONGITUDE_DELTA,
-    //   },
-    //   coordinate: {
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    //   },
-    // });
+    this.setState({
+      region: {
+        latitude: this.props.userLocation.coords.latitude,
+        longitude: this.props.userLocation.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      coordinate: {
+        latitude: this.props.userLocation.coords.latitude,
+        longitude: this.props.userLocation.coords.longitude,
+      },
+    }, () => {console.log(this.state.coordinate)});
   };
 
   componentWillMount() {
@@ -325,10 +296,12 @@ const mapStateToProps = (state) => {
   let userState = state.user;
   let title = state.user.address;
   let userLocation = state.user.userLocation;
+  let userAddress = state.user.address
   return {
     userState,
     title,
     userLocation,
+    userAddress,
   }
 };
 

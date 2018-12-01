@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents } from "../actions/eventsActions";
+import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents, giveUserLocation, getUserAddress } from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -126,8 +126,10 @@ class LandingScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.giveUserLocation(this.props.getUserAddress);
     this.props.getSongkickEvents();
     this.props.getEvents();
+    
   }
 
   _toggleEventCreation = () => {
@@ -471,21 +473,27 @@ const mapStateToProps = (state) => {
   let songKickEvents = events.songKickEvents
   let loading = events.loading
   let availableEvents = events.availableEvents
+  let userLocation = state.user.userLocation;
+  let userAddress = state.user.userAddress;
   return {
     events,
     songKickEvents,
     loading,
-    availableEvents
+    availableEvents,
+    userLocation,
+    userAddress,
   }
 };
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    getUserAddress,
     confirmEvent,
     addToSongkickEvents,
     getSongkickEvents,
     declineEvent,
-    getEvents
+    getEvents,
+    giveUserLocation,
   }, dispatch)
 );
 
