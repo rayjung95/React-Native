@@ -25,7 +25,7 @@ export class EventCreationComponent extends React.Component {
         this.state = {
             location: 'Location',
             title: '',
-            ownerid: 205,
+            ownerid: 202,
             startDatetime: null,
             startDate: null,
             startTime: null,
