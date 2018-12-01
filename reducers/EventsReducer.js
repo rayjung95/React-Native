@@ -57,10 +57,17 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: false
             };
         case SUCCESS(ActionType.GET_EVENTS):
-            let newEvents = _filterEvents(action.payload.data.events, action.meta.previousAction.distance);
+            if (action.payload.data.events != undefined) {
+                let newEvents = _filterEvents(action.payload.data.events, action.meta.previousAction.distance);
+                return {
+                    ...state,
+                    availableEvents: [...state.availableEvents, ...newEvents],
+                    loading: false
+                };
+            }
             return {
                 ...state,
-                availableEvents: [...state.availableEvents, ...newEvents],
+                availableEvents: [...state.availableEvents],
                 loading: false
             };
         case SUCCESS(ActionType.CREATE_EVENT):

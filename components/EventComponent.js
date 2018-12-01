@@ -122,7 +122,6 @@ export default class EventComponent extends Component {
 
                         :
                         <View style={styles.hostPicContainer}>
-                            {console.log(this.state.eventHostPhoto)}
                             <Image
                                 source={this.state.eventHostPhoto.uri && this.state.eventHostPhoto.uri.length > 0 ? this.state.eventHostPhoto :
                                     {uri: 'http://deafhhcenter.org/wp-content/uploads/2017/12/profile-default.jpg'}}
