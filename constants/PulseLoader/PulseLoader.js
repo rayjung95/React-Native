@@ -10,10 +10,11 @@ export default class LocationPulseLoader extends React.Component {
 	
 		this.state = {
 			circles: [],
-			counter:1
+			counter:1,
+			setInterval: null
 		};
 
-		this.setInterval = null;
+		
 		this.anim = new Animated.Value(1);
 	}
 
@@ -22,11 +23,16 @@ export default class LocationPulseLoader extends React.Component {
 	}
 
 	setCircleInterval() {
-		this.addCircle();
+		this.setState({
+			setInterval: setInterval(this.addCircle, this.props.interval)
+		}, () => this.addCircle())
+		
 	}
 
-	addCircle() {
-		this.setState({ circles: [...this.state.circles, this.state.counter], counter: this.state.counter + 1 });
+	addCircle = () => {
+		const circles = [...this.state.circles, this.state.counter]
+		const counter = this.state.counter + 1; 
+		this.setState({ circles, counter});
 	}
 
 	render() {

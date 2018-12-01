@@ -32,12 +32,37 @@ export default class EventComponent extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillMount() {
+        const { isSongkick, event } = this.props;
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
+        let photo_url = isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: event['owner']['photo1_url']};
+        if(photo_url.uri) {
+            this.setState({ photo_url })    
+        } else {
+            photo_url = {uri: 'https://i.stack.imgur.com/l60Hf.png'};
+            this.setState({photo_url})
+        }
+
         this.setState({
-            isSongkick: nextProps.isSongkick,
-            event: nextProps.event
+            eventHostName: isSongkick ? event['venue']['displayName'] : event['owner']['first'],
+            eventTitle: isSongkick ? this._formatEventTitle(event['displayName']) : event['name'],
+            eventDay: isSongkick ? dayNames[new Date(event['start']['date']).getDay()] : dayNames[new Date(event['start']).getDay()],
+            eventTime: isSongkick ? this._formatTimeforSongKick(event['start']['time']) : this._formatAMPM(new Date(event['start'])),
+            eventDate: isSongkick ? monthNames[event['start']['date'].split('-')[1] - 1] + ' ' + event['start']['date'].split('-')[2]
+                : monthNames[new Date(event['start']).getMonth()] + ' ' + new Date(event['start']).getDate(),
         })
+        
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({
+    //         isSongkick: nextProps.isSongkick,
+    //         event: nextProps.event
+    //     })
+    // }
 
     _formatEventTitle = (fullTitle) => {
         fullTitle = fullTitle.split('at');
@@ -77,7 +102,7 @@ export default class EventComponent extends Component {
                                     <Text style={{color: 'white'}}>{'             '}</Text>
                                 </View>
                                 <Image
-                                    source={this.state.eventHostPhoto}
+                                    source={this.state.photo_url}
                                     style={styles.hostPic}
                                     resizeMode="cover"
                                 />
@@ -91,7 +116,7 @@ export default class EventComponent extends Component {
                                     <Text style={{color: 'white'}}>Updated</Text>
                                 </View>
                                 <Image
-                                    source={this.state.eventHostPhoto}
+                                    source={this.state.photo_url}
                                     style={styles.hostPic}
                                     resizeMode="cover"
                                 />
@@ -103,12 +128,20 @@ export default class EventComponent extends Component {
                         :
                         <View style={styles.hostPicContainer}>
                             <Image
-                                source={this.state.eventHostPhoto}
+                                source={this.state.photo_url}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />
                         </View>
                     }
+                    
+                    {/* <View style={styles.hostPicContainer}>
+                        <Image
+                            source={this.state.photo_url}
+                            style={styles.hostPic}
+                            resizeMode="cover"
+                        />
+                    </View> */}
 
                 </View>
                 <View style={styles.card}>

@@ -18,6 +18,7 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: true
             }
         case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
+            // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',action)
             return {
                 ...state,
                 availableEvents: [...state.availableEvents, ...action.payload.data.resultsPage.results.event],
@@ -35,11 +36,22 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, action.payload.data.params]
             };
+        case SUCCESS(ActionType.REQUEST_BOOK_EVENT):
+            console.log(action.payload)
+            return {
+                ...state
+            }
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):
             return {
                 ...state,
                 loading: false,
                 error: 'Error while fetching songkick events'
+            }
+        case FAILURE(ActionType.REQUEST_BOOK_EVENT):
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while booking event'
             }
         case 'CONFIRM_EVENT':
             return {

@@ -2,9 +2,15 @@ import { SONGKICK_API_KEY, API_KEY } from '../constants/ApiServices';
 import * as ActionType from './index';
 import { HEADERS } from '../constants/ApiServices';
 
-export const confirmEvent = eventIndex => ({
-    type: 'CONFIRM_EVENT',
-    payload: eventIndex
+export const confirmEvent = (user_id, event_id) => ({
+    type: ActionType.REQUEST_BOOK_EVENT,
+    payload: {
+        client: 'rendevous',
+        request: {
+          url: `/booking?user_id=${user_id}&event_id=${event_id}`,
+          headers: HEADERS
+        }
+      }
 });
 
 export const declineEvent = eventIndex => ({
@@ -45,7 +51,7 @@ export const getSongkickEvents = () => {
         payload: {
             client: 'songkick',
             request: {
-              url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
+              url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=5`
             }
         }
     };
