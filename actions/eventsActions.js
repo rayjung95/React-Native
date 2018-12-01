@@ -29,8 +29,8 @@ export const createEvent = event => ({
                 "start": event.startDatetime,
                 "end": event.endDatetime,
                 "location_name": event.location,
-                "lat": 49.171452,
-                "long": -122.5791
+                "lat": event.coordinate.latitude,
+                "long": event.coordinate.longitude
             }
         }
     }
@@ -45,24 +45,6 @@ export const setNewAddress = location => ({
     type: 'SET_NEW_ADDRESS',
     payload: location,
 });
-
-// export const giveUserLocation = () => {
-//     console.log('using it')
-//     return(dispatch) => {
-//         Location.getCurrentPositionAsync()
-//         .then(res => {
-//             console.log('response is',res);
-//             dispatch({
-//                 type:'GIVE_USER_LOCATION',
-//                 payload: res,
-    
-//             })
-
-//         })
-
-        
-//     }
-// };
 
 export const giveUserLocation = (getUserAddress) => {
     console.log('using it')
@@ -109,15 +91,17 @@ export const getUserAddress = location => {
     }
 }
 
-export const getSongkickEvents = () => {
+export const getSongkickEvents = (searchDistance) => {
     return {
         type: ActionType.GET_SONGKICK_EVENTS,
         payload: {
             client: 'songkick',
             request: {
+
                 url: `/events.json?apikey=${SONGKICK_API_KEY}&location=geo:49.286590,-123.115830&page=1&per_page=10`
             }
-        }
+        },
+        distance: searchDistance,
     };
 }
 

@@ -16,8 +16,7 @@ import WebBrowser from 'expo';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {saveSearchDistance} from "../actions/userActions";
-import {logoutUser} from "../actions/userActions";
+import {saveSearchDistance, logoutUser} from "../actions/userActions";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;

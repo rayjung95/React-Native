@@ -66,7 +66,13 @@ class LandingScreen extends Component {
       songKickEvents: [],
       fetching: false
     }
-
+    this.willFocus = this.props.navigation.addListener(
+      'willFocus',
+      () => {
+        this.props.getSongkickEvents(this.props.user.search_distance_km);
+        this.props.getEvents();
+      }
+    );
   }
 
 
@@ -127,9 +133,8 @@ class LandingScreen extends Component {
 
   componentDidMount() {
     this.props.giveUserLocation(this.props.getUserAddress);
-    this.props.getSongkickEvents();
+    this.props.getSongkickEvents(this.props.user.search_distance_km);
     this.props.getEvents();
-    
   }
 
   _toggleEventCreation = () => {
@@ -188,6 +193,9 @@ class LandingScreen extends Component {
     })
   }
 
+  componentWillUnmount() {
+    this.willFocus.remove();
+  }
 
   openModal = (text = "Please fill out the required fields.") => {
 
@@ -470,6 +478,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   let { events } = state;
+  let user = state.user.currentUser;
   let songKickEvents = events.songKickEvents
   let loading = events.loading
   let availableEvents = events.availableEvents
@@ -482,6 +491,7 @@ const mapStateToProps = (state) => {
     availableEvents,
     userLocation,
     userAddress,
+    user
   }
 };
 

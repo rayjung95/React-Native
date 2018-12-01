@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import { Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker } from 'react-native-maps';
-import { Constants, Location, Permissions } from 'expo';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getUserAddress, setNewAddress, giveUserLocation } from "../actions/eventsActions";
 
+
+import { Constants, Location, Permissions } from 'expo';
 import Layout from "../constants/Layout";
 
 const apiKey = 'AIzaSyCdkuIQGc6zBWg22z3i7EalpRQL_79RLjU';
@@ -61,7 +73,7 @@ class MapScreen extends Component {
         errorMessage: 'Permission to access location was denied',
       });
     }
-    this.props.giveUserLocation(this.props.getUserAddress)    
+    this.props.giveUserLocation(this.props.getUserAddress)
 
     this.setState({
       region: {
@@ -74,7 +86,7 @@ class MapScreen extends Component {
         latitude: this.props.userLocation.coords.latitude,
         longitude: this.props.userLocation.coords.longitude,
       },
-    }, () => {console.log(this.state.coordinate)});
+    }, () => { console.log(this.state.coordinate) });
   };
 
   componentWillMount() {
@@ -123,7 +135,7 @@ class MapScreen extends Component {
   }
 
   handleOnPress = () => {
-    this.props.navigation.state.params.returnData(this.state.data, this.props.title);
+    this.props.navigation.state.params.returnData(this.state.data, this.props.title, this.state.coordinate);
     this.props.navigation.goBack();
   }
 
