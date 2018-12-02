@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 10,
-        padding: 8
+        padding: 8,
         top: 30
     },
     buttons: {
