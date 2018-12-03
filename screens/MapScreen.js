@@ -15,7 +15,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getUserAddress, setNewAddress, giveUserLocation } from "../actions/eventsActions";
+import { getUserAddress, setNewAddress, giveUserLocation, locationSelected } from "../actions/eventsActions";
 
 
 import { Constants, Location, Permissions } from 'expo';
@@ -89,32 +89,33 @@ class MapScreen extends Component {
     }, () => { console.log(this.state.coordinate) });
   };
 
-  componentWillMount() {
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
-      this._getLocationAsync();
-    }
-  }
+  // componentWillMount() {
+  //   if (Platform.OS === 'android' && !Constants.isDevice) {
+  //     this.setState({
+  //       errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+  //     });
+  //   } else {
+  //     if (this.props.userSetLocationIsSet) {
+  //       console.log("It is set to: ", this.props.userAddress);
+  //     } else {
+  //       this._getLocationAsync();
+  //     }
+
+  //   }
+  // }
 
 
-  _onPress = (data, details) => {
+  _onPress = (details) => {
     const position = {
       latitude: details.geometry.location.lat,
-      latitudeDelta: 0.1,
+      latitudeDelta: LATITUDE_DELTA,
       longitude: details.geometry.location.lng,
-      longitudeDelta: 0.1,
+      longitudeDelta: LONGITUDE_DELTA,
     }
-    // console.log(details);
     this.props.setNewAddress(details);
-    // console.log(this.props.title);
-    // console.log(details.formatted_address);
-    // console.log(this.props.title);
+
     this.setState({
       region: position,
-      data: data,
       details: details,
       coordinate: {
         latitude: position.latitude,
@@ -135,8 +136,14 @@ class MapScreen extends Component {
   }
 
   handleOnPress = () => {
-    this.props.navigation.state.params.returnData(this.state.data, this.props.title, this.state.coordinate);
+    console.log("title: ", this.props.title);
+    this.props.locationSelected(true);
+    console.log("ASD", this.props.userHasPicked);
+    
+    this.props.navigation.state.params.returnData(this.props.title, this.state.coordinate);
+
     this.props.navigation.goBack();
+
   }
 
 
@@ -177,7 +184,7 @@ class MapScreen extends Component {
             // onChangeText={}
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
               // this.setState({});
-              this._onPress(data, details)
+              this._onPress(details)
             }}
             // onEndEditing={}
 
@@ -308,12 +315,15 @@ const mapStateToProps = (state) => {
   let userState = state.user;
   let title = state.user.address;
   let userLocation = state.user.userLocation;
-  let userAddress = state.user.address
+  let userAddress = state.user.address;
+  let userHasPicked = state.user.userHasPicked;
   return {
     userState,
     title,
     userLocation,
     userAddress,
+    userHasPicked,
+    locationSelected
   }
 };
 

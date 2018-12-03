@@ -3,6 +3,12 @@ import * as ActionType from './index';
 import { HEADERS } from '../constants/ApiServices';
 import { Location } from 'expo';
 
+export const locationSelected = (isIt) => (
+    console.log("isIt", isIt),
+    {
+    type: 'LOCATION_SELECTED',
+    payload: isIt,
+});
 
 export const confirmEvent = eventIndex => ({
     type: 'CONFIRM_EVENT',

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import RF from "react-native-responsive-fontsize"
 
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
         margin: SCREEN_WIDTH * 0.053
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 14,
         color: 'white',
         fontFamily: 'Roboto'
     },

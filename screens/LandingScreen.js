@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents, giveUserLocation, getUserAddress } from "../actions/eventsActions";
+import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents, giveUserLocation, getUserAddress, locationSelected } from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -77,6 +77,7 @@ class LandingScreen extends Component {
 
 
   componentWillMount() {
+    this.props.locationSelected(false);
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (e, gestureState) => {
@@ -504,6 +505,7 @@ const mapDispatchToProps = dispatch => (
     declineEvent,
     getEvents,
     giveUserLocation,
+    locationSelected,
   }, dispatch)
 );
 

@@ -27,6 +27,7 @@ const userStates = {
     },
     address: null,
     userLocation: null,
+    userHasPicked: false,
 
 };
 
@@ -36,9 +37,16 @@ export const userReducer = (state = userStates, action) => {
     address = null;
 
     switch (action.type) {
+        case 'LOCATION_SELECTED':
+            let userHasPicked = action.payload;
+            console.log("USERREDUCER", userHasPicked);
+            return{
+                ...state,
+                userHasPicked
+            }
+
         case 'GIVE_USER_LOCATION':
             let userLocation = action.payload;
-            let address = 
             console.log('location is ',userLocation);
             return{
                 ...state,
