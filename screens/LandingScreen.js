@@ -66,7 +66,6 @@ class LandingScreen extends Component {
       songKickEvents: [],
       fetching: false
     }
-
   }
 
 

@@ -1,74 +1,34 @@
 import React, {Component} from "react";
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import EventComponent from "../components/EventComponent";
 import Layout from "../constants/Layout";
-
+import {connect} from 'react-redux';
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
-const PICTURES_PATH = "../assets/Pngs/";
 
-export default class UserCalendarScreen extends Component {
+class UserCalendarScreen extends Component {
     static navigationOptions = {
         header: null,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            calendar: [
-                {
-                    eventHostName: 'Quentin',
-                    eventTitle: 'POCKER & SALSA',
-                    eventType: 'Party',
-                    eventDay: 'WED',
-                    eventTime: '7:00',
-                    eventDate: 'SEPTEMBER 23',
-                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-                    guestNums: 12,
-                    eventAway: 2.5,
-                    eventConfirmed: true
-                }, {
-                    eventHostName: 'Zac',
-                    eventTitle: 'POCKER & SALSA',
-                    eventType: 'Party',
-                    eventDay: 'WED',
-                    eventTime: '7:00',
-                    eventDate: 'SEPTEMBER 23',
-                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-                    guestNums: 12,
-                    eventAway: 2.5,
-                    eventConfirmed: true
-                }, {
-                    eventHostName: 'Jack',
-                    eventTitle: 'POCKER & SALSA',
-                    eventType: 'Party',
-                    eventDay: 'WED',
-                    eventTime: '7:00',
-                    eventDate: 'SEPTEMBER 23',
-                    eventHostPhoto: '../assets/Pngs/profilePhoto.imageset/profilePhoto.png',
-                    guestNums: 12,
-                    eventAway: 2.5,
-                    eventConfirmed: true
-                }
-            ]
-
-
-        }
-    }
-
     renderEvents = () => {
-        return this.state.calendar.map((item, i) => {
+        return this.props.events.confirmedEvents.map((item, i) => {
+            let isSongkick = 'performance' in item;
+            let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
             return (
                 <TouchableOpacity
                     key={i}
                     onPress={() => this.props.navigation.navigate('EventDetails', {
-                        eventConfirmed: item.eventConfirmed
+                        event: item,
+                        eventConfirmed: true,
+                        isSongkick: isSongkick
                     })}
                     style={{borderRadius: 8}} activeOpacity={0.9}
                 >
                     <View style={styles.CalendarCardContainer}>
-                        <EventComponent eventHostName={item.eventHostName} eventConfirmed={item.eventConfirmed}/>
+                        <EventComponent event={item} eventConfirmed={true}
+                                        isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
                     </View>
                 </TouchableOpacity>
             )
@@ -78,6 +38,7 @@ export default class UserCalendarScreen extends Component {
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
+                <StatusBar hidden/>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Landing')} activeOpacity={0.9}>
                         <Image source={require('../assets/Icons/main_feed.imageset/main_feed.png')}
@@ -87,7 +48,7 @@ export default class UserCalendarScreen extends Component {
                     <View style={{width: 20, height: 20}}/>
                 </View>
 
-                <ScrollView style={{zIndex: 1, paddingBottom: 10}}>
+                <ScrollView style={{zIndex: 1, paddingBottom: 10}} showsVerticalScrollIndicator={false}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')} activeOpacity={0.9}>
                         <View style={styles.notifBox}>
                             <Text style={styles.notifText}>
@@ -137,7 +98,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: SCREEN_HEIGHT * 0.0375,
         paddingVertical: SCREEN_HEIGHT * 0.0265625,
         width: SCREEN_WIDTH * 0.8722
     },
@@ -241,6 +201,13 @@ const styles = StyleSheet.create({
         width: 10,
     }
 });
+
+const mapStateToProps = (state) => {
+    const {events} = state;
+    return {events}
+};
+
+export default connect(mapStateToProps)(UserCalendarScreen);
 
 
 
