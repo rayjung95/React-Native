@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 import WebBrowser from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { saveUserLogin, loadUserInfo } from "../actions/userActions";
+import { saveUserLogin, loadUserInfoFromLocal, loadUserInfoFromApi } from "../actions/userActions";
 
 
 // TODO: implement backbutton prevention to login screen after logging in
@@ -54,20 +54,21 @@ class LoginScreen extends Component {
             if (type == 'success') {
                 let response = await(await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,birthday,picture.type(large),email`)).json();
                 let user = {
-                    token: token,
+                    fbToken: token,
+                    fbId: response.id,
                     first: response.first_name,
                     last: response.last_name,
                     email: response.email,
-                    id: response.id,
-                    pic: response.picture.data.url
+                    fbPic: response.picture.data.url
                 }
+                await this.props.saveUserLogin(user);
                 let theUser = {
-                    token: user.token,
-                    desc: 'fb user token to use for graph api fetch',
-                    fbId: user.id
+                    fbToken: token,
+                    fbId: response.id,
+                    sessiontoken: this.props.user.currentUser.sessiontoken,
+                    // isNewUser: this.props.user.currentUser.isNewUser
                 };
                 AsyncStorage.setItem('userInfo', JSON.stringify(theUser));
-                this.props.saveUserLogin(user);
             } else {
                 throw (`Login type was ${type}`);
             }
@@ -112,19 +113,15 @@ class LoginScreen extends Component {
         return info
     }
 
-    getUserFromApi = async() => {
-        // add api request here to get user data from database
-        return 'ok'
-    }
-
     setUserInfo = async (inf) => {
         try {
-            console.log(inf);
+            // console.log(inf);
             if (inf != null) {
                 let user = JSON.parse(inf);
-                this.props.loadUserInfo(user);
+                await this.props.loadUserInfoFromApi(user);
+                await this.props.loadUserInfoFromLocal(user);
                 // console.log('fbToken ', this.props.user.currentUser.fbToken);
-                if (this.props.user.currentUser.fbToken != null) {
+                if (this.props.user.currentUser.fbToken != null && this.props.user.currentUser.user_id != null) {
                     this.props.navigation.navigate('Landing');
                 } else {
                     // this.props.navigation.navigate('Login');
@@ -278,7 +275,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
         saveUserLogin,
-        loadUserInfo,
+        loadUserInfoFromLocal,
+        loadUserInfoFromApi,
     }, dispatch)
 );
 
