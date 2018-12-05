@@ -200,16 +200,16 @@ export const myEvents = [{
         "end": "2018-05-13T00:30:00.000Z",
         "contact": "http://apple.com/",
         "owner": {
-            "first": "Austin",
-            "last": "Ross",
-            "about": "I bet the founders of rendevous are dicks! \n\nHahahaha jk \n\n👌",
+            "first": "Gregory",
+            "last": "Fajen",
+            "about": "",
             "contact": "",
-            "photo1_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/7577bcaa16d53b90341e2dad195b2306",
-            "photo2_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/a4e0e9e90ec57435113b8e3442b91ed6",
-            "photo3_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/0750df28f58d34059444ae0564e43165",
-            "photo4_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/cc6e58c631d48b4f8b9747781f7d2f8b",
-            "friend_ids": "1",
-            "user_id": 2
+            "photo1_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/67e7db6ef1505e14a90b87c2dc17dc85",
+            "photo2_url": "https://s3-us-west-2.amazonaws.com/rendevous/images/simple/dc3aa513d7504ced9c7ff22fb435feb9",
+            "photo3_url": "",
+            "photo4_url": "",
+            "friend_ids": "10154643370822011",
+            "user_id": 1
         },
         "guests": [
             {

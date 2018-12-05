@@ -22,7 +22,8 @@ class UserCalendarScreen extends Component {
         if (this.props.user.myEvents.length > 0) {
             return this.props.user.myEvents.map((item, i) => {
                 return (
-                    <TouchableOpacity  key={i} onPress={() => this.props.navigation.navigate('Guest')} activeOpacity={0.9}>
+                    <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Guest')}
+                                      activeOpacity={0.9}>
                         <View style={styles.notifBox}>
                             <Text style={styles.notifText}>
                                 <Text style={styles.notifMainText}> {item.event.name} {"\n"}</Text>
@@ -46,7 +47,6 @@ class UserCalendarScreen extends Component {
 
     renderEvents = () => {
         if (this.props.user.userBookings.length > 0) {
-            console.log(this.props.user.userBookings.length);
             return this.props.user.userBookings.map((item, i) => {
                 let isSongkick = 'performance' in item;
                 let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
@@ -74,6 +74,29 @@ class UserCalendarScreen extends Component {
         }
     };
 
+    renderMyEvents = () => {
+        if (this.props.user.myEvents.length > 0) {
+            return this.props.user.myEvents.map((item, i) => {
+                return (
+                    <TouchableOpacity
+                        key={i}
+                        onPress={() => this.props.navigation.navigate('EventDetails', {
+                            event: item.event,
+                            eventConfirmed: true,
+                            isSongkick: false
+                        })}
+                        style={{borderRadius: 8}} activeOpacity={0.9}
+                    >
+                        <View style={styles.CalendarCardContainer}>
+                            <EventComponent event={item.event} eventConfirmed={true}
+                                            isCurrentUserHost={true} isSongkick={false}/>
+                        </View>
+                    </TouchableOpacity>
+                )
+            })
+        }
+    }
+
     render() {
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
@@ -89,8 +112,8 @@ class UserCalendarScreen extends Component {
 
                 <ScrollView style={{zIndex: 1, paddingBottom: 10}} showsVerticalScrollIndicator={false}>
                     {this.renderNotifs()}
+                    {this.renderMyEvents()}
                     {this.renderEvents()}
-
                 </ScrollView>
             </ImageBackground>
         );
