@@ -2,6 +2,8 @@ import { AsyncStorage } from 'react-native';
 import { FAILURE, REQUEST, SUCCESS } from '../constants/Action-Type';
 import * as ActionType from '../actions';
 import { CompositeDisposable } from 'rx';
+import {AsyncStorage} from 'react-native';
+import {bookings, myEvents} from "../constants/dummyData";
 
 
 const userStates = {
@@ -24,6 +26,8 @@ const userStates = {
         email: null,
         fbToken: null,
     },
+    userBookings: bookings,
+    myEvents: myEvents,
     address: null,
     userLocation: null,
     userHasPicked: false,
@@ -32,13 +36,13 @@ const userStates = {
 
 export const userReducer = (state = userStates, action) => {
 
-    const { currentUser } = state;
+    const { currentUser, userBookings} = state;
     address = null;
 
     switch (action.type) {
         case 'GIVE_USER_LOCATION':
         let userLocation = action.payload;
-        let address = 
+        let address =
         console.log('location is ',userLocation);
         return{
             ...state,
@@ -149,11 +153,11 @@ export const userReducer = (state = userStates, action) => {
             currentUser.fbId = userInfo.fbId;
             currentUser.sessiontoken = userInfo.sessiontoken;
             return state
-        
+
         // Load saved user info from API
         case REQUEST(ActionType.LOAD_USER_INFO):
             return state
-        
+
         case SUCCESS(ActionType.LOAD_USER_INFO):
             let loadData = action.payload.data.current_user;
             currentUser.first = loadData.first;
@@ -171,7 +175,7 @@ export const userReducer = (state = userStates, action) => {
             currentUser.isNewUser = false;
             currentUser.isLoggedIn = true;
             return state
-        
+
         case FAILURE(ActionType.LOAD_USER_INFO):
             console.log('FAILURE');
             console.log(action.payload);
@@ -200,6 +204,13 @@ export const userReducer = (state = userStates, action) => {
             currentUser.isNewUser = null;
 
             return state;
+        // case REQUEST(ActionType.GET_USER_BOOKINGS):
+        // case SUCCESS(ActionType.GET_USER_BOOKINGS):
+        //     let bookings = action.payload.data ? action.payload.data.bookings : [];
+        //     return {
+        //         ... state,
+        //         userBookings: [...userBookings, bookings]
+        //     };
 
         default:
             return state

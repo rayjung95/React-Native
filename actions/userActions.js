@@ -2,6 +2,9 @@ import { API_KEY } from '../constants/ApiServices';
 import * as ActionType from './index';
 
 
+import * as ActionType from "./index";
+import {HEADERS} from "../constants/ApiServices";
+
 export const saveSearchDistance = settings => ({
     type: 'SAVE_SEARCH_DISTANCE',
     payload: settings
@@ -67,3 +70,14 @@ export const loadUserInfoFromApi = info => ({
 export const logoutUser = () => ({
     type: 'LOGOUT_USER'
 })
+
+export const getUserBookings = userId => ({
+    type: ActionType.GET_USER_BOOKINGS,
+    payload: {
+        client: 'rendevous',
+        request: {
+            url: `/user/${userId}/bookings`,
+            headers: HEADERS
+        }
+    }
+});

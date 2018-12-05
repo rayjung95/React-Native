@@ -128,7 +128,7 @@ class LandingScreen extends Component {
     this.props.giveUserLocation(this.props.getUserAddress);
     this.props.getSongkickEvents();
     this.props.getEvents();
-    
+
   }
 
   _toggleEventCreation = () => {

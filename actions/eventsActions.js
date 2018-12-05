@@ -63,12 +63,12 @@ export const giveUserLocation = (getUserAddress) => {
             dispatch({
                 type:'GIVE_USER_LOCATION',
                 payload: res,
-    
+
             })
         })
-        
 
-        
+
+
     }
 };
 
