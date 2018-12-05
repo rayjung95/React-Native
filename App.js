@@ -1,16 +1,16 @@
 import React from 'react';
-import {Platform, StatusBar, StyleSheet, View} from 'react-native';
-import {AppLoading, Asset, Font, Icon} from 'expo';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AppLoading, Asset, Font, Icon } from 'expo';
 import RendevousNavigator from './navigation/RendevousNavigator'
 
-import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
-import {reducer} from './reducers';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { reducer } from './reducers';
 import { multiClientMiddleware } from 'redux-axios-middleware';
 import { client } from './constants/ApiServices';
+import ReduxThunk from 'redux-thunk'
 
-
-const store = createStore(reducer, applyMiddleware(multiClientMiddleware(client)));
+const store = createStore(reducer, applyMiddleware(ReduxThunk,multiClientMiddleware(client)));
 
 export default class App extends React.Component {
     state = {
@@ -30,9 +30,9 @@ export default class App extends React.Component {
             return (
                 <Provider store={store}>
                     <View style={styles.container}>
-                        {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
+                        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
                         <Provider store={store}>
-                            <RendevousNavigator/>
+                            <RendevousNavigator />
                         </Provider>
                     </View>
                 </Provider>
@@ -60,11 +60,11 @@ export default class App extends React.Component {
     _handleLoadingError = error => {
         // In this case, you might want to report the error to your error
         // reporting service, for example Sentry
-        console.warn(error);
+        // console.warn(error);
     };
 
     _handleFinishLoading = () => {
-        this.setState({isLoadingComplete: true});
+        this.setState({ isLoadingComplete: true });
     };
 }
 

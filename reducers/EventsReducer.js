@@ -6,8 +6,8 @@ const eventStates = {
     availableEvents: [],
     confirmedEvents: [],
     declinedEvents: [],
-    awaitingApproval: [],
-    loading: false
+    loading: false,
+    error: null,
 };
 
 export const eventsReducer = (state = eventStates, action) => {
@@ -50,7 +50,6 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 loading: true
             }
-        case REQUEST('CONFIRM_EVENT'):
         case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
             let newSongkickEvents = _filterEvents(action.payload.data.resultsPage.results.event, action.meta.previousAction.distance);
             return {
@@ -59,10 +58,17 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: false
             };
         case SUCCESS(ActionType.GET_EVENTS):
-            let newEvents = _filterEvents(action.payload.data.events, action.meta.previousAction.distance);
+            if (action.payload.data.events != undefined) {
+                let newEvents = _filterEvents(action.payload.data.events, action.meta.previousAction.distance);
+                return {
+                    ...state,
+                    availableEvents: [...state.availableEvents, ...newEvents],
+                    loading: false
+                };
+            }
             return {
                 ...state,
-                availableEvents: [...state.availableEvents, ...newEvents],
+                availableEvents: [...state.availableEvents],
                 loading: false
             };
         case SUCCESS(ActionType.CREATE_EVENT):
@@ -84,7 +90,7 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: false,
                 error: 'Error while fetching songkick events'
             }
-        case SUCCESS('CONFIRM_EVENT'):
+        case 'CONFIRM_EVENT':
             return {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, state.availableEvents[action.payload]]
