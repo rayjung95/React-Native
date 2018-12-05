@@ -1,9 +1,20 @@
 import {HEADERS, SONGKICK_API_KEY} from '../constants/ApiServices';
 import * as ActionType from './index';
 
-export const confirmEvent = eventIndex => ({
+export const confirmEvent = event => ({
     type: 'CONFIRM_EVENT',
-    payload: eventIndex
+    payload: {
+        client: 'rendevous',
+        request: {
+            method: 'POST',
+            url: '/booking',
+            headers: HEADERS,
+            data: {
+                user_id: 202,
+                event_id: event.ev.id
+            }
+        }
+    }
 });
 
 export const declineEvent = eventIndex => ({

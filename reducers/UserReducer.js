@@ -1,6 +1,5 @@
 import {AsyncStorage} from 'react-native';
-import {REQUEST, SUCCESS} from "../constants/Action-Type";
-import * as ActionType from "../actions";
+import {bookings, myEvents} from "../constants/dummyData";
 
 // TODO: implement LOAD_USER_INFO on running the app
 
@@ -24,7 +23,8 @@ const userStates = {
         email: null,
         fbToken: null,
     },
-    userBookings: []
+    userBookings: bookings,
+    myEvents: myEvents,
 };
 
 export const userReducer = (state = userStates, action) => {
@@ -117,13 +117,13 @@ export const userReducer = (state = userStates, action) => {
             currentUser.id = null;
 
             return state;
-        case REQUEST(ActionType.GET_USER_BOOKINGS):
-        case SUCCESS(ActionType.GET_USER_BOOKINGS):
-            let bookings = action.payload.data ? action.payload.data.bookings : [];
-            return {
-                ... state,
-                userBookings: [...userBookings, bookings]
-            };
+        // case REQUEST(ActionType.GET_USER_BOOKINGS):
+        // case SUCCESS(ActionType.GET_USER_BOOKINGS):
+        //     let bookings = action.payload.data ? action.payload.data.bookings : [];
+        //     return {
+        //         ... state,
+        //         userBookings: [...userBookings, bookings]
+        //     };
 
         default:
             return state
