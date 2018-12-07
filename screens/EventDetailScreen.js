@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import RF from "react-native-responsive-fontsize";
 
 import Layout from "../constants/Layout";
 import {WebBrowser} from 'expo';
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
         margin: SCREEN_WIDTH * 0.053
     },
     headerText: {
-        fontSize: 20,
+        fontSize: RF(3.5),
         color: 'white',
         fontFamily: 'Roboto'
     },
@@ -363,12 +364,12 @@ const styles = StyleSheet.create({
     },
     eventDetailsHostName: {
         fontFamily: 'Roboto',
-        fontSize: 23,
+        fontSize: RF(3.8),
         color: '#535151'
     },
     eventDetailsHostName2: {
         fontFamily: 'Roboto',
-        fontSize: 12,
+        fontSize: RF(2.7),
         color: '#535151'
     },
     eventDetailsContainer: {
@@ -395,7 +396,7 @@ const styles = StyleSheet.create({
     },
     eventDetailsText: {
         color: '#8F8E94',
-        fontSize: 14,
+        fontSize: RF(2.4),
         fontFamily: 'Roboto',
 
     },

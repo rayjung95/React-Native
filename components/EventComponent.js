@@ -15,7 +15,9 @@ export default class EventComponent extends Component {
             "July", "August", "September", "October", "November", "December"
         ];
         const dayNames = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
-
+        if (!props.isSongkick){
+            // console.log(props.event['owner'])
+        }
         this.state = {
             eventHostName: props.isSongkick ? props.event['venue']['displayName'] : props.event['owner']['first'],
             eventTitle: props.isSongkick ? this._formatEventTitle(props.event['displayName']) : props.event['name'],

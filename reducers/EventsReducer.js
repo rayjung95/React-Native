@@ -6,7 +6,8 @@ const eventStates = {
     availableEvents: [],
     confirmedEvents: [],
     declinedEvents: [],
-    loading: false
+    loading: false,
+    error: null,
 };
 
 export const eventsReducer = (state = eventStates, action) => {
@@ -83,6 +84,11 @@ export const eventsReducer = (state = eventStates, action) => {
             return {
                 ...state
             }
+        case FAILURE(ActionType.CREATE_EVENT):
+            console.log(action.payload);
+            return {
+                ...state
+            };
         case FAILURE(ActionType.GET_SONGKICK_EVENTS):
             return {
                 ...state,

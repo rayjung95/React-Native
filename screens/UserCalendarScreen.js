@@ -3,6 +3,8 @@ import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, Touchab
 import EventComponent from "../components/EventComponent";
 import Layout from "../constants/Layout";
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {getUserBookings} from "../actions/userActions";
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -12,28 +14,88 @@ class UserCalendarScreen extends Component {
         header: null,
     };
 
-    renderEvents = () => {
-        return this.props.events.confirmedEvents.map((item, i) => {
-            let isSongkick = 'performance' in item;
-            let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
-            return (
-                <TouchableOpacity
-                    key={i}
-                    onPress={() => this.props.navigation.navigate('EventDetails', {
-                        event: item,
-                        eventConfirmed: true,
-                        isSongkick: isSongkick
-                    })}
-                    style={{borderRadius: 8}} activeOpacity={0.9}
-                >
-                    <View style={styles.CalendarCardContainer}>
-                        <EventComponent event={item} eventConfirmed={true}
-                                        isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
-                    </View>
-                </TouchableOpacity>
-            )
-        })
+    componentDidMount() {
+        this.props.getUserBookings(199);
+    }
+
+    renderNotifs = () => {
+        if (this.props.user.myEvents.length > 0) {
+            return this.props.user.myEvents.map((item, i) => {
+                return (
+                    <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Guest')}
+                                      activeOpacity={0.9}>
+                        <View style={styles.notifBox}>
+                            <Text style={styles.notifText}>
+                                <Text style={styles.notifMainText}> {item.event.name} {"\n"}</Text>
+                                <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
+                            </Text>
+                            <View style={styles.notifIcons}>
+                                <View style={styles.notifNum}>
+                                    <Text style={{color: 'white'}}> 2 </Text>
+                                </View>
+                                <Image
+                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
+                                    style={{zIndex: 10, height: 15, width: 15}}
+                                />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                )
+            })
+        }
     };
+
+    renderEvents = () => {
+        if (this.props.user.userBookings.length > 0) {
+            return this.props.user.userBookings.map((item, i) => {
+                let isSongkick = 'performance' in item;
+                let isCurrentUserHost = !isSongkick && item.isCurrentUserHost;
+                if (item['owner']['first'] && !isSongkick) {
+                    return (
+                        <TouchableOpacity
+                            key={i}
+                            onPress={() => this.props.navigation.navigate('EventDetails', {
+                                event: item,
+                                eventConfirmed: true,
+                                isSongkick: isSongkick
+                            })}
+                            style={{borderRadius: 8}} activeOpacity={0.9}
+                        >
+                            <View style={styles.CalendarCardContainer}>
+                                <EventComponent event={item} eventConfirmed={true}
+                                                isCurrentUserHost={isCurrentUserHost} isSongkick={isSongkick}/>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                }
+            })
+        } else {
+            return (<View/>)
+        }
+    };
+
+    renderMyEvents = () => {
+        if (this.props.user.myEvents.length > 0) {
+            return this.props.user.myEvents.map((item, i) => {
+                return (
+                    <TouchableOpacity
+                        key={i}
+                        onPress={() => this.props.navigation.navigate('EventDetails', {
+                            event: item.event,
+                            eventConfirmed: true,
+                            isSongkick: false
+                        })}
+                        style={{borderRadius: 8}} activeOpacity={0.9}
+                    >
+                        <View style={styles.CalendarCardContainer}>
+                            <EventComponent event={item.event} eventConfirmed={true}
+                                            isCurrentUserHost={true} isSongkick={false}/>
+                        </View>
+                    </TouchableOpacity>
+                )
+            })
+        }
+    }
 
     render() {
         return (
@@ -49,39 +111,9 @@ class UserCalendarScreen extends Component {
                 </View>
 
                 <ScrollView style={{zIndex: 1, paddingBottom: 10}} showsVerticalScrollIndicator={false}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Guest')} activeOpacity={0.9}>
-                        <View style={styles.notifBox}>
-                            <Text style={styles.notifText}>
-                                <Text style={styles.notifMainText}> My Own Holiday {"\n"}</Text>
-                                <Text style={styles.notifSubText}> Wed, 7:00 pm, Sep 23 </Text>
-                            </Text>
-                            <View style={styles.notifIcons}>
-                                <View style={styles.notifNum}>
-                                    <Text style={{color: 'white'}}> 2 </Text>
-                                </View>
-                                <Image
-                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
-                                    style={{zIndex: 10, height: 15, width: 15}}
-                                />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-
-                    <View style={styles.notifBox}>
-                        <Text style={styles.notifText}>
-                            <Text style={styles.notifMainText}> Amazing Friday Night {"\n"}</Text>
-                            <Text style={styles.notifSubText}> Sat, 10:00 pm, Sep 26 </Text>
-                        </Text>
-                        <View style={styles.notifIcons}>
-                            <Image
-                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
-                                style={{zIndex: 10, height: 15, width: 15}}
-                            />
-                        </View>
-                    </View>
-
+                    {this.renderNotifs()}
+                    {this.renderMyEvents()}
                     {this.renderEvents()}
-
                 </ScrollView>
             </ImageBackground>
         );
@@ -203,11 +235,17 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const {events} = state;
-    return {events}
+    const {user} = state;
+    return {user}
 };
 
-export default connect(mapStateToProps)(UserCalendarScreen);
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        getUserBookings
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserCalendarScreen);
 
 
 

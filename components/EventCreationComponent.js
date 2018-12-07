@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import DateTimeComponent from './DateTimeComponent';
 import Layout from '../constants/Layout';
-import {bindActionCreators} from "redux";
-import {createEvent} from "../actions/eventsActions";
+import { bindActionCreators } from "redux";
+import { createEvent } from "../actions/eventsActions";
 import connect from "react-redux/es/connect/connect";
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -25,7 +25,7 @@ export class EventCreationComponent extends React.Component {
         this.state = {
             location: 'Location',
             title: '',
-            ownerid: 205,
+            ownerid: 202,
             startDatetime: null,
             startDate: null,
             startTime: null,
@@ -38,7 +38,6 @@ export class EventCreationComponent extends React.Component {
             eventInfo: null,
             showAlert: false,
             badDate : false,
-            coordinate: null
         }
         this.handleBadDate = this.handleBadDate.bind(this);
     }
@@ -69,8 +68,8 @@ export class EventCreationComponent extends React.Component {
         this.closeComponent();
     };
 
-    returnData(theData, locationName, coordinate) {
-        this.setState({ data: theData, location: locationName, coordinate:  coordinate});
+    returnData(theData, locationName) {
+        this.setState({ data: theData, location: locationName });
     }
 
 

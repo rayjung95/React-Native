@@ -1,20 +1,11 @@
-import React, {Component} from 'react';
-import {
-    Dimensions,
-    Image,
-    ImageBackground,
-    Platform,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-// import MapViewComponent from './components/MapViewComponent';
-import MapView, {Marker} from 'react-native-maps';
-// import Permissions from 'react-native-permissions';
-import {Constants, Location, Permissions} from 'expo';
+import React, { Component } from 'react';
+import { Dimensions, Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import MapView, { Marker } from 'react-native-maps';
+import { Constants, Location, Permissions } from 'expo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getUserAddress, setNewAddress, giveUserLocation } from "../actions/eventsActions";
 
 import Layout from "../constants/Layout";
 
@@ -31,14 +22,14 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 
 
-export default class MapScreen extends Component {
+class MapScreen extends Component {
 
   static navigationOptions = {
     header: null,
   };
 
   constructor() {
-    console.log(LATITUDE_DELTA);
+    // console.log(LATITUDE_DELTA);
     super();
     this.state = {
       region: {
@@ -61,47 +52,29 @@ export default class MapScreen extends Component {
 
   }
 
+
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
+      console.log("not")
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
     }
-
-    let location = await Location.getCurrentPositionAsync({});
-    let searchTerm = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${apiKey}`
-
-    await fetch(searchTerm)
-      .then((response) => response.json())
-      .then((responseJson) => {
-
-        this.setState({
-          title: responseJson.results[0].formatted_address,
-
-        }, function () {
-
-        });
-
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.props.giveUserLocation(this.props.getUserAddress)    
 
     this.setState({
-      location,
       region: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: this.props.userLocation.coords.latitude,
+        longitude: this.props.userLocation.coords.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
       coordinate: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: this.props.userLocation.coords.latitude,
+        longitude: this.props.userLocation.coords.longitude,
       },
-    });
-    console.log(this.state.location);
+    }, () => {console.log(this.state.coordinate)});
   };
 
   componentWillMount() {
@@ -114,6 +87,7 @@ export default class MapScreen extends Component {
     }
   }
 
+
   _onPress = (data, details) => {
     const position = {
       latitude: details.geometry.location.lat,
@@ -121,9 +95,13 @@ export default class MapScreen extends Component {
       longitude: details.geometry.location.lng,
       longitudeDelta: 0.1,
     }
+    // console.log(details);
+    this.props.setNewAddress(details);
+    // console.log(this.props.title);
+    // console.log(details.formatted_address);
+    // console.log(this.props.title);
     this.setState({
       region: position,
-      title: details.formatted_address,
       data: data,
       details: details,
       coordinate: {
@@ -145,7 +123,7 @@ export default class MapScreen extends Component {
   }
 
   handleOnPress = () => {
-    this.props.navigation.state.params.returnData(this.state.data, this.state.title, this.state.coordinate);
+    this.props.navigation.state.params.returnData(this.state.data, this.props.title);
     this.props.navigation.goBack();
   }
 
@@ -170,7 +148,7 @@ export default class MapScreen extends Component {
             >
               <Marker
                 coordinate={this.state.coordinate}
-                title={this.state.title}
+                title={this.props.userState.address}
               />
 
 
@@ -313,6 +291,29 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
 });
+
+const mapStateToProps = (state) => {
+  let userState = state.user;
+  let title = state.user.address;
+  let userLocation = state.user.userLocation;
+  let userAddress = state.user.address
+  return {
+    userState,
+    title,
+    userLocation,
+    userAddress,
+  }
+};
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    getUserAddress,
+    setNewAddress,
+    giveUserLocation,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);
 
 var gMapsStyle = [
   {

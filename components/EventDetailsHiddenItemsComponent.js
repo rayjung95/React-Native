@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Layout from "../constants/Layout";
+import RF from "react-native-responsive-fontsize";
+
 
 const SCREEN_HEIGHT = Layout.window.height;
 const SCREEN_WIDTH = Layout.window.width;
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     },
     eventDetailsText: {
         color: '#8F8E94',
-        fontSize: 14,
+        fontSize: RF(2.4),
         fontFamily: 'Roboto',
 
     },

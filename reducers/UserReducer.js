@@ -1,6 +1,10 @@
 import { AsyncStorage } from 'react-native';
+import { FAILURE, REQUEST, SUCCESS } from '../constants/Action-Type';
+import * as ActionType from '../actions';
+import { CompositeDisposable } from 'rx';
+import {AsyncStorage} from 'react-native';
+import {bookings, myEvents} from "../constants/dummyData";
 
-// TODO: implement LOAD_USER_INFO on running the app
 
 const userStates = {
     currentUser: {
@@ -19,19 +23,62 @@ const userStates = {
         friend_ids: null,
         user_id: 213,
         sessiontoken:'7GJZh/PzWvDabpAIqw5qnKY/dvjc/3Xe',
-        search_distance_km: 1,
+        search_distance_km: 40,
         email: null,
         fbToken: null,
     },
+    userBookings: bookings,
+    myEvents: myEvents,
+    address: null,
+    userLocation: null,
+    userHasPicked: false,
+
 };
 
 export const userReducer = (state = userStates, action) => {
 
-    const { currentUser } = state;
+    const { currentUser, userBookings} = state;
+    address = null;
 
     switch (action.type) {
+        case 'GIVE_USER_LOCATION':
+        let userLocation = action.payload;
+        let address =
+        console.log('location is ',userLocation);
+        return{
+            ...state,
+            userLocation
+        }
+
+    case 'SET_NEW_ADDRESS':
+        // console.log(action.payload);
+        // let responseJson = action.payload.data;
+        address = action.payload.formatted_address;
+        // console.log(address);
+        return {
+            ...state,
+            address,
+        }
+    case REQUEST(ActionType.GET_USER_ADDRESS):
+        return {
+            ...state
+        }
+    case SUCCESS(ActionType.GET_USER_ADDRESS):
+        let responseJson = action.payload.data;
+        address = responseJson.results[0].formatted_address;
+        return {
+            ...state,
+            address
+        }
+    case FAILURE(ActionType.GET_USER_ADDRESS):
+        return {
+            ...state,
+            error: 'Could not get location'
+        }
+
         case 'SAVE_SEARCH_DISTANCE':
             const distance = action.payload;
+            // console.log(distance);
             let user = currentUser;
             user.search_distance_km = distance;
 
@@ -68,39 +115,80 @@ export const userReducer = (state = userStates, action) => {
             }
 
             return state;
-        
-        // expect payload = { token: token, first: response.first_name, last: response.last_name,
-        //    email: response.email, id: response.id, pic: response.picture.data.url }
-        // Used: LoginScreen.js
-        case 'SAVE_USER_LOGIN':
-            let data = action.payload;
-            currentUser.fbToken = data.token;
-            currentUser.first = data.first;
-            currentUser.last = data.last;
-            currentUser.email = data.email;
-            currentUser.photo1_url = data.pic;
-            currentUser.id = data.id;
+
+        // Register/Refresh on Rendevous API the user details on login
+        case REQUEST(ActionType.LOGIN_USER):
+            return state
+
+        case SUCCESS(ActionType.LOGIN_USER):
+            // console.log('SUCCESS');
+            // // console.log(action.payload);
+            // console.log('RETURN DATA');
+            // console.log(action.payload.data);
+            // console.log('PUSHED DATA');
+            // console.log(action.payload.config.reduxSourceAction.payload.request.data);
+            let loginData1 = action.payload.data;
+            let loginData2 = action.payload.config.reduxSourceAction.payload.request.data;
+            currentUser.fbToken = loginData2.user_fb_token;
+            currentUser.first = loginData2.user_first_name;
+            currentUser.last = loginData2.user_last_name;
+            currentUser.email = loginData2.user_email;
+            // currentUser.photo1_url = data.fbPic;
+            currentUser.fbId = loginData2.user_fb_id;
+            currentUser.user_id = loginData1.user_id;
+            currentUser.sessiontoken = loginData1.session_token;
+            currentUser.isNewUser = loginData1.is_new;
             currentUser.isLoggedIn = true;
 
-            return state;
+            return state
 
-        // For use in App.js to load saved token from AsyncStorage
-        // Currenty not implemented
-        // TODO: implement in App.js and refactor navigation for conditional initialRouteName
+        case FAILURE(ActionType.LOGIN_USER):
+            console.log('FAILURE');
+            console.log(action.payload);
+            return state
+
+        // Load saved user info from AsyncStorage
         case 'LOAD_USER_INFO':
             let userInfo = action.payload;
-            currentUser.fbToken = userInfo.token;
-            currentUser.id = userInfo.fbId;
+            currentUser.fbToken = userInfo.fbToken;
+            currentUser.fbId = userInfo.fbId;
+            currentUser.sessiontoken = userInfo.sessiontoken;
+            return state
 
-            return state;
+        // Load saved user info from API
+        case REQUEST(ActionType.LOAD_USER_INFO):
+            return state
+
+        case SUCCESS(ActionType.LOAD_USER_INFO):
+            let loadData = action.payload.data.current_user;
+            currentUser.first = loadData.first;
+            currentUser.last = loadData.last;
+            currentUser.email = loadData.email;
+            // currentUser.photo1_url = data.fbPic;
+            currentUser.user_id = loadData.user_id;
+            currentUser.about = loadData.about;
+            currentUser.contact = loadData.contact;
+            currentUser.photo1_url = loadData.photo1_url;
+            currentUser.photo2_url = loadData.photo2_url;
+            currentUser.photo3_url = loadData.photo3_url;
+            currentUser.photo4_url = loadData.photo4_url;
+            currentUser.search_distance_km = loadData.search_distance_km;
+            currentUser.isNewUser = false;
+            currentUser.isLoggedIn = true;
+            return state
+
+        case FAILURE(ActionType.LOAD_USER_INFO):
+            console.log('FAILURE');
+            console.log(action.payload);
+            return state
 
         // fetch to fb and remove permission, then clear token in asyncstorage
         // and clear state with null
         // Used: UserSettingScreen.js
         case 'LOGOUT_USER':
-            const _logout = async() => {
+            const _logout = async () => {
                 let lParams = `access_token=${currentUser.fbToken}`;
-                await fetch(`https://graph.facebook.com/${currentUser.id}/permissions`, { method: 'DELETE', body: lParams });
+                await fetch(`https://graph.facebook.com/${currentUser.fbId}/permissions`, { method: 'DELETE', body: lParams });
                 console.log('LOGGING OUT...');
                 await AsyncStorage.removeItem('userInfo');
             }
@@ -112,9 +200,18 @@ export const userReducer = (state = userStates, action) => {
             currentUser.email = null;
             currentUser.photo1_url = null;
             currentUser.user_id = null;
-            currentUser.id = null;
+            currentUser.fbId = null;
+            currentUser.sessiontoken = null;
+            currentUser.isNewUser = null;
 
             return state;
+        // case REQUEST(ActionType.GET_USER_BOOKINGS):
+        // case SUCCESS(ActionType.GET_USER_BOOKINGS):
+        //     let bookings = action.payload.data ? action.payload.data.bookings : [];
+        //     return {
+        //         ... state,
+        //         userBookings: [...userBookings, bookings]
+        //     };
 
         default:
             return state

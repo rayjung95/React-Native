@@ -21,7 +21,7 @@ import EventCreationComponent from '../components/EventCreationComponent.js';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents } from "../actions/eventsActions";
+import { addToSongkickEvents, confirmEvent, getSongkickEvents, declineEvent, getEvents, giveUserLocation, getUserAddress } from "../actions/eventsActions";
 import PulseLoader from '../constants/PulseLoader/PulseLoader';
 
 const SCREEN_HEIGHT = Layout.window.height;
@@ -66,13 +66,6 @@ class LandingScreen extends Component {
       songKickEvents: [],
       fetching: false
     }
-    this.willFocus = this.props.navigation.addListener(
-      'willFocus',
-      () => {
-        this.props.getSongkickEvents(this.props.user.search_distance_km);
-        this.props.getEvents();
-      }
-    );
   }
 
 
@@ -130,8 +123,10 @@ class LandingScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.getSongkickEvents(this.props.user.search_distance_km);
+    this.props.giveUserLocation(this.props.getUserAddress);
+    this.props.getSongkickEvents();
     this.props.getEvents();
+
   }
 
   _toggleEventCreation = () => {
@@ -190,9 +185,6 @@ class LandingScreen extends Component {
     })
   }
 
-  componentWillUnmount() {
-    this.willFocus.remove();
-  }
 
   openModal = (text = "Please fill out the required fields.") => {
 
@@ -478,26 +470,30 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   let { events } = state;
-  let user = state.user.currentUser;
   let songKickEvents = events.songKickEvents
   let loading = events.loading
   let availableEvents = events.availableEvents
+  let userLocation = state.user.userLocation;
+  let userAddress = state.user.userAddress;
   return {
     events,
     songKickEvents,
     loading,
     availableEvents,
-    user
+    userLocation,
+    userAddress,
   }
 };
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    getUserAddress,
     confirmEvent,
     addToSongkickEvents,
     getSongkickEvents,
     declineEvent,
-    getEvents
+    getEvents,
+    giveUserLocation,
   }, dispatch)
 );
 
