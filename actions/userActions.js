@@ -1,9 +1,6 @@
 import { API_KEY } from '../constants/ApiServices';
 import * as ActionType from './index';
-
-
-import * as ActionType from "./index";
-import {HEADERS} from "../constants/ApiServices";
+import { HEADERS } from '../constants/ApiServices';
 
 export const saveSearchDistance = settings => ({
     type: 'SAVE_SEARCH_DISTANCE',

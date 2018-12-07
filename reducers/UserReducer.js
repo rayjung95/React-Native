@@ -2,7 +2,6 @@ import { AsyncStorage } from 'react-native';
 import { FAILURE, REQUEST, SUCCESS } from '../constants/Action-Type';
 import * as ActionType from '../actions';
 import { CompositeDisposable } from 'rx';
-import {AsyncStorage} from 'react-native';
 import {bookings, myEvents} from "../constants/dummyData";
 
 

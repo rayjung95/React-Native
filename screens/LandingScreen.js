@@ -68,7 +68,7 @@ class LandingScreen extends Component {
     }
   }
 
-
+  // Event card animation
   componentWillMount() {
     this.imagePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -80,7 +80,6 @@ class LandingScreen extends Component {
         ) {
           return false;
         }
-
         return true;
       },
       onPanResponderMove: (evt, gs) => {
@@ -88,7 +87,6 @@ class LandingScreen extends Component {
         this.position.setValue({ x: gs.dx, y: gs.dy })
       },
       onPanResponderRelease: (evt, gs) => {
-        // console.log('RELEASED', gs);
         this.setState({ isMoving: false })
         if (gs.dx > 120) {
           Animated.spring(this.position, {
@@ -122,6 +120,7 @@ class LandingScreen extends Component {
     });
   }
 
+  // Call songkicks and event api
   componentDidMount() {
     this.props.giveUserLocation(this.props.getUserAddress);
     this.props.getSongkickEvents();
@@ -154,8 +153,9 @@ class LandingScreen extends Component {
     ]).start()
   };
   
+  // Make event card to move left
   lock = () => {
-    console.log('lock!')
+    // console.log('lock!')
     Animated.spring(this.position, {
       toValue: { x: -SCREEN_WIDTH - 200, y: SCREEN_HEIGHT / 6 },
       friction: 500,
@@ -169,8 +169,10 @@ class LandingScreen extends Component {
       })
     })
   }
+
+  // Make event card to move right
   unlock = () => {
-    console.log('unlock!')
+    // console.log('unlock!')
     Animated.spring(this.position, {
       toValue: { x: SCREEN_WIDTH + 200, y: SCREEN_HEIGHT / 6 },
       friction: 500,
@@ -187,11 +189,11 @@ class LandingScreen extends Component {
 
 
   openModal = (text = "Please fill out the required fields.") => {
-
     console.log('modal text: ' + text);
     this.setState({modalText: text}, () => this.refs.modal3.open());
   }
 
+  // Render event card
   renderImage = () => {
     return this.props.availableEvents.map((item, i) => {
       let isSongkick = 'performance' in item;
@@ -233,7 +235,6 @@ class LandingScreen extends Component {
   };
 
   render() {
-    console.log(this.props.user)
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -242,7 +243,6 @@ class LandingScreen extends Component {
     const arrowInterpolateTop = this.arrowTop.interpolate({
       inputRange: [0, 1],
       outputRange: [SCREEN_HEIGHT * 0.0931458699472, SCREEN_HEIGHT * 0.8345070422535]
-      // outputRange: [SCREEN_HEIGHT * (0.175465838509317 + 0.036), SCREEN_HEIGHT * (0.830745341614907 - 0.036)]
     });
 
     const arrowStyle = {
@@ -470,11 +470,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   let { events } = state;
-  let songKickEvents = events.songKickEvents
-  let loading = events.loading
-  let availableEvents = events.availableEvents
+  let songKickEvents = events.songKickEvents;
+  let loading = events.loading;
+  let availableEvents = events.availableEvents;
   let userLocation = state.user.userLocation;
   let userAddress = state.user.userAddress;
+  let user = state.user;
   return {
     events,
     songKickEvents,
@@ -482,6 +483,7 @@ const mapStateToProps = (state) => {
     availableEvents,
     userLocation,
     userAddress,
+    user
   }
 };
 
