@@ -17,14 +17,16 @@ export const client = {
 
 // Api-key and Token
 export const API_KEY = 'j05wd2ae49d212578ef13cb607cef64b';
-export const SESSION_TOKEN = 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO';
+export const SESSION_TOKEN = '7GJZh/PzWvDabpAIqw5qnKY/dvjc/3Xe';
+//export const SESSION_TOKEN = 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO';
 export const SONGKICK_API_KEY = 'mzzfkojpy82tOJLz';
 
 // Header
 export const HEADERS = {
   'Content-Type': 'application/json',
   'api-key': 'j05wd2ae49d212578ef13cb607cef64b',
-  'sessiontoken': 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO'
+  'sessiontoken': '7GJZh/PzWvDabpAIqw5qnKY/dvjc/3Xe'
+  //'sessiontoken': 'Kw/xlaGwyV/6mmf6CF2oxo9Y4eqokxzO'
 }
 
 // // Api Calls

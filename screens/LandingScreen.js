@@ -66,7 +66,13 @@ class LandingScreen extends Component {
       songKickEvents: [],
       fetching: false
     }
-
+    this.willFocus = this.props.navigation.addListener(
+      'willFocus',
+      () => {
+        this.props.getSongkickEvents(this.props.user.search_distance_km);
+        this.props.getEvents();
+      }
+    );
   }
 
 
@@ -95,7 +101,7 @@ class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: { x: SCREEN_WIDTH + 200, y: gs.dy }
           }).start(() => {
-            // this.props.confirmEvent();
+            this.props.confirmEvent(this.props.user.user_id, this.props.availableEvents[this.state.imageIndex].id);
             this.setState({
               imageIndex: this.state.imageIndex + 1
             }, () => {
@@ -124,7 +130,7 @@ class LandingScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.getSongkickEvents();
+    this.props.getSongkickEvents(this.props.user.search_distance_km);
     this.props.getEvents();
   }
 
@@ -152,7 +158,7 @@ class LandingScreen extends Component {
       })
     ]).start()
   };
-
+  
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
@@ -175,7 +181,7 @@ class LandingScreen extends Component {
       friction: 500,
       tension: 1,
     }).start(() => {
-      // this.props.confirmEvent(this.state.imageIndex);
+      this.props.confirmEvent(this.props.user.user_id, this.props.availableEvents[this.state.imageIndex].id);
       this.setState({
         imageIndex: this.state.imageIndex + 1
       }, () => {
@@ -184,6 +190,9 @@ class LandingScreen extends Component {
     })
   }
 
+  componentWillUnmount() {
+    this.willFocus.remove();
+  }
 
   openModal = (text = "Please fill out the required fields.") => {
 
@@ -232,7 +241,7 @@ class LandingScreen extends Component {
   };
 
   render() {
-    console.log(this.props.userInfo)
+    console.log(this.props.user)
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -261,7 +270,7 @@ class LandingScreen extends Component {
     };
 
     return (
-      !this.props.loading ? 
+      this.props.loading ? 
         <PulseLoader
           borderColor={'#feea7e'}
           backgroundColor={'#feea7e'}
@@ -469,16 +478,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   let { events } = state;
+  let user = state.user.currentUser;
   let songKickEvents = events.songKickEvents
   let loading = events.loading
   let availableEvents = events.availableEvents
-  let userInfo = state.user
   return {
     events,
     songKickEvents,
     loading,
     availableEvents,
-    userInfo
+    user
   }
 };
 

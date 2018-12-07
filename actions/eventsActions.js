@@ -1,6 +1,5 @@
-import { SONGKICK_API_KEY, API_KEY } from '../constants/ApiServices';
+import {HEADERS, SONGKICK_API_KEY} from '../constants/ApiServices';
 import * as ActionType from './index';
-import { HEADERS } from '../constants/ApiServices';
 
 export const confirmEvent = (user_id, event_id) => ({
     type: ActionType.REQUEST_BOOK_EVENT,
@@ -33,8 +32,8 @@ export const createEvent = event => ({
                 "start": event.startDatetime,
                 "end": event.endDatetime,
                 "location_name": event.location,
-                "lat": 49.171452,
-                "long": -122.5791
+                "lat": event.coordinate.latitude,
+                "long": event.coordinate.longitude
             }
         }
     }
@@ -45,7 +44,7 @@ export const addToSongkickEvents = events => ({
     payload: events
 });
 
-export const getSongkickEvents = () => {
+export const getSongkickEvents = (searchDistance) => {
     return {
         type: ActionType.GET_SONGKICK_EVENTS,
         payload: {

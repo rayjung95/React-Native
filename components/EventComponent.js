@@ -23,7 +23,8 @@ export default class EventComponent extends Component {
             eventTime: props.isSongkick ? this._formatTimeforSongKick(props.event['start']['time']) : this._formatAMPM(new Date(props.event['start'])),
             eventDate: props.isSongkick ? monthNames[props.event['start']['date'].split('-')[1] - 1] + ' ' + props.event['start']['date'].split('-')[2]
                 : monthNames[new Date(props.event['start']).getMonth()] + ' ' + new Date(props.event['start']).getDate(),
-            eventHostPhoto: props.isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + props.event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: props.event['owner']['photo1_url']},
+            eventHostPhoto: props.isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + props.event['performance'][0]['artist']['id'] + '/huge_avatar'}
+            : {uri: props.event['owner']['photo1_url']},
             guestNums: props.isSongkick ? 0 : props.event['guests'].length,
             eventAway: '2.5 km',
             eventConfirmed: props.eventConfirmed,
@@ -63,6 +64,24 @@ export default class EventComponent extends Component {
     //         event: nextProps.event
     //     })
     // }
+    _getRad = (x) => {
+        return x * Math.PI / 180
+    };
+
+    _getDistanceAway = (dest) => {
+        // let origin = this._getCurrentLocaiton();
+        // var R = 6378137; // Earth’s mean radius in meter
+        // var dLat = this._getRad(dest.lat - origin.lat);
+        // var dLong = this._getRad(dest.long - origin.long);
+        // var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        //     Math.cos(this._getRad(origin.lat())) * Math.cos(this._getRad(dest.lat())) *
+        //     Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        // var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        // var d = R * c;
+        // return d / 1000; // returns the distance in km
+        return 0;
+    };
+
 
     _formatEventTitle = (fullTitle) => {
         fullTitle = fullTitle.split('at');
@@ -128,7 +147,8 @@ export default class EventComponent extends Component {
                         :
                         <View style={styles.hostPicContainer}>
                             <Image
-                                source={this.state.photo_url}
+                                source={this.state.eventHostPhoto.uri && this.state.eventHostPhoto.uri.length > 0 ? this.state.eventHostPhoto :
+                                    {uri: 'http://deafhhcenter.org/wp-content/uploads/2017/12/profile-default.jpg'}}
                                 style={styles.hostPic}
                                 resizeMode="cover"
                             />

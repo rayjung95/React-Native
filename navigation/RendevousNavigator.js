@@ -1,4 +1,5 @@
-import {createStackNavigator} from 'react-navigation';
+import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen';
 import LandingScreen from '../screens/LandingScreen';
 import UserCalendarScreen from '../screens/UserCalendarScreen';
@@ -17,6 +18,13 @@ import InviteFriends from '../screens/InviteFriends';
 import MessagesScreen from '../screens/MessagesScreen';
 
 export default createStackNavigator({
+    // Loading: props => <LoadingScreen
+    //     borderColor={'#feea7e'}
+    //     backgroundColor={'#feea7e'}
+    //     size={50}
+    //     {...this.props}
+    //     pulseMaxSize={400}
+    //     avatar={require('../assets/Icons/main_feed.imageset/main_feed.png')}/>,
     // Login: LoginScreen,
     Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
