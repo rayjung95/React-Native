@@ -85,8 +85,6 @@ class LandingScreen extends Component {
       },
       onPanResponderMove: (evt, gs) => {
         this.setState({ isMoving: true })
-        // console.log('MOVING', gs.dx, gs.dy)
-        // this.imageXPos.setValue(gs.dx)
         this.position.setValue({ x: gs.dx, y: gs.dy })
       },
       onPanResponderRelease: (evt, gs) => {
@@ -96,7 +94,7 @@ class LandingScreen extends Component {
           Animated.spring(this.position, {
             toValue: { x: SCREEN_WIDTH + 200, y: gs.dy }
           }).start(() => {
-            this.props.confirmEvent(this.state.imageIndex);
+            this.props.confirmEvent(this.props.user.user_id, this.props.availableEvents[this.state.imageIndex].id);
             this.setState({
               imageIndex: this.state.imageIndex + 1
             }, () => {
@@ -155,7 +153,7 @@ class LandingScreen extends Component {
       })
     ]).start()
   };
-
+  
   lock = () => {
     console.log('lock!')
     Animated.spring(this.position, {
@@ -178,7 +176,7 @@ class LandingScreen extends Component {
       friction: 500,
       tension: 1,
     }).start(() => {
-      this.props.confirmEvent(this.state.imageIndex);
+      this.props.confirmEvent(this.props.user.user_id, this.props.availableEvents[this.state.imageIndex].id);
       this.setState({
         imageIndex: this.state.imageIndex + 1
       }, () => {
@@ -214,6 +212,7 @@ class LandingScreen extends Component {
             })}>
               <View style={{ width: '100%', height: '100%' }}>
                 <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
+                {/* <EventComponent event={item} isSongkick={isSongkick} /> */}
               </View>
             </TouchableWithoutFeedback>
           </Animated.View>
@@ -225,6 +224,7 @@ class LandingScreen extends Component {
             style={styles.cardContainer}>
             <View style={{ width: '100%', height: '100%' }}>
                 <EventComponent event={item} eventConfirmed={false} isSongkick={isSongkick} />
+                {/* <EventComponent event={item} isSongkick={isSongkick} /> */}
             </View>
           </Animated.View>
         )
@@ -233,6 +233,7 @@ class LandingScreen extends Component {
   };
 
   render() {
+    console.log(this.props.user)
     const interpolateRotation = this.arrowFlip.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '180deg'],
@@ -497,3 +498,7 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);
+
+// TODO:
+// user swipe right (POST-booking) => host get pending guest list (GET-pendingGuest) => host confirm guest (GET-approve)
+// => now user can see the event in calender (GET-booking)

@@ -25,7 +25,7 @@ export default createStackNavigator({
     //     {...this.props}
     //     pulseMaxSize={400}
     //     avatar={require('../assets/Icons/main_feed.imageset/main_feed.png')}/>,
-    Login: LoginScreen,
+    // Login: LoginScreen,
     Landing: LandingScreen,
     UserCalender: UserCalendarScreen,
     EventDetails: EventDetailsScreen,

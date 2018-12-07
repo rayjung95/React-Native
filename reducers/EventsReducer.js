@@ -51,6 +51,7 @@ export const eventsReducer = (state = eventStates, action) => {
                 loading: true
             }
         case SUCCESS(ActionType.GET_SONGKICK_EVENTS):
+            // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',action)
             let newSongkickEvents = _filterEvents(action.payload.data.resultsPage.results.event, action.meta.previousAction.distance);
             return {
                 ...state,
@@ -78,7 +79,11 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 confirmedEvents: [...state.confirmedEvents, newEvent]
             };
-
+        case SUCCESS(ActionType.REQUEST_BOOK_EVENT):
+            console.log(action.payload)
+            return {
+                ...state
+            }
         case FAILURE(ActionType.CREATE_EVENT):
             console.log(action.payload);
             return {
@@ -89,6 +94,12 @@ export const eventsReducer = (state = eventStates, action) => {
                 ...state,
                 loading: false,
                 error: 'Error while fetching songkick events'
+            }
+        case FAILURE(ActionType.REQUEST_BOOK_EVENT):
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while booking event'
             }
         case 'CONFIRM_EVENT':
             return {
