@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, { Component } from "react";
+import { Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RF from "react-native-responsive-fontsize";
 
 import Layout from "../constants/Layout";
-import {WebBrowser} from 'expo';
+import { WebBrowser } from 'expo';
 import EventDetailsHiddenItemsComponent from "../components/EventDetailsHiddenItemsComponent";
 import ReportEventComponent from "../components/ReportEventComponent";
 
@@ -35,7 +35,7 @@ export default class EventDetailsScreen extends Component {
             eventTime: isSongkick ? this._formatTimeforSongKick(event['start']['time']) : this._formatAMPM(new Date(event['start'])),
             eventDate: isSongkick ? monthNames[event['start']['date'].split('-')[1] - 1] + ' ' + event['start']['date'].split('-')[2]
                 : monthNames[new Date(event['start']).getMonth()] + ' ' + new Date(event['start']).getDate(),
-            eventHostPhoto: isSongkick ? {uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + event['performance'][0]['artist']['id'] + '/huge_avatar'} : {uri: event['owner']['photo1_url']},
+            eventHostPhoto: isSongkick ? { uri: 'https://images.sk-static.com/images/media/profile_images/artists/' + event['performance'][0]['artist']['id'] + '/huge_avatar' } : { uri: event['owner']['photo1_url'] },
             guestNums: isSongkick ? 0 : event['guests'].length,
             eventAway: '2.5 km',
             eventAddress: isSongkick ? event['venue']['displayName'] : event['location_name'],
@@ -88,7 +88,7 @@ export default class EventDetailsScreen extends Component {
             return (
                 <View key={i} style={styles.guestPicThumbnailContainer}>
                     <Image
-                        source={{uri: item['photo1_url']}}
+                        source={{ uri: item['photo1_url'] }}
                         style={styles.guestPicThumbnail}
                     />
                     <Text style={styles.guestName}> {item['first']} </Text>
@@ -101,7 +101,7 @@ export default class EventDetailsScreen extends Component {
         const eventConfirmed = this.props.navigation.getParam('eventConfirmed');
         return (
             <ImageBackground style={styles.background} source={require('../assets/Pngs/bg.imageset/bg.png')}>
-                <StatusBar hidden/>
+                <StatusBar hidden />
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Image
@@ -116,17 +116,17 @@ export default class EventDetailsScreen extends Component {
                     <View style={styles.profilePicContainer}>
                         <View style={styles.profileContainer}>
                             {!this.state.isSongkick ?
-                                <TouchableOpacity style={{marginRight: -45, width: 39, zIndex: 1}}
-                                                  onPress={() => this.props.navigation.navigate('Profile', {
-                                                      message: eventConfirmed,
-                                                      profileInfo: this.state.eventOwner
-                                                  })}>
+                                <TouchableOpacity style={{ marginRight: -45, width: 39, zIndex: 1 }}
+                                    onPress={() => this.props.navigation.navigate('Profile', {
+                                        message: eventConfirmed,
+                                        profileInfo: this.state.eventOwner
+                                    })}>
                                     <Image
                                         source={require('../assets/Icons/account.imageset/account.png')}
-                                        style={{zIndex: 1}}
+                                        style={{ zIndex: 1 }}
                                     />
                                 </TouchableOpacity>
-                                : <View/>}
+                                : <View />}
 
 
                             <Image
@@ -135,16 +135,16 @@ export default class EventDetailsScreen extends Component {
                             />
                             {eventConfirmed && !this.state.isSongkick ?
                                 <TouchableOpacity
-                                    style={{marginLeft: -40, zIndex: 1, width: 39}}
+                                    style={{ marginLeft: -40, zIndex: 1, width: 39 }}
                                     onPress={() => this.props.navigation.navigate('ChatRoom', {
                                         groupChatRoomId: this.state.groupChatRoomId
                                     })}>
                                     <Image
                                         source={require('../assets/Icons/chatting.imageset/chatting.png')}
-                                        style={{zIndex: 1}}
+                                        style={{ zIndex: 1 }}
                                     />
                                 </TouchableOpacity>
-                                : <View/>
+                                : <View />
                             }
 
                         </View>
@@ -163,7 +163,7 @@ export default class EventDetailsScreen extends Component {
 
                             <View style={styles.textDetailsContainer}>
                                 <Text style={styles.eventDetailsText}> {this.state.eventDescription} </Text>
-                                <View style={styles.divider}/>
+                                <View style={styles.divider} />
                             </View>
                         </View>
                         <View style={styles.eventDetailsItemContainer}>
@@ -177,7 +177,7 @@ export default class EventDetailsScreen extends Component {
                                     Saturday, September 26 {"\n"}
                                     at 9:00pm to 5:00am
                                 </Text>
-                                <View style={styles.divider}/>
+                                <View style={styles.divider} />
                             </View>
                         </View>
 
@@ -198,7 +198,7 @@ export default class EventDetailsScreen extends Component {
                                                 source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}
                                             />
                                         </View>
-                                        <View style={styles.divider}/>
+                                        <View style={styles.divider} />
                                     </View>
                                 </View>
                                 {!this.state.isSongkick ?
@@ -206,7 +206,7 @@ export default class EventDetailsScreen extends Component {
                                         <View style={styles.eventDetailIcons}>
                                             <Image
                                                 source={require('../assets/Icons/group_chat.imageset/gc2.png')}
-                                                style={{width: 20, height: 20}}
+                                                style={{ width: 20, height: 20 }}
                                             />
                                         </View>
                                         <View style={styles.textDetailsContainer}>
@@ -227,18 +227,18 @@ export default class EventDetailsScreen extends Component {
                                                             <Text style={styles.alertNum}> 2 </Text>
                                                         </View>
                                                         <Image
-                                                            source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                                            source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')} />
                                                     </View>
                                                 </View>
                                             </TouchableOpacity>
-                                            <View style={styles.divider}/>
+                                            <View style={styles.divider} />
                                         </View>
-                                    </View> : <View/>}
+                                    </View> : <View />}
                                 <View style={styles.eventDetailsItemContainer}>
                                     <View style={styles.eventDetailIcons}>
                                         <Image
                                             source={require('../assets/Icons/event_website.imageset/safari40.png')}
-                                            style={{width: 20, height: 20}}
+                                            style={{ width: 20, height: 20 }}
                                         />
                                     </View>
                                     <View style={styles.textDetailsContainer}>
@@ -248,10 +248,10 @@ export default class EventDetailsScreen extends Component {
                                                     {this.state.eventWebsite}
                                                 </Text>
                                                 <Image
-                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                                    source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')} />
                                             </View>
                                         </TouchableOpacity>
-                                        <View style={styles.divider}/>
+                                        <View style={styles.divider} />
                                     </View>
                                 </View>
                                 {!this.state.isSongkick ?
@@ -273,7 +273,7 @@ export default class EventDetailsScreen extends Component {
                                                     </Text>
 
                                                     <Image
-                                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                                        source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')} />
 
                                                 </View>
                                             </TouchableOpacity>
@@ -281,9 +281,9 @@ export default class EventDetailsScreen extends Component {
                                             <View style={styles.guestPicsContainer}>
                                                 {this.renderGuests()}
                                             </View>
-                                            <View style={styles.divider}/>
+                                            <View style={styles.divider} />
                                         </View>
-                                    </View> : <View/>}
+                                    </View> : <View />}
                                 <View style={styles.eventDetailsItemContainer}>
                                     <View style={styles.eventDetailIcons}>
                                         <Image
@@ -299,16 +299,16 @@ export default class EventDetailsScreen extends Component {
                                                 Report Event
                                             </Text>
                                             <Image
-                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')}/>
+                                                source={require('../assets/Icons/rightArrow.imageset/rightArrow.png')} />
                                         </TouchableOpacity>
-                                        <View style={styles.divider}/>
+                                        <View style={styles.divider} />
                                     </View>
                                 </View>
                             </View>
                             :
-                            <EventDetailsHiddenItemsComponent isSongkick={this.state.isSongkick} website={this.state.eventWebsite}/>
+                            <EventDetailsHiddenItemsComponent isSongkick={this.state.isSongkick} website={this.state.eventWebsite} />
                         }
-                        <ReportEventComponent isModalVisible={this.state.isModalVisible}/>
+                        <ReportEventComponent isModalVisible={this.state.isModalVisible} />
                     </View>
                 </ScrollView>
             </ImageBackground>

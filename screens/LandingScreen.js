@@ -500,7 +500,3 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);
-
-// TODO:
-// user swipe right (POST-booking) => host get pending guest list (GET-pendingGuest) => host confirm guest (GET-approve)
-// => now user can see the event in calender (GET-booking)
